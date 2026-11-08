@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static mc_format %}
+
+{% block content %}
+  {% include "rcr/_chrome.html" %}
+
+  <section class="rcr-strip" aria-label="Group discussions">
+    <div><span>GDs</span><strong>{{ rows|length }}</strong></div>
+    <div><span>People seated</span><strong>{{ totals.people|count }}</strong></div>
+    <div><span>Attended</span><strong>{{ totals.attended|count }}</strong></div>
+    <div><span>Accepted</span><strong>{{ totals.accepted|count }}</strong></div>
+    <div><span>Paid</span><strong>{{ totals.paid|count }}</strong></div>
+    <div><span>At the conference</span><strong>{{ totals.conference|count }}</strong></div>
+  </section>
+
+  <div class="rcr-gd-layout">
+    <section class="ops-panel" aria-label="Waiting for a GD">
+      <header class="ops-panel-head"><h2>Waiting for a GD</h2><p>{{ ready_count }} passed the F2F interview and aren't in a GD yet. Tick them, pick the GD, seat them.</p></header>
+      {% if ready %}
+        {% if rows %}
+          <form method="post" class="rcr-seat-form">
+            {% csrf_token %}<input type="hidden" name="action" value="seat">
+            <div class="rcr-seat-bar">
+              <label class="rcr-search"><span class="sr-only">Find</span><input type="search" data-filter="gd-waiting" placeholder="Find…"></label>
+              <label class="field"><span class="sr-only">GD</span><select id="seat-gd" name="gd" required><option value="">Seat them in…</option>{% for gd in rows %}<option value="{{ gd.pk }}">{{ gd.name }} · {{ gd.day|date:"D j M"|default:"no date" }} · {{ gd.people }} in</option>{% endfor %}</select></label>
+              <button class="btn btn-primary btn-sm" type="submit">Seat the ticked</button>
+            </div>
+            <ul class="rcr-ticklist" id="gd-waiting">
+              {% for lead in ready %}
+                <li data-card><label><input type="checkbox" name="lead" value="{{ lead.pk }}"><span><b>{{ lead.full_name }}</b><small>{{ lead.get_stage_display }}{% if lead.phone %} · {{ lead.phone }}{% endif %}{% if lead.recruiter %} · {{ lead.recruiter.full_name }}{% endif %}</small></span></label>
+                  <button type="button" class="btn-link" hx-get="{% url 'rcr:lead_drawer' cycle.slug lead.pk %}" hx-target="#rcr-drawer-body">Open</button></li>
+              {% endfor %}
+            </ul>
+          </form>
+        {% else %}
+          <p class="muted">Add a GD first (on the right), then seat them in it.</p>
+          <ul class="rcr-ticklist">{% for lead in ready %}<li><span><b>{{ lead.full_name }}</b><small>{{ lead.get_stage_display }}</small></span></li>{% endfor %}</ul>
+        {% endif %}
+      {% else %}
+        <p class="muted">Nobody waiting. People arrive here when their F2F interview is accepted.</p>
+      {% endif %}
+    </section>
+
+    <div class="rcr-gd-cards">
+      {% for gd in rows %}
+        <article class="ops-panel rcr-gd-card">
+          <header>
+            <h3><a href="{% url 'rcr:gd' cycle.slug gd.pk %}">{{ gd.name }}</a></h3>
+            <p class="muted">{{ gd.day|date:"l j M"|default:"No date yet" }}{% if gd.starts_at %} · {{ gd.starts_at|time:"H:i" }}{% endif %}{% if gd.place %} · {{ gd.place }}{% endif %}</p>
+          </header>
+          <dl class="rcr-gd-nums"><div><dt>In it</dt><dd>{{ gd.people }}</dd></div><div><dt>Came</dt><dd>{{ gd.attended }}</dd></div><div><dt>Passed</dt><dd>{{ gd.accepted }}</dd></div><div><dt>Paid</dt><dd>{{ gd.paid }}</dd></div></dl>
+          {% if gd.cards %}<p class="rcr-gd-names">{% for one in gd.cards|slice:":8" %}{{ one.lead.full_name }}{% if not forloop.last %}, {% endif %}{% endfor %}{% if gd.cards|length > 8 %} and {{ gd.cards|length|add:"-8" }} more{% endif %}</p>{% endif %}
+          <a class="btn btn-secondary btn-sm" href="{% url 'rcr:gd' cycle.slug gd.pk %}">Run {{ gd.name }} →</a>
+        </article>
+      {% endfor %}
+      <article class="ops-panel rcr-gd-card is-new">
+        <header><h3>New GD</h3></header>
+        <form method="post" class="rcr-form">
+          {% csrf_token %}
+          <label class="field"><span>Name</span><input id="gd-name" name="name" required value="GD {{ rows|length|add:1 }}"></label>
+          <div class="rcr-form-grid">
+            <label class="field"><span>Date</span><input id="gd-day" type="date" name="day"></label>
+            <label class="field"><span>Start</span><input id="gd-time" type="time" name="starts_at"></label>
+          </div>
+          <label class="field"><span>Place</span><input id="gd-place" name="place"></label>
+          <button class="btn btn-primary btn-sm" type="submit">Add the GD</button>
+        </form>
+      </article>
+    </div>
+  </div>
+
+  {% include "rcr/partials/drawer_shell.html" %}
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/rcr-board.js' %}?v=5" defer></script>
+{% endblock %}

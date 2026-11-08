@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header row-between bd-head">
+    <div>
+      <p class="eyebrow">
+        <a href="{% url 'ui:desk' desk %}">{{ desk_spec.label }}</a>
+        · {% trans "Raising" %}
+      </p>
+      <h1>{{ title }}</h1>
+      <p class="lede">{{ lede }}</p>
+    </div>
+    {% if can_pull_soluo %}
+    <form method="post" action="{% url 'b2b:accounts_pull' %}?desk={{ desk }}" class="bd-actions">
+      {% csrf_token %}
+      <input type="hidden" name="desk" value="{{ desk }}">
+      <button class="btn btn-secondary" type="submit">{% trans "Pull from Soluo" %}</button>
+    </form>
+    {% endif %}
+  </header>
+  {% include "b2b/partials/tabs.html" %}
+  <p class="ra-status">
+    <span><b>{{ page.paginator.count }}</b> {% blocktrans count n=page.paginator.count %}deal{% plural %}deals{% endblocktrans %}</span>
+    {% if last_sync %}
+      <span class="ra-sync{% if last_sync.error %} is-error{% endif %}">
+        {% trans "Last Soluo pull" %}: {{ last_sync.status }}
+        {% if last_sync.error %}· {{ last_sync.error }}{% else %}· {{ last_sync.records_read }} {% trans "read" %} · {{ last_sync.records_upserted }} {% trans "saved" %}{% endif %}
+      </span>
+    {% endif %}
+  </p>
+  <form method="get" class="filter-bar is-wide" hx-get="{{ list_url }}" hx-target="#b2b-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
+    <input type="hidden" name="desk" value="{{ desk }}">
+    <input type="hidden" name="queue" value="{{ assign.queue }}">
+    {% if assign.selected_team %}<input type="hidden" name="team" value="{{ assign.selected_team.pk }}">{% endif %}
+    {% if assign.selected_member %}<input type="hidden" name="who" value="{{ assign.selected_member.pk }}">{% endif %}
+    <label class="field">
+      <span class="sr-only">{% trans "Search" %}</span>
+      <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Account, phone or industry' %}">
+    </label>
+    <label class="field">
+      <span class="sr-only">{% trans "Status" %}</span>
+      <select name="status">
+        <option value="">{% trans "All statuses" %}</option>
+        {% for value, label in statuses %}
+          <option value="{{ value }}"{% if status == value %} selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </label>
+  </form>
+  <div id="b2b-table" x-data="{ selected: [] }">
+    {% include "b2b/partials/account_table.html" %}
+  </div>
+{% endblock %}

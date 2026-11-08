@@ -1,0 +1,62 @@
+{% load i18n %}
+{# Page header, B2C tabs, section sub-nav and the shared month filter. #}
+<header class="page-header">
+  <p class="eyebrow">
+    {% if analysis_section == "home" %}
+      <a href="{% url 'ui:desk' 'b2c' %}">{% trans "B2C" %}</a>
+    {% else %}
+      <a href="{% url 'b2c:dashboard' %}">{% trans "B2C analysis" %}</a>
+    {% endif %}
+  </p>
+  <h1>{{ title }}</h1>
+  <p class="lede">{{ lede }}</p>
+</header>
+
+{% include "b2c/partials/tabs.html" %}
+
+<nav class="queue-tabs" aria-label="{% trans 'Analysis sections' %}">
+  <a class="queue-tab{% if analysis_section == 'home' %} is-active{% endif %}" href="{% url 'b2c:dashboard' %}{% if month %}?month={{ month }}{% endif %}">{% trans "Overview" %}</a>
+  {% for item in analysis_sections %}
+    <a class="queue-tab{% if analysis_section == item.code %} is-active{% endif %}" href="{% url item.url_name %}{% if month %}?month={{ month }}{% endif %}">{{ item.label }}</a>
+  {% endfor %}
+</nav>
+
+{% if analysis_section != "home" %}
+<form method="get" class="filter-bar{% if signup_filters %} is-wide{% endif %}">
+  {% if not signup_filters %}
+  <label class="field">
+    <span>{% trans "Month" %}</span>
+    <select name="month" onchange="this.form.submit()">
+      <option value="">{% trans "Cycle to date" %}</option>
+      {% for item in month_options %}
+        <option value="{{ item.value }}"{% if month == item.value %} selected{% endif %}>{{ item.label }} ({{ item.n }})</option>
+      {% endfor %}
+    </select>
+  </label>
+  {% else %}
+    {% if month %}<input type="hidden" name="month" value="{{ month }}">{% endif %}
+    <label class="field is-date">
+      <span>{% trans "From" %}</span>
+      <input type="date" id="signups-from" name="from" value="{{ signup_filters.start|date:'Y-m-d' }}" min="{{ rouh_from|date:'Y-m-d' }}">
+    </label>
+    <label class="field is-date">
+      <span>{% trans "To" %}</span>
+      <input type="date" id="signups-to" name="to" value="{{ signup_filters.end|date:'Y-m-d' }}" min="{{ rouh_from|date:'Y-m-d' }}">
+    </label>
+    <label class="field">
+      <span>{% trans "Referral" %}</span>
+      <select id="signups-referral" name="referral" onchange="this.form.submit()">
+        <option value="">{% trans "All sources" %}</option>
+        {% for item in signup_filters.referrals %}
+          <option value="{{ item.value }}"{% if signup_filters.referral == item.value %} selected{% endif %}>{{ item.label }} ({{ item.n }})</option>
+        {% endfor %}
+      </select>
+    </label>
+    <div class="filter-actions">
+      <button type="submit" class="btn btn-sm">{% trans "Apply" %}</button>
+      {% if signup_filters.active %}<a class="btn btn-ghost btn-sm" href="{% url 'b2c:analysis_signups' %}">{% trans "Clear" %}</a>{% endif %}
+    </div>
+  {% endif %}
+  {% if campaign %}<input type="hidden" name="campaign" value="{{ campaign }}">{% endif %}
+</form>
+{% endif %}

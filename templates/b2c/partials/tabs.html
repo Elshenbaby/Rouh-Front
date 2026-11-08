@@ -1,0 +1,33 @@
+{% load i18n %}
+{% if desk %}
+  <nav class="tabs" aria-label="{% trans 'B2C lists' %}">
+    <a class="tab{% if list_stage == 'dashboard' %} is-active{% endif %}" href="{% url 'b2c:dashboard' %}">{% trans "Analysis" %}</a>
+    <a class="tab{% if list_stage == 'interviews' or list_stage == 'teams' and work != 'accounts' %} is-active{% endif %}" href="{% url 'b2c:interviews' %}">{% trans "Interviews" %}</a>
+    <a class="tab{% if list_stage == 'accounts' or work == 'accounts' %} is-active{% endif %}" href="{% url 'b2c:accounts' %}">{% trans "Accounts" %}</a>
+    <a class="tab{% if list_stage == 'campus_access' %} is-active{% endif %}" href="{% url 'b2c:campus_access' %}">{% trans "Campuses" %}</a>
+    <a class="tab{% if list_stage == 'campaign_requests' %} is-active{% endif %}" href="{% url 'b2c:campaign_requests' %}">{% trans "Campaigns" %}</a>
+  </nav>
+  {% if assign %}
+  <nav class="queue-tabs" aria-label="{% trans 'Queues' %}">
+    {% if assign.show_overall %}
+      <a class="queue-tab{% if assign.queue == 'all' and list_stage != 'teams' %} is-active{% endif %}" href="{{ list_url }}?queue=all">{% trans "Overall" %}</a>
+    {% endif %}
+    {% if assign.is_team_lead and assign.team %}
+      <a class="queue-tab{% if assign.queue == 'team' and list_stage != 'teams' %} is-active{% endif %}" href="{{ list_url }}?queue=team&amp;team={{ assign.team.pk }}">{% trans "My team" %}</a>
+    {% endif %}
+    <a class="queue-tab{% if assign.queue == 'mine' %} is-active{% endif %}" href="{{ list_url }}?queue=mine">{% trans "My work" %}</a>
+    <a class="queue-tab{% if assign.queue == 'unassigned' %} is-active{% endif %}" href="{{ list_url }}?queue=unassigned">{% trans "Unassigned" %}</a>
+    {% if assign.show_teams_board %}
+      <a class="queue-tab{% if list_stage == 'teams' %} is-active{% endif %}" href="{% url 'b2c:teams' %}{% if list_stage == 'accounts' %}?work=accounts{% endif %}">{% trans "Teams" %}</a>
+    {% endif %}
+    {% if list_stage == "interviews" %}
+      {% with keep="queue="|add:assign.queue %}
+      <a class="queue-tab{% if view == 'not_contacted' %} is-active{% endif %}" href="{{ list_url }}?{{ keep }}{% if assign.selected_team %}&amp;team={{ assign.selected_team.pk }}{% endif %}&amp;view=not_contacted">{% trans "Not yet contacted" %}</a>
+      <a class="queue-tab{% if view == 'completed' %} is-active{% endif %}" href="{{ list_url }}?{{ keep }}{% if assign.selected_team %}&amp;team={{ assign.selected_team.pk }}{% endif %}&amp;view=completed">{% trans "Completed" %}</a>
+      <a class="queue-tab{% if view == 'returning' %} is-active{% endif %}" href="{{ list_url }}?{{ keep }}{% if assign.selected_team %}&amp;team={{ assign.selected_team.pk }}{% endif %}&amp;view=returning">{% trans "Returning to process" %}</a>
+      {% endwith %}
+    {% endif %}
+  </nav>
+  {% include "exchange/partials/team_chips.html" %}
+  {% endif %}
+{% endif %}

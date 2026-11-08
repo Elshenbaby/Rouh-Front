@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% load mc_format %}
+
+{% block content %}
+  {% include "rcr/_chrome.html" %}
+  <p class="rcr-back"><a href="{% url 'rcr:interviews' cycle.slug %}">← All interviews</a></p>
+
+  <form method="post" class="rcr-iv rcr-wizard" novalidate x-data="rcrWizard({{ parts|length|add:2 }})" @change="tally()" @keydown.window="keys($event)">
+    {% csrf_token %}
+
+    <header class="rcr-wiz-head">
+      <div>
+        <h2>{% if interview %}Interview with {{ interview.candidate_name }}{% elif lead %}Interview with {{ lead.full_name }}{% else %}{{ form.title }}{% endif %}</h2>
+        <p class="muted">Step <b x-text="step + 1">1</b> of <span x-text="total">{{ parts|length|add:2 }}</span> · <b x-text="answered">0</b> of <span x-text="scorable">0</span> answers scored · average <b x-text="avg">—</b></p>
+      </div>
+      <div class="rcr-gauge" role="img" :aria-label="'Average score ' + avg">
+        <svg viewBox="0 0 120 64" aria-hidden="true"><path d="M10 60 A50 50 0 0 1 110 60" class="rcr-gauge-bg"/><path d="M10 60 A50 50 0 0 1 110 60" class="rcr-gauge-fg" :style="'stroke-dashoffset:' + (157 - 157 * (avgNum / 5))"/></svg>
+        <strong x-text="avg">—</strong><small>of 5</small>
+      </div>
+    </header>
+
+    <nav class="rcr-wiz-steps" aria-label="Parts of the interview">
+      <button type="button" :class="{ 'is-now': step === 0, 'is-done': step > 0 }" @click="go(0)">Candidate</button>
+      {% for section in parts %}<button type="button" :class="{ 'is-now': step === {{ forloop.counter }}, 'is-done': step > {{ forloop.counter }} }" @click="go({{ forloop.counter }})">{{ section.name|default:"Questions" }}</button>{% endfor %}
+      <button type="button" :class="{ 'is-now': step === total - 1 }" @click="go(total - 1)">Verdict</button>
+    </nav>
+    <div class="rcr-wiz-bar" aria-hidden="true"><i :style="'width:' + ((step + 1) / total * 100) + '%'"></i></div>
+
+    {% if errors %}<p class="alert alert-error" role="alert">{{ errors }}</p>{% endif %}
+
+    <section class="ops-panel rcr-wiz-step" x-show="step === 0">
+      <header class="ops-panel-head"><h2>The candidate</h2>{% if form.intro %}<p>{{ form.intro }}</p>{% endif %}</header>
+      <div class="rcr-form-grid">
+        {% if lead %}
+          <input type="hidden" name="lead" value="{{ lead.pk }}">
+          <div class="field is-wide"><span>Candidate</span><p class="rcr-picked"><a href="{% url 'rcr:lead' cycle.slug lead.pk %}">{{ lead.full_name }}</a> · ID {{ lead.display_id }} · {{ lead.phone }}{% if lead.university %} · {{ lead.university }}{% endif %}</p></div>
+        {% else %}
+          <label class="field is-wide"><span>Candidate (from your leads)</span>
+            <select id="iv-lead" name="lead">
+              <option value="">Not in the list: type the name below</option>
+              {% for one in leads %}<option value="{{ one.pk }}"{% if post.lead == one.pk|stringformat:"s" %} selected{% endif %}>{{ one.full_name }} · {{ one.display_id }}</option>{% endfor %}
+            </select>
+          </label>
+          <label class="field"><span>Full name</span><input id="iv-name" name="candidate_name" value="{{ post.candidate_name|default:'' }}"></label>
+          <label class="field"><span>EXPA ID (or the Alpha ID)</span><input id="iv-id" name="candidate_id" value="{{ post.candidate_id|default:'' }}"></label>
+        {% endif %}
+        <label class="field"><span>Interviewer 1</span><input id="iv-i1" name="interviewer_1" value="{% if post %}{{ post.interviewer_1 }}{% elif interview %}{{ interview.interviewer_1 }}{% else %}{{ interviewer_default }}{% endif %}"></label>
+        <label class="field"><span>Interviewer 2 <small class="muted">(blank if there's only one)</small></span><input id="iv-i2" name="interviewer_2" value="{% if post %}{{ post.interviewer_2 }}{% elif interview %}{{ interview.interviewer_2 }}{% endif %}"></label>
+      </div>
+    </section>
+
+    {% for section in parts %}
+      <section class="ops-panel rcr-wiz-step" x-show="step === {{ forloop.counter }}" x-cloak>
+        <header class="ops-panel-head"><h2>{{ section.name|default:"Questions" }}</h2><p>{{ section.questions|length }} question{{ section.questions|length|pluralize }}. Pick a score and the next question comes up.</p></header>
+        {% for item in section.questions %}
+          {% with q=item.q %}
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">{{ forloop.counter }}</span> {{ q.text|linebreaksbr }}{% if q.required %} <span class="rcr-req" aria-label="required">*</span>{% endif %}</legend>
+            {% if q.help %}<p class="muted">{{ q.help }}</p>{% endif %}
+            {% if q.kind == "score" %}
+              <div class="rcr-scale is-big" role="radiogroup">
+                {% for n in scores %}<label class="is-s{{ n }}"><input type="radio" name="q_{{ q.pk }}" value="{{ n }}" data-score @change="next($el)"{% if n|stringformat:"s" in item.values %} checked{% endif %}><span>{{ n }}</span></label>{% endfor %}
+              </div>
+            {% elif q.kind == "choice" %}
+              <div class="rcr-options is-pills">{% for choice in q.choices %}<label><input type="radio" name="q_{{ q.pk }}" value="{{ choice }}"{% if choice in item.values %} checked{% endif %}><span>{{ choice }}</span></label>{% endfor %}</div>
+            {% elif q.kind == "multi" %}
+              <div class="rcr-options is-pills">{% for choice in q.choices %}<label><input type="checkbox" name="q_{{ q.pk }}" value="{{ choice }}"{% if choice in item.values %} checked{% endif %}><span>{{ choice }}</span></label>{% endfor %}</div>
+            {% elif q.kind == "long" %}
+              <textarea name="q_{{ q.pk }}" rows="3" aria-label="{{ q.text|truncatechars:60 }}">{{ item.values.0|default:"" }}</textarea>
+            {% else %}
+              <input name="q_{{ q.pk }}" type="{% if q.kind == 'number' %}number{% elif q.kind == 'date' %}date{% elif q.kind == 'email' %}email{% else %}text{% endif %}" value="{{ item.values.0|default:'' }}" aria-label="{{ q.text|truncatechars:60 }}">
+            {% endif %}
+          </fieldset>
+          {% endwith %}
+        {% endfor %}
+      </section>
+    {% endfor %}
+
+    <section class="ops-panel rcr-wiz-step rcr-verdict" x-show="step === total - 1" x-cloak>
+      <header class="ops-panel-head"><h2>Verdict</h2><p>Average <strong x-text="avg">—</strong> over <span x-text="answered">0</span> scored answers. Cluster labels are internal: never share them with the candidate.</p></header>
+      <div class="rcr-cluster-pick" role="radiogroup" aria-label="Cluster">
+        {% for code, label in clusters_choices %}
+          <label class="is-{{ code|lower }}"><input type="radio" name="cluster" value="{{ code }}"{% if post.cluster == code or not post and interview.cluster == code %} checked{% endif %}><b>{{ code }}</b><span>{{ label|slice:"4:" }}</span><small>{{ journeys|get_item:code|truncatewords:12 }}</small></label>
+        {% endfor %}
+      </div>
+      <div class="rcr-decide" role="radiogroup" aria-label="Decision">
+        {% for code, label in decisions %}<label class="is-{{ code }}"><input type="radio" name="decision" value="{{ code }}"{% if post.decision == code or not post and interview.decision == code or not post and not interview and code == "pending" %} checked{% endif %}><span>{{ label }}</span></label>{% endfor %}
+      </div>
+      <div class="rcr-form-grid">
+        <label class="field"><span>Best function for them</span>
+          <select id="iv-function" name="function_fit"><option value="">—</option>{% for code, label in functions %}<option value="{{ code }}"{% if post.function_fit == code or not post and interview.function_fit == code %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+        </label>
+        <label class="field-check"><input type="checkbox" name="mail_sent"{% if post.mail_sent or not post and interview.mail_sent %} checked{% endif %}> <span>Result mail sent</span></label>
+        <label class="field is-wide"><span>Comments about the candidate</span><textarea id="iv-comments" name="comments" rows="4">{% if post %}{{ post.comments }}{% elif interview %}{{ interview.comments }}{% endif %}</textarea></label>
+      </div>
+    </section>
+
+    <footer class="rcr-wiz-foot">
+      <button type="button" class="btn btn-secondary btn-md" x-show="step > 0" @click="go(step - 1)">← Back</button>
+      <span class="rcr-wiz-hint muted">Keys: ← → to move between parts, 0–5 to score.</span>
+      <button type="button" class="btn btn-primary btn-md" x-show="step < total - 1" @click="go(step + 1)">Next →</button>
+      <button type="submit" class="btn btn-primary btn-md" x-show="step === total - 1" x-cloak>{% if interview %}Save the interview{% else %}Submit the interview{% endif %}</button>
+    </footer>
+  </form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function rcrWizard(total) {
+    return {
+      step: 0, total, avg: "—", avgNum: 0, answered: 0, scorable: 0,
+      init() { this.tally(); },
+      tally() {
+        const groups = new Set([...this.$el.querySelectorAll("input[data-score]")].map((i) => i.name));
+        const picked = [...this.$el.querySelectorAll("input[data-score]:checked")].map((i) => Number(i.value));
+        this.scorable = groups.size;
+        this.answered = picked.length;
+        this.avgNum = picked.length ? picked.reduce((a, b) => a + b, 0) / picked.length : 0;
+        this.avg = picked.length ? this.avgNum.toFixed(2) : "—";
+      },
+      go(n) {
+        this.step = Math.max(0, Math.min(this.total - 1, n));
+        this.$nextTick(() => this.$el.scrollIntoView({ behavior: "smooth", block: "start" }));
+      },
+      next(input) {
+        const all = [...this.$el.querySelectorAll(".rcr-wiz-step:not([style*='display: none']) [data-q]")];
+        const here = input.closest("[data-q]");
+        const after = all[all.indexOf(here) + 1];
+        if (after) after.scrollIntoView({ behavior: "smooth", block: "center" });
+      },
+      keys(event) {
+        if (["INPUT", "TEXTAREA", "SELECT"].includes(event.target.tagName) && event.target.type !== "radio") return;
+        if (event.key === "ArrowRight") { event.preventDefault(); this.go(this.step + 1); }
+        if (event.key === "ArrowLeft") { event.preventDefault(); this.go(this.step - 1); }
+        if (/^[0-5]$/.test(event.key)) {
+          const open = [...this.$el.querySelectorAll(".rcr-wiz-step:not([style*='display: none']) [data-q]")];
+          const target = open.find((q) => q.querySelector("input[data-score]") && !q.querySelector("input[data-score]:checked"));
+          const radio = target && target.querySelector(`input[data-score][value="${event.key}"]`);
+          if (radio) { radio.checked = true; radio.dispatchEvent(new Event("change", { bubbles: true })); }
+        }
+      },
+    };
+  }
+</script>
+{% endblock %}

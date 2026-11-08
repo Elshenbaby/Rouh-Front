@@ -1,0 +1,37 @@
+{% load i18n mc_format %}
+<header class="page-header rcr-header">
+  <p class="eyebrow"><a href="{% url 'ui:desk' 'tm' %}">{% trans "Talent" %}</a> · RCR{% if entity %} · {{ entity.short_name }}{% endif %}</p>
+  <h1>{{ cycle.name }}{% if entity %} <span class="rcr-lc">{{ entity.short_name }}</span>{% endif %}</h1>
+</header>
+{% include "tm/partials/tabs.html" %}
+{% if rcr_preview %}
+  <p class="rcr-preview" role="status"><b>MC preview.</b> {% if rcr_release_at %}The LCs get this tool on {{ rcr_release_at|date:"l j M Y, H:i" }}.{% else %}The LCs don't see this tool yet.{% endif %} Only the MCP, the MCVPs and admin accounts open it until then (the date is in Settings › General).</p>
+{% endif %}
+{% if cycles|length > 1 %}
+<nav class="queue-tabs rcr-cycles" aria-label="RCR cycles">
+  {% for item in cycles %}<a class="queue-tab{% if item.pk == cycle.pk %} is-active{% endif %}" href="{% url 'rcr:today' item.slug %}">{{ item.name }}</a>{% endfor %}
+</nav>
+{% endif %}
+{% if entity %}
+<nav class="rcr-journey" aria-label="The recruitment journey">
+  <a class="rcr-today-btn{% if section == 'today' %} is-active{% endif %}" href="{% url 'rcr:today' cycle.slug %}"><b>Today</b><small>what waits on you</small></a>
+  <ol class="rcr-phases">
+    {% for item in journey_bar %}
+      <li class="rcr-phase{% if phase_code == item.phase.code %} is-active{% endif %}">
+        <a href="{% url item.phase.url_name cycle.slug %}" title="{{ item.phase.hint }}">
+          <span class="rcr-phase-n">{{ item.phase.number }}</span>
+          <span class="rcr-phase-text"><b>{{ item.phase.label }}</b><small>{{ item.count|count }} in this phase{% if item.stuck %} · <em>{{ item.stuck }} stuck</em>{% endif %}</small></span>
+        </a>
+      </li>
+    {% endfor %}
+  </ol>
+</nav>
+<div class="rcr-subnav">
+  <nav class="rcr-phase-tabs" aria-label="This phase">
+    {% for code, label, url_name in phase_tabs %}<a class="{% if section == code %}is-active{% endif %}" href="{% url url_name cycle.slug %}">{{ label }}{% if code == "new" or code == "old" or code == "rxp" %}{% with n=kind_counts|get_item:code %}{% if n %} <small class="rcr-count">{{ n|count }}</small>{% endif %}{% endwith %}{% endif %}</a>{% endfor %}
+  </nav>
+  <nav class="rcr-tools" aria-label="Tools">
+    {% for code, label, url_name in tools %}<a class="{% if section == code %}is-active{% endif %}" href="{% url url_name cycle.slug %}">{{ label }}</a>{% endfor %}
+  </nav>
+</div>
+{% endif %}

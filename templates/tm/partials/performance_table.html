@@ -1,0 +1,65 @@
+{% load i18n %}
+{% if not table.kpis %}
+  <section class="empty">
+    <h2>{% trans "No KPIs for this function" %}</h2>
+    <p>{% trans "Set which KPIs this function uses in TM Settings, then plan targets for the month." %}</p>
+    {% if can_edit_settings %}
+      <a class="btn btn-primary" href="{% url 'tm:settings' %}">{% trans "Open settings" %}</a>
+    {% endif %}
+  </section>
+{% else %}
+  <div class="metric-row">
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "HR" %}</p>
+      <p class="metric-value">{{ table.hr }}</p>
+    </div>
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Function PR" %}</p>
+      <p class="metric-value">{{ table.function_pr_display }}</p>
+    </div>
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Member PR" %}</p>
+      <p class="metric-value">{{ table.member_pr_display }}</p>
+    </div>
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "%MAG" %}</p>
+      <p class="metric-value">{{ table.function_mag_display }}</p>
+    </div>
+  </div>
+  <div class="table-wrap" id="tm-performance">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>{% trans "Member" %}</th>
+          {% for kpi in table.kpis %}
+            <th>{{ kpi.name }} {% trans "plan" %}</th>
+            <th>{{ kpi.name }} {% trans "done" %}</th>
+            <th>{{ kpi.name }} %MAG</th>
+            <th>{{ kpi.name }} {% trans "contrib" %}</th>
+          {% endfor %}
+          <th>{% trans "Overall %MAG" %}</th>
+          <th>{% trans "Overall contrib" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in table.rows %}
+          <tr class="is-link">
+            <td><a class="row-link" href="{% url 'tm:member' row.member.pk %}">{{ row.member.full_name }}</a></td>
+            {% for metric in row.metrics %}
+              <td>{{ metric.planned_display }}</td>
+              <td>{{ metric.achieved_display }}</td>
+              <td>{{ metric.mag_display }}</td>
+              <td>{{ metric.contribution_display }}</td>
+            {% endfor %}
+            <td>{{ row.mag_display }}</td>
+            <td>{{ row.contribution_display }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="20">{% trans "No members in this function this month." %}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endif %}

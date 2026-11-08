@@ -1,0 +1,16 @@
+{% load mc_format rcr_tags %}<li class="rcr-card{% if compact %} is-compact{% endif %} is-{{ lead.outcome }}{% if lead|stuck %} is-stuck{% endif %}" data-card data-key="lead" data-id="{{ lead.pk }}" data-stage="{{ lead.stage }}" data-outcome="{{ lead.outcome }}" data-card-url="{% url 'rcr:lead_card' cycle.slug lead.pk %}"{% if compact %} data-extra='{"compact": "1"}'{% endif %} hx-get="{% url 'rcr:lead_drawer' cycle.slug lead.pk %}" hx-target="#rcr-drawer-body" hx-swap="innerHTML" tabindex="0" aria-label="{{ lead.full_name }}, {{ lead.get_stage_display }}">
+  <span class="rcr-card-top">
+    <i class="rcr-dot" style="background: {{ channel_colors|get_item:lead.channel|default:'#727272' }}" title="{{ channel_labels|get_item:lead.channel|default:'Other' }}"></i>
+    <b class="rcr-card-name">{{ lead.full_name }}</b>
+    {% if lead.recruiter %}<i class="rcr-avatar" title="{{ lead.recruiter.full_name }}">{{ lead.recruiter.initials }}</i>{% else %}<i class="rcr-avatar is-empty" title="No recruiter yet">+</i>{% endif %}
+  </span>
+  {% if not compact %}<small class="rcr-card-sub">{{ lead.university|default:lead.committee|default:"—" }}</small>{% endif %}
+  <span class="rcr-card-foot">
+    {% if lead.kind != "new" %}<em class="rcr-tag is-{{ lead.kind }}">{% if lead.kind == "old" %}Old{% else %}RXP{% endif %}</em>{% endif %}
+    {% if lead.outcome != "active" %}<em class="rcr-tag is-out">{{ lead.get_outcome_display }}</em>{% elif lead.phone_status and lead.stage_rank < 3 %}<em class="rcr-tag">{{ lead.get_phone_status_display }}</em>{% endif %}
+    {% if lead.english_level %}<em class="rcr-tag">{{ lead.english_level }}</em>{% endif %}
+    {% if compact %}<em class="rcr-tag">{{ lead.get_stage_display }}</em>{% endif %}
+    {% if lead|stuck %}<em class="rcr-tag is-stuck" title="Waiting longer than this step should take">Stuck</em>{% endif %}
+    <time title="In this step since {{ lead.stage_changed_at|default:lead.signed_up_at|date:'j M, H:i' }}">{{ lead.stage_changed_at|default:lead.signed_up_at|since }}</time>
+  </span>
+</li>

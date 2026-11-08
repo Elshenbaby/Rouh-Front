@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'tm:attendance' %}">{% trans "Attendance" %}</a></p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+  {% include "tm/partials/tabs.html" %}
+  <div class="tm-event-head">
+    <p class="muted">{{ touchpoint.starts_at }} · {{ touchpoint.get_kind_display }}{% if touchpoint.location %} · {{ touchpoint.location }}{% endif %} · {% if touchpoint.is_mandatory %}{% trans "Mandatory" %}{% else %}{% trans "Optional" %}{% endif %}</p>
+    {% if can_remove %}
+      <form method="post" action="{% url 'tm:attendance_delete' touchpoint.pk %}" onsubmit="return confirm('{% trans "Remove this touchpoint? Its marks stop counting in every attendance rate." %}')">
+        {% csrf_token %}
+        <button class="btn btn-ghost btn-sm tm-remove" type="submit">{% trans "Remove touchpoint" %}</button>
+      </form>
+    {% endif %}
+  </div>
+  {% if stats and stats.is_marked %}
+    <div class="tm-att-strip">
+      <div><span>{% trans "Attendance" %}</span><strong>{{ stats.pct|default_if_none:"—" }}{% if stats.pct is not None %}%{% endif %}</strong></div>
+      <div><span>{% trans "Invited" %}</span><strong>{{ stats.invited }}</strong></div>
+      <div><span>{% trans "Present" %}</span><strong>{{ stats.present }}</strong></div>
+      <div><span>{% trans "Late" %}</span><strong>{{ stats.late }}</strong></div>
+      <div><span>{% trans "Excused" %}</span><strong>{{ stats.excused }}</strong></div>
+      <div><span>{% trans "Absent" %}</span><strong>{{ stats.absent }}</strong></div>
+    </div>
+  {% endif %}
+  <form method="post" class="tm-mark">
+    {% csrf_token %}
+    {% for row in rows %}
+      <article class="tm-mark-row card">
+        <h2>{{ row.member.full_name }}</h2>
+        <fieldset class="tm-mark-states">
+          <legend class="sr-only">{% trans "Attendance" %}</legend>
+          {% for value, label in states %}
+            <label>
+              <input type="radio" name="state_{{ row.pk }}" value="{{ value }}"{% if row.state == value %} checked{% endif %}>
+              {{ label }}
+            </label>
+          {% endfor %}
+        </fieldset>
+        <label class="field">
+          <span class="sr-only">{% trans "Note" %}</span>
+          <input type="text" name="note_{{ row.pk }}" value="{{ row.note }}" placeholder="{% trans 'Note' %}">
+        </label>
+      </article>
+    {% empty %}
+      <section class="empty">
+        <h2>{% trans "Nobody invited" %}</h2>
+        <p>{% trans "The invite list is a snapshot of the structure. Add people to the LC tree, then create a new touchpoint." %}</p>
+      </section>
+    {% endfor %}
+    {% if rows %}
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit">{% trans "Save attendance" %}</button>
+      </div>
+    {% endif %}
+  </form>
+{% endblock %}

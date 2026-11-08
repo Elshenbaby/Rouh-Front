@@ -1,0 +1,19 @@
+{% load i18n %}
+<dl class="meta">
+  {% for row in fields %}
+    <div>
+      <dt>{{ row.label }}</dt>
+      <dd>
+        {% if row.href %}
+          <a href="{{ row.href }}" rel="noopener noreferrer" target="_blank">
+            {% if row.label == "Soluo" %}{% trans "Open in Soluo" %}{% else %}{{ row.value }}{% endif %}
+          </a>
+        {% else %}
+          {{ row.value }}
+        {% endif %}
+      </dd>
+    </div>
+  {% empty %}
+    <div><dt>{% trans "Soluo" %}</dt><dd>—</dd></div>
+  {% endfor %}
+</dl>

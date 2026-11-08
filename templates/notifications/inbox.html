@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header row-between">
+    <div>
+      <p class="eyebrow">{% trans "Rouh" %}</p>
+      <h1>{{ title }}</h1>
+      <p class="lede">{% trans "News for you from the MC and Rouh. Open one to go straight to it." %}</p>
+    </div>
+    {% if items %}
+      <form method="post" action="{% url 'notifications:read_all' %}">
+        {% csrf_token %}
+        <button class="btn btn-secondary" type="submit">{% trans "Mark all read" %}</button>
+      </form>
+    {% endif %}
+  </header>
+  {% if items %}
+    <ul class="nt-list">
+      {% for n in items %}
+        <li class="nt-item{% if not n.read_at %} is-unread{% endif %}">
+          <a href="{% url 'notifications:open' n.pk %}">
+            <span class="nt-dot" aria-hidden="true"></span>
+            <span class="nt-main"><b>{{ n.title }}</b>{% if n.body %}<span>{{ n.body }}</span>{% endif %}</span>
+            <time datetime="{{ n.created_at|date:'c' }}">{{ n.created_at|timesince }} {% trans "ago" %}</time>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="cr-done"><p class="cr-done-title">{% trans "Nothing yet" %}</p><p>{% trans "When the MC releases something for you, it shows up here." %}</p></div>
+  {% endif %}
+{% endblock %}

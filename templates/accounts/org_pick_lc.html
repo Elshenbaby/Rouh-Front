@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'ui:desk' 'tm' %}">{% trans "Talent" %}</a></p>
+    <h1>{% trans "LC tree" %}</h1>
+    <p class="lede">{% trans "Pick the LC whose tree you want to grow." %}</p>
+  </header>
+  {% include "tm/partials/tabs.html" %}
+  {% include "partials/pick_lc_grid.html" %}
+{% endblock %}

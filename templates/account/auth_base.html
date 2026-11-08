@@ -1,0 +1,115 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'en' }}" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% include "partials/favicon.html" %}
+  <title>{% block title %}{% endblock %} · {% trans "Rouh" %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+</head>
+<body class="auth-page">
+  <div class="auth-shell">
+    <aside class="auth-panel">
+      <a class="auth-brand" href="{% url 'ui:landing' %}">
+        <img src="{% static 'img/rouh-mark-64.png' %}" alt="" width="36" height="36">
+        <span>{% trans "Rouh" %}</span>
+      </a>
+      <div class="auth-panel-copy">
+        <p class="auth-kicker">{% trans "AIESEC in Egypt" %}</p>
+        <h2 class="auth-panel-title">{% block panel_title %}{% trans "One home for every LC" %}{% endblock %}</h2>
+        <p class="auth-panel-text">{% block panel_text %}{% trans "Your queue, your team and your KPIs, in one place, live from EXPA." %}{% endblock %}</p>
+        {% block panel_extra %}
+          <ul class="auth-points">
+            <li>{% trans "Work lands with the right person" %}</li>
+            <li>{% trans "Your KPIs against your plan" %}</li>
+            <li>{% trans "Each LC sees its own house" %}</li>
+          </ul>
+        {% endblock %}
+      </div>
+      <a class="auth-live" href="{% url 'icomm:index' %}"><span class="auth-pulse" aria-hidden="true"></span>{% trans "October ICOMM is live" %} <span aria-hidden="true">→</span></a>
+      <img class="auth-watermark" src="{% static 'img/rouh-logo-white.png' %}" alt="" aria-hidden="true">
+    </aside>
+
+    <main class="auth-main">
+      <div class="auth-form">
+        {% block content %}{% endblock %}
+      </div>
+      {% include "partials/credit.html" %}
+    </main>
+  </div>
+  <script>
+    (() => {
+      // Show / hide password.
+      document.querySelectorAll("[data-pw-toggle]").forEach((btn) => {
+        const input = document.getElementById(btn.getAttribute("aria-controls"));
+        if (!input) return;
+        btn.addEventListener("click", () => {
+          const show = input.type === "password";
+          input.type = show ? "text" : "password";
+          btn.setAttribute("aria-pressed", String(show));
+          btn.textContent = show ? btn.dataset.hide : btn.dataset.show;
+          input.focus();
+        });
+      });
+      // Caps Lock warning on password fields.
+      document.querySelectorAll("input[data-caps]").forEach((input) => {
+        const hint = document.getElementById(input.dataset.caps);
+        if (!hint) return;
+        const check = (e) => { if (e.getModifierState) hint.hidden = !e.getModifierState("CapsLock"); };
+        input.addEventListener("keydown", check);
+        input.addEventListener("keyup", check);
+        input.addEventListener("blur", () => { hint.hidden = true; });
+      });
+      // Password strength and match, on sign-up and reset.
+      const pw = document.querySelector("input[data-strength]");
+      const meter = document.querySelector("[data-meter]");
+      if (pw && meter) {
+        const label = meter.querySelector("[data-meter-label]");
+        const words = JSON.parse(meter.dataset.words);
+        // 1 too short, 2 long enough, 3 letters and numbers, 4 plus mixed case or a symbol.
+        const score = (v) => {
+          if (v.length < 10) return 1;
+          if (!(/[a-z]/i.test(v) && /\d/.test(v))) return 2;
+          return /[A-Z]/.test(v) && /[a-z]/.test(v) || /[^a-z0-9]/i.test(v) ? 4 : 3;
+        };
+        const update = () => {
+          const s = pw.value ? score(pw.value) : 0;
+          meter.dataset.score = s;
+          label.textContent = pw.value ? words[s - 1] : meter.dataset.empty;
+        };
+        pw.addEventListener("input", update);
+        update();
+      }
+      const confirm = document.querySelector("input[data-match]");
+      if (confirm) {
+        const first = document.getElementById(confirm.dataset.match);
+        const out = document.getElementById(confirm.dataset.matchOut);
+        const update = () => {
+          if (!confirm.value) { out.hidden = true; return; }
+          const ok = confirm.value === first.value;
+          out.hidden = false;
+          out.textContent = ok ? out.dataset.ok : out.dataset.no;
+          out.classList.toggle("is-ok", ok);
+        };
+        confirm.addEventListener("input", update);
+        first.addEventListener("input", update);
+      }
+      // Busy state on submit, so a slow network doesn't invite double clicks.
+      document.querySelectorAll("form[data-busy]").forEach((form) => {
+        form.addEventListener("submit", () => {
+          const btn = form.querySelector("button[type=submit]");
+          if (!btn) return;
+          btn.setAttribute("aria-busy", "true");
+          btn.classList.add("is-busy");
+          if (btn.dataset.busy) btn.textContent = btn.dataset.busy;
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

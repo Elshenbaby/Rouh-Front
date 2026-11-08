@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load mc_format %}
+
+{% block content %}
+  {% include "rcr/_chrome.html" %}
+
+  <section class="rcr-strip" aria-label="Interview slots">
+    <div><span>Slots</span><strong>{{ totals.slots|count }}</strong></div>
+    <div><span>Booked</span><strong>{{ totals.booked|count }}</strong></div>
+    <div><span>Confirmed the day before</span><strong>{{ totals.confirmed|count }}</strong></div>
+    <div><span>Interviewed</span><strong>{{ totals.done|count }}</strong></div>
+    <div><span>Ready to book</span><strong>{{ ready_count|count }}</strong></div>
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>Add interview slots</h2><p>One day and shift at a time: Rouh makes a slot every few minutes, in every room. Leads who passed the phone call can then be booked into them, here or from their page.</p></header>
+    <form method="post" action="{% url 'rcr:slots_make' cycle.slug %}" class="rcr-filters">
+      {% csrf_token %}
+      <label class="field"><span>Day</span><input id="s-day" type="date" name="day" required></label>
+      <label class="field"><span>Shift</span><select id="s-shift" name="shift">{% for code, label in shifts %}<option value="{{ code }}">{{ label }}</option>{% endfor %}</select></label>
+      <label class="field"><span>From</span><input id="s-start" type="time" name="start" value="12:00" required></label>
+      <label class="field"><span>To</span><input id="s-end" type="time" name="end" value="17:00" required></label>
+      <label class="field"><span>Minutes each</span><input id="s-min" type="number" name="minutes" value="30" min="10" max="120"></label>
+      <label class="field"><span>Rooms</span><input id="s-rooms" type="number" name="rooms" value="3" min="1" max="10"></label>
+      <label class="field"><span>Place</span><input id="s-place" name="place" placeholder="Faculty of Commerce, building B"></label>
+      <div class="filter-actions"><button class="btn btn-primary btn-sm" type="submit">Add the slots</button></div>
+    </form>
+  </section>
+
+  <nav class="ops-time-presets rcr-show" aria-label="Which days">
+    <a class="ops-chip{% if show == 'upcoming' %} is-active{% endif %}" href="?show=upcoming">Today and after</a>
+    <a class="ops-chip{% if show == 'past' %} is-active{% endif %}" href="?show=past">Past days</a>
+    <a class="ops-chip{% if show == 'all' %} is-active{% endif %}" href="?show=all">All</a>
+  </nav>
+
+  {% for day in grid %}
+    <section class="ops-panel">
+      <header class="ops-panel-head"><h2>{{ day.day|date:"l j F" }}</h2><p>{{ day.booked }} of {{ day.count }} slots booked{% if day.place %} · {{ day.place }}{% endif %}</p></header>
+      <div class="table-wrap">
+        <table class="table rcr-grid-table">
+          <thead><tr><th>Time</th>{% for room in day.room_names %}<th>{{ room }}</th>{% endfor %}</tr></thead>
+          <tbody>
+            {% for row in day.rows %}
+              <tr><th scope="row">{{ row.time|time:"H:i" }}</th>{% for slot in row.cells %}{% if slot %}{% include "rcr/partials/slot_cell.html" %}{% else %}<td class="muted">—</td>{% endif %}{% endfor %}</tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  {% empty %}
+    <p class="ops-empty">No interview slots {% if show == "upcoming" %}from today on{% elif show == "past" %}in the past{% endif %}. Add a day of slots above.</p>
+  {% endfor %}
+
+  {% if ready %}
+    <section class="ops-panel">
+      <header class="ops-panel-head"><h2>Passed the phone call, not booked yet</h2><p>{{ ready_count }} leads. Book them into a free slot above.</p></header>
+      <ul class="rcr-chips">{% for lead in ready|slice:":60" %}<li><a href="{% url 'rcr:lead' cycle.slug lead.pk %}">{{ lead.full_name }}</a></li>{% endfor %}</ul>
+    </section>
+  {% endif %}
+{% endblock %}

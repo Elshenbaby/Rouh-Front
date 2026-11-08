@@ -1,0 +1,1 @@
+{% load i18n %}{% if expa_id %}<a class="expa-profile-link" href="https://expa.aiesec.org/people/{{ expa_id }}" target="_blank" rel="noopener noreferrer" title="{% trans 'Open EXPA account' %} {{ expa_id }}">{% if show_id %}{{ expa_id }}{% else %}{% trans "EXPA account" %}{% endif %} ↗</a>{% endif %}

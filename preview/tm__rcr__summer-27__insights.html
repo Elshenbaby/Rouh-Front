@@ -1,0 +1,724 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>RCR Summer 27 · CU · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "AMwO8T58sKsi8lALv2NoxcUt1loNnbghhFkKctGWoDhM4ZcWf4ekQrCYlu9iaYak"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link is-active">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="AMwO8T58sKsi8lALv2NoxcUt1loNnbghhFkKctGWoDhM4ZcWf4ekQrCYlu9iaYak">
+      <input type="hidden" name="next" value="/tm/rcr/summer-27/insights/">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="AMwO8T58sKsi8lALv2NoxcUt1loNnbghhFkKctGWoDhM4ZcWf4ekQrCYlu9iaYak">
+      <input type="hidden" name="next" value="/tm/rcr/summer-27/insights/">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="AMwO8T58sKsi8lALv2NoxcUt1loNnbghhFkKctGWoDhM4ZcWf4ekQrCYlu9iaYak">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page">
+        
+        
+  
+<header class="page-header rcr-header">
+  <p class="eyebrow"><a href="desks__tm.html">Talent</a> · RCR · CU</p>
+  <h1>RCR Summer 27 <span class="rcr-lc">CU</span></h1>
+</header>
+
+
+<nav class="tabs tm-tabs" aria-label="Talent">
+  <a class="tab" href="tm.html">Overview</a>
+  <a class="tab" href="tm__structure.html">Structure</a>
+  <a class="tab" href="tm__performance.html">Performance</a>
+  <a class="tab" href="tm__planning.html">Planning</a>
+  <a class="tab" href="tm__attendance.html">Attendance</a>
+  <a class="tab" href="tm__hr.html">HR Status</a>
+  <a class="tab is-active" href="tm__rcr.html">RCR</a>
+  <a class="tab" href="tm__nes.html">NES</a>
+  <a class="tab" href="tm__settings.html">Settings</a>
+</nav>
+
+
+
+
+
+
+<nav class="rcr-journey" aria-label="The recruitment journey">
+  <a class="rcr-today-btn" href="tm__rcr__summer-27.html"><b>Today</b><small>what waits on you</small></a>
+  <ol class="rcr-phases">
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__new-leads.html" title="Call every lead, run the phone interview, accept or reject.">
+          <span class="rcr-phase-n">1</span>
+          <span class="rcr-phase-text"><b>Leads &amp; calls</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__scheduling.html" title="Book a slot (or send them their booking link), confirm the day before, fill the form.">
+          <span class="rcr-phase-n">2</span>
+          <span class="rcr-phase-text"><b>Interviews</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__gds.html" title="Seat the accepted ones in a GD, run it, score it.">
+          <span class="rcr-phase-n">3</span>
+          <span class="rcr-phase-text"><b>Group discussions</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__conference.html" title="Collect the payment and get them to the conference.">
+          <span class="rcr-phase-n">4</span>
+          <span class="rcr-phase-text"><b>Conference</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+  </ol>
+</nav>
+<div class="rcr-subnav">
+  <nav class="rcr-phase-tabs" aria-label="This phase">
+    
+  </nav>
+  <nav class="rcr-tools" aria-label="Tools">
+    <a class="is-active" href="tm__rcr__summer-27__insights.html">Insights</a><a class="" href="tm__rcr__summer-27__planning.html">Capacity plan</a><a class="" href="tm__rcr__summer-27__sensing.html">Sensing</a><a class="" href="tm__rcr__summer-27__team.html">Team &amp; shifts</a><a class="" href="tm__rcr__summer-27__timeline.html">Timeline</a><a class="" href="tm__rcr__summer-27__easy-answers.html">Easy answers</a>
+  </nav>
+</div>
+
+
+
+  <section class="rcr-alerts" aria-label="Needs attention">
+    <a class="rcr-alert" href="tm__rcr__summer-27__new-leads.html">
+      <strong>0</strong><span>new leads waiting for first contact</span>
+    </a>
+    <a class="rcr-alert" href="tm__rcr__summer-27__new-leads.html">
+      <strong>0</strong><span>new leads with no recruiter</span>
+    </a>
+    <div class="rcr-alert">
+      <strong>—</strong><span>contacted since yesterday (from tomorrow)</span>
+    </div>
+    <div class="rcr-alert">
+      <strong>—</strong><span>F2F interviews since yesterday</span>
+    </div>
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head">
+      <h2>Planned vs achieved</h2>
+      <p>LEAD counts new leads; APP is everyone who did the F2F interview, ACC who passed it, REC who attended the conference. Goals come from your capacity plan.</p>
+    </header>
+    
+      <p class="ops-empty">No plan yet, so there are no goals. <a href="tm__rcr__summer-27__planning.html">Set how many new members you need</a> and the goals fill in.</p>
+    
+    <div class="ops-hero rcr-pva">
+      
+        <article class="ops-kpi">
+          <p class="ops-kpi-label">Leads</p>
+          <p class="ops-kpi-value">0<span>no goal</span></p>
+          <div class="ops-meter" role="img" aria-label="— of the goal"><i style="width: 0%"></i></div>
+          <dl class="ops-kpi-facts">
+            <div><dt>Of goal</dt><dd class="ops-level">—</dd></div>
+            <div><dt>Still to go</dt><dd>—</dd></div>
+            <div><dt>Goal</dt><dd>0</dd></div>
+          </dl>
+        </article>
+      
+        <article class="ops-kpi">
+          <p class="ops-kpi-label">Applicants</p>
+          <p class="ops-kpi-value">0<span>no goal</span></p>
+          <div class="ops-meter" role="img" aria-label="— of the goal"><i style="width: 0%"></i></div>
+          <dl class="ops-kpi-facts">
+            <div><dt>Of goal</dt><dd class="ops-level">—</dd></div>
+            <div><dt>Still to go</dt><dd>—</dd></div>
+            <div><dt>Goal</dt><dd>0</dd></div>
+          </dl>
+        </article>
+      
+        <article class="ops-kpi">
+          <p class="ops-kpi-label">Accepted</p>
+          <p class="ops-kpi-value">0<span>no goal</span></p>
+          <div class="ops-meter" role="img" aria-label="— of the goal"><i style="width: 0%"></i></div>
+          <dl class="ops-kpi-facts">
+            <div><dt>Of goal</dt><dd class="ops-level">—</dd></div>
+            <div><dt>Still to go</dt><dd>—</dd></div>
+            <div><dt>Goal</dt><dd>0</dd></div>
+          </dl>
+        </article>
+      
+        <article class="ops-kpi">
+          <p class="ops-kpi-label">Recruited</p>
+          <p class="ops-kpi-value">0<span>no goal</span></p>
+          <div class="ops-meter" role="img" aria-label="— of the goal"><i style="width: 0%"></i></div>
+          <dl class="ops-kpi-facts">
+            <div><dt>Of goal</dt><dd class="ops-level">—</dd></div>
+            <div><dt>Still to go</dt><dd>—</dd></div>
+            <div><dt>Goal</dt><dd>0</dd></div>
+          </dl>
+        </article>
+      
+    </div>
+    <div class="rcr-conv">
+      
+        <div class="rcr-conv-item">
+          <span>LEAD → APP</span>
+          <strong>—</strong>
+          <small>planned —</small>
+        </div>
+      
+        <div class="rcr-conv-item">
+          <span>APP → ACC</span>
+          <strong>—</strong>
+          <small>planned —</small>
+        </div>
+      
+        <div class="rcr-conv-item">
+          <span>ACC → REC</span>
+          <strong>—</strong>
+          <small>planned —</small>
+        </div>
+      
+    </div>
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head rcr-head-row"><div><h2>Where everyone is</h2><p>Every lead at the furthest step they reached. Open the RCR board to see who holds them.</p></div><a class="btn btn-primary btn-sm" href="tm__rcr__summer-27__pipeline__kind-all.html">Open the RCR board</a></header>
+    <ol class="rcr-ribbon">
+      <li style="--w: 100%"><a href="tm__rcr__summer-27__pipeline__kind-all.html"><span>Leads</span><b>0</b></a></li>
+      <li style="--w: 0%"><a href="tm__rcr__summer-27__pipeline__kind-all.html"><span>Contacted</span><b>0</b><small>— of the step before</small></a></li><li style="--w: 0%"><a href="tm__rcr__summer-27__pipeline__kind-all.html"><span>PC done</span><b>0</b><small>— of the step before</small></a></li><li style="--w: 0%"><a href="tm__rcr__summer-27__pipeline__kind-all.html"><span>PC accepted</span><b>0</b><small>— of the step before</small></a></li><li style="--w: 0%"><a href="tm__rcr__summer-27__pipeline__kind-all.html"><span>F2F scheduled</span><b>0</b><small>— of the step before</small></a></li><li style="--w: 0%"><a href="tm__rcr__summer-27__pipeline__kind-all.html"><span>F2F done</span><b>0</b><small>— of the step before</small></a></li><li style="--w: 0%"><a href="tm__rcr__summer-27__pipeline__kind-all.html"><span>F2F accepted</span><b>0</b><small>— of the step before</small></a></li><li style="--w: 0%"><a href="tm__rcr__summer-27__pipeline__kind-all.html"><span>GD attended</span><b>0</b><small>— of the step before</small></a></li><li style="--w: 0%"><a href="tm__rcr__summer-27__pipeline__kind-all.html"><span>GD accepted</span><b>0</b><small>— of the step before</small></a></li><li style="--w: 0%"><a href="tm__rcr__summer-27__pipeline__kind-all.html"><span>Paid</span><b>0</b><small>— of the step before</small></a></li><li style="--w: 0%"><a href="tm__rcr__summer-27__pipeline__kind-all.html"><span>Attended</span><b>0</b><small>— of the step before</small></a></li>
+    </ol>
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head">
+      <h2>Funnel analysis</h2>
+      <p>Every stage, for new and old leads apart. A lead counts at each stage it has passed. "Step" is the share of the stage before; "of leads" the share of all leads of that kind.</p>
+    </header>
+    <div class="table-wrap">
+      <table class="table ops-table ops-compact rcr-funnel">
+        <thead>
+          <tr><th rowspan="2">Stage</th><th colspan="3" class="rcr-group">New leads (0)</th><th colspan="3" class="rcr-group">Old leads (0)</th><th class="q-num" rowspan="2">RXPs</th><th colspan="3" class="rcr-group is-sum">Total</th></tr>
+          <tr><th class="q-num">#</th><th class="q-num">Step</th><th class="q-num">Of leads</th><th class="q-num">#</th><th class="q-num">Step</th><th class="q-num">Of leads</th><th class="q-num is-sum">#</th><th class="q-num is-sum">Step</th><th class="q-num is-sum">Of leads</th></tr>
+        </thead>
+        <tbody>
+          
+            
+            <tr>
+              <th scope="row">Contacted</th>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num">0</td>
+              <td class="q-num is-sum"><strong>0</strong></td><td class="q-num is-sum">—</td><td class="q-num is-sum muted">—</td>
+            </tr>
+            
+          
+            
+            <tr>
+              <th scope="row">PC done</th>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num">0</td>
+              <td class="q-num is-sum"><strong>0</strong></td><td class="q-num is-sum">—</td><td class="q-num is-sum muted">—</td>
+            </tr>
+            
+          
+            
+            <tr>
+              <th scope="row">PC accepted</th>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num">0</td>
+              <td class="q-num is-sum"><strong>0</strong></td><td class="q-num is-sum">—</td><td class="q-num is-sum muted">—</td>
+            </tr>
+            
+          
+            
+            <tr>
+              <th scope="row">F2F scheduled</th>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num">0</td>
+              <td class="q-num is-sum"><strong>0</strong></td><td class="q-num is-sum">—</td><td class="q-num is-sum muted">—</td>
+            </tr>
+            
+          
+            
+            <tr>
+              <th scope="row">F2F done</th>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num">0</td>
+              <td class="q-num is-sum"><strong>0</strong></td><td class="q-num is-sum">—</td><td class="q-num is-sum muted">—</td>
+            </tr>
+            
+          
+            
+            <tr>
+              <th scope="row">F2F accepted</th>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num">0</td>
+              <td class="q-num is-sum"><strong>0</strong></td><td class="q-num is-sum">—</td><td class="q-num is-sum muted">—</td>
+            </tr>
+            
+          
+            
+            <tr>
+              <th scope="row">GD attended</th>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num">0</td>
+              <td class="q-num is-sum"><strong>0</strong></td><td class="q-num is-sum">—</td><td class="q-num is-sum muted">—</td>
+            </tr>
+            
+          
+            
+            <tr>
+              <th scope="row">GD accepted</th>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num">0</td>
+              <td class="q-num is-sum"><strong>0</strong></td><td class="q-num is-sum">—</td><td class="q-num is-sum muted">—</td>
+            </tr>
+            
+          
+            
+            <tr>
+              <th scope="row">Paid</th>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num">0</td>
+              <td class="q-num is-sum"><strong>0</strong></td><td class="q-num is-sum">—</td><td class="q-num is-sum muted">—</td>
+            </tr>
+            
+          
+            
+            <tr>
+              <th scope="row">Attended</th>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num"><strong>0</strong></td><td class="q-num">—</td><td class="q-num muted">—</td>
+              <td class="q-num">0</td>
+              <td class="q-num is-sum"><strong>0</strong></td><td class="q-num is-sum">—</td><td class="q-num is-sum muted">—</td>
+            </tr>
+            
+          
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="mkt-grid rcr-grid">
+    <article class="ops-panel">
+      <header class="ops-panel-head"><h2>The last 30 days</h2><p>New leads signing up each day, and how many lead steps your team logged.</p></header>
+      <div class="rcr-chart" data-rcr-chart="daily" role="img" aria-label="New leads and lead steps per day"></div>
+    </article>
+    <article class="ops-panel">
+      <header class="ops-panel-head"><h2>Where new leads came from</h2><p>How they heard about AIESEC, and how far each channel gets.</p></header>
+      <div class="mkt-split" role="img" aria-label="New leads by channel">
+        
+      </div>
+      <table class="table ops-compact">
+        <thead><tr><th>Channel</th><th class="q-num">Leads</th><th class="q-num">Share</th><th class="q-num">Contacted</th><th class="q-num">APP</th><th class="q-num">LEAD→APP</th></tr></thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+    </article>
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>Leads analysis</h2><p>New leads per campus and channel. Offline is booths, events and info sessions on campus.</p></header>
+    
+<div class="table-wrap">
+  <table class="table ops-table ops-compact rcr-analysis">
+    <thead>
+      <tr><th>Campus</th><th class="q-num"><span class="mkt-swatch" style="background: #d84d2b"></span>Offline</th><th class="q-num"><span class="mkt-swatch" style="background: #7552cc"></span>Instagram</th><th class="q-num"><span class="mkt-swatch" style="background: #037ef3"></span>Facebook</th><th class="q-num"><span class="mkt-swatch" style="background: #05047e"></span>LinkedIn</th><th class="q-num"><span class="mkt-swatch" style="background: #0cb9c1"></span>TikTok</th><th class="q-num"><span class="mkt-swatch" style="background: #f48924"></span>Emails</th><th class="q-num"><span class="mkt-swatch" style="background: #8a6d3b"></span>Magazine &amp; media</th><th class="q-num"><span class="mkt-swatch" style="background: #004f32"></span>Friend</th><th class="q-num"><span class="mkt-swatch" style="background: #727272"></span>Other</th><th class="q-num is-sum">Total</th></tr>
+    </thead>
+    <tbody>
+      
+        <tr><td colspan="11">No leads yet.</td></tr>
+      
+    </tbody>
+    
+  </table>
+</div>
+
+    
+  </section>
+
+  <section class="mkt-grid rcr-grid">
+    <article class="ops-panel">
+      <header class="ops-panel-head rcr-head-row"><div><h2>RcR team</h2><p>What each recruiter has done with the leads they hold.</p></div><a class="btn btn-secondary btn-sm" href="tm__rcr__summer-27__team.html">Team & shifts</a></header>
+      <table class="table ops-compact">
+        <thead><tr><th>Recruiter</th><th class="q-num">Leads</th><th class="q-num">Contacted</th><th class="q-num">PC accepted</th><th class="q-num">F2F</th><th class="q-num">GD</th></tr></thead>
+        <tbody>
+          
+            <tr><td colspan="6">No lead has a recruiter yet. Give leads to your team from New leads.</td></tr>
+          
+        </tbody>
+      </table>
+    </article>
+    <article class="ops-panel">
+      <header class="ops-panel-head"><h2>Clusters</h2><p>Final assessment of the F2F interviews (0) against the cycle's target mix.</p></header>
+      
+<ul class="rcr-clusters">
+  
+    <li>
+      <b class="rcr-cluster is-k">K</b>
+      <span class="rcr-bar" role="img" aria-label="— against a 5% target"><i style="width: 0%"></i><em style="left: 5%"></em></span>
+      <strong>0</strong>
+      <small>— · target 5%</small>
+    </li>
+  
+    <li>
+      <b class="rcr-cluster is-a">A</b>
+      <span class="rcr-bar" role="img" aria-label="— against a 20% target"><i style="width: 0%"></i><em style="left: 20%"></em></span>
+      <strong>0</strong>
+      <small>— · target 20%</small>
+    </li>
+  
+    <li>
+      <b class="rcr-cluster is-b">B</b>
+      <span class="rcr-bar" role="img" aria-label="— against a 35% target"><i style="width: 0%"></i><em style="left: 35%"></em></span>
+      <strong>0</strong>
+      <small>— · target 35%</small>
+    </li>
+  
+    <li>
+      <b class="rcr-cluster is-c">C</b>
+      <span class="rcr-bar" role="img" aria-label="— against a 20% target"><i style="width: 0%"></i><em style="left: 20%"></em></span>
+      <strong>0</strong>
+      <small>— · target 20%</small>
+    </li>
+  
+    <li>
+      <b class="rcr-cluster is-d">D</b>
+      <span class="rcr-bar" role="img" aria-label="— against a 15% target"><i style="width: 0%"></i><em style="left: 15%"></em></span>
+      <strong>0</strong>
+      <small>— · target 15%</small>
+    </li>
+  
+    <li>
+      <b class="rcr-cluster is-e">E</b>
+      <span class="rcr-bar" role="img" aria-label="— against a 5% target"><i style="width: 0%"></i><em style="left: 5%"></em></span>
+      <strong>0</strong>
+      <small>— · target 5%</small>
+    </li>
+  
+    <li>
+      <b class="rcr-cluster is-f">F</b>
+      <span class="rcr-bar" role="img" aria-label="— against a 0% target"><i style="width: 0%"></i><em style="left: 0%"></em></span>
+      <strong>0</strong>
+      <small>— · target 0%</small>
+    </li>
+  
+</ul>
+
+    </article>
+  </section>
+
+  <script id="rcr-data" type="application/json">{"daily": [{"day": "2026-10-10", "leads": 0, "moved": 0}, {"day": "2026-10-11", "leads": 0, "moved": 0}, {"day": "2026-10-12", "leads": 0, "moved": 0}, {"day": "2026-10-13", "leads": 0, "moved": 0}, {"day": "2026-10-14", "leads": 0, "moved": 0}, {"day": "2026-10-15", "leads": 0, "moved": 0}, {"day": "2026-10-16", "leads": 0, "moved": 0}, {"day": "2026-10-17", "leads": 0, "moved": 0}, {"day": "2026-10-18", "leads": 0, "moved": 0}, {"day": "2026-10-19", "leads": 0, "moved": 0}, {"day": "2026-10-20", "leads": 0, "moved": 0}, {"day": "2026-10-21", "leads": 0, "moved": 0}, {"day": "2026-10-22", "leads": 0, "moved": 0}, {"day": "2026-10-23", "leads": 0, "moved": 0}, {"day": "2026-10-24", "leads": 0, "moved": 0}, {"day": "2026-10-25", "leads": 0, "moved": 0}, {"day": "2026-10-26", "leads": 0, "moved": 0}, {"day": "2026-10-27", "leads": 0, "moved": 0}, {"day": "2026-10-28", "leads": 0, "moved": 0}, {"day": "2026-10-29", "leads": 0, "moved": 0}, {"day": "2026-10-30", "leads": 0, "moved": 0}, {"day": "2026-10-31", "leads": 0, "moved": 0}, {"day": "2026-11-01", "leads": 0, "moved": 0}, {"day": "2026-11-02", "leads": 0, "moved": 0}, {"day": "2026-11-03", "leads": 0, "moved": 0}, {"day": "2026-11-04", "leads": 0, "moved": 0}, {"day": "2026-11-05", "leads": 0, "moved": 0}, {"day": "2026-11-06", "leads": 0, "moved": 0}, {"day": "2026-11-07", "leads": 0, "moved": 0}, {"day": "2026-11-08", "leads": 0, "moved": 0}]}</script>
+
+      </main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js" defer></script>
+  <script src="../static/js/rcr.js?v=1" defer></script>
+
+</body>
+</html>

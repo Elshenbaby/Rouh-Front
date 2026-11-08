@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'ui:desk' desk.code %}">{{ desk.label }}</a></p>
+    <h1>{% trans "Coming next" %}</h1>
+    <p class="lede">{% trans "The desk is in the platform so every VP has a door. This slice is not filled yet." %}</p>
+  </header>
+  <div class="empty">
+    <h2>{{ desk.label }}</h2>
+    <p>{% trans "oGV, oGTa, oGTe, iGV, iGTa and iGTe are live. This desk follows the same pattern when its slice is switched on." %}</p>
+    <a class="btn btn-primary" href="{% url 'ui:desk' desk.code %}">{% trans "Back to the desk" %}</a>
+  </div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% load i18n %}
+{# The open NES, on every page until it's answered. "Later" hides it until they sign in again. #}
+<dialog class="nes-pop" id="nes-pop" aria-labelledby="nes-pop-title" data-later="{% url 'nes_public:later' nes_prompt.token %}">
+  <p class="nes-pop-kicker">NES · {{ nes_prompt.round.month|date:"F Y" }}</p>
+  <h2 id="nes-pop-title">{% trans "How was your month in AIESEC?" %}</h2>
+  <p>{% blocktrans with month=nes_prompt.round.month|date:"F" %}The NES for {{ month }} is open. It takes a few minutes, and your LCVP TM uses it to make next month better for you and your team.{% endblocktrans %}</p>
+  <p class="nes-pop-close">{% blocktrans with when=nes_prompt.close_at|date:"l j F, H:i" %}Open until {{ when }}.{% endblocktrans %}</p>
+  <div class="nes-pop-actions">
+    <a class="btn btn-primary" href="{{ nes_prompt.url }}">{% trans "Fill the NES now" %}</a>
+    <button type="button" class="btn btn-ghost" data-nes-later>{% trans "Later" %}</button>
+  </div>
+</dialog>
+<script>
+  (() => {
+    const pop = document.getElementById("nes-pop");
+    if (!pop || typeof pop.showModal !== "function") return;
+    pop.showModal();
+    pop.querySelector("[data-nes-later]").addEventListener("click", () => {
+      pop.close();
+      let token = "";
+      try { token = JSON.parse(document.body.getAttribute("hx-headers") || "{}")["X-CSRFToken"] || ""; } catch (e) { token = ""; }
+      fetch(pop.dataset.later, { method: "POST", headers: { "X-CSRFToken": token }, credentials: "same-origin" }).catch(() => {});
+    });
+  })();
+</script>

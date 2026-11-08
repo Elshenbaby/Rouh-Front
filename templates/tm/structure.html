@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'ui:desk' 'tm' %}">{% trans "Talent" %}</a>{% if entity %} · {{ entity.short_name }}{% endif %}</p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+  {% include "tm/partials/tabs.html" %}
+
+  <form method="get" class="filter-bar is-wide">
+    <label class="field">
+      <span>{% trans "Search" %}</span>
+      <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Name or email' %}">
+    </label>
+    <label class="field">
+      <span>{% trans "Function" %}</span>
+      <select name="function">
+        <option value="">{% trans "All functions" %}</option>
+        {% for value, label in filters.functions %}
+          <option value="{{ value }}"{% if function == value %} selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label class="field">
+      <span>{% trans "Team" %}</span>
+      <select name="team">
+        <option value="">{% trans "All teams" %}</option>
+        {% for team in filters.teams %}
+          <option value="{{ team.pk }}"{% if team_id == team.pk|stringformat:'s' %} selected{% endif %}>{{ team.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label class="field">
+      <span>{% trans "Role" %}</span>
+      <select name="role">
+        <option value="">{% trans "All roles" %}</option>
+        {% for role in filters.roles %}
+          <option value="{{ role.pk }}"{% if role_id == role.pk|stringformat:'s' %} selected{% endif %}>{{ role.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label class="field">
+      <span>{% trans "View" %}</span>
+      <select name="view">
+        <option value="">{% trans "Current roster" %}</option>
+        <option value="exited"{% if exited %} selected{% endif %}>{% trans "Exited / voided" %}</option>
+      </select>
+    </label>
+    <button class="btn" type="submit">{% trans "Filter" %}</button>
+  </form>
+
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>{% trans "Name" %}</th>
+          <th>{% trans "Function" %}</th>
+          <th>{% trans "Role" %}</th>
+          <th>{% trans "Team" %}</th>
+          <th>{% trans "Reports to" %}</th>
+          <th>{% trans "Joined" %}</th>
+          <th>{% trans "HR" %}</th>
+          <th>{% trans "Attendance" %}</th>
+          <th>{% trans "%MAG" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+          <tr>
+            <td><a href="{% url 'tm:member' row.member.pk %}">{{ row.member.full_name }}</a></td>
+            <td>{{ row.position.get_function_display }}</td>
+            <td>{{ row.position.role.name }}</td>
+            <td>{{ row.position.team.name|default:"—" }}</td>
+            <td>{{ row.reports_to.full_name|default:"—" }}</td>
+            <td>{{ row.position.starts_on }}</td>
+            <td>
+              {% if row.hr_step %}
+                <span class="badge badge-{{ row.hr_step.colour }}">{{ row.hr_step.name }}</span>
+              {% else %}—{% endif %}
+            </td>
+            <td>{{ row.attendance_display }}</td>
+            <td>{{ row.mag_display }}</td>
+            <td>
+              {% if can_change_structure and not exited %}
+                <a href="{% url 'tm:structure_edit' row.position.pk %}">{% trans "Change" %}</a>
+                · <a href="{% url 'tm:structure_exit' row.position.pk %}">{% trans "Remove" %}</a>
+              {% elif exited and can_change_structure %}
+                <a href="{% url 'tm:structure_reverse' row.position.pk %}">{% trans "Reverse" %}</a>
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="10">
+              {% if exited %}
+                {% trans "No exits this term." %}
+              {% else %}
+                {% trans "Nobody on the roster yet. Grow the LC tree, then they appear here." %}
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

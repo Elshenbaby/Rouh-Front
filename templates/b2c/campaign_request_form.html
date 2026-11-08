@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'b2c:campaign_requests' %}">{% trans "Campaign requests" %}</a></p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+  {% include "b2c/partials/tabs.html" %}
+  <section class="card campaign-sheet">
+    <form method="post" class="work-form campaign-form">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="save">
+      <div class="field is-wide">
+        <span>{{ form.campaign_type.label }}</span>
+        <div class="choice-pills">{{ form.campaign_type }}</div>
+        {{ form.campaign_type.errors }}
+      </div>
+      <label class="field"><span>{{ form.name.label }}</span>{{ form.name }}{{ form.name.errors }}</label>
+      <label class="field"><span>{{ form.campus_name.label }}</span>{{ form.campus_name }}</label>
+      <label class="field"><span>{{ form.starts_on.label }}</span>{{ form.starts_on }}{{ form.starts_on.errors }}</label>
+      <label class="field"><span>{{ form.expected_delegation.label }}</span>{{ form.expected_delegation }}</label>
+      <label class="field"><span>{{ form.expected_signups.label }}</span>{{ form.expected_signups }}</label>
+      <label class="field"><span>{{ form.oc_count.label }}</span>{{ form.oc_count }}</label>
+      <label class="field is-wide"><span>{{ form.selling_projects.label }}</span>{{ form.selling_projects }}</label>
+      <label class="field is-wide"><span>{{ form.selling_countries.label }}</span>{{ form.selling_countries }}</label>
+      <label class="field is-wide"><span>{{ form.materials.label }}</span>{{ form.materials }}</label>
+      <label class="field"><span>{{ form.oc_summit.label }}</span>{{ form.oc_summit }}</label>
+      <label class="field"><span>{{ form.ppt.label }}</span>{{ form.ppt }}</label>
+      {{ form.non_field_errors }}
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit">{% trans "Send request" %}</button>
+        <a class="btn btn-ghost" href="{% url 'b2c:campaign_requests' %}">{% trans "Cancel" %}</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}

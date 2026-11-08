@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow">
+      {% if desk_spec %}
+        <a href="{% url 'ui:desk' desk_spec.code %}">{{ desk_spec.label }}</a>
+        · <a href="{{ list_url }}">{{ list_label|default:_("Slots") }}</a>
+      {% endif %}
+    </p>
+    <h1>{{ account.title }}</h1>
+    <p class="lede">
+      {{ account.lc_display_name|default:_("Unmapped LC") }}
+      · {{ account.product_label }}
+      · {{ account.status|default:"—" }}
+      {% if account.organisation_name %} · {{ account.organisation_name }}{% endif %}
+    </p>
+  </header>
+
+  <div class="detail-stack">
+    <div class="detail-grid">
+      <section class="card">
+        <h2>{% trans "Open" %}</h2>
+        <p class="muted">{% trans "From EXPA. Sync owns these cells. People apply on the slots." %}</p>
+        <dl class="meta is-wide">
+          {% for row in profile.fields %}
+            <div>
+              <dt>{{ row.label }}</dt>
+              <dd>{{ row.value }}</dd>
+            </div>
+          {% endfor %}
+          <div>
+            <dt>{% trans "EXPA" %}</dt>
+            <dd><a href="{{ account.expa_url }}" rel="noopener noreferrer" target="_blank">{% trans "Open in EXPA" %}</a></dd>
+          </div>
+        </dl>
+      </section>
+      <section class="card">
+        <h2>{% trans "Slots" %}</h2>
+        <p class="muted">{% trans "Every slot on this open. Live slots are the dates people can apply on now." %}</p>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>{% trans "Title" %}</th>
+                <th>{% trans "Start" %}</th>
+                <th>{% trans "End" %}</th>
+                <th>{% trans "Apply by" %}</th>
+                <th>{% trans "Openings" %}</th>
+                <th>{% trans "Available" %}</th>
+                <th>{% trans "Applicants" %}</th>
+                <th>{% trans "Status" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for slot in account.all_slots %}
+                <tr>
+                  <td>{{ slot.title|default:"—" }}</td>
+                  <td>{{ slot.start_date|default:"—" }}</td>
+                  <td>{{ slot.end_date|default:"—" }}</td>
+                  <td>{{ slot.applications_close_date|default:"—" }}</td>
+                  <td>{{ slot.openings|default:0 }}</td>
+                  <td>{{ slot.available_openings }}</td>
+                  <td>{{ slot.applicants|default:0 }}</td>
+                  <td>
+                    <span class="badge badge-{% if slot.live %}approved{% else %}out_of_process{% endif %}">
+                      {% if slot.live %}{% trans "Live" %}{% else %}{{ slot.status|default:"—" }}{% endif %}
+                    </span>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr><td colspan="8">{% trans "No slots on this open yet." %}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    {% for block in profile.blocks %}
+      <section class="card">
+        <h2>{{ block.label }}</h2>
+        <p class="detail-prose">{{ block.text|striptags|linebreaksbr }}</p>
+      </section>
+    {% endfor %}
+
+    {% if profile.logistics or profile.lists %}
+      <div class="detail-grid">
+        {% if profile.logistics %}
+          <section class="card">
+            <h2>{% trans "Logistics" %}</h2>
+            <dl class="meta is-wide">
+              {% for row in profile.logistics %}
+                <div>
+                  <dt>{{ row.label }}</dt>
+                  <dd>{{ row.value }}</dd>
+                </div>
+              {% endfor %}
+            </dl>
+          </section>
+        {% endif %}
+        {% if profile.lists %}
+          <section class="card">
+            <h2>{% trans "Profile" %}</h2>
+            <dl class="meta is-wide">
+              {% for row in profile.lists %}
+                <div>
+                  <dt>{{ row.label }}</dt>
+                  <dd>{{ row.items|join:", " }}</dd>
+                </div>
+              {% endfor %}
+            </dl>
+          </section>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if profile.people %}
+      <section class="card">
+        <h2>{% trans "Managers" %}</h2>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Email" %}</th>
+                <th>{% trans "Phone" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for person in profile.people %}
+                <tr>
+                  <td>{{ person.name|default:"—" }}</td>
+                  <td>
+                    {% if person.email %}
+                      <a href="mailto:{{ person.email }}">{{ person.email }}</a>
+                    {% else %}
+                      —
+                    {% endif %}
+                  </td>
+                  <td>{{ person.phone|default:"—" }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    {% endif %}
+  </div>
+{% endblock %}

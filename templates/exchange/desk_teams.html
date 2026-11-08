@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow">
+      {% if desk_spec %}
+        <a href="{% url 'ui:desk' desk_spec.code %}">{{ desk_spec.label }}</a>
+      {% else %}
+        {% trans "Exchange" %}
+      {% endif %}
+    </p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+
+  {% if desk_spec and desk_spec.is_b2c %}
+    {% include "b2c/partials/tabs.html" %}
+  {% elif desk_spec and desk_spec.is_b2b %}
+    {% include "b2b/partials/tabs.html" %}
+  {% else %}
+    {% include "exchange/partials/desk_stage_tabs.html" %}
+  {% endif %}
+
+  {% if desk_spec and desk_spec.has_raising or desk_spec and desk_spec.is_b2c %}
+    <nav class="queue-tabs" aria-label="{% trans 'Team work' %}">
+      {% if desk_spec.has_raising %}
+        <a class="queue-tab{% if work != 'raising' %} is-active{% endif %}" href="{% url 'exchange:desk_teams' desk %}">{% trans "Applications" %}</a>
+        <a class="queue-tab{% if work == 'raising' %} is-active{% endif %}" href="{% url 'exchange:desk_teams' desk %}?work=raising">{% trans "Raising" %}</a>
+      {% elif desk_spec.is_b2c %}
+        <a class="queue-tab{% if work != 'accounts' %} is-active{% endif %}" href="{% url 'b2c:teams' %}">{% trans "Interviews" %}</a>
+        <a class="queue-tab{% if work == 'accounts' %} is-active{% endif %}" href="{% url 'b2c:teams' %}?work=accounts">{% trans "Accounts" %}</a>
+      {% endif %}
+    </nav>
+  {% endif %}
+
+  <div class="metric-row">
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Unassigned" %}</p>
+      <p class="metric-value">{{ unassigned_count }}</p>
+    </div>
+    {% if also_unassigned_count is not None %}
+    <div class="metric-tile">
+      <p class="metric-label">{{ also_unassigned_label }}</p>
+      <p class="metric-value">{{ also_unassigned_count }}</p>
+    </div>
+    {% endif %}
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Teams" %}</p>
+      <p class="metric-value">{{ team_cards|length }}</p>
+    </div>
+  </div>
+
+  {% if not team_cards %}
+    <section class="empty">
+      <h2>{% trans "No teams on this desk yet" %}</h2>
+      <p>
+        {% if work == 'raising' %}
+          {% trans "TM names and grows the teams on the LC tree first. Then this function can send raising accounts to them." %}
+        {% elif desk_spec and desk_spec.is_b2c %}
+          {% trans "TM names and grows the teams on the LC tree first. Then this function can send interviews and accounts to them." %}
+        {% elif is_icx %}
+          {% trans "TM names and grows the teams on the LC tree first. Then this function can send applications to them." %}
+        {% else %}
+          {% trans "TM names and grows the teams on the LC tree first. Then this function can send signups to them." %}
+        {% endif %}
+      </p>
+    </section>
+  {% endif %}
+
+  <section class="desk-grid team-grid">
+    {% for card in team_cards %}
+      <article class="card desk-card">
+        <h2><a href="{{ list_url }}?queue=team&amp;team={{ card.team.pk }}{% if desk_spec and desk_spec.is_b2b %}&amp;desk={{ desk }}{% endif %}">{{ card.team.name }}</a></h2>
+        <p>
+          {% if card.team.entity %}{{ card.team.entity.short_name }} · {% endif %}
+          {% if card.tl %}{% trans "TL" %} {{ card.tl.full_name }}{% else %}{% trans "No team leader yet" %}{% endif %}
+          · {{ card.assigned }} {{ assigned_label }}
+          {% if 'also_raising' in card %} · {{ card.also_raising }} {% trans "deals" %}{% endif %}
+          {% if 'also_opens' in card %} · {{ card.also_opens }} {% trans "applications" %}{% endif %}
+          {% if 'also_accounts' in card %} · {{ card.also_accounts }} {% trans "accounts" %}{% endif %}
+          {% if 'also_interviews' in card %} · {{ card.also_interviews }} {% trans "interviews" %}{% endif %}
+        </p>
+        {% if card.member_loads %}
+          <ul class="team-card-members">
+            {% for load in card.member_loads %}
+              <li>
+                <a href="{{ list_url }}?queue=team&amp;team={{ card.team.pk }}&amp;who={{ load.member.pk }}{% if desk_spec and desk_spec.is_b2b %}&amp;desk={{ desk }}{% endif %}">{{ load.member.full_name }}</a>
+                {% if load.role == "TL" %}· {% trans "TL" %}{% endif %}
+                · {{ load.assigned }}
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </article>
+    {% endfor %}
+    <a class="card desk-card" href="{{ list_url }}?queue=unassigned{% if desk_spec and desk_spec.is_b2b %}&amp;desk={{ desk }}{% endif %}">
+      <h2>{% trans "Unassigned pool" %}</h2>
+      <p>
+        {% if assign.is_team_lead and not assign.can_manage %}
+          {% trans "Claim them or send them to a member." %}
+        {% elif assign.can_manage %}
+          {% trans "Send them to a team. The team leader assigns members." %}
+        {% else %}
+          {% trans "Assign them to yourself to start work." %}
+        {% endif %}
+        · {{ unassigned_count }}
+      </p>
+    </a>
+  </section>
+  {% if tm_table %}
+    <h2>{% trans "Performance this month" %}</h2>
+    {% include "tm/partials/performance_table.html" with table=tm_table %}
+  {% endif %}
+{% endblock %}

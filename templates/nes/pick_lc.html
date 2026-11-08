@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'ui:desk' 'tm' %}">{% trans "Talent" %}</a></p>
+    <h1>NES · {% trans "Pick an LC" %}</h1>
+    <p class="lede">{% trans "Each LC has its own NES answers and report. Choose the LC; you stay in its NES." %}</p>
+  </header>
+  {% include "tm/partials/tabs.html" %}
+  {% include "partials/pick_lc_grid.html" %}
+  {% if can_manage %}<p><a class="btn btn-secondary" href="{% url 'mc:nes' %}">{% trans "Every LC side by side (MC data › NES)" %}</a></p>{% endif %}
+{% endblock %}

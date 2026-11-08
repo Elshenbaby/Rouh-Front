@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'tm:hr' %}">{% trans "HR status" %}</a></p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+  {% include "tm/partials/tabs.html" %}
+  {% if needs_confirm %}
+    <p class="alert alert-danger">{% trans "This step ends membership. Confirm below to run the dismissed exit, or cancel to leave status unchanged." %}</p>
+  {% endif %}
+  <form method="post" class="work-form">
+    {% csrf_token %}
+    <label class="field">
+      <span>{{ form.to_step.label }}</span>
+      {{ form.to_step }}
+      {{ form.to_step.errors }}
+    </label>
+    <label class="field">
+      <span>{{ form.reason.label }}</span>
+      {{ form.reason }}
+      {{ form.reason.errors }}
+    </label>
+    {% if needs_confirm %}
+      <label class="field">
+        <span>{{ form.exit_on.label }}</span>
+        {{ form.exit_on }}
+      </label>
+      <label class="field">
+        <span>{{ form.exit_note.label }}</span>
+        {{ form.exit_note }}
+      </label>
+      <label class="field">
+        <span>{{ form.confirm_exit }} {% trans "Confirm exit as dismissed" %}</span>
+      </label>
+    {% endif %}
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">{% trans "Save status" %}</button>
+      <a class="btn" href="{% url 'tm:hr' %}">{% trans "Cancel" %}</a>
+    </div>
+  </form>
+{% endblock %}

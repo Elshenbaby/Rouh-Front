@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+  {% include "b2c/partials/analysis_chrome.html" %}
+  {{ data.charts|json_script:"b2c-dashboard-charts" }}
+
+  {% if data.selected_funnel %}
+    <div class="card dash-callout">
+      <h3>{% blocktrans with name=campaign %}{{ name }} — funnel{% endblocktrans %}</h3>
+      <div class="dash-kpis dash-kpis-sub">
+        <div class="metric-tile"><p class="metric-label">SUs</p><p class="metric-value">{{ data.selected_funnel.su }}</p></div>
+        <div class="metric-tile"><p class="metric-label">APPs</p><p class="metric-value">{{ data.selected_funnel.app }}</p></div>
+        <div class="metric-tile"><p class="metric-label">ACC</p><p class="metric-value">{{ data.selected_funnel.acc }}</p></div>
+        <div class="metric-tile"><p class="metric-label">APDs</p><p class="metric-value">{{ data.selected_funnel.apd }}</p></div>
+        <div class="metric-tile"><p class="metric-label">%SU→APP</p><p class="metric-value">{{ data.selected_funnel.su_to_app }}</p></div>
+        <div class="metric-tile"><p class="metric-label">%SU→APD</p><p class="metric-value">{{ data.selected_funnel.su_to_apd }}</p></div>
+      </div>
+    </div>
+  {% endif %}
+
+  <section class="card">
+    <h2>{% trans "Signups per campaign" %}</h2>
+    <p class="muted">{% trans "Twelve biggest campaigns under the current filters." %}</p>
+    <div class="chart-frame chart-frame-tall">
+      <canvas id="chart-campaigns"></canvas>
+      <p class="chart-empty muted" hidden>{% trans "No campaign data yet." %}</p>
+    </div>
+  </section>
+
+  {% include "b2c/partials/funnel_table.html" with title=_("Campaign conversions") rows=data.campaigns show_date=True show_acc=True %}
+
+  <section class="dash-section">
+    <h2 class="dash-section-title">{% trans "AIESEC representatives" %}</h2>
+
+    <section class="card">
+      <h2>{% trans "Top AIESEC representatives" %}</h2>
+      <p class="muted">{% trans "Most signups under the current filters." %}</p>
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{% trans "Representative" %}</th>
+              <th>SUs</th>
+              <th>APPs</th>
+              <th>ACC</th>
+              <th>APDs</th>
+              <th>%SU→APP</th>
+              <th>%APP→ACC</th>
+              <th>%SU→APD</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in data.top_reps %}
+              <tr>
+                <td>{{ row.label }}</td>
+                <td>{{ row.su }}</td>
+                <td>{{ row.app }}</td>
+                <td>{{ row.acc }}</td>
+                <td>{{ row.apd }}</td>
+                <td>{{ row.su_to_app }}</td>
+                <td>{{ row.app_to_acc }}</td>
+                <td>{{ row.su_to_apd }}</td>
+              </tr>
+            {% empty %}
+              <tr><td colspan="8">{% trans "No representatives yet." %}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>{% trans "Representatives per campaign" %}</h2>
+      <form method="get" class="filter-bar">
+        <label class="field">
+          <span>{% trans "Campaign" %}</span>
+          <select name="campaign" onchange="this.form.submit()">
+            <option value="">{% trans "All campaigns (top 5 each)" %}</option>
+            {% for name in data.campaign_options %}
+              <option value="{{ name }}"{% if campaign == name %} selected{% endif %}>{{ name }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        {% if month %}<input type="hidden" name="month" value="{{ month }}">{% endif %}
+      </form>
+
+      {% if campaign %}
+        <p class="muted">{% blocktrans with name=campaign %}Every representative who brought signups to {{ name }}.{% endblocktrans %}</p>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>{% trans "Representative" %}</th>
+                <th>SUs</th>
+                <th>APPs</th>
+                <th>ACC</th>
+                <th>APDs</th>
+                <th>%SU→APP</th>
+                <th>%SU→APD</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in data.campaign_reps %}
+                <tr>
+                  <td>{{ row.label }}</td>
+                  <td>{{ row.su }}</td>
+                  <td>{{ row.app }}</td>
+                  <td>{{ row.acc }}</td>
+                  <td>{{ row.apd }}</td>
+                  <td>{{ row.su_to_app }}</td>
+                  <td>{{ row.su_to_apd }}</td>
+                </tr>
+              {% empty %}
+                <tr><td colspan="7">{% trans "No representatives on this campaign yet." %}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="muted">{% trans "Pick a campaign to see every representative on it. Otherwise, the top five of each." %}</p>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>{% trans "Campaign" %}</th>
+                <th>{% trans "Representative" %}</th>
+                <th>SUs</th>
+                <th>APPs</th>
+                <th>ACC</th>
+                <th>APDs</th>
+                <th>%SU→APP</th>
+                <th>%SU→APD</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for block in data.campaign_rep_leaders %}
+                {% for row in block.reps %}
+                  <tr>
+                    {% if forloop.first %}
+                      <td rowspan="{{ block.reps|length }}">{{ block.campaign }}</td>
+                    {% endif %}
+                    <td>{{ row.label }}</td>
+                    <td>{{ row.su }}</td>
+                    <td>{{ row.app }}</td>
+                    <td>{{ row.acc }}</td>
+                    <td>{{ row.apd }}</td>
+                    <td>{{ row.su_to_app }}</td>
+                    <td>{{ row.su_to_apd }}</td>
+                  </tr>
+                {% endfor %}
+              {% empty %}
+                <tr><td colspan="8">{% trans "No campaign representatives yet." %}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% endif %}
+    </section>
+
+    {% include "b2c/partials/funnel_table.html" with title=_("All representatives") rows=data.all_reps show_acc=True %}
+  </section>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  <script src="{% static 'js/b2c-dashboard.js' %}"></script>
+{% endblock %}

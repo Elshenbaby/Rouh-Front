@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'events:home' %}">Events dashboard</a> · {{ entity }} · LCP and VP TM only</p>
+    <h1>{{ project.name }}</h1>
+    <p class="lede">{% if project.registrations_open %}Registration is open on the event website.{% else %}Registration is closed.{% endif %} Only {{ entity }}'s registrations are listed here.</p>
+  </header>
+
+  <div class="metric-row">
+    <div class="metric-tile"><p class="metric-label">Registered from {{ entity }}</p><p class="metric-value">{{ dash.total }}</p><p class="metric-hint">{{ dash.this_week }} in the last 7 days</p></div>
+    <div class="metric-tile"><p class="metric-label">Rank among LCs</p><p class="metric-value">{% if dash.rank %}#{{ dash.rank }}{% else %}—{% endif %}</p><p class="metric-hint">of {{ dash.of }} LCs</p></div>
+    <div class="metric-tile"><p class="metric-label">Share of Egypt</p><p class="metric-value">{{ dash.share }}%</p><p class="metric-hint">{{ dash.national }} registered nationally</p></div>
+    <div class="metric-tile"><p class="metric-label">Checked in</p><p class="metric-value">{{ dash.checked_in }}</p><p class="metric-hint">ticked at the door</p></div>
+    <div class="metric-tile"><p class="metric-label">With a CV</p><p class="metric-value">{{ dash.with_cv }}</p><p class="metric-hint">of {{ dash.total }}</p></div>
+    {% if dash.board %}
+      <div class="metric-tile"><p class="metric-label">{{ dash.board.campaign.name }} points</p><p class="metric-value">{{ dash.board.points }}</p><p class="metric-hint">#{{ dash.board.rank }} of {{ dash.board.of }} on the leaderboard</p></div>
+    {% endif %}
+  </div>
+
+  {% if dash.gap and dash.leader %}
+    <p class="ev-callout">{{ dash.leader.entity }} leads with {{ dash.leader.n }} registrations; {{ entity }} is {{ dash.gap }} behind.</p>
+  {% elif dash.rank == 1 and dash.total %}
+    <p class="ev-callout is-good">{{ entity }} has the most registrations in Egypt.</p>
+  {% endif %}
+
+  <section class="invs-section invs-split">
+    <div>
+      <h2>By role</h2>
+      <ul class="invs-bars">{% for row in dash.by_role %}<li><span>{{ row.label }}</span><em><i style="width: {{ row.pct }}%"></i></em><b>{{ row.n }}</b></li>{% empty %}<li class="muted">No registrations yet.</li>{% endfor %}</ul>
+      <h2 class="ev-sub">By function</h2>
+      <ul class="invs-bars">{% for row in dash.by_function %}<li><span>{{ row.label }}</span><em><i style="width: {{ row.pct }}%"></i></em><b>{{ row.n }}</b></li>{% empty %}<li class="muted">No registrations yet.</li>{% endfor %}</ul>
+      <h2 class="ev-sub">Per day</h2>
+      <ul class="invs-bars">{% for row in dash.by_day %}<li><span>{{ row.label }}</span><em><i style="width: {{ row.pct }}%"></i></em><b>{{ row.n }}</b></li>{% empty %}<li class="muted">No registrations yet.</li>{% endfor %}</ul>
+    </div>
+    <div>
+      <h2>All LCs</h2>
+      <p class="muted">Registrations per LC, so you can see where {{ entity }} stands.</p>
+      <ol class="ev-standings">
+        {% for row in dash.standings %}
+          <li class="{% if row.entity.pk == entity.pk %}is-mine{% endif %}"><span class="ev-pos">{% if row.n %}{{ forloop.counter }}{% else %}–{% endif %}</span><span>{{ row.entity }}</span><b>{{ row.n }}</b></li>
+        {% endfor %}
+      </ol>
+    </div>
+  </section>
+
+  <section class="invs-section">
+    <h2>{{ entity }}'s registrations</h2>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Name</th><th>Role</th><th>Function</th><th>Contact</th><th>Registered</th><th>Checked in</th><th>CV</th></tr></thead>
+        <tbody>
+          {% for reg in regs %}
+            <tr>
+              <td><strong>{{ reg.full_name }}</strong><div class="invs-meta">{{ reg.code }}</div></td>
+              <td>{{ reg.get_role_display }}</td>
+              <td>{{ reg.get_function_display }}</td>
+              <td><div>{{ reg.email }}</div><div class="invs-meta">{{ reg.phone }}</div></td>
+              <td>{{ reg.created_at|date:"j M Y" }}</td>
+              <td>{% if reg.checked_in %}<span class="badge badge-approved">Yes</span>{% else %}<span class="muted">Not yet</span>{% endif %}</td>
+              <td>{% if reg.pk in cv_ids %}<a href="{% url 'events:cv' project.term.code project.slug reg.code %}">Download</a>{% else %}<span class="muted">—</span>{% endif %}</td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="7" class="muted">Nobody from {{ entity }} has registered yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}

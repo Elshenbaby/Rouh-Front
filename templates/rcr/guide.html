@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load mc_format %}
+
+{% block content %}
+  {% include "rcr/_chrome.html" %}
+
+  <section class="ops-panel rcr-guide">
+    <header class="ops-panel-head"><h2>Easy answers</h2><p>The selection and interview guide for interviewers and recruiters. The MC keeps it up to date for this cycle.</p></header>
+    {% for section, entries in guide_parts %}
+      <h3 class="rcr-sub">{{ section }}</h3>
+      {% for entry in entries %}
+        <details class="rcr-guide-entry"{% if forloop.parentloop.first and forloop.first %} open{% endif %}>
+          <summary>{{ entry.title }}</summary>
+          <div class="rcr-guide-body">{{ entry.body|linebreaks }}</div>
+        </details>
+      {% endfor %}
+    {% empty %}
+      <p class="ops-empty">No guide for this cycle yet.</p>
+    {% endfor %}
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>The interview questions</h2><p>What the F2F interview form asks this cycle, by part.</p></header>
+    {% regroup form.live_questions by section as parts %}
+    {% for part in parts %}
+      <h3 class="rcr-sub">{{ part.grouper|default:"Questions" }}</h3>
+      <ol class="rcr-qlist">{% for q in part.list %}<li>{{ q.text }}{% if q.kind != "score" %} <small class="muted">({{ q.get_kind_display|lower }})</small>{% endif %}</li>{% endfor %}</ol>
+    {% endfor %}
+  </section>
+{% endblock %}

@@ -1,0 +1,741 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>NES · October 2026 · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "GrUYDZDiDpimAbTCgvh0q4gt4z0l2K90nkIUHze6zi7QwPvN0xIWJjYYoILQPx33"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link is-active">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="GrUYDZDiDpimAbTCgvh0q4gt4z0l2K90nkIUHze6zi7QwPvN0xIWJjYYoILQPx33">
+      <input type="hidden" name="next" value="/tm/nes/74e5e401-a659-4551-bd3c-7636e5951487/">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="GrUYDZDiDpimAbTCgvh0q4gt4z0l2K90nkIUHze6zi7QwPvN0xIWJjYYoILQPx33">
+      <input type="hidden" name="next" value="/tm/nes/74e5e401-a659-4551-bd3c-7636e5951487/">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="GrUYDZDiDpimAbTCgvh0q4gt4z0l2K90nkIUHze6zi7QwPvN0xIWJjYYoILQPx33">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page">
+        
+        
+  <header class="page-header">
+    <p class="eyebrow"><a href="desks__tm.html">Talent</a> · CU</p>
+    <h1>NES</h1>
+    <p class="lede">What CU's members said in the monthly NES: who answered, the NES itself and every question, next to Egypt's.</p>
+  </header>
+  
+
+<nav class="tabs tm-tabs" aria-label="Talent">
+  <a class="tab" href="tm.html">Overview</a>
+  <a class="tab" href="tm__structure.html">Structure</a>
+  <a class="tab" href="tm__performance.html">Performance</a>
+  <a class="tab" href="tm__planning.html">Planning</a>
+  <a class="tab" href="tm__attendance.html">Attendance</a>
+  <a class="tab" href="tm__hr.html">HR Status</a>
+  <a class="tab" href="tm__rcr.html">RCR</a>
+  <a class="tab is-active" href="tm__nes.html">NES</a>
+  <a class="tab" href="tm__settings.html">Settings</a>
+</nav>
+
+
+
+
+  
+    <div class="nes-bar">
+      <p class="rcr-back"><a href="tm__nes.html">← All months</a></p>
+      <h2 class="nes-scope">October 2026</h2>
+      <p class="nes-status">
+        <span class="nes-pill is-live">Open</span> until Sunday 15 November, 12:55 · <a href="nes__Kq88YyR6FA_HwFcs.html">the form</a> <button class="btn-link" type="button" onclick="navigator.clipboard.writeText('http://testserver/nes/Kq88YyR6FA_HwFcs/'); this.textContent='Link copied'">copy the link to share</button>
+        
+        · <a href="#not-in-preview">Download the answers (CSV)</a>
+      </p>
+    </div>
+
+    
+
+<section class="nes-kpis" aria-label="The round in numbers">
+  <article>
+    <span>Answered</span>
+    <b>0<small> of 11</small></b>
+    <p>0% of active members · Egypt 0%</p>
+  </article>
+  <article class="">
+    <span>NES</span>
+    <b>—</b>
+    <p>No answers yet</p>
+  </article>
+  <article>
+    <span>Engagement</span>
+    <b>—<small> / 10</small></b>
+    <p>The average of every 0–10 answer</p>
+  </article>
+</section>
+
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>About you</h2></header>
+    <div class="nes-qs">
+      
+        <article class="nes-q">
+          <h3>Your age</h3>
+          
+            <p class="nes-big"><b>—</b><small> on average · 0 answers</small></p>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>Year of study</h3>
+          
+            <ul class="nes-bars">
+              <li><span>1st Level</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>2nd Level</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>3rd Level</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>4th Level</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>5th Level</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>6th Level</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>7th Level</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Graduate</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+        <article class="nes-q is-wide">
+          <h3>Your academic background</h3>
+          
+            <p class="muted">No answers yet.</p>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>Gender</h3>
+          
+            <ul class="nes-bars">
+              <li><span>Male</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Female</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>Local Committee</h3>
+          
+            <ul class="nes-bars">
+              
+            </ul>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>Function</h3>
+          
+            <ul class="nes-bars">
+              <li><span>TM</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>MC ROUH</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>F&amp;L</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>OGV</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>IGV</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>OGTa</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>OGTe</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>IGTa</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>IGTe</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>CXP OGX</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>CXP ICX</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>B2C</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>B2B</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>BD</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>OGTe/a</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>IGTe/a</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+    </div>
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>Your experience this month</h2></header>
+    <div class="nes-qs">
+      
+        <article class="nes-q">
+          <h3>Thinking about your experience over the past month, how would you describe it to a friend?</h3>
+          
+            <ul class="nes-bars">
+              <li><span>One of the best experiences I&#x27;ve had</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>A really positive experience</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>A mixed experience</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>A difficult experience</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>A very disappointing experience</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>Imagine a friend with similar interests asked you whether joining AIESEC was worth it. What would you most likely tell them?</h3>
+          
+            <ul class="nes-bars">
+              <li><span>Definitely worth it</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Worth it, with a few challenges</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>It depends on the LC and team</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>I&#x27;m still figuring that out</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>It hasn&#x27;t been what I expected</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>I wouldn&#x27;t recommend it based on my experience</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>How much has your experience this month matched what you hoped to get from AIESEC?</h3>
+          
+            <p class="nes-big"><b>—</b><small> / 10 · 0 answers</small></p>
+            <ol class="nes-hist" aria-label="How many gave each score">
+              <li title="0 gave 0"><i style="height: 0%"></i><span>0</span></li><li title="0 gave 1"><i style="height: 0%"></i><span>1</span></li><li title="0 gave 2"><i style="height: 0%"></i><span>2</span></li><li title="0 gave 3"><i style="height: 0%"></i><span>3</span></li><li title="0 gave 4"><i style="height: 0%"></i><span>4</span></li><li title="0 gave 5"><i style="height: 0%"></i><span>5</span></li><li title="0 gave 6"><i style="height: 0%"></i><span>6</span></li><li title="0 gave 7"><i style="height: 0%"></i><span>7</span></li><li title="0 gave 8"><i style="height: 0%"></i><span>8</span></li><li title="0 gave 9"><i style="height: 0%"></i><span>9</span></li><li title="0 gave 10"><i style="height: 0%"></i><span>10</span></li>
+            </ol>
+          
+        </article>
+      
+    </div>
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>The people you work with</h2></header>
+    <div class="nes-qs">
+      
+        <article class="nes-q">
+          <h3>When you needed direction this month, how easy was it to know whom to approach?</h3>
+          
+            <ul class="nes-bars">
+              <li><span>Almost always</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Sometimes</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Rarely</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Never</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>How comfortable did you feel raising a concern or admitting that you were struggling with something?</h3>
+          
+            <p class="nes-big"><b>—</b><small> / 10 · 0 answers</small></p>
+            <ol class="nes-hist" aria-label="How many gave each score">
+              <li title="0 gave 0"><i style="height: 0%"></i><span>0</span></li><li title="0 gave 1"><i style="height: 0%"></i><span>1</span></li><li title="0 gave 2"><i style="height: 0%"></i><span>2</span></li><li title="0 gave 3"><i style="height: 0%"></i><span>3</span></li><li title="0 gave 4"><i style="height: 0%"></i><span>4</span></li><li title="0 gave 5"><i style="height: 0%"></i><span>5</span></li><li title="0 gave 6"><i style="height: 0%"></i><span>6</span></li><li title="0 gave 7"><i style="height: 0%"></i><span>7</span></li><li title="0 gave 8"><i style="height: 0%"></i><span>8</span></li><li title="0 gave 9"><i style="height: 0%"></i><span>9</span></li><li title="0 gave 10"><i style="height: 0%"></i><span>10</span></li>
+            </ol>
+          
+        </article>
+      
+        <article class="nes-q is-wide">
+          <h3>Think of a moment when someone in your team helped you this month. What made that interaction helpful, or what was missing?</h3>
+          
+            <p class="muted">No answers yet.</p>
+          
+        </article>
+      
+        <article class="nes-q is-wide">
+          <h3>If you could change one thing about the way people in your team work together, what would it be?</h3>
+          
+            <p class="muted">No answers yet.</p>
+          
+        </article>
+      
+    </div>
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>Your day-to-day experience</h2></header>
+    <div class="nes-qs">
+      
+        <article class="nes-q">
+          <h3>How often did you know how your work contributed to your team&#x27;s or LC&#x27;s bigger goals?</h3>
+          
+            <ul class="nes-bars">
+              <li><span>Almost always</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Sometimes</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Rarely</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Never</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>When you received a task, how often did you have enough information and time to complete it properly?</h3>
+          
+            <ul class="nes-bars">
+              <li><span>Almost always</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Sometimes</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Rarely</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Never</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>How often did you have a chance to discuss your progress, challenges, or next steps with your leaders?</h3>
+          
+            <ul class="nes-bars">
+              <li><span>Almost always</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Sometimes</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Rarely</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Never</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>How often did you receive feedback that helped you understand what you did well or what you could improve?</h3>
+          
+            <ul class="nes-bars">
+              <li><span>Almost always</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Sometimes</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Rarely</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Never</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>How often did you have a chance to have O2Os that reflect on your progress and decide what to work on next?</h3>
+          
+            <ul class="nes-bars">
+              <li><span>Almost always</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Sometimes</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Rarely</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Never</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>How often did the meetings or activities you attended give you something useful for your work, skills, or personal growth?</h3>
+          
+            <ul class="nes-bars">
+              <li><span>Almost always</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Sometimes</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Rarely</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Never</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>How often did you have opportunities to connect with people outside your immediate team or function?</h3>
+          
+            <ul class="nes-bars">
+              <li><span>Almost always</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Sometimes</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Rarely</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Never</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>How often did people acknowledge the effort or contribution you made to your team?</h3>
+          
+            <ul class="nes-bars">
+              <li><span>Almost always</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Sometimes</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Rarely</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Never</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>How often did your team make time to discuss what was working, what was not, and what should change?</h3>
+          
+            <ul class="nes-bars">
+              <li><span>Almost always</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Sometimes</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Rarely</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Never</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+    </div>
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>Your goals and progress</h2></header>
+    <div class="nes-qs">
+      
+        <article class="nes-q">
+          <h3>At the beginning of this month, how clear was your main goal for the function?</h3>
+          
+            <p class="nes-big"><b>—</b><small> / 10 · 0 answers</small></p>
+            <ol class="nes-hist" aria-label="How many gave each score">
+              <li title="0 gave 0"><i style="height: 0%"></i><span>0</span></li><li title="0 gave 1"><i style="height: 0%"></i><span>1</span></li><li title="0 gave 2"><i style="height: 0%"></i><span>2</span></li><li title="0 gave 3"><i style="height: 0%"></i><span>3</span></li><li title="0 gave 4"><i style="height: 0%"></i><span>4</span></li><li title="0 gave 5"><i style="height: 0%"></i><span>5</span></li><li title="0 gave 6"><i style="height: 0%"></i><span>6</span></li><li title="0 gave 7"><i style="height: 0%"></i><span>7</span></li><li title="0 gave 8"><i style="height: 0%"></i><span>8</span></li><li title="0 gave 9"><i style="height: 0%"></i><span>9</span></li><li title="0 gave 10"><i style="height: 0%"></i><span>10</span></li>
+            </ol>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>What was your numerical planned goal for October?</h3>
+          
+            <p class="nes-big"><b>—</b><small> on average · 0 answers</small></p>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>How much did you achieve from your planned goal?</h3>
+          
+            <p class="nes-big"><b>—</b><small> on average · 0 answers</small></p>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>Thinking about what you planned to accomplish this month, which option best describes how things went?</h3>
+          
+            <ul class="nes-bars">
+              <li><span>I achieved everything I planned</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>I achieved some of what I planned</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>I made progress, but less than I expected</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>My priorities changed during the month</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>I didn&#x27;t have clear plans to begin with</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>How much progress did you make toward developing a skill or capability you wanted to improve?</h3>
+          
+            <ul class="nes-bars">
+              <li><span>I made more progress than expected</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>I made the progress I expected</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>I made some progress</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>I wanted to make progress but didn&#x27;t get the chance</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>I didn&#x27;t have a specific development focus this month</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+    </div>
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>Your workload and contribution</h2></header>
+    <div class="nes-qs">
+      
+        <article class="nes-q">
+          <h3>Which option best describes your workload this month?</h3>
+          
+            <ul class="nes-bars">
+              <li><span>I had capacity to take on more</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>My workload was manageable</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>My workload was challenging but manageable</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>I struggled to keep up with my responsibilities</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>My workload was consistently overwhelming</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>How often were you able to finish what you intended to work on within the time you had?</h3>
+          
+            <ul class="nes-bars">
+              <li><span>Almost always</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Sometimes</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Rarely</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Never</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>What most often got in the way of making progress this month?</h3>
+          
+            <ul class="nes-bars">
+              <li><span>Competing priorities</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Not knowing where to start</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Lack of information or skills</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Waiting for other people</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Not having enough time</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li><li><span>Low energy or motivation</span><i><b style="width: 0%"></b></i><em>0% · 0</em></li>
+            </ul>
+          
+        </article>
+      
+        <article class="nes-q">
+          <h3>Looking back at this month, how satisfied are you with what you were able to contribute?</h3>
+          
+            <p class="nes-big"><b>—</b><small> / 10 · 0 answers</small></p>
+            <ol class="nes-hist" aria-label="How many gave each score">
+              <li title="0 gave 0"><i style="height: 0%"></i><span>0</span></li><li title="0 gave 1"><i style="height: 0%"></i><span>1</span></li><li title="0 gave 2"><i style="height: 0%"></i><span>2</span></li><li title="0 gave 3"><i style="height: 0%"></i><span>3</span></li><li title="0 gave 4"><i style="height: 0%"></i><span>4</span></li><li title="0 gave 5"><i style="height: 0%"></i><span>5</span></li><li title="0 gave 6"><i style="height: 0%"></i><span>6</span></li><li title="0 gave 7"><i style="height: 0%"></i><span>7</span></li><li title="0 gave 8"><i style="height: 0%"></i><span>8</span></li><li title="0 gave 9"><i style="height: 0%"></i><span>9</span></li><li title="0 gave 10"><i style="height: 0%"></i><span>10</span></li>
+            </ol>
+          
+        </article>
+      
+    </div>
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>Open space</h2></header>
+    <div class="nes-qs">
+      
+        <article class="nes-q is-wide">
+          <h3>Add your comments for this NES experience</h3>
+          
+            <p class="muted">No answers yet.</p>
+          
+        </article>
+      
+    </div>
+  </section>
+
+
+
+  <section class="ops-panel" id="people">
+    <header class="ops-panel-head"><h2>Who answered</h2><p>0 answered, 11 active members haven't yet. Open someone to read all their answers.</p></header>
+    <div class="table-wrap">
+      <table class="table ops-table ops-compact">
+        <thead><tr><th>Name</th><th>Function</th><th class="q-num">NES score</th><th>Sent</th></tr></thead>
+        <tbody>
+          <tr><td colspan="4" class="muted">Nobody has answered yet.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    
+      <details class="nes-missing"><summary>Haven't answered yet (11)</summary>
+        <ul><li>Adam Nabil <small class="muted">sample.member9@example.org</small></li><li>Hana Fathy <small class="muted">sample.member6@example.org</small></li><li>Karim Magdy <small class="muted">sample.member5@example.org</small></li><li>Laila Sherif <small class="muted">sample.member8@example.org</small></li><li>Mariam Ezzat <small class="muted">sample.member4@example.org</small></li><li>Nour Adel <small class="muted">sample.member0@example.org</small></li><li>Omar Wagdy <small class="muted">sample.member1@example.org</small></li><li>Salma Hamdy <small class="muted">sample.member2@example.org</small></li><li>Sara CU <small class="muted">member.cu@test.aiesec.org.eg</small></li><li>Youssef Samir <small class="muted">sample.member3@example.org</small></li><li>Ziad Galal <small class="muted">sample.member7@example.org</small></li></ul>
+      </details>
+    
+  </section>
+
+
+
+    
+
+  <section class="ops-panel nes-ranking" aria-label="NES ranking across Egypt">
+    <header class="ops-panel-head">
+      <h2>Who filled it most · every LC in Egypt</h2>
+      <p>October 2026: each LC's share of its MMs and members in Rouh who filled the NES, then how many. Counts only, no names. "Others" answered for the LC but aren't on its member list in Rouh yet, so they don't count in the share.</p>
+    </header>
+    <div class="table-wrap"><table class="table ops-table ops-compact">
+      <thead><tr><th class="q-num">#</th><th>LC</th><th class="q-num">Members who filled</th><th class="q-num">Members in Rouh</th><th class="q-num">Filled %</th><th class="q-num">Others</th></tr></thead>
+      <tbody><tr class="is-mine"><td class="q-num">1</td><th scope="row">CU <span class="nes-pill">You</span></th><td class="q-num">0</td><td class="q-num">11</td><td class="q-num">0%</td><td class="q-num">—</td></tr><tr><td class="q-num">1</td><th scope="row">Helwan</th><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">—</td><td class="q-num">—</td></tr></tbody>
+    </table></div>
+  </section>
+
+
+
+    
+  
+
+      </main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+</body>
+</html>

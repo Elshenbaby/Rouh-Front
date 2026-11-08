@@ -1,0 +1,13 @@
+<div class="rcr-slot{% if slot.lead_id %} is-booked{% endif %}{% if slot.did_interview %} is-done{% endif %}{% if slot.confirmation %} is-{{ slot.confirmation }}{% endif %}" data-cell id="slot-{{ slot.pk }}">
+  <span class="rcr-slot-room">{{ slot.room }}</span>
+  <ul class="rcr-slot-drop" data-sortable data-group="cal" data-single="true" data-url="{% url 'rcr:slot_drop' cycle.slug %}" data-params='{"slot": "{{ slot.pk }}"}' data-response="cell" aria-label="{{ slot.day|date:'D j M' }} {{ slot.starts_at|time:'H:i' }}, {{ slot.room }}">{% if slot.lead_id %}{% include "rcr/partials/card.html" with lead=slot.lead compact=True %}{% endif %}</ul>
+  {% if slot.lead_id %}
+    <div class="rcr-slot-tools">
+      {% for code, label in confirmations %}<button type="button" class="rcr-mini is-{{ code }}{% if slot.confirmation == code %} is-on{% endif %}" title="Day before: {{ label }}" hx-post="{% url 'rcr:slot_edit' cycle.slug slot.pk %}" hx-vals='{"confirmation": "{% if slot.confirmation == code %}{% else %}{{ code }}{% endif %}"}' hx-target="closest [data-cell]" hx-swap="outerHTML">{% if code == "yes" %}✓{% elif code == "no" %}✕{% else %}?{% endif %}</button>{% endfor %}
+      <button type="button" class="rcr-mini is-done{% if slot.did_interview %} is-on{% endif %}" title="{% if slot.did_interview %}Interviewed{% else %}Mark interviewed{% endif %}" hx-post="{% url 'rcr:slot_edit' cycle.slug slot.pk %}" hx-vals='{"did_interview": "{% if slot.did_interview %}0{% else %}1{% endif %}"}' hx-target="closest [data-cell]" hx-swap="outerHTML">Done</button>
+      {% if not slot.did_interview %}<a class="rcr-mini" href="{% url 'rcr:interview_new' cycle.slug %}?lead={{ slot.lead_id }}" title="Open the interview form">Form</a>{% endif %}
+    </div>
+  {% else %}
+    <button type="button" class="rcr-slot-x" title="Remove this free slot" aria-label="Remove this free slot" hx-post="{% url 'rcr:slot_edit' cycle.slug slot.pk %}" hx-vals='{"action": "remove"}' hx-target="closest [data-cell]" hx-swap="delete">×</button>
+  {% endif %}
+</div>

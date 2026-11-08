@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'ui:desk' 'bd' %}">{{ desk_spec.label }}</a></p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+  {% include "b2b/partials/tabs.html" %}
+
+  <div class="ci-layout">
+    <section class="ci-form-card" aria-labelledby="ci-form-title">
+      <h2 id="ci-form-title">{% trans "Log a cash in" %}</h2>
+      <p class="ci-form-lede">{% trans "One entry per payment. Fill it the day the money is collected." %}</p>
+      <form method="post" class="ci-form" action="{% url 'b2b:cashin' %}?desk=bd">
+        {% csrf_token %}
+        <fieldset>
+          <legend>{% trans "The deal" %}</legend>
+          <label class="field ci-field"><span>{{ form.lc.label }}</span>{{ form.lc }}{{ form.lc.errors }}</label>
+          <label class="field ci-field"><span>{{ form.event.label }}</span>{{ form.event }}{{ form.event.errors }}</label>
+          <label class="field ci-field"><span>{{ form.amount.label }}</span>{{ form.amount }}{{ form.amount.errors }}</label>
+          <label class="field ci-field"><span>{{ form.collected_on.label }}</span>{{ form.collected_on }}{{ form.collected_on.errors }}</label>
+        </fieldset>
+        <fieldset>
+          <legend>{% trans "The partner" %}</legend>
+          <label class="field ci-field is-wide"><span>{{ form.partner_name.label }}</span>{{ form.partner_name }}{{ form.partner_name.errors }}</label>
+          <label class="field ci-field"><span>{{ form.partner_rep.label }}</span>{{ form.partner_rep }}{{ form.partner_rep.errors }}</label>
+          <label class="field ci-field"><span>{{ form.partner_phone.label }}</span>{{ form.partner_phone }}{{ form.partner_phone.errors }}</label>
+        </fieldset>
+        <fieldset>
+          <legend>{% trans "Proof" %}</legend>
+          <label class="field ci-field is-wide"><span>{{ form.contract_url.label }}</span>{{ form.contract_url }}<small>{{ form.contract_url.help_text }}</small>{{ form.contract_url.errors }}</label>
+        </fieldset>
+        {{ form.non_field_errors }}
+        <div class="ci-actions">
+          <button class="btn btn-primary" type="submit">{% trans "Send for approval" %}</button>
+        </div>
+      </form>
+    </section>
+
+    <aside class="ci-aside">
+      <div class="ci-summary">
+        <p class="ci-summary-kicker">{{ scope_label }} · {% trans "LC term 26" %}</p>
+        <p class="ci-summary-big">{{ summary.approved_term|floatformat:"0g" }} <span>EGP</span></p>
+        <p class="ci-summary-sub">{% blocktrans count n=summary.approved_deals %}approved from {{ n }} cash-in{% plural %}approved from {{ n }} cash-ins{% endblocktrans %}</p>
+        <dl class="ci-summary-row">
+          <div><dt>{% trans "Waiting" %}</dt><dd>{{ summary.pending }}{% if summary.pending_amount %} <small>· {{ summary.pending_amount|floatformat:"0g" }}</small>{% endif %}</dd></div>
+          <div><dt>{% trans "Rejected" %}</dt><dd>{{ summary.rejected }}</dd></div>
+        </dl>
+        <a class="ci-summary-link" href="{% url 'b2b:cashin_ranking' %}?desk=bd">{% trans "See the commission ranking" %} →</a>
+      </div>
+      <ol class="ci-steps">
+        <li><b>{% trans "Log it" %}</b><span>{% trans "With the contract's Drive link, shared with the MC." %}</span></li>
+        <li><b>{% trans "The MCVP BD checks it" %}</b><span>{% trans "Approved or rejected, with a note if something's missing." %}</span></li>
+        <li><b>{% trans "It counts" %}</b><span>{% trans "Approved cash-ins go to the commission ranking, ICOMM and LCs PvA." %}</span></li>
+      </ol>
+    </aside>
+  </div>
+
+  <div class="ci-list-head">
+    <h2 class="section-title">{% trans "Cash-ins" %}</h2>
+    <nav class="cr-lcs" aria-label="{% trans 'Status' %}">
+      {% for code, label, n in chips %}
+        <a class="cr-chip{% if status == code %} is-active{% endif %}" href="?desk=bd{% if code %}&amp;status={{ code }}{% endif %}">{{ label }} <span>{{ n }}</span></a>
+      {% endfor %}
+    </nav>
+  </div>
+  <div class="table-wrap">
+    <table class="table ci-table">
+      <thead>
+        <tr>
+          <th>{% trans "Collected" %}</th>
+          {% if not current_entity %}<th>{% trans "LC" %}</th>{% endif %}
+          <th>{% trans "Partner" %}</th>
+          <th>{% trans "Event" %}</th>
+          <th class="q-num">{% trans "Amount (EGP)" %}</th>
+          <th>{% trans "By" %}</th>
+          <th>{% trans "Status" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in page %}
+          <tr>
+            <td class="ci-date">{{ item.collected_on|date:"j M Y" }}</td>
+            {% if not current_entity %}<td>{{ item.home_entity.short_name|default:item.lc_name|default:"—" }}</td>{% endif %}
+            <td>
+              {% if item.partner_name %}<b class="ci-partner">{{ item.partner_name }}</b>{% else %}<span class="muted">—</span>{% endif %}
+              {% if item.partner_rep %}<div class="muted">{{ item.partner_rep }}</div>{% endif %}
+              {% if item.contract_url %}<a class="ci-contract" href="{{ item.contract_url }}" rel="noopener noreferrer" target="_blank">{% trans "Contract" %} ↗</a>{% endif %}
+            </td>
+            <td>{{ item.event_display }}</td>
+            <td class="q-num"><b>{{ item.amount|floatformat:"0g" }}</b></td>
+            <td>{% if item.submitter_name %}{{ item.submitter_name }}{% if item.source == "sheet" %}<div class="muted">{% trans "Google Form" %}</div>{% endif %}{% elif item.source == "sheet" %}<span class="muted">{% trans "Google Form" %}</span>{% else %}—{% endif %}</td>
+            <td>
+              <span class="badge badge-{% if item.status == 'approved' %}success{% elif item.status == 'rejected' %}danger{% else %}pending{% endif %}">{{ item.get_status_display }}</span>
+              {% if item.review_note %}<div class="ci-note">“{{ item.review_note }}”</div>{% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="7" class="muted">{% if status %}{% trans "Nothing here." %}{% else %}{% trans "No cash-ins yet. Log the first one above." %}{% endif %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if page.has_other_pages %}
+    <nav class="pager">
+      {% if page.has_previous %}<a href="?desk=bd&amp;status={{ status }}&amp;page={{ page.previous_page_number }}">{% trans "Newer" %}</a>{% endif %}
+      <span>{{ page.number }} / {{ page.paginator.num_pages }}</span>
+      {% if page.has_next %}<a href="?desk=bd&amp;status={{ status }}&amp;page={{ page.next_page_number }}">{% trans "Older" %}</a>{% endif %}
+    </nav>
+  {% endif %}
+{% endblock %}

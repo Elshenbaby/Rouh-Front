@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'ui:desk' 'bd' %}">{{ desk_spec.label }}</a></p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+  {% include "b2b/partials/tabs.html" %}
+
+  <div class="cr-bar">
+    <p class="cr-summary">
+      {% if pending %}
+        <b>{{ pending|length }}</b> {% blocktrans count n=pending|length %}cash-in waiting{% plural %}cash-ins waiting{% endblocktrans %}
+        · <b>EGP {{ pending_amount|floatformat:"0g" }}</b>
+      {% else %}
+        {% trans "Nothing waiting." %}
+      {% endif %}
+    </p>
+    {% if lc_counts %}
+      <nav class="cr-lcs" aria-label="{% trans 'LC' %}">
+        <a class="cr-chip{% if not lc %} is-active{% endif %}" href="?desk=bd">{% trans "All LCs" %}</a>
+        {% for name, n in lc_counts %}
+          <a class="cr-chip{% if lc == name %} is-active{% endif %}" href="?desk=bd&amp;lc={{ name|urlencode }}">{{ name }} <span>{{ n }}</span></a>
+        {% endfor %}
+      </nav>
+    {% endif %}
+  </div>
+
+  {% if pending %}
+    <form method="post" id="cr-bulk" class="cr-bulk" action="{% url 'b2b:cashin_review' %}?desk=bd{% if lc %}&amp;lc={{ lc|urlencode }}{% endif %}">
+      {% csrf_token %}
+      <label class="cr-check"><input type="checkbox" data-cr-all> {% trans "Select all" %}</label>
+      <button class="btn btn-secondary btn-sm" type="submit" name="action" value="approve_selected" data-cr-bulk disabled>{% trans "Approve selected" %}</button>
+      <span class="muted">{% trans "Bulk approval keeps each cash-in's event as it is." %}</span>
+    </form>
+
+    <ul class="cr-list">
+      {% for item in pending %}
+        <li class="cr-item{% if item.flags %} has-flags{% endif %}">
+          <label class="cr-pick" aria-label="{% trans 'Select' %}"><input type="checkbox" name="ids" value="{{ item.pk }}" form="cr-bulk" data-cr-pick></label>
+          <div class="cr-main">
+            <p class="cr-lc">{{ item.home_entity.name|default:item.lc_name }}</p>
+            <p class="cr-partner">{% if item.partner_name %}{{ item.partner_name }}{% else %}<span class="muted">{% trans "Partner not given" %}</span>{% endif %}</p>
+            <p class="cr-meta">
+              {% if item.partner_rep %}{{ item.partner_rep }}{% if item.partner_phone %} · {{ item.partner_phone }}{% endif %} · {% endif %}
+              {% blocktrans with day=item.collected_on|date:"j M Y" %}Collected {{ day }}{% endblocktrans %}
+              · {% if item.submitter_name %}{% blocktrans with who=item.submitter_name %}by {{ who }}{% endblocktrans %}{% endif %}{% if item.source == "sheet" %} {% trans "via the Google Form" %}{% endif %}
+            </p>
+            {% if item.flags %}<p class="cr-flags">{% for f in item.flags %}<span>{{ f }}</span>{% endfor %}</p>{% endif %}
+          </div>
+          <div class="cr-amount">
+            <b>{{ item.amount|floatformat:"0g" }}</b><span>EGP</span>
+            {% if item.contract_url %}<a class="cr-contract" href="{{ item.contract_url }}" rel="noopener noreferrer" target="_blank">{% trans "Open contract" %} ↗</a>{% endif %}
+          </div>
+          <form method="post" class="cr-decide" action="{% url 'b2b:cashin_review' %}?desk=bd{% if lc %}&amp;lc={{ lc|urlencode }}{% endif %}">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ item.pk }}">
+            <label class="field cr-field"><span>{% trans "Event" %}</span>
+              <select name="event">
+                {% if item.event == "other" %}<option value="other" selected>{{ item.event_display }}</option>{% endif %}
+                {% for code, label in events %}<option value="{{ code }}"{% if code == item.event %} selected{% endif %}>{{ label }}</option>{% endfor %}
+              </select>
+            </label>
+            <label class="field cr-field"><span>{% trans "Note" %}</span><input type="text" name="note" placeholder="{% trans 'Optional, seen by the LC' %}"></label>
+            <div class="cr-buttons">
+              <button class="btn btn-primary btn-sm" type="submit" name="action" value="approve">{% trans "Approve" %}</button>
+              <button class="btn btn-ghost btn-sm" type="submit" name="action" value="reject">{% trans "Reject" %}</button>
+            </div>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="cr-done">
+      <p class="cr-done-title">{% trans "All caught up" %}</p>
+      <p>{% trans "New cash-ins from the LCs land here." %}</p>
+    </div>
+  {% endif %}
+
+  {% if recent %}
+    <h2 class="section-title cr-recent-title">{% trans "Recent decisions" %}</h2>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{% trans "LC" %}</th>
+            <th>{% trans "Partner" %}</th>
+            <th>{% trans "Event" %}</th>
+            <th class="q-num">{% trans "Amount (EGP)" %}</th>
+            <th>{% trans "Decision" %}</th>
+            <th>{% trans "By" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in recent %}
+            <tr>
+              <td>{{ item.home_entity.short_name|default:item.lc_name|default:"—" }}</td>
+              <td>{{ item.partner_name|default:"—" }}</td>
+              <td>{{ item.event_display }}</td>
+              <td class="q-num">{{ item.amount|floatformat:"0g" }}</td>
+              <td><span class="badge badge-{% if item.status == 'approved' %}success{% else %}danger{% endif %}">{{ item.get_status_display }}</span>{% if item.review_note %}<div class="muted">{{ item.review_note }}</div>{% endif %}</td>
+              <td>{{ item.reviewed_by.get_full_name|default:item.reviewed_by.email|default:"—" }}<div class="muted">{{ item.reviewed_at|date:"j M, H:i" }}</div></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/cashin.js' %}?v=1" defer></script>
+{% endblock %}

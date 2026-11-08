@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow">
+      {% if current_entity %}{{ current_entity.short_name }}{% else %}{% trans "AIESEC in Egypt" %}{% endif %}{% if current_term %} · {{ current_term.label }}{% endif %}
+    </p>
+    <h1>
+      {% if seat.member %}{% blocktrans with name=seat.member.full_name.split.0 %}Hi, {{ name }}{% endblocktrans %}{% else %}{% trans "Home" %}{% endif %}
+    </h1>
+    {% if seat.position %}
+      <p class="seat-line">
+        <strong>{{ seat.tier_label }}</strong>
+        <span>{{ seat.position.get_function_display }}</span>
+        {% if seat.team %}<span>{{ seat.team.name }}</span>{% endif %}
+        {% if roster.reports_to %}<span>{% trans "Reports to" %} {{ roster.reports_to.full_name }}</span>{% endif %}
+      </p>
+    {% elif seat.tier == "national" %}
+      <p class="seat-line"><strong>{% trans "National" %}</strong><span>{% trans "Every LC and every desk" %}</span></p>
+    {% elif not current_term %}
+      <p class="lede">{% trans "No current term is selected yet." %}</p>
+    {% endif %}
+  </header>
+
+  {% if show_personal and me or show_personal and roster.people or show_personal and roster.function_teams %}
+    <div class="home-grid">
+      <section>
+        {% if me %}
+          <h2 class="section-title">{% trans "Your work" %} · {{ period.label }}</h2>
+          <div class="metric-row metric-grid">
+            <div class="metric-tile">
+              <p class="metric-label">{% trans "Open work" %}</p>
+              <p class="metric-value">{{ me.open }}</p>
+              <p class="metric-hint">{% trans "Assigned to you, not closed" %}</p>
+            </div>
+            <div class="metric-tile">
+              <p class="metric-label">{% trans "Updates this month" %}</p>
+              <p class="metric-value">{{ me.actions.updated|add:me.actions.comments }}</p>
+              <p class="metric-hint">{% if me.actions.assigned %}{{ me.actions.assigned }} {% trans "assignments made" %}{% else %}{% trans "Status changes and comments" %}{% endif %}</p>
+            </div>
+            <div class="metric-tile">
+              <p class="metric-label">%MAG</p>
+              <p class="metric-value">{{ me.mag_display }}</p>
+              <p class="metric-hint">{% if me.has_plan %}{% trans "Achieved ÷ your plan" %}{% else %}{% trans "No plan set yet" %}{% endif %}</p>
+            </div>
+          </div>
+          {% if me.metrics %}
+            <div class="kpi-grid">
+              {% for metric in me.metrics %}
+                <div class="kpi-card{% if metric.planned and metric.mag >= 100 %} is-hit{% endif %}">
+                  <p class="metric-label">{{ metric.kpi.name }}</p>
+                  <p class="kpi-card-value">{{ metric.achieved_display }}{% if metric.planned %}<span> / {{ metric.planned_display }}</span>{% endif %}</p>
+                  {% if metric.planned %}
+                    <span class="kpi-bar"><span style="width: {% if metric.mag >= 100 %}100{% else %}{{ metric.mag|floatformat:0 }}{% endif %}%"></span></span>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endif %}
+        {% if links %}
+          <div class="quick-links">
+            {% if links.mine %}<a class="btn btn-primary btn-md" href="{{ links.mine }}">{% trans "My queue" %}{% if me %} ({{ me.open }}){% endif %}</a>{% endif %}
+            {% if links.team %}<a class="btn btn-secondary btn-md" href="{{ links.team }}">{% trans "Team queue" %}</a>{% endif %}
+            {% if unassigned is not None and links.unassigned %}<a class="btn btn-secondary btn-md" href="{{ links.unassigned }}">{% trans "Unassigned" %} ({{ unassigned }})</a>{% endif %}
+            {% if seat.is_manager and links.teams %}<a class="btn btn-secondary btn-md" href="{{ links.teams }}">{% trans "Teams board" %}</a>{% endif %}
+            {% if links.desk %}<a class="btn btn-ghost btn-md" href="{{ links.desk }}">{{ my_desk.label }} {% trans "desk" %}</a>{% endif %}
+            <a class="btn btn-ghost btn-md" href="{% url 'audit:activity' %}">{% if seat.tracks_others %}{% trans "Team log" %}{% else %}{% trans "My log" %}{% endif %}</a>
+          </div>
+        {% endif %}
+      </section>
+
+      <aside class="team-card">
+        {% if roster.team %}
+          <p class="eyebrow">{% trans "Your team" %}</p>
+          <h2>{{ roster.team.name }}</h2>
+          <ul class="team-list">
+            {% for person in roster.people %}
+              <li class="{% if person.member.pk == seat.member.pk %}is-you{% endif %}">
+                <span>{{ person.member.full_name }}{% if person.member.pk == seat.member.pk %} · {% trans "you" %}{% endif %}</span>
+                <span class="role-tag role-{{ person.code }}">{{ person.role }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% elif roster.function_teams %}
+          <p class="eyebrow">{% trans "Your function" %}</p>
+          <h2>{{ seat.position.get_function_display }}</h2>
+          <ul class="team-list">
+            {% for item in roster.function_teams %}
+              <li><span>{{ item.team.name }}</span><span class="muted">{{ item.lead.full_name }}</span></li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="eyebrow">{% trans "Your team" %}</p>
+          <p class="muted">{% trans "You are not on a team yet. Your VP TM places you from Talent → Structure." %}</p>
+        {% endif %}
+        {% if roster.vp %}
+          <p class="seat-line"><span>{% trans "VP" %}</span><strong>{{ roster.vp.full_name }}</strong></p>
+        {% endif %}
+      </aside>
+    </div>
+  {% elif links %}
+    <div class="quick-links home-links">
+      {% if links.desk %}<a class="btn btn-secondary btn-md" href="{{ links.desk }}">{{ my_desk.label }} {% trans "desk" %}</a>{% endif %}
+      <a class="btn btn-secondary btn-md" href="{% url 'audit:activity' %}">{% trans "LC log" %}</a>
+    </div>
+  {% endif %}
+
+  {% if board and seat.tracks_others %}
+    <section class="log-section">
+      <div class="row-between">
+        <h2 class="section-title">
+          {% if seat.scope_label == "LC" %}{% trans "Your LC" %}{% elif seat.scope_label == "function" %}{% trans "Your function" %}{% else %}{% trans "Your team" %}{% endif %} · {{ period.label }}
+        </h2>
+        <a class="btn btn-secondary btn-sm" href="{% url 'audit:activity' %}">{% trans "Full log" %}</a>
+      </div>
+      {% if seat.scope_label == "LC" %}
+        <div class="table-wrap">
+          <table class="table board-table">
+            <thead>
+              <tr>
+                <th>{% trans "Function" %}</th>
+                <th>{% trans "VP" %}</th>
+                <th class="num">{% trans "People" %}</th>
+                <th class="num">{% trans "Open" %}</th>
+                <th class="num">{% trans "Actions" %}</th>
+                <th class="num">%MAG</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for group in board.groups %}
+                <tr>
+                  <td><a class="board-person" href="{% url 'audit:activity' %}{% if group.desk %}?desk={{ group.desk }}{% endif %}">{{ group.label }}</a></td>
+                  <td>{{ group.lead.full_name|default:"—" }}</td>
+                  <td class="num">{{ group.headcount }}</td>
+                  <td class="num{% if not group.open %} is-zero{% endif %}">{{ group.open }}</td>
+                  <td class="num{% if not group.actions %} is-zero{% endif %}">{{ group.actions }}</td>
+                  <td class="num">{{ group.mag_display }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        {% include "ui/partials/people_board.html" with link_people=False show_function=False %}
+      {% endif %}
+    </section>
+  {% endif %}
+
+  {% if desks %}
+    <h2 class="section-title">{% trans "Your desks" %}</h2>
+    <section class="desk-grid">
+      {% for desk in desks %}
+        <a class="card desk-card" href="{% url 'ui:desk' desk.code %}">
+          <p class="eyebrow">{{ desk.group_label }}</p>
+          <h2>{{ desk.label }}</h2>
+          <p>
+            {% if desk.is_b2c %}
+              {% trans "Analysis, customer interviews, campus access, campaigns and Soluo accounts." %}
+            {% elif desk.is_b2b %}
+              {% trans "Soluo raising accounts, visits and slots." %}
+            {% elif desk.code == "tm" %}
+              {% trans "Structure, performance, planning, attendance and HR status." %}
+            {% elif desk.code == "lcp" %}
+              {% trans "The OD scoreboard and cluster playbooks." %}
+            {% elif desk.code == "fin" %}
+              {% trans "Budget, planned vs actual, and the sustainability boards." %}
+            {% elif desk.is_icx %}
+              {% trans "Slots, applications, applicants, APDs and raising." %}
+            {% else %}
+              {% trans "Signups, applicants and APDs." %}
+            {% endif %}
+          </p>
+        </a>
+      {% endfor %}
+    </section>
+  {% elif not seat.position %}
+    <div class="empty">
+      <h2>{% trans "No desk assigned yet" %}</h2>
+      <p>{% trans "Your LC's VP TM will place you in a function and team. After that your desk and your team appear here." %}</p>
+    </div>
+  {% endif %}
+{% endblock %}

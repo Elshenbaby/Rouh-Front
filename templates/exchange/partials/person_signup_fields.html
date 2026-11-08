@@ -1,0 +1,31 @@
+{% load i18n %}
+<dl class="meta">
+  <div><dt>{% trans "EP ID" %}</dt><dd>{% if person.expa_id %}{% include "exchange/partials/expa_person_link.html" with expa_id=person.expa_id show_id=True only %}{% else %}—{% endif %}</dd></div>
+  <div><dt>{% trans "Alpha ID" %}</dt><dd>{{ person.alpha_id|default:"—" }}</dd></div>
+  <div><dt>{% trans "Name" %}</dt><dd>{{ person.full_name }}</dd></div>
+  <div><dt>{% trans "Phone" %}</dt><dd>{{ person.phone|default:"—" }}</dd></div>
+  <div><dt>{% trans "Email" %}</dt><dd>{{ person.email|default:"—" }}</dd></div>
+  <div><dt>{% trans "Person status" %}</dt><dd>{{ person.person_status_display }}</dd></div>
+  <div><dt>{% trans "Product" %}</dt><dd>{{ person.product.display|default:_("No product") }}</dd></div>
+  <div><dt>{% trans "Gender" %}</dt><dd>{{ person.gender|default:"—" }}</dd></div>
+  <div><dt>{% trans "Date of birth" %}</dt><dd>{{ person.dob|date:"Y-m-d"|default:"—" }}</dd></div>
+  <div><dt>{% trans "Campus" %}</dt><dd>{{ person.campus_name|default:"—" }}</dd></div>
+  <div><dt>{% trans "LC" %}</dt><dd>{{ person.lc_display_name|default:"—" }}</dd></div>
+  <div><dt>{% trans "MC" %}</dt><dd>{{ person.home_mc_name|default:"—" }}</dd></div>
+  <div><dt>{% trans "Referral" %}</dt><dd>{{ person.referral_type|default:"—" }}</dd></div>
+  <div><dt>{% trans "Campaign" %}</dt><dd>{{ person.campaign_title|default:"—" }}</dd></div>
+  <div><dt>{% trans "AIESEC representative" %}</dt><dd>{{ person.representative|default:"—" }}</dd></div>
+  <div><dt>{% trans "Backgrounds" %}</dt><dd>{{ person.backgrounds|join:", "|default:"—" }}</dd></div>
+  <div><dt>{% trans "AIESECer" %}</dt><dd>{% if person.is_aiesecer %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</dd></div>
+  <div><dt>{% trans "Graduation" %}</dt><dd>{{ person.graduation_on|date:"Y"|default:"—" }}</dd></div>
+  <div><dt>{% trans "Preferred country" %}</dt><dd>{{ person.preferred_country|default:"—" }}</dd></div>
+  <div><dt>{% trans "Applications" %}</dt><dd>{{ person.applications_count }}</dd></div>
+  <div><dt>{% trans "Signed up" %}</dt><dd>{{ person.signed_up_at|date:"Y-m-d H:i"|default:"—" }}</dd></div>
+  <div><dt>{% trans "EP manager" %}</dt><dd>{{ person.assigned_to.full_name|default:"—" }}</dd></div>
+  <div><dt>{% trans "Contact" %}</dt><dd>{{ person.get_contact_status_display|default:"—" }}</dd></div>
+  <div><dt>{% trans "Interested" %}</dt><dd>{{ person.get_interested_display|default:"—" }}</dd></div>
+  <div>
+    <dt>{% trans "Open signup" %}</dt>
+    <dd><a href="{% url 'exchange:person_detail' person.pk %}">{% trans "OGX record" %}</a></dd>
+  </div>
+</dl>

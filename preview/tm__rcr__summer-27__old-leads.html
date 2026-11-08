@@ -1,0 +1,531 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>RCR Summer 27 · CU · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "6Vy6tZ4PWXXKYwVeTPJDj2TyUJXKyIThNOm2xzFDSQMeUaxpDRazChB3eSIflvNk"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link is-active">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="6Vy6tZ4PWXXKYwVeTPJDj2TyUJXKyIThNOm2xzFDSQMeUaxpDRazChB3eSIflvNk">
+      <input type="hidden" name="next" value="/tm/rcr/summer-27/old-leads/">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="6Vy6tZ4PWXXKYwVeTPJDj2TyUJXKyIThNOm2xzFDSQMeUaxpDRazChB3eSIflvNk">
+      <input type="hidden" name="next" value="/tm/rcr/summer-27/old-leads/">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="6Vy6tZ4PWXXKYwVeTPJDj2TyUJXKyIThNOm2xzFDSQMeUaxpDRazChB3eSIflvNk">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page">
+        
+        
+  
+<header class="page-header rcr-header">
+  <p class="eyebrow"><a href="desks__tm.html">Talent</a> · RCR · CU</p>
+  <h1>RCR Summer 27 <span class="rcr-lc">CU</span></h1>
+</header>
+
+
+<nav class="tabs tm-tabs" aria-label="Talent">
+  <a class="tab" href="tm.html">Overview</a>
+  <a class="tab" href="tm__structure.html">Structure</a>
+  <a class="tab" href="tm__performance.html">Performance</a>
+  <a class="tab" href="tm__planning.html">Planning</a>
+  <a class="tab" href="tm__attendance.html">Attendance</a>
+  <a class="tab" href="tm__hr.html">HR Status</a>
+  <a class="tab is-active" href="tm__rcr.html">RCR</a>
+  <a class="tab" href="tm__nes.html">NES</a>
+  <a class="tab" href="tm__settings.html">Settings</a>
+</nav>
+
+
+
+
+
+
+<nav class="rcr-journey" aria-label="The recruitment journey">
+  <a class="rcr-today-btn" href="tm__rcr__summer-27.html"><b>Today</b><small>what waits on you</small></a>
+  <ol class="rcr-phases">
+    
+      <li class="rcr-phase is-active">
+        <a href="tm__rcr__summer-27__new-leads.html" title="Call every lead, run the phone interview, accept or reject.">
+          <span class="rcr-phase-n">1</span>
+          <span class="rcr-phase-text"><b>Leads &amp; calls</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__scheduling.html" title="Book a slot (or send them their booking link), confirm the day before, fill the form.">
+          <span class="rcr-phase-n">2</span>
+          <span class="rcr-phase-text"><b>Interviews</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__gds.html" title="Seat the accepted ones in a GD, run it, score it.">
+          <span class="rcr-phase-n">3</span>
+          <span class="rcr-phase-text"><b>Group discussions</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__conference.html" title="Collect the payment and get them to the conference.">
+          <span class="rcr-phase-n">4</span>
+          <span class="rcr-phase-text"><b>Conference</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+  </ol>
+</nav>
+<div class="rcr-subnav">
+  <nav class="rcr-phase-tabs" aria-label="This phase">
+    <a class="" href="tm__rcr__summer-27__new-leads.html">New leads</a><a class="is-active" href="tm__rcr__summer-27__old-leads.html">Old leads</a><a class="" href="tm__rcr__summer-27__rxps.html">RXPs</a><a class="" href="tm__rcr__summer-27__all-leads.html">All leads</a><a class="" href="tm__rcr__summer-27__pipeline.html">RCR board</a>
+  </nav>
+  <nav class="rcr-tools" aria-label="Tools">
+    <a class="" href="tm__rcr__summer-27__insights.html">Insights</a><a class="" href="tm__rcr__summer-27__planning.html">Capacity plan</a><a class="" href="tm__rcr__summer-27__sensing.html">Sensing</a><a class="" href="tm__rcr__summer-27__team.html">Team &amp; shifts</a><a class="" href="tm__rcr__summer-27__timeline.html">Timeline</a><a class="" href="tm__rcr__summer-27__easy-answers.html">Easy answers</a>
+  </nav>
+</div>
+
+
+
+  <section class="rcr-strip" aria-label="Old leads in numbers">
+    <div><span>Old leads</span><strong>0</strong></div>
+    <div><span>Not contacted</span><strong>0</strong></div>
+    <div><span>No recruiter</span><strong>0</strong></div>
+    <div><span>Contacted</span><strong>0</strong></div>
+    <div><span>PC accepted</span><strong>0</strong></div>
+    <div><span>F2F done</span><strong>0</strong></div>
+    <div><span>Recruited</span><strong>0</strong></div>
+  </section>
+
+  <section class="ops-panel rcr-leads-panel">
+    <header class="ops-panel-head rcr-head-row">
+      <div>
+        <h2>Old leads</h2>
+        <p>Leads who signed up in the 3 years before 1 August 2026. Re-contact them: many are still students. Each change saves on its own.</p>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn-secondary btn-sm" href="#not-in-preview">Download CSV</a>
+        
+      </div>
+    </header>
+
+    <form method="get" class="rcr-filters" aria-label="Filter leads">
+      <label class="field"><span>Search</span><input id="lead-q" type="search" name="q" value="" placeholder="Name, phone, email, EXPA ID"></label>
+      <label class="field"><span>Status</span>
+        <select id="lead-stage" name="stage" onchange="this.form.submit()">
+          <option value="">Any status</option>
+          <option value="lead">Waiting for first contact</option><option value="contacted">Contacted</option><option value="pc_done">Phone call interview done</option><option value="pc_accepted">Phone call accepted</option><option value="f2f_scheduled">F2F interview scheduled</option><option value="f2f_done">F2F interview done</option><option value="f2f_accepted">F2F accepted</option><option value="gd_attended">Attended the GD</option><option value="gd_accepted">GD accepted</option><option value="paid">Paid for the conference</option><option value="attended">Attended the conference</option>
+        </select>
+      </label>
+      <label class="field"><span>In process?</span>
+        <select id="lead-outcome" name="outcome" onchange="this.form.submit()">
+          <option value="">All</option>
+          <option value="active">In process</option><option value="rejected">Rejected</option><option value="out">Out of process</option><option value="postponed">Postponed</option>
+        </select>
+      </label>
+      <label class="field"><span>Recruiter</span>
+        <select id="lead-recruiter" name="recruiter" onchange="this.form.submit()">
+          <option value="">Anyone</option>
+          <option value="none">No recruiter</option>
+          <optgroup label="Members"><option value="b266592c-e6ab-48b0-a842-89a8cfa2ce47">Adam Nabil</option><option value="7768b1f7-106f-4159-9848-1cc6c5eb6c0e">Hana Fathy</option><option value="97f540de-ae65-4ba3-a68f-508c68423eac">Karim Magdy</option><option value="1524b683-623f-47ad-a205-306dfa4868b0">LCP CU</option><option value="8ffbae43-3935-411b-8cb4-1d3e1216351a">LCVP TM CU</option><option value="279f0095-8759-42bc-9698-e2bb691b4792">LCVP oGV CU</option><option value="2fcf9e78-1d81-465d-9982-0e76445e74c7">Laila Sherif</option><option value="8851aec2-0eb1-489c-b718-236f54054e16">Mariam Ezzat</option><option value="0e08ff71-fe1a-4095-a16c-12a3a5862435">Nour Adel</option><option value="802daf3c-76d3-41fc-a843-88cba8db0e54">Omar Wagdy</option><option value="9e231132-570e-4436-ad42-f4b87b603b39">Salma Hamdy</option><option value="c902ce7f-05c4-43a5-b6dc-cb46f4d4cad8">Sara CU</option><option value="6e16a3e6-2247-4f57-a0ee-2c577787bda1">Youssef Samir</option><option value="91298dc5-c466-444a-97a6-7dfbc73f0ae5">Ziad Galal</option></optgroup>
+        </select>
+      </label>
+      <label class="field"><span>Phone call</span>
+        <select id="lead-phone" name="phone" onchange="this.form.submit()">
+          <option value="">Any</option>
+          <option value="none">Not called</option>
+          <option value="no_response_1">No response 1</option><option value="no_response_2">No response 2</option><option value="no_response_3">No response 3</option><option value="wrong_number">Wrong number</option><option value="contacted">Contacted, no interview yet</option><option value="interview_done">Interview done</option><option value="postponed">Postponed</option><option value="out">Out of process</option>
+        </select>
+      </label>
+      <label class="field"><span>Channel</span>
+        <select id="lead-channel" name="channel" onchange="this.form.submit()">
+          <option value="">Any</option>
+          <option value="offline">Offline</option><option value="instagram">Instagram</option><option value="facebook">Facebook</option><option value="linkedin">LinkedIn</option><option value="tiktok">TikTok</option><option value="emails">Emails</option><option value="media">Magazine &amp; media</option><option value="friend">Friend</option><option value="other">Other</option>
+        </select>
+      </label>
+      
+      <label class="field"><span>Order</span>
+        <select id="lead-sort" name="sort" onchange="this.form.submit()">
+          <option value="">Newest first</option>
+          <option value="old">Oldest first</option>
+          <option value="name">By name</option>
+          <option value="stage">Furthest first</option>
+        </select>
+      </label>
+      <label class="field"><span>Per page</span>
+        <select id="lead-per" name="per" onchange="this.form.submit()"><option value="50" selected>50</option><option value="100">100</option><option value="200">200</option></select>
+      </label>
+      <label class="field-check rcr-stuck-check"><input type="checkbox" name="stuck" value="1" onchange="this.form.submit()"> <span>Only stuck</span></label>
+      <div class="filter-actions"><button class="btn btn-primary btn-sm" type="submit">Filter</button></div>
+    </form>
+
+    <form method="post" id="rcr-bulk" action="#" class="rcr-handout" x-data="{ n: 0, all: false }"
+          @change.window="n = document.querySelectorAll('input[name=lead][form=rcr-bulk]:checked').length"
+          @submit="if (all && !confirm('Hand out all 0 leads matching these filters?')) $event.preventDefault()">
+      <input type="hidden" name="csrfmiddlewaretoken" value="6Vy6tZ4PWXXKYwVeTPJDj2TyUJXKyIThNOm2xzFDSQMeUaxpDRazChB3eSIflvNk">
+      <input type="hidden" name="next" value="/tm/rcr/summer-27/old-leads/">
+      <input type="hidden" name="kind" value="old">
+      <input type="hidden" name="filters" value="">
+      <input type="hidden" name="scope" :value="all ? 'matching' : 'ticked'" value="ticked">
+      <h3 class="rcr-handout-title">Hand out leads</h3>
+      <div class="rcr-handout-pick">
+        <p x-show="!all"><b x-text="n">0</b> ticked on this page.
+          <button class="btn-link" type="button" @click="document.querySelectorAll('input[name=lead][form=rcr-bulk]').forEach(b => b.checked = true); n = document.querySelectorAll('input[name=lead][form=rcr-bulk]:checked').length">Tick this page</button>
+          · <button class="btn-link" type="button" @click="document.querySelectorAll('input[name=lead][form=rcr-bulk]').forEach(b => b.checked = false); n = 0">Untick</button>
+          </p>
+        <p x-show="all" x-cloak class="rcr-handout-all"><b>All 0 leads matching these filters are picked</b>, on every page. <button class="btn-link" type="button" @click="all = false">Only the ticked ones</button></p>
+      </div>
+      <div class="rcr-handout-actions">
+        <div class="rcr-handout-act">
+          <label class="field"><span>Give them all to</span>
+            <select id="bulk-recruiter" name="recruiter">
+              <option value="">Pick someone…</option>
+              <optgroup label="Members"><option value="b266592c-e6ab-48b0-a842-89a8cfa2ce47">Adam Nabil</option><option value="7768b1f7-106f-4159-9848-1cc6c5eb6c0e">Hana Fathy</option><option value="97f540de-ae65-4ba3-a68f-508c68423eac">Karim Magdy</option><option value="1524b683-623f-47ad-a205-306dfa4868b0">LCP CU</option><option value="8ffbae43-3935-411b-8cb4-1d3e1216351a">LCVP TM CU</option><option value="279f0095-8759-42bc-9698-e2bb691b4792">LCVP oGV CU</option><option value="2fcf9e78-1d81-465d-9982-0e76445e74c7">Laila Sherif</option><option value="8851aec2-0eb1-489c-b718-236f54054e16">Mariam Ezzat</option><option value="0e08ff71-fe1a-4095-a16c-12a3a5862435">Nour Adel</option><option value="802daf3c-76d3-41fc-a843-88cba8db0e54">Omar Wagdy</option><option value="9e231132-570e-4436-ad42-f4b87b603b39">Salma Hamdy</option><option value="c902ce7f-05c4-43a5-b6dc-cb46f4d4cad8">Sara CU</option><option value="6e16a3e6-2247-4f57-a0ee-2c577787bda1">Youssef Samir</option><option value="91298dc5-c466-444a-97a6-7dfbc73f0ae5">Ziad Galal</option></optgroup>
+            </select>
+          </label>
+          <button class="btn btn-primary btn-sm" type="submit" name="action" value="give">Give</button>
+        </div>
+        <details class="rcr-handout-share">
+          <summary class="btn btn-secondary btn-sm">Share evenly between…</summary>
+          <div class="rcr-share-box">
+            <p class="muted">They're shared in turn, oldest signup first. Nobody ticked: the whole RcR team.</p>
+            
+              <fieldset><legend>Members</legend>
+                <label><input type="checkbox" name="share_to" value="b266592c-e6ab-48b0-a842-89a8cfa2ce47"> Adam Nabil</label><label><input type="checkbox" name="share_to" value="7768b1f7-106f-4159-9848-1cc6c5eb6c0e"> Hana Fathy</label><label><input type="checkbox" name="share_to" value="97f540de-ae65-4ba3-a68f-508c68423eac"> Karim Magdy</label><label><input type="checkbox" name="share_to" value="1524b683-623f-47ad-a205-306dfa4868b0"> LCP CU</label><label><input type="checkbox" name="share_to" value="8ffbae43-3935-411b-8cb4-1d3e1216351a"> LCVP TM CU</label><label><input type="checkbox" name="share_to" value="279f0095-8759-42bc-9698-e2bb691b4792"> LCVP oGV CU</label><label><input type="checkbox" name="share_to" value="2fcf9e78-1d81-465d-9982-0e76445e74c7"> Laila Sherif</label><label><input type="checkbox" name="share_to" value="8851aec2-0eb1-489c-b718-236f54054e16"> Mariam Ezzat</label><label><input type="checkbox" name="share_to" value="0e08ff71-fe1a-4095-a16c-12a3a5862435"> Nour Adel</label><label><input type="checkbox" name="share_to" value="802daf3c-76d3-41fc-a843-88cba8db0e54"> Omar Wagdy</label><label><input type="checkbox" name="share_to" value="9e231132-570e-4436-ad42-f4b87b603b39"> Salma Hamdy</label><label><input type="checkbox" name="share_to" value="c902ce7f-05c4-43a5-b6dc-cb46f4d4cad8"> Sara CU</label><label><input type="checkbox" name="share_to" value="6e16a3e6-2247-4f57-a0ee-2c577787bda1"> Youssef Samir</label><label><input type="checkbox" name="share_to" value="91298dc5-c466-444a-97a6-7dfbc73f0ae5"> Ziad Galal</label>
+              </fieldset>
+            
+            <button class="btn btn-primary btn-sm" type="submit" name="action" value="share">Share them</button>
+          </div>
+        </details>
+        <button class="btn btn-ghost btn-sm" type="submit" name="action" value="unassign">Take the recruiter off</button>
+      </div>
+    </form>
+
+    
+      <nav class="rcr-load" aria-label="Who holds how many">
+        <span class="rcr-load-title">Holding now (in process):</span>
+        <a href="#not-in-preview" class=""><b>0</b> Adam Nabil</a><a href="#not-in-preview" class=""><b>0</b> Hana Fathy</a><a href="#not-in-preview" class=""><b>0</b> Karim Magdy</a><a href="#not-in-preview" class=""><b>0</b> LCP CU</a><a href="#not-in-preview" class=""><b>0</b> LCVP TM CU</a><a href="#not-in-preview" class=""><b>0</b> LCVP oGV CU</a><a href="#not-in-preview" class=""><b>0</b> Laila Sherif</a><a href="#not-in-preview" class=""><b>0</b> Mariam Ezzat</a><a href="#not-in-preview" class=""><b>0</b> Nour Adel</a><a href="#not-in-preview" class=""><b>0</b> Omar Wagdy</a><a href="#not-in-preview" class=""><b>0</b> Salma Hamdy</a><a href="#not-in-preview" class=""><b>0</b> Sara CU</a><a href="#not-in-preview" class=""><b>0</b> Youssef Samir</a><a href="#not-in-preview" class=""><b>0</b> Ziad Galal</a>
+        <a href="#not-in-preview" class="is-nobody"><b>0</b> No recruiter</a>
+      </nav>
+    
+
+    <div class="table-wrap">
+      <table class="table rcr-table">
+        <thead>
+          <tr><th class="rcr-check"><input type="checkbox" aria-label="Tick this page" onchange="document.querySelectorAll('input[name=lead][form=rcr-bulk]').forEach(b => { b.checked = this.checked; b.dispatchEvent(new Event('change', { bubbles: true })) })"></th><th>Lead</th><th>Contact</th><th>Source</th><th>Status</th><th>Recruiter</th><th>Phone call · English · result · location sent</th></tr>
+        </thead>
+        <tbody>
+          
+            <tr><td colspan="7">No leads yet. They arrive as people sign up.</td></tr>
+          
+        </tbody>
+      </table>
+    </div>
+    
+
+
+  </section>
+
+  
+
+      </main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+</body>
+</html>

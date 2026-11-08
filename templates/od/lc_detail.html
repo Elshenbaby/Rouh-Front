@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load i18n humanize static %}
+
+{% block content %}
+  {{ od.charts|json_script:"od-charts" }}
+
+  <div class="od-shell">
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'od:dashboard' %}">{% trans "LCP · OD Model" %}</a></p>
+    <h1>{{ od.focus.feed.entity_name }}</h1>
+    <p class="od-meta">
+      {% if od.term_label %}<span>{{ od.term_label }}</span>{% endif %}
+      <span>{{ od.focus.feed.entity_short }}</span>
+    </p>
+    <p class="lede">{% trans "Drivers behind the score — pillars, metrics, and the growth path for this LC." %}</p>
+    <details class="how-counted">
+      <summary>{% trans "How it's counted" %}</summary>
+      <ul>
+        <li>{% blocktrans %}<b>Signups, applicants, accepted, approvals, realizations and completions</b> are EXPA's analytics for the term picked, per LC: each counted on the day it happened, the same numbers LCs see in EXPA. Approvals that were broken don't count.{% endblocktrans %}</li>
+        <li>{% blocktrans %}<b>Completions</b> are experiences that ended in the term and were completed.{% endblocktrans %}</li>
+        <li>{% blocktrans %}<b>Opens</b> are the LC's opportunities open on EXPA now; <b>raising, B2C campaigns, BD deals, members and retention</b> come from Rouh; <b>finance</b> from the LC financial tools.{% endblocktrans %}</li>
+        <li>{% blocktrans %}<b>Scores</b> put each LC against the best LC in the network on each metric, then group them into the OD clusters.{% endblocktrans %}</li>
+      </ul>
+    </details>
+  </header>
+
+  {% include "od/partials/chrome.html" with od=od active="detail" show_drivers=True %}
+
+  {% if od.focus %}
+    {% include "od/partials/status_hero.html" with card=od.focus mine=False %}
+    {% include "od/partials/kpi_strip.html" with feed=od.focus.feed %}
+
+    {% if od.finance_pending %}
+    <p class="od-note" role="status">{% trans "Some finance metrics are still pending (MOCR, BVA, fines). Sustainability coverage and profitability are live when imported." %}</p>
+    {% endif %}
+
+    <section class="od-viz od-section" aria-label="{% trans 'Visuals' %}">
+      <article class="od-viz-card">
+        <h3>{% trans "Cluster context" %}</h3>
+        <p class="muted">{% trans "Where this LC sits nationally" %}</p>
+        <div class="chart-frame"><canvas id="od-chart-clusters"></canvas></div>
+      </article>
+      <article class="od-viz-card">
+        <h3>{% trans "Pillar radar" %}</h3>
+        <p class="muted">{% trans "Strengths and gaps" %}</p>
+        <div class="chart-frame"><canvas id="od-chart-secondary"></canvas></div>
+      </article>
+    </section>
+
+    <section class="od-section">
+      <div class="od-section-head">
+        <h2>{% trans "Drivers" %}</h2>
+        <p>{% blocktrans with opi=od.opi_weight ohi=od.ohi_weight %}ODI = {{ opi }}% OPI + {{ ohi }}% OHI{% endblocktrans %}</p>
+      </div>
+      {% include "od/partials/pillars.html" with card=od.focus %}
+    </section>
+
+    {% include "od/partials/playbook.html" with card=od.focus %}
+  {% endif %}
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  <script src="{% static 'js/od-dashboard.js' %}"></script>
+{% endblock %}

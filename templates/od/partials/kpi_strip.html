@@ -1,0 +1,9 @@
+{% load i18n %}
+<div class="od-kpis" role="group" aria-label="{% trans 'Live snapshot' %}">
+  <div class="od-kpi"><strong>{{ feed.headcount }}</strong><span>{% trans "Members" %}</span></div>
+  <div class="od-kpi"><strong>{{ feed.sus }}</strong><span>{% trans "Sign ups" %}</span></div>
+  <div class="od-kpi"><strong>{{ feed.ogx_apds }}</strong><span>{% trans "OGX APDs" %}</span></div>
+  <div class="od-kpi"><strong>{{ feed.icx_apds }}</strong><span>{% trans "ICX APDs" %}</span></div>
+  <div class="od-kpi"><strong>{{ feed.total_re }}</strong><span>{% trans "Realizations" %}</span></div>
+  <div class="od-kpi"><strong>{{ feed.bd_raised }}</strong><span>{% trans "BD raised" %}</span></div>
+</div>

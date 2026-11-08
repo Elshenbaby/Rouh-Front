@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+  {% include "b2c/partials/analysis_chrome.html" %}
+  {{ data.charts|json_script:"b2c-dashboard-charts" }}
+
+  <div class="dash-kpis">
+    <div class="metric-tile"><p class="metric-label">{% trans "Assigned" %}</p><p class="metric-value">{{ ci.assigned }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Attempts" %}</p><p class="metric-value">{{ ci.attempts }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Reached by B2C" %}</p><p class="metric-value">{{ ci.reached_b2c }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Reached by OGX" %}</p><p class="metric-value">{{ ci.reached_ogx }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Completed" %}</p><p class="metric-value">{{ ci.completed }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Contact rate" %}</p><p class="metric-value">{{ ci.contact_rate_label }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Completion" %}</p><p class="metric-value">{{ ci.completion_rate_label }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Average NPS" %}</p><p class="metric-value">{{ ci.avg_nps|default:"—" }}</p></div>
+  </div>
+
+  <div class="dash-duo">
+    <section class="card">
+      <h2>{% trans "Back to process" %}</h2>
+      <div class="chart-frame">
+        <canvas id="chart-ci-return"></canvas>
+        <p class="chart-empty muted" hidden>{% trans "No interview answers yet." %}</p>
+      </div>
+    </section>
+    {% include "b2c/partials/mix_block.html" with title=_("Out of process reasons") rows=ci.out_of_process_reasons %}
+  </div>
+
+  <section class="dash-section">
+    <h2 class="dash-section-title">{% trans "Research answers" %}</h2>
+    <div class="dash-split">
+      {% include "b2c/partials/mix_block.html" with title=_("Contact outcomes") rows=ci.contact_outcomes %}
+      {% include "b2c/partials/mix_block.html" with title=_("Match experience") rows=ci.match_experience %}
+      {% include "b2c/partials/mix_block.html" with title=_("Fees awareness") rows=ci.fees_awareness %}
+      {% include "b2c/partials/mix_block.html" with title=_("Process awareness") rows=ci.process_awareness %}
+      {% include "b2c/partials/mix_block.html" with title=_("Programme preference") rows=ci.programme_preference %}
+      {% include "b2c/partials/mix_block.html" with title=_("Country messaging") rows=ci.country_messaging %}
+      {% include "b2c/partials/mix_block.html" with title=_("NPS groups") rows=ci.nps_buckets %}
+      {% include "b2c/partials/mix_block.html" with title=_("NPS distribution") rows=ci.nps_distribution %}
+      {% include "b2c/partials/mix_block.html" with title=_("Countries mentioned") rows=ci.countries_mentioned %}
+    </div>
+  </section>
+
+  <section class="dash-section">
+    <h2 class="dash-section-title">{% trans "Interview outcomes by cut" %}</h2>
+    {% include "b2c/partials/interview_cut.html" with title=_("Per campaign") header=_("Campaign") rows=ci.by_campaign %}
+    {% include "b2c/partials/interview_cut.html" with title=_("Per campus") header=_("Campus") rows=ci.by_campus %}
+  </section>
+
+  <section class="dash-section">
+    <h2 class="dash-section-title">{% trans "B2C membership performance" %}</h2>
+    <div class="dash-kpis dash-kpis-sub">
+      <div class="metric-tile"><p class="metric-label">{% trans "Members working" %}</p><p class="metric-value">{{ members.totals.members }}</p></div>
+      <div class="metric-tile"><p class="metric-label">{% trans "Interviews" %}</p><p class="metric-value">{{ members.totals.interviews }}</p></div>
+      <div class="metric-tile"><p class="metric-label">{% trans "Completed" %}</p><p class="metric-value">{{ members.totals.completed }}</p></div>
+      <div class="metric-tile"><p class="metric-label">{% trans "Sent back to process" %}</p><p class="metric-value">{{ members.totals.back_to_process }}</p></div>
+    </div>
+
+    <section class="card">
+      <h2>{% trans "Interviews completed per member" %}</h2>
+      <div class="chart-frame chart-frame-tall">
+        <canvas id="chart-member-interviews"></canvas>
+        <p class="chart-empty muted" hidden>{% trans "No interviews saved yet." %}</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>{% trans "Contacting per member" %}</h2>
+      <p class="muted">{% trans "Counted on the B2C responsible, or the assigned member when there is no responsible." %}</p>
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{% trans "Member" %}</th>
+              <th>{% trans "Interviews" %}</th>
+              <th>{% trans "Attempts" %}</th>
+              <th>{% trans "Reached" %}</th>
+              <th>{% trans "Completed" %}</th>
+              <th>{% trans "Completion" %}</th>
+              <th>{% trans "Reach rate" %}</th>
+              <th>{% trans "Back to process" %}</th>
+              <th>{% trans "Average NPS" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in members.rows %}
+              <tr>
+                <td>{{ row.label }}</td>
+                <td>{{ row.interviews }}</td>
+                <td>{{ row.attempts }}</td>
+                <td>{{ row.reached }}</td>
+                <td>{{ row.completed }}</td>
+                <td>{{ row.completion_rate_label }}</td>
+                <td>{{ row.reach_rate_label }}</td>
+                <td>{{ row.back_to_process }}</td>
+                <td>{{ row.avg_nps|default:"—" }}</td>
+              </tr>
+            {% empty %}
+              <tr><td colspan="9">{% trans "No interviews saved yet." %}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  <script src="{% static 'js/b2c-dashboard.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% load i18n %}
+<div class="table-wrap">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{% trans "Opportunity" %}</th>
+        <th>{% trans "LC" %}</th>
+        <th>{% trans "Openings" %}</th>
+        <th>{% trans "Available" %}</th>
+        <th>{% trans "Applicants" %}</th>
+        <th>{% trans "Slots" %}</th>
+        <th>{% trans "Status" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for account in page %}
+        <tr>
+          <td>
+            <a href="{% url 'exchange:open_detail' desk account.pk %}">{{ account.title }}</a>
+          </td>
+          <td>{{ account.lc_display_name|default:"—" }}</td>
+          <td>{{ account.openings }}</td>
+          <td>{{ account.available_openings }}</td>
+          <td>{{ account.applicants_count }}</td>
+          <td class="note-cell">{{ account.slot_summary|default:"—" }}</td>
+          <td>
+            <span class="badge badge-{{ account.status_badge }}">{{ account.status|default:"—" }}</span>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="7">
+            {% trans "No EXPA opens for this LC yet." %}
+            {% if last_sync %}
+              <span class="muted">
+                {% if last_sync.error %}
+                  {% trans "Last EXPA pull failed:" %} {{ last_sync.error }}
+                {% else %}
+                  {% trans "Last EXPA pull:" %} {{ last_sync.status }}
+                {% endif %}
+              </span>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% if page.has_other_pages %}
+  <nav class="pager">
+    {% if page.has_previous %}
+      <a href="?{{ queue_query }}&page={{ page.previous_page_number }}" hx-get="?{{ queue_query }}&page={{ page.previous_page_number }}" hx-target="#opens-table">{% trans "Previous" %}</a>
+    {% endif %}
+    <span>{% blocktrans with n=page.number total=page.paginator.num_pages %}Page {{ n }} of {{ total }}{% endblocktrans %}</span>
+    {% if page.has_next %}
+      <a href="?{{ queue_query }}&page={{ page.next_page_number }}" hx-get="?{{ queue_query }}&page={{ page.next_page_number }}" hx-target="#opens-table">{% trans "Next" %}</a>
+    {% endif %}
+  </nav>
+{% endif %}

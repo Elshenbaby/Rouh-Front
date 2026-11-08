@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load mc_format %}
+
+{% block content %}
+  {% include "rcr/_chrome.html" %}
+
+  <section class="rcr-strip" aria-label="Interviews">
+    <div><span>Interviews</span><strong>{{ summary.total|count }}</strong></div>
+    <div><span>Accepted</span><strong>{{ summary.accepted|count }}</strong></div>
+    <div><span>Rejected</span><strong>{{ summary.rejected|count }}</strong></div>
+    <div><span>Result mail not sent</span><strong>{{ summary.mails|count }}</strong></div>
+    <div><span>Scheduled, not interviewed</span><strong>{{ waiting|length|count }}</strong></div>
+  </section>
+
+  <div class="rcr-two">
+    <section class="ops-panel">
+      <header class="ops-panel-head rcr-head-row">
+        <div><h2>F2F interviews</h2><p>Every interview form filled for your LC. The questions are set by the MC for this cycle.</p></div>
+        <div class="btn-row"><a class="btn btn-primary btn-sm" href="{% url 'rcr:interview_new' cycle.slug %}">New interview</a><a class="btn btn-secondary btn-sm" href="?export=csv">Download CSV</a></div>
+      </header>
+      <form method="get" class="rcr-filters">
+        <label class="field"><span>Search</span><input id="i-q" type="search" name="q" value="{{ q }}" placeholder="Candidate, ID, interviewer"></label>
+        <label class="field"><span>Decision</span><select id="i-decision" name="decision" onchange="this.form.submit()"><option value="">Any</option>{% for code, label in decisions %}<option value="{{ code }}"{% if code == decision %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+        <label class="field"><span>Cluster</span><select id="i-cluster" name="cluster" onchange="this.form.submit()"><option value="">Any</option>{% for code, label in clusters_choices %}<option value="{{ code }}"{% if code == cluster %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+        <div class="filter-actions"><button class="btn btn-secondary btn-sm" type="submit">Filter</button></div>
+      </form>
+      <div class="table-wrap">
+        <table class="table ops-compact">
+          <thead><tr><th>Candidate</th><th>Interviewers</th><th>When</th><th class="q-num">Score</th><th>Cluster</th><th>Decision</th><th>Mail</th></tr></thead>
+          <tbody>
+            {% for interview in page %}
+              <tr>
+                <th scope="row"><a href="{% url 'rcr:interview' cycle.slug interview.pk %}">{{ interview.candidate_name }}</a><small class="muted"> {{ interview.candidate_id }}</small></th>
+                <td>{{ interview.interviewer_1 }}{% if interview.interviewer_2 %}, {{ interview.interviewer_2 }}{% endif %}</td>
+                <td>{{ interview.created_at|date:"j M, H:i" }}</td>
+                <td class="q-num"><strong>{{ interview.score|default:"—" }}</strong></td>
+                <td>{% if interview.cluster %}<b class="rcr-cluster is-{{ interview.cluster|lower }}">{{ interview.cluster }}</b>{% endif %} {{ interview.function_fit|upper }}</td>
+                <td><span class="badge badge-{{ interview.decision }}">{{ interview.get_decision_display }}</span></td>
+                <td>{% if interview.mail_sent %}Sent{% else %}<span class="muted">Not yet</span>{% endif %}</td>
+              </tr>
+            {% empty %}
+              <tr><td colspan="7">No interviews {% if q or decision or cluster %}match these filters{% else %}yet{% endif %}.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% include "rcr/partials/pager.html" %}
+    </section>
+    <section class="ops-panel">
+      <header class="ops-panel-head"><h2>Clusters</h2><p>Against the target mix for this cycle.</p></header>
+      {% include "rcr/partials/clusters.html" %}
+      {% if waiting %}
+        <h3 class="rcr-sub">Scheduled, waiting for their interview</h3>
+        <ul class="rcr-chips">{% for lead in waiting %}<li><a href="{% url 'rcr:interview_new' cycle.slug %}?lead={{ lead.pk }}">{{ lead.full_name }}</a></li>{% endfor %}</ul>
+      {% endif %}
+    </section>
+  </div>
+{% endblock %}

@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load static mc_format %}
+
+{% block content %}
+  {% include "rcr/_chrome.html" %}
+
+  <section class="rcr-alerts" aria-label="Needs attention">
+    <a class="rcr-alert{% if waiting %} is-warn{% endif %}" href="{% url 'rcr:leads_new' cycle.slug %}?stage=lead&outcome=active">
+      <strong>{{ waiting|count }}</strong><span>new leads waiting for first contact</span>
+    </a>
+    <a class="rcr-alert{% if unassigned %} is-warn{% endif %}" href="{% url 'rcr:leads_new' cycle.slug %}?recruiter=none">
+      <strong>{{ unassigned|count }}</strong><span>new leads with no recruiter</span>
+    </a>
+    <div class="rcr-alert">
+      <strong>{% if change %}+{{ change.contacted|default:0 }}{% else %}—{% endif %}</strong><span>{% if change %}contacted since yesterday's snapshot{% else %}contacted since yesterday (from tomorrow){% endif %}</span>
+    </div>
+    <div class="rcr-alert">
+      <strong>{% if change %}+{{ change.f2f_done|default:0 }}{% else %}—{% endif %}</strong><span>F2F interviews since yesterday</span>
+    </div>
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head">
+      <h2>Planned vs achieved</h2>
+      <p>LEAD counts new leads; APP is everyone who did the F2F interview, ACC who passed it, REC who attended the conference. Goals come from your capacity plan.</p>
+    </header>
+    {% if not plan.members_needed %}
+      <p class="ops-empty">No plan yet, so there are no goals. {% if can_manage %}<a href="{% url 'rcr:planning' cycle.slug %}">Set how many new members you need</a> and the goals fill in.{% else %}Your LCVP TM sets them in Capacity planning.{% endif %}</p>
+    {% endif %}
+    <div class="ops-hero rcr-pva">
+      {% for row in pva %}
+        <article class="ops-kpi{% if row.level %} is-{{ row.level }}{% endif %}">
+          <p class="ops-kpi-label">{{ row.label }}</p>
+          <p class="ops-kpi-value">{{ row.ach|count }}<span>{% if row.goal %}of {{ row.goal|count }}{% else %}no goal{% endif %}</span></p>
+          <div class="ops-meter" role="img" aria-label="{{ row.pct|pct0 }} of the goal"><i style="width: {% if row.pct %}{% widthratio row.ach row.goal 100 %}{% else %}0{% endif %}%"></i></div>
+          <dl class="ops-kpi-facts">
+            <div><dt>Of goal</dt><dd class="ops-level">{{ row.pct|pct0 }}</dd></div>
+            <div><dt>Still to go</dt><dd>{% if row.goal %}{{ row.gap|count }}{% else %}—{% endif %}</dd></div>
+            <div><dt>Goal</dt><dd>{{ row.goal|count }}</dd></div>
+          </dl>
+        </article>
+      {% endfor %}
+    </div>
+    <div class="rcr-conv">
+      {% for c in conversions %}
+        <div class="rcr-conv-item">
+          <span>{{ c.label }}</span>
+          <strong>{{ c.actual|pct:1 }}</strong>
+          <small>planned {{ c.planned|pct0 }}</small>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head rcr-head-row"><div><h2>Where everyone is</h2><p>Every lead at the furthest step they reached. Open the RCR board to see who holds them.</p></div><a class="btn btn-primary btn-sm" href="{% url 'rcr:pipeline' cycle.slug %}?kind=all">Open the RCR board</a></header>
+    <ol class="rcr-ribbon">
+      <li style="--w: 100%"><a href="{% url 'rcr:pipeline' cycle.slug %}?kind=all"><span>Leads</span><b>{{ counts.total.total|count }}</b></a></li>
+      {% for row in steps %}<li style="--w: {% if row.of_leads %}{% widthratio row.count counts.total.total 100 %}{% else %}0{% endif %}%"><a href="{% url 'rcr:pipeline' cycle.slug %}?kind=all"><span>{{ row.label }}</span><b>{{ row.count|count }}</b><small>{{ row.step|pct0 }} of the step before</small></a></li>{% endfor %}
+    </ol>
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head">
+      <h2>Funnel analysis</h2>
+      <p>Every stage, for new and old leads apart. A lead counts at each stage it has passed. "Step" is the share of the stage before; "of leads" the share of all leads of that kind.</p>
+    </header>
+    <div class="table-wrap">
+      <table class="table ops-table ops-compact rcr-funnel">
+        <thead>
+          <tr><th rowspan="2">Stage</th><th colspan="3" class="rcr-group">New leads ({{ counts.kinds.new.total|count }})</th><th colspan="3" class="rcr-group">Old leads ({{ counts.kinds.old.total|count }})</th><th class="q-num" rowspan="2">RXPs</th><th colspan="3" class="rcr-group is-sum">Total</th></tr>
+          <tr><th class="q-num">#</th><th class="q-num">Step</th><th class="q-num">Of leads</th><th class="q-num">#</th><th class="q-num">Step</th><th class="q-num">Of leads</th><th class="q-num is-sum">#</th><th class="q-num is-sum">Step</th><th class="q-num is-sum">Of leads</th></tr>
+        </thead>
+        <tbody>
+          {% for row in steps %}
+            {% with n=row.kinds.new o=row.kinds.old %}
+            <tr>
+              <th scope="row">{{ row.label }}</th>
+              <td class="q-num"><strong>{{ n.count|count }}</strong></td><td class="q-num">{{ n.step|pct0 }}</td><td class="q-num muted">{{ n.of_leads|pct:1 }}</td>
+              <td class="q-num"><strong>{{ o.count|count }}</strong></td><td class="q-num">{{ o.step|pct0 }}</td><td class="q-num muted">{{ o.of_leads|pct:1 }}</td>
+              <td class="q-num">{{ counts.kinds.rxp|get_item:row.code|count }}</td>
+              <td class="q-num is-sum"><strong>{{ row.count|count }}</strong></td><td class="q-num is-sum">{{ row.step|pct0 }}</td><td class="q-num is-sum muted">{{ row.of_leads|pct:1 }}</td>
+            </tr>
+            {% endwith %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="mkt-grid rcr-grid">
+    <article class="ops-panel">
+      <header class="ops-panel-head"><h2>The last 30 days</h2><p>New leads signing up each day, and how many lead steps your team logged.</p></header>
+      <div class="rcr-chart" data-rcr-chart="daily" role="img" aria-label="New leads and lead steps per day"></div>
+    </article>
+    <article class="ops-panel">
+      <header class="ops-panel-head"><h2>Where new leads came from</h2><p>How they heard about AIESEC, and how far each channel gets.</p></header>
+      <div class="mkt-split" role="img" aria-label="New leads by channel">
+        {% for c in mix %}{% if c.leads %}<i style="flex: {{ c.leads }} 1 0; background: {{ c.color }}" title="{{ c.label }}: {{ c.leads }}"></i>{% endif %}{% endfor %}
+      </div>
+      <table class="table ops-compact">
+        <thead><tr><th>Channel</th><th class="q-num">Leads</th><th class="q-num">Share</th><th class="q-num">Contacted</th><th class="q-num">APP</th><th class="q-num">LEAD→APP</th></tr></thead>
+        <tbody>
+          {% for c in mix %}{% if c.leads %}
+            <tr><th scope="row"><span class="mkt-swatch" style="background: {{ c.color }}"></span>{{ c.label }}</th><td class="q-num"><strong>{{ c.leads|count }}</strong></td><td class="q-num">{{ c.share|pct0 }}</td><td class="q-num">{{ c.contacted|count }}</td><td class="q-num">{{ c.app|count }}</td><td class="q-num">{{ c.lead_app|pct:1 }}</td></tr>
+          {% endif %}{% empty %}<tr><td colspan="6">No new leads yet.</td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </article>
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>Leads analysis</h2><p>New leads per campus and channel. Offline is booths, events and info sessions on campus.</p></header>
+    {% include "rcr/partials/analysis.html" with analysis=analysis_new %}
+    {% if analysis_old.total %}
+      <h3 class="rcr-sub">Old leads ({{ analysis_old.total|count }})</h3>
+      {% include "rcr/partials/analysis.html" with analysis=analysis_old %}
+    {% endif %}
+  </section>
+
+  <section class="mkt-grid rcr-grid">
+    <article class="ops-panel">
+      <header class="ops-panel-head rcr-head-row"><div><h2>RcR team</h2><p>What each recruiter has done with the leads they hold.</p></div><a class="btn btn-secondary btn-sm" href="{% url 'rcr:team' cycle.slug %}">Team & shifts</a></header>
+      <table class="table ops-compact">
+        <thead><tr><th>Recruiter</th><th class="q-num">Leads</th><th class="q-num">Contacted</th><th class="q-num">PC accepted</th><th class="q-num">F2F</th><th class="q-num">GD</th></tr></thead>
+        <tbody>
+          {% for r in recruiters %}
+            <tr><th scope="row"><a href="{% url 'rcr:leads_new' cycle.slug %}?recruiter={{ r.member_id }}">{{ r.name }}</a></th><td class="q-num">{{ r.assigned|count }}</td><td class="q-num"><strong>{{ r.contacted|count }}</strong> <small class="muted">{{ r.contact_rate|pct0 }}</small></td><td class="q-num">{{ r.pc_accepted|count }}</td><td class="q-num">{{ r.f2f|count }}</td><td class="q-num">{{ r.gd|count }}</td></tr>
+          {% empty %}
+            <tr><td colspan="6">No lead has a recruiter yet. Give leads to your team from New leads.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </article>
+    <article class="ops-panel">
+      <header class="ops-panel-head"><h2>Clusters</h2><p>Final assessment of the F2F interviews ({{ clusters.total|count }}) against the cycle's target mix.</p></header>
+      {% include "rcr/partials/clusters.html" %}
+    </article>
+  </section>
+
+  {{ chart|json_script:"rcr-data" }}
+{% endblock %}
+
+{% block extra_js %}
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js" defer></script>
+  <script src="{% static 'js/rcr.js' %}?v=1" defer></script>
+{% endblock %}

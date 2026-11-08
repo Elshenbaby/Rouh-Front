@@ -1,0 +1,82 @@
+{% load i18n %}
+<div class="metric-row">
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Paid B2B slots" %}</p>
+    <p class="metric-value">{{ counts.paid }}</p>
+    <p class="muted">{% trans "OP Fee Revenues rows in the financial tools" %}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "B2B opportunities" %}</p>
+    <p class="metric-value">{{ counts.all }}</p>
+    <p class="muted">{% trans "In the financial tools, this filter" %}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Live" %}</p>
+    <p class="metric-value">{{ counts.live }}</p>
+    <p class="muted">{{ counts.available }} {% trans "openings available" %}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Not live" %}</p>
+    <p class="metric-value">{{ counts.not_live }}</p>
+    <p class="muted">{{ counts.not_on_expa }} {% trans "not on EXPA" %}</p>
+  </div>
+</div>
+
+<div class="table-wrap">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{% trans "Opportunity" %}</th>
+        <th>{% trans "Product" %}</th>
+        <th>{% trans "Peak" %}</th>
+        <th>{% trans "LC" %}</th>
+        <th>{% trans "Accommodation" %}</th>
+        <th>{% trans "First paid" %}</th>
+        <th>{% trans "Paid slots" %}</th>
+        <th>{% trans "Live on EXPA" %}</th>
+        <th>{% trans "Available" %}</th>
+        <th>{% trans "Status" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in page %}
+        <tr>
+          <td>
+            {% if row.account %}
+              <a href="{% url 'b2b:slot' row.account.pk %}?desk={{ desk }}">{{ row.account.title|default:row.opp_id }}</a>
+              <p class="muted">{{ row.opp_id }}{% if row.account.organisation_name %} · {{ row.account.organisation_name }}{% endif %}</p>
+            {% else %}
+              <a href="https://expa.aiesec.org/opportunities/{{ row.opp_id }}" target="_blank" rel="noopener">{% trans "Opp" %} {{ row.opp_id }}</a>
+              <p class="muted">{% trans "In the financial tool, not on EXPA in Rouh" %}</p>
+            {% endif %}
+          </td>
+          <td>{{ row.product_label }}</td>
+          <td>{% if row.peak == "26.1" %}{% trans "Summer" %} 26.1{% else %}{% trans "Winter" %} 26.2{% endif %}</td>
+          <td>{{ row.entity.name|default:"—" }}</td>
+          <td>{% if row.accommodation == "yes" %}{% trans "Providing" %}{% elif row.accommodation == "no" %}{% trans "Not providing" %}{% else %}—{% endif %}</td>
+          <td>{{ row.first_paid|date:"j M Y"|default:"—" }}</td>
+          <td><strong>{{ row.paid }}</strong></td>
+          <td>{{ row.live_slots }}</td>
+          <td>{{ row.available }}</td>
+          <td>
+            <span class="badge badge-{% if row.state == 'live' %}approved{% elif row.state == 'expa_not_live' %}pending{% else %}out_of_process{% endif %}">{{ row.state_label }}</span>
+            {% if row.expa_status and row.state != 'live' %}<p class="muted">{% trans "EXPA" %}: {{ row.expa_status }}</p>{% endif %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="10">{% trans "No B2B opportunities in the financial tools for this filter." %}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% if page.has_other_pages %}
+  <nav class="pager">
+    {% if page.has_previous %}
+      <a href="?desk={{ desk }}&amp;q={{ q|urlencode }}&amp;status={{ status }}&amp;product={{ product }}&amp;accommodation={{ accommodation }}&amp;peak={{ peak }}&amp;page={{ page.previous_page_number }}">{% trans "Previous" %}</a>
+    {% endif %}
+    <span>{% blocktrans with n=page.number total=page.paginator.num_pages %}Page {{ n }} of {{ total }}{% endblocktrans %}</span>
+    {% if page.has_next %}
+      <a href="?desk={{ desk }}&amp;q={{ q|urlencode }}&amp;status={{ status }}&amp;product={{ product }}&amp;accommodation={{ accommodation }}&amp;peak={{ peak }}&amp;page={{ page.next_page_number }}">{% trans "Next" %}</a>
+    {% endif %}
+  </nav>
+{% endif %}

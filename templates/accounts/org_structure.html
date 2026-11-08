@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'ui:desk' 'tm' %}">{% trans "Talent" %}</a></p>
+    <h1>{% trans "LC tree" %}</h1>
+    <p class="lede">
+      {% blocktrans with lc=entity.name %}{{ lc }}: LCP, then each VP, then middle managers (coordinators and team leaders) on one layer. Members sit under a team leader.{% endblocktrans %}
+    </p>
+  </header>
+
+    {% include "tm/partials/tabs.html" %}
+    {% include "accounts/partials/org_stats.html" %}
+  {% include "accounts/partials/org_board.html" %}
+{% endblock %}
+
+{% block extra_js %}
+  <script>
+    // The tree is drawn again after every change: keep the function you were working on where it was on screen.
+    let orgAnchor = null;
+    document.body.addEventListener("htmx:beforeRequest", (event) => {
+      const branch = event.detail.elt.closest && event.detail.elt.closest(".tree-function");
+      orgAnchor = branch ? { id: branch.id, top: branch.getBoundingClientRect().top } : null;
+    });
+    document.body.addEventListener("htmx:afterSettle", () => {
+      if (!orgAnchor) return;
+      const branch = document.getElementById(orgAnchor.id);
+      if (branch) {
+        window.scrollBy(0, branch.getBoundingClientRect().top - orgAnchor.top);
+        const problem = branch.querySelector(".org-error");
+        if (problem) problem.scrollIntoView({ block: "nearest" });
+      }
+      orgAnchor = null;
+    });
+    // A change on the tree that the server couldn't save says so, inside the function you were working on.
+    document.body.addEventListener("htmx:responseError", (event) => {
+      const board = document.getElementById("org-board");
+      if (!board || !board.contains(event.detail.elt)) return;
+      orgAnchor = null;
+      const branch = event.detail.elt.closest(".tree-function");
+      const spot = (branch && branch.querySelector(".tree-add-function")) || board.firstElementChild;
+      let box = (branch || board).querySelector(".org-error");
+      if (!box) {
+        box = document.createElement("div");
+        box.className = "alert alert-error org-error";
+        box.setAttribute("role", "alert");
+        spot.parentNode.insertBefore(box, spot);
+      }
+      box.textContent = "That didn't save: something went wrong on our side. Refresh the page and try again; if it keeps happening, tell IM.";
+    });
+  </script>
+{% endblock %}

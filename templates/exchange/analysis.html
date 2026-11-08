@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow">
+      {% if desk_spec %}
+        <a href="{% url 'ui:desk' desk_spec.code %}">{{ desk_spec.label }}</a>
+      {% else %}
+        {% trans "Exchange" %}
+      {% endif %}
+    </p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+    <details class="how-counted">
+      <summary>{% trans "How it's counted" %}</summary>
+      <ul>
+        {% if is_icx %}
+        <li>{% blocktrans %}<b>The list:</b> people who applied to our opportunities in the term picked at the top (or the days you choose). Each is followed to today: accepted, approved, realized, whenever that happened.{% endblocktrans %}</li>
+        {% else %}
+        <li>{% blocktrans %}<b>The list:</b> people who signed up in the term picked at the top (or the days you choose). Each is followed to today: applied, accepted, approved, realized, whenever that happened.{% endblocktrans %}</li>
+        {% endif %}
+        <li>{% blocktrans %}<b>So it isn't EXPA's count for the term.</b> Someone who signed up before the term and was approved in it is counted by EXPA (and on Performance) but isn't on this list. Someone on this list approved after the term is counted here, not by EXPA for the term.{% endblocktrans %}</li>
+        <li>{% blocktrans %}<b>Each person counts once</b>, at the furthest step any of their applications reached. Applications counts every application they sent, at any time.{% endblocktrans %}</li>
+        <li>{% blocktrans %}<b>Contacted, assigned, teams and members</b> come from what your LC records in Rouh. If nobody is assigned or marked contacted, those show 0.{% endblocktrans %}</li>
+        <li>{% blocktrans with day=rouh_from|date:"j M Y" %}<b>From {{ day }}:</b> Rouh's records start that day, so the dates can't go earlier. For older days use Performance, which reads EXPA's analytics.{% endblocktrans %}</li>
+      </ul>
+    </details>
+  </header>
+
+  {% if desk_spec and desk_spec.code in "ogv ogta ogte igv igta igte" %}
+  <nav class="pf-views" aria-label="{% trans 'Analysis views' %}">
+    <a href="{{ analysis_url }}">{% trans "Performance" %}<small>{% trans "What happened in these days, as EXPA counts it" %}</small></a>
+    <a class="is-active" href="{{ analysis_url }}?view=pipeline">{% trans "Pipeline & team" %}<small>{% trans "How far the people who signed up got, by member and team" %}</small></a>
+  </nav>
+  {% endif %}
+
+  <form
+    id="analysis-filters"
+    method="get"
+    class="filter-bar is-wide dash-filters"
+    hx-get="{{ analysis_url }}"
+    hx-target="#analysis-body"
+    hx-push-url="true"
+    hx-trigger="change, submit"
+    x-data="{ more: {% if analysis.query.more_open %}true{% else %}false{% endif %} }"
+  >
+    <input type="hidden" name="view" value="pipeline">
+    <label class="field">
+      <span>{% trans "From" %}</span>
+      <input type="date" name="date_from" value="{{ analysis.query.date_from }}" min="{{ rouh_from|date:'Y-m-d' }}">
+    </label>
+    <label class="field">
+      <span>{% trans "To" %}</span>
+      <input type="date" name="date_to" value="{{ analysis.query.date_to }}" min="{{ rouh_from|date:'Y-m-d' }}">
+    </label>
+    <label class="field">
+      <span>{% trans "Team" %}</span>
+      <select name="team" hx-trigger="change">
+        <option value="">{% trans "All teams" %}</option>
+        {% for team in analysis.teams %}
+          <option value="{{ team.pk }}"{% if analysis.query.team == team.pk|stringformat:"s" %} selected{% endif %}>{{ team.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label class="field">
+      <span>{% trans "Person" %}</span>
+      <select name="member" hx-trigger="change">
+        <option value="">{% trans "Everyone" %}</option>
+        {% for member in analysis.roster %}
+          <option value="{{ member.pk }}"{% if analysis.query.member == member.pk|stringformat:"s" %} selected{% endif %}>{{ member.full_name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    {% if not analysis.is_icx %}
+    <label class="field">
+      <span>{% trans "Campaign" %}</span>
+      <select name="campaign" hx-trigger="change">
+        <option value="">{% trans "All campaigns" %}</option>
+        {% for value in analysis.options.campaigns %}
+          <option value="{{ value }}"{% if analysis.query.campaign == value %} selected{% endif %}>{{ value }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label class="field">
+      <span>{% trans "Campus" %}</span>
+      <select name="campus" hx-trigger="change">
+        <option value="">{% trans "All campuses" %}</option>
+        {% for value in analysis.options.campuses %}
+          <option value="{{ value }}"{% if analysis.query.campus == value %} selected{% endif %}>{{ value }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    {% endif %}
+    <label class="field">
+      <span>{% trans "Country" %}</span>
+      <select name="country" hx-trigger="change">
+        <option value="">{% trans "All countries" %}</option>
+        {% for value in analysis.options.countries %}
+          <option value="{{ value }}"{% if analysis.query.country == value %} selected{% endif %}>{{ value }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label class="field">
+      <span>{% trans "Owner" %}</span>
+      <select name="owner" hx-trigger="change">
+        <option value="">{% trans "Assigned and not" %}</option>
+        <option value="assigned"{% if analysis.query.owner == "assigned" %} selected{% endif %}>{% trans "Assigned" %}</option>
+        <option value="unassigned"{% if analysis.query.owner == "unassigned" %} selected{% endif %}>{% trans "Unassigned" %}</option>
+      </select>
+    </label>
+    <button type="button" class="btn btn-ghost btn-sm" @click="more = !more">
+      <span x-show="!more">{% trans "More filters" %}</span>
+      <span x-show="more" x-cloak>{% trans "Fewer filters" %}</span>
+    </button>
+    {% if analysis.filters_active %}
+      <a class="btn btn-ghost btn-sm" href="{{ analysis_url }}">{% trans "Clear" %}</a>
+    {% endif %}
+
+    <div class="dash-more" x-show="more" x-cloak>
+      <label class="field">
+        <span>{% trans "Contact" %}</span>
+        <select name="contact" hx-trigger="change">
+          <option value="">{% trans "All contact" %}</option>
+          {% for value, label in analysis.contact_choices %}
+            <option value="{{ value }}"{% if analysis.query.contact == value %} selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label class="field">
+        <span>{% trans "Status" %}</span>
+        <select name="status" hx-trigger="change">
+          <option value="">{% trans "All statuses" %}</option>
+          {% for value, label in analysis.status_choices %}
+            <option value="{{ value }}"{% if analysis.query.status == value %} selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label class="field">
+        <span>{% trans "Out of process" %}</span>
+        <select name="oop" hx-trigger="change">
+          <option value="">{% trans "All reasons" %}</option>
+          {% for value, label in analysis.oop_choices %}
+            <option value="{{ value }}"{% if analysis.query.oop == value %} selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      {% if analysis.is_icx %}
+      <label class="field">
+        <span>{% trans "Interviewed" %}</span>
+        <select name="interviewed" hx-trigger="change">
+          <option value="">{% trans "All" %}</option>
+          {% for value, label in analysis.yes_no_choices %}
+            <option value="{{ value }}"{% if analysis.query.interviewed == value %} selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      {% else %}
+      <label class="field">
+        <span>{% trans "Interested" %}</span>
+        <select name="interested" hx-trigger="change">
+          <option value="">{% trans "All" %}</option>
+          {% for value, label in analysis.interest_choices %}
+            <option value="{{ value }}"{% if analysis.query.interested == value %} selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      {% endif %}
+      <label class="field">
+        <span>{% trans "Gender" %}</span>
+        <select name="gender" hx-trigger="change">
+          <option value="">{% trans "All genders" %}</option>
+          {% for value in analysis.options.genders %}
+            <option value="{{ value }}"{% if analysis.query.gender == value %} selected{% endif %}>{{ value }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label class="field">
+        <span>{% trans "Source" %}</span>
+        <select name="source" hx-trigger="change">
+          <option value="">{% trans "All sources" %}</option>
+          {% for value in analysis.options.sources %}
+            <option value="{{ value }}"{% if analysis.query.source == value %} selected{% endif %}>{{ value }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label class="field">
+        <span>{% trans "Referral" %}</span>
+        <select name="referral" hx-trigger="change">
+          <option value="">{% trans "All referrals" %}</option>
+          {% for value in analysis.options.referrals %}
+            <option value="{{ value }}"{% if analysis.query.referral == value %} selected{% endif %}>{{ value }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label class="field">
+        <span>{% if analysis.is_icx %}{% trans "Home MC" %}{% else %}{% trans "Host MC" %}{% endif %}</span>
+        <select name="host" hx-trigger="change">
+          <option value="">{% if analysis.is_icx %}{% trans "All home MCs" %}{% else %}{% trans "All host MCs" %}{% endif %}</option>
+          {% for value in analysis.options.hosts %}
+            <option value="{{ value }}"{% if analysis.query.host == value %} selected{% endif %}>{{ value }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label class="field">
+        <span>{% if analysis.is_icx %}{% trans "Home LC" %}{% else %}{% trans "Host LC" %}{% endif %}</span>
+        <select name="host_lc" hx-trigger="change">
+          <option value="">{% if analysis.is_icx %}{% trans "All home LCs" %}{% else %}{% trans "All host LCs" %}{% endif %}</option>
+          {% for value in analysis.options.host_lcs %}
+            <option value="{{ value }}"{% if analysis.query.host_lc == value %} selected{% endif %}>{{ value }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label class="field">
+        <span>{% trans "Opportunity" %}</span>
+        <select name="project" hx-trigger="change">
+          <option value="">{% trans "All opportunities" %}</option>
+          {% for value in analysis.options.projects %}
+            <option value="{{ value }}"{% if analysis.query.project == value %} selected{% endif %}>{{ value }}</option>
+          {% endfor %}
+        </select>
+      </label>
+    </div>
+  </form>
+
+  <div id="analysis-body">
+    {% include "exchange/partials/analysis_body.html" %}
+  </div>
+{% endblock %}

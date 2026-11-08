@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'people:org' %}">{% trans "Function structure" %}</a></p>
+    <h1>{{ plan.get_function_display }}</h1>
+    <p class="lede">
+      {% trans "These names are this LC’s approved accounts. Assign VP, MMs, then each team’s TL, coordinators and members. EP Manager on signups comes from this list." %}
+    </p>
+  </header>
+
+  {% if plan.team_count == 0 and plan.mm_count == 0 %}
+    <p class="alert">{% trans "Set team and member numbers on Function structure first." %}</p>
+  {% endif %}
+
+  <form method="post" class="org-assign">
+    {% csrf_token %}
+    <section class="card">
+      <h2>{% trans "Leadership" %}</h2>
+      <label class="field">
+        <span>{% trans "VP" %}</span>
+        <select name="vp">
+          <option value="">---------</option>
+          {% for member in members %}
+            <option value="{{ member.pk }}" {% if vp and vp.pk == member.pk %}selected{% endif %}>{{ member.full_name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      {% for mm in mms %}
+        <label class="field">
+          <span>{% trans "MM" %} {{ forloop.counter }}</span>
+          <select name="mm_{{ forloop.counter0 }}">
+            <option value="">---------</option>
+            {% for member in members %}
+              <option value="{{ member.pk }}" {% if mm and mm.pk == member.pk %}selected{% endif %}>{{ member.full_name }}</option>
+            {% endfor %}
+          </select>
+        </label>
+      {% empty %}
+        <p class="muted">{% trans "No MM seats. Add MM count on Function structure if this function uses middle managers." %}</p>
+      {% endfor %}
+    </section>
+
+    {% for row in team_rows %}
+      <section class="card">
+        <h2>{{ row.team.name }}</h2>
+        <label class="field">
+          <span>{% trans "Team leader" %}</span>
+          <select name="team_{{ row.index }}_tl">
+            <option value="">---------</option>
+            {% for member in members %}
+              <option value="{{ member.pk }}" {% if row.tl and row.tl.pk == member.pk %}selected{% endif %}>{{ member.full_name }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        {% for coord in row.coords %}
+          <label class="field">
+            <span>{% trans "Coordinator" %} {{ forloop.counter }}</span>
+            <select name="team_{{ row.index }}_coord_{{ forloop.counter0 }}">
+              <option value="">---------</option>
+              {% for member in members %}
+                <option value="{{ member.pk }}" {% if coord and coord.pk == member.pk %}selected{% endif %}>{{ member.full_name }}</option>
+              {% endfor %}
+            </select>
+          </label>
+        {% endfor %}
+        {% for seat in row.members %}
+          <label class="field">
+            <span>{% trans "Member" %} {{ forloop.counter }}</span>
+            <select name="team_{{ row.index }}_member_{{ forloop.counter0 }}">
+              <option value="">---------</option>
+              {% for member in members %}
+                <option value="{{ member.pk }}" {% if seat and seat.pk == member.pk %}selected{% endif %}>{{ member.full_name }}</option>
+              {% endfor %}
+            </select>
+          </label>
+        {% empty %}
+          <p class="muted">{% trans "No member seats on this team yet." %}</p>
+        {% endfor %}
+      </section>
+    {% empty %}
+      <p class="muted">{% trans "No teams yet. Save a team count on Function structure." %}</p>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary btn-md">{% trans "Save assignment" %}</button>
+  </form>
+{% endblock %}

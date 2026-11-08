@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow">
+      {% if desk_spec %}
+        <a href="{% url 'ui:desk' desk_spec.code %}">{{ desk_spec.label }}</a>
+        · {% trans "Calendar" %}
+      {% else %}
+        {% trans "Calendar" %}
+      {% endif %}
+    </p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+
+  {% if desk_spec.is_b2b %}
+    {% include "b2b/partials/tabs.html" %}
+  {% else %}
+    {% include "exchange/partials/desk_stage_tabs.html" %}
+  {% endif %}
+
+  <div
+    class="visit-cal"
+    x-data="visitCalendar()"
+    data-selected="{{ selected_day }}"
+    data-today="{{ calendar.today }}"
+  >
+    <div class="metric-row">
+      <div class="metric-tile">
+        <p class="metric-label">{% trans "Scheduled" %}</p>
+        <p class="metric-value">{{ calendar.kpis.scheduled }}</p>
+      </div>
+      <div class="metric-tile">
+        <p class="metric-label">{% trans "Done" %}</p>
+        <p class="metric-value">{{ calendar.kpis.done }}</p>
+      </div>
+      <div class="metric-tile">
+        <p class="metric-label">{% trans "Overdue" %}</p>
+        <p class="metric-value">{{ calendar.kpis.overdue }}</p>
+      </div>
+      <div class="metric-tile">
+        <p class="metric-label">{% trans "Needs a date" %}</p>
+        <p class="metric-value">{{ calendar.kpis.undated }}</p>
+      </div>
+      <div class="metric-tile">
+        <p class="metric-label">{% trans "Next 7 days" %}</p>
+        <p class="metric-value">{{ calendar.upcoming }}</p>
+      </div>
+    </div>
+
+    <div class="visit-cal-toolbar">
+      <div class="visit-cal-nav">
+        <a class="btn btn-ghost" href="?{{ prev_query }}">{% trans "Prev" %}</a>
+        <h2 class="visit-cal-month">{{ calendar.title }}</h2>
+        <a class="btn btn-ghost" href="?{{ next_query }}">{% trans "Next" %}</a>
+      </div>
+      <a class="btn" href="?{{ today_query }}">{% trans "Today" %}</a>
+    </div>
+
+    <ul class="visit-cal-legend" aria-label="{% trans 'Visit status' %}">
+      <li><span class="visit-cal-swatch is-scheduled"></span>{% trans "Scheduled" %}</li>
+      <li><span class="visit-cal-swatch is-overdue"></span>{% trans "Overdue" %}</li>
+      <li><span class="visit-cal-swatch is-done"></span>{% trans "Done" %}</li>
+      <li><span class="visit-cal-swatch is-cancelled"></span>{% trans "Cancelled" %}</li>
+    </ul>
+
+    <div class="visit-cal-layout">
+      <section class="visit-cal-board" aria-label="{{ calendar.title }}">
+        <div class="visit-cal-weekdays">
+          {% for day in calendar.weekdays %}
+            <span>{{ day }}</span>
+          {% endfor %}
+        </div>
+        <div class="visit-cal-grid">
+          {% for week in calendar.weeks %}
+            {% for day in week %}
+              <div
+                class="visit-cal-day{% if not day.in_month %} is-outside{% endif %}{% if day.is_today %} is-today{% endif %}"
+                :class="selected === '{{ day.iso }}' && 'is-selected'"
+                data-day="{{ day.iso }}"
+                role="button"
+                tabindex="0"
+                @click="openDay('{{ day.iso }}')"
+                @keydown.enter.prevent="openDay('{{ day.iso }}')"
+                :aria-pressed="selected === '{{ day.iso }}'"
+              >
+                <span class="visit-cal-num">{{ day.date|date:"j" }}</span>
+                {% if day.events %}
+                  <span class="visit-cal-chips">
+                    {% for event in day.events %}
+                      <a
+                        class="visit-cal-chip is-{{ event.status }}{% if forloop.counter > 3 %} is-extra{% endif %}"
+                        href="{{ event.url }}"
+                        @click.stop
+                        title="{{ event.name }} · {{ event.status_label }}{% if event.assignee %} · {{ event.assignee }}{% endif %}"
+                      >{{ event.name }}</a>
+                    {% endfor %}
+                    {% if day.count > 3 %}
+                      <span class="visit-cal-more">+{{ day.count|add:"-3" }}</span>
+                    {% endif %}
+                  </span>
+                  <span class="visit-cal-dots" aria-hidden="true">
+                    {% for event in day.events|slice:":4" %}
+                      <i class="is-{{ event.status }}"></i>
+                    {% endfor %}
+                    {% if day.count > 4 %}<b>+{{ day.count|add:"-4" }}</b>{% endif %}
+                  </span>
+                {% endif %}
+              </div>
+            {% endfor %}
+          {% endfor %}
+        </div>
+      </section>
+    </div>
+
+    {% if calendar.undated %}
+    <section class="card visit-cal-undated-card">
+      <h2>{% trans "Needs a date" %}</h2>
+      <p class="muted">{% trans "Visit scheduled on the account, no day yet. Open the account and pick the date." %}</p>
+      <ul class="visit-cal-undated">
+        {% for event in calendar.undated %}
+          <li>
+            <a href="{{ event.url }}">{{ event.name }}</a>
+            {% if event.assignee %}<span class="muted">{{ event.assignee }}</span>{% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endif %}
+
+    {% if calendar.agenda %}
+    <section class="visit-cal-agenda" aria-label="{% trans 'This month' %}">
+      <h2>{% trans "This month" %}</h2>
+      {% for day in calendar.agenda %}
+        <article class="visit-cal-agenda-day" data-agenda-day="{{ day.iso }}">
+          <h3>
+            <button type="button" @click="openDay('{{ day.iso }}')">{{ day.label }}</button>
+            <span class="muted">{{ day.events|length }}</span>
+          </h3>
+          <ul>
+            {% for event in day.events %}
+              <li class="is-{{ event.status }}">
+                <a href="{{ event.url }}">{{ event.name }}</a>
+                <span>{{ event.status_label }}{% if event.assignee %} · {{ event.assignee }}{% endif %}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        </article>
+      {% endfor %}
+    </section>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/raising-calendar.js' %}"></script>
+{% endblock %}

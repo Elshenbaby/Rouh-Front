@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'ui:desk' 'b2c' %}">{% trans "B2C" %}</a></p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+  {% include "b2c/partials/tabs.html" %}
+  <div class="metric-row">
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Campuses" %}</p>
+      <p class="metric-value">{{ campus_count }}</p>
+    </div>
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Granted" %}</p>
+      <p class="metric-value">{{ granted_count }}</p>
+    </div>
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "In progress" %}</p>
+      <p class="metric-value">{{ in_progress_count }}</p>
+    </div>
+  </div>
+  {% for entity, campuses in groups %}
+    {% if not current_entity %}<h2 class="campus-group">{{ entity.name }}</h2>{% endif %}
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{% trans "Campus" %}</th>
+            {% if not current_entity %}<th>{% trans "LC" %}</th>{% endif %}
+            <th>{% trans "Responsible lead" %}</th>
+            <th>{% trans "Access status" %}</th>
+            <th>{% trans "Completion" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for campus in campuses %}
+            <tr class="is-link">
+              <td><a class="row-link" href="{% url 'b2c:campus' campus.pk %}">{{ campus.campus_name }}</a></td>
+              {% if not current_entity %}<td>{{ campus.home_entity.name }}</td>{% endif %}
+              <td>{{ campus.responsible_lead|default:"—" }}</td>
+              <td><span class="badge badge-{{ campus.status_badge }}">{{ campus.get_status_display }}</span></td>
+              <td>
+                <div class="completion" aria-label="{{ campus.completion_pct }}%">
+                  <span class="completion-bar" aria-hidden="true"><span style="width: {{ campus.completion_pct }}%"></span></span>
+                  {{ campus.completion_pct }}%
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% empty %}
+    <p class="muted">{% trans "No campuses mapped to this LC yet." %}</p>
+  {% endfor %}
+{% endblock %}

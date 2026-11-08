@@ -1,0 +1,308 @@
+{% load i18n %}
+{% if analysis.coverage_note %}<p class="data-limit">{{ analysis.coverage_note }}</p>{% endif %}
+{% if analysis.window %}
+  <p class="analysis-window">
+    {% if analysis.is_icx %}{% trans "Applications made" %}{% else %}{% trans "People who signed up" %}{% endif %}
+    {% if analysis.window.0 %}{% trans "from" %} {{ analysis.window.0|date:"j M Y" }}{% endif %}
+    {% if analysis.window.1 %}{% trans "to" %} {{ analysis.window.1|date:"j M Y" }}{% endif %},
+    {% trans "instead of the term picked at the top." %}
+  </p>
+{% endif %}
+<p class="analysis-window">
+  {% blocktrans count n=analysis.kpis.signups %}Every number below follows these {{ n }} person: how far they have got by today, whenever it happened.{% plural %}Every number below follows these {{ n }} people: how far they have got by today, whenever it happened.{% endblocktrans %}
+</p>
+{% if analysis.expa %}
+  <p class="pf-coverage">
+    {% blocktrans with first=analysis.expa.first|date:"j M" last=analysis.expa.last|date:"j M Y" apd=analysis.expa.approved apps=analysis.expa.applications mine=analysis.kpis.approved %}EXPA, for {{ first }} – {{ last }}: {{ apps }} applications and {{ apd }} approvals by anyone (the Performance view). {{ mine }} of the people on this list are approved so far.{% endblocktrans %}
+    {% if analysis.expa.approved != analysis.kpis.approved %}{% trans "The two differ because EXPA counts approvals made in these days, whoever made them, while this list counts the people who signed up in them." %}{% endif %}
+  </p>
+{% endif %}
+<div class="dash-kpis">
+  <div class="metric-tile">
+    <p class="metric-label">{% if analysis.is_icx %}{% trans "Applications" %}{% else %}{% trans "Signups" %}{% endif %}</p>
+    <p class="metric-value">{{ analysis.kpis.signups }}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Contacted" %}</p>
+    <p class="metric-value">{{ analysis.kpis.contacted }}</p>
+  </div>
+  {% if analysis.is_icx %}
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Interviewed" %}</p>
+    <p class="metric-value">{{ analysis.kpis.interviewed }}</p>
+  </div>
+  {% else %}
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Applied" %}</p>
+    <p class="metric-value">{{ analysis.kpis.applied }}</p>
+  </div>
+  {% endif %}
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Accepted" %}</p>
+    <p class="metric-value">{{ analysis.kpis.accepted }}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Approved" %}</p>
+    <p class="metric-value">{{ analysis.kpis.approved }}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Realized" %}</p>
+    <p class="metric-value">{{ analysis.kpis.realized }}</p>
+  </div>
+</div>
+
+<div class="dash-kpis dash-kpis-sub">
+  {% if not analysis.is_icx %}
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Parents approval" %}</p>
+    <p class="metric-value">{{ analysis.kpis.parents }}</p>
+  </div>
+  {% endif %}
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Out of process" %}</p>
+    <p class="metric-value">{{ analysis.kpis.oop }}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Unassigned" %}</p>
+    <p class="metric-value">{{ analysis.kpis.unassigned }}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Accepted, not APD" %}</p>
+    <p class="metric-value">{{ analysis.kpis.acc_not_apd }}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Applications" %}</p>
+    <p class="metric-value">{{ analysis.kpis.applications }}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Assigned" %}</p>
+    <p class="metric-value">{{ analysis.kpis.assigned }}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Countries" %}</p>
+    <p class="metric-value">{{ analysis.kpis.host_countries }}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% if analysis.is_icx %}{% trans "Home LCs" %}{% else %}{% trans "Host LCs" %}{% endif %}</p>
+    <p class="metric-value">{{ analysis.kpis.host_lcs }}</p>
+  </div>
+</div>
+
+<section class="dash-section">
+  <h2>{% trans "Conversions" %}</h2>
+  <div class="dash-kpis dash-kpis-sub">
+    {% for item in analysis.kpis.conversions %}
+      <div class="metric-tile">
+        <p class="metric-label">{{ item.label }}</p>
+        <p class="metric-value">{{ item.rate.label }}</p>
+        {% if item.rate.pct != None %}
+          <p class="muted">{{ item.rate.n }} / {{ item.rate.d }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="dash-section">
+  <h2>{% trans "Funnel" %}</h2>
+  <ul class="dash-funnel">
+    {% for row in analysis.kpis.funnel %}
+      <li>
+        <div class="dash-mix-meta">
+          <span>{{ row.label }}</span>
+          <span>{{ row.n }}</span>
+        </div>
+        <div class="dash-track" aria-hidden="true"><span style="width: {{ row.width }}%"></span></div>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+
+{% include "exchange/partials/analysis_map.html" %}
+
+<div class="dash-split">
+  {% include "exchange/partials/analysis_mix.html" with title="Contact" rows=analysis.contacts %}
+  {% include "exchange/partials/analysis_mix.html" with title="Out of process" rows=analysis.oop_reasons %}
+  {% if analysis.is_icx %}
+    {% include "exchange/partials/analysis_mix.html" with title="Interviewed" rows=analysis.interviewed %}
+    {% include "exchange/partials/analysis_mix.html" with title="Home MC" rows=analysis.countries %}
+  {% else %}
+    {% include "exchange/partials/analysis_mix.html" with title="Campaigns" rows=analysis.campaigns %}
+    {% include "exchange/partials/analysis_mix.html" with title="Campuses" rows=analysis.campuses %}
+    {% include "exchange/partials/analysis_mix.html" with title="Preferred country" rows=analysis.countries %}
+    {% include "exchange/partials/analysis_mix.html" with title="Interested" rows=analysis.interested %}
+  {% endif %}
+  {% include "exchange/partials/analysis_mix.html" with title="Opportunities" rows=analysis.projects %}
+  {% if not analysis.is_icx %}
+    {% include "exchange/partials/analysis_mix.html" with title="Referral" rows=analysis.referrals %}
+  {% endif %}
+  {% include "exchange/partials/analysis_mix.html" with title="Gender" rows=analysis.genders %}
+</div>
+
+{% if analysis.lc_rows %}
+  <section class="dash-section">
+    <h2>{% trans "LC performance" %}</h2>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{% trans "LC" %}</th>
+            <th>{% if analysis.is_icx %}{% trans "APL" %}{% else %}{% trans "SUs" %}{% endif %}</th>
+            <th>{% trans "Contacted" %}</th>
+            <th>{% trans "Applied" %}</th>
+            <th>{% trans "Accepted" %}</th>
+            <th>{% trans "Approved" %}</th>
+            <th>{% trans "Realized" %}</th>
+            <th>{% if analysis.is_icx %}{% trans "APL → APD" %}{% else %}{% trans "SU → APL" %}{% endif %}</th>
+            <th>{% if analysis.is_icx %}{% trans "APL → ACC" %}{% else %}{% trans "SU → APD" %}{% endif %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in analysis.lc_rows %}
+            <tr>
+              <td>{{ row.name }}</td>
+              <td>{{ row.signups }}</td>
+              <td>{{ row.contacted }}</td>
+              <td>{{ row.applied }}</td>
+              <td>{{ row.accepted }}</td>
+              <td>{{ row.approved }}</td>
+              <td>{{ row.realized }}</td>
+              <td>{% if analysis.is_icx %}{{ row.apl_apd.label }}{% else %}{{ row.su_apl.label }}{% endif %}</td>
+              <td>{% if analysis.is_icx %}{{ row.apl_acc.label }}{% else %}{{ row.su_apd.label }}{% endif %}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endif %}
+
+<section class="dash-section">
+  <h2>{% trans "Team performance" %}</h2>
+  {% if analysis.team_rows %}
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{% trans "Team" %}</th>
+            <th>{% trans "People" %}</th>
+            <th>{% if analysis.is_icx %}{% trans "APL" %}{% else %}{% trans "SUs" %}{% endif %}</th>
+            <th>{% trans "Contacted" %}</th>
+            {% if analysis.is_icx %}<th>{% trans "Interviewed" %}</th>{% else %}<th>{% trans "Applied" %}</th>{% endif %}
+            <th>{% trans "Accepted" %}</th>
+            <th>{% trans "Approved" %}</th>
+            <th>{% trans "Realized" %}</th>
+            {% if analysis.is_icx %}
+              <th>{% trans "APL → Cont" %}</th>
+              <th>{% trans "Int → ACC" %}</th>
+              <th>{% trans "APL → ACC" %}</th>
+              <th>{% trans "ACC → APD" %}</th>
+              <th>{% trans "APL → APD" %}</th>
+            {% else %}
+              <th>{% trans "SU → Cont" %}</th>
+              <th>{% trans "Cont → APL" %}</th>
+              <th>{% trans "APL → ACC" %}</th>
+              <th>{% trans "ACC → APD" %}</th>
+              <th>{% trans "SU → APD" %}</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in analysis.team_rows %}
+            <tr>
+              <td>{{ row.name }}</td>
+              <td>{{ row.people }}</td>
+              <td>{{ row.signups }}</td>
+              <td>{{ row.contacted }}</td>
+              <td>{% if analysis.is_icx %}{{ row.interviewed }}{% else %}{{ row.applied }}{% endif %}</td>
+              <td>{{ row.accepted }}</td>
+              <td>{{ row.approved }}</td>
+              <td>{{ row.realized }}</td>
+              {% if analysis.is_icx %}
+                <td>{{ row.su_cont.label }}</td>
+                <td>{{ row.int_acc.label }}</td>
+                <td>{{ row.apl_acc.label }}</td>
+                <td>{{ row.acc_apd.label }}</td>
+                <td>{{ row.apl_apd.label }}</td>
+              {% else %}
+                <td>{{ row.su_cont.label }}</td>
+                <td>{{ row.cont_apl.label }}</td>
+                <td>{{ row.apl_acc.label }}</td>
+                <td>{{ row.acc_apd.label }}</td>
+                <td>{{ row.su_apd.label }}</td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="muted">{% trans "No teams on this desk yet. TM names them on the LC tree first." %}</p>
+  {% endif %}
+</section>
+
+<section class="dash-section">
+  <h2>{% trans "People performance" %}</h2>
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>{% trans "Role" %}</th>
+          <th>{% trans "Name" %}</th>
+          <th>{% trans "Team" %}</th>
+          <th>{% if analysis.is_icx %}{% trans "APL" %}{% else %}{% trans "SUs" %}{% endif %}</th>
+          <th>{% trans "Contacted" %}</th>
+          {% if analysis.is_icx %}<th>{% trans "Interviewed" %}</th>{% else %}<th>{% trans "Applied" %}</th>{% endif %}
+          <th>{% trans "Accepted" %}</th>
+          <th>{% trans "Approved" %}</th>
+          <th>{% trans "Realized" %}</th>
+          {% if analysis.is_icx %}
+            <th>{% trans "APL → Cont" %}</th>
+            <th>{% trans "Int → ACC" %}</th>
+            <th>{% trans "APL → ACC" %}</th>
+            <th>{% trans "ACC → APD" %}</th>
+            <th>{% trans "APL → APD" %}</th>
+          {% else %}
+            <th>{% trans "SU → Cont" %}</th>
+            <th>{% trans "Cont → APL" %}</th>
+            <th>{% trans "APL → ACC" %}</th>
+            <th>{% trans "ACC → APD" %}</th>
+            <th>{% trans "SU → APL" %}</th>
+            <th>{% trans "SU → APD" %}</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in analysis.people_rows %}
+          <tr>
+            <td>{{ row.role }}</td>
+            <td>{{ row.name }}</td>
+            <td>{% if row.team %}{{ row.team.name }}{% else %}—{% endif %}</td>
+            <td>{{ row.signups }}</td>
+            <td>{{ row.contacted }}</td>
+            <td>{% if analysis.is_icx %}{{ row.interviewed }}{% else %}{{ row.applied }}{% endif %}</td>
+            <td>{{ row.accepted }}</td>
+            <td>{{ row.approved }}</td>
+            <td>{{ row.realized }}</td>
+            {% if analysis.is_icx %}
+              <td>{{ row.su_cont.label }}</td>
+              <td>{{ row.int_acc.label }}</td>
+              <td>{{ row.apl_acc.label }}</td>
+              <td>{{ row.acc_apd.label }}</td>
+              <td>{{ row.apl_apd.label }}</td>
+            {% else %}
+              <td>{{ row.su_cont.label }}</td>
+              <td>{{ row.cont_apl.label }}</td>
+              <td>{{ row.apl_acc.label }}</td>
+              <td>{{ row.acc_apd.label }}</td>
+              <td>{{ row.su_apl.label }}</td>
+              <td>{{ row.su_apd.label }}</td>
+            {% endif %}
+          </tr>
+        {% empty %}
+          <tr><td colspan="{% if analysis.is_icx %}13{% else %}15{% endif %}">{% trans "No people on this desk yet." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>

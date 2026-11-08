@@ -1,0 +1,5 @@
+{% if person.photo %}
+  <img src="{{ person.photo.url }}" alt="" class="chart-photo">
+{% else %}
+  <span class="chart-initials">{{ person.initials|default:"?" }}</span>
+{% endif %}

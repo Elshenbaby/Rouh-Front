@@ -1,0 +1,721 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>RCR Summer 27 · CU · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "tSkOOTsRCp77qfIzKajGHDhuYloofr3JaL8KSt3FyiWBmTkKucKC0SZZiu9T2eXM"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link is-active">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="tSkOOTsRCp77qfIzKajGHDhuYloofr3JaL8KSt3FyiWBmTkKucKC0SZZiu9T2eXM">
+      <input type="hidden" name="next" value="/tm/rcr/summer-27/planning/">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="tSkOOTsRCp77qfIzKajGHDhuYloofr3JaL8KSt3FyiWBmTkKucKC0SZZiu9T2eXM">
+      <input type="hidden" name="next" value="/tm/rcr/summer-27/planning/">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="tSkOOTsRCp77qfIzKajGHDhuYloofr3JaL8KSt3FyiWBmTkKucKC0SZZiu9T2eXM">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page">
+        
+        
+  
+<header class="page-header rcr-header">
+  <p class="eyebrow"><a href="desks__tm.html">Talent</a> · RCR · CU</p>
+  <h1>RCR Summer 27 <span class="rcr-lc">CU</span></h1>
+</header>
+
+
+<nav class="tabs tm-tabs" aria-label="Talent">
+  <a class="tab" href="tm.html">Overview</a>
+  <a class="tab" href="tm__structure.html">Structure</a>
+  <a class="tab" href="tm__performance.html">Performance</a>
+  <a class="tab" href="tm__planning.html">Planning</a>
+  <a class="tab" href="tm__attendance.html">Attendance</a>
+  <a class="tab" href="tm__hr.html">HR Status</a>
+  <a class="tab is-active" href="tm__rcr.html">RCR</a>
+  <a class="tab" href="tm__nes.html">NES</a>
+  <a class="tab" href="tm__settings.html">Settings</a>
+</nav>
+
+
+
+
+
+
+<nav class="rcr-journey" aria-label="The recruitment journey">
+  <a class="rcr-today-btn" href="tm__rcr__summer-27.html"><b>Today</b><small>what waits on you</small></a>
+  <ol class="rcr-phases">
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__new-leads.html" title="Call every lead, run the phone interview, accept or reject.">
+          <span class="rcr-phase-n">1</span>
+          <span class="rcr-phase-text"><b>Leads &amp; calls</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__scheduling.html" title="Book a slot (or send them their booking link), confirm the day before, fill the form.">
+          <span class="rcr-phase-n">2</span>
+          <span class="rcr-phase-text"><b>Interviews</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__gds.html" title="Seat the accepted ones in a GD, run it, score it.">
+          <span class="rcr-phase-n">3</span>
+          <span class="rcr-phase-text"><b>Group discussions</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__conference.html" title="Collect the payment and get them to the conference.">
+          <span class="rcr-phase-n">4</span>
+          <span class="rcr-phase-text"><b>Conference</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+  </ol>
+</nav>
+<div class="rcr-subnav">
+  <nav class="rcr-phase-tabs" aria-label="This phase">
+    
+  </nav>
+  <nav class="rcr-tools" aria-label="Tools">
+    <a class="" href="tm__rcr__summer-27__insights.html">Insights</a><a class="is-active" href="tm__rcr__summer-27__planning.html">Capacity plan</a><a class="" href="tm__rcr__summer-27__sensing.html">Sensing</a><a class="" href="tm__rcr__summer-27__team.html">Team &amp; shifts</a><a class="" href="tm__rcr__summer-27__timeline.html">Timeline</a><a class="" href="tm__rcr__summer-27__easy-answers.html">Easy answers</a>
+  </nav>
+</div>
+
+
+
+  <nav class="ops-jump" aria-label="On this page">
+    <a href="#insights">LC insights</a><a href="#state">Current & desired state</a><a href="#numbers">Numerical planning</a><a href="#weekly">Weekly goals</a><a href="#clusters">Clusters</a><a href="#functions">Functions</a>
+  </nav>
+
+  <section class="rcr-strip" aria-label="Sensing">
+    <div><span>Sensing answers</span><strong>0</strong></div>
+    <div><span>Active members in Rouh</span><strong>14</strong></div>
+    <div><span>Coverage</span><strong>0%</strong></div>
+    <div><span>Continuing</span><strong>0</strong></div>
+    <div><span>To recruit (by the gaps)</span><strong>0</strong></div>
+  </section>
+  <p class="rcr-share">Sensing form link for your members: <a href="http://testserver/rcr/sensing/c5ujSbhWi6Pg5JPz/" target="_blank" rel="noopener">http://testserver/rcr/sensing/c5ujSbhWi6Pg5JPz/</a> <button class="btn btn-ghost btn-sm" type="button" onclick="navigator.clipboard.writeText('http://testserver/rcr/sensing/c5ujSbhWi6Pg5JPz/'); this.textContent='Copied'">Copy</button> · <a href="tm__rcr__summer-27__sensing.html">See who answered</a></p>
+
+  <section class="ops-panel" id="insights">
+    <header class="ops-panel-head"><h2>LC insights</h2><p>Your membership from the sensing form (0 answers).</p></header>
+    
+      <p class="ops-empty">No sensing answers yet. Send your members the link above; the insights and the current state fill in as they answer.</p>
+    
+  </section>
+
+  <script id="rcr-plan-state" type="application/json">{"needed": 0, "la": 35.0, "aa": 88.0, "ar": 85.0, "desired": {"ogv": 0, "ogt": 0, "igv": 0, "igta": 0, "igte": 0, "b2c": 0, "mkt": 0, "b2b": 0, "bd": 0, "tm": 0, "fin": 0}, "continuing": {"ogv": 0, "ogt": 0, "igv": 0, "igta": 0, "igte": 0, "b2c": 0, "mkt": 0, "b2b": 0, "bd": 0, "tm": 0, "fin": 0}, "clusters": {"K": 5.0, "A": 20.0, "B": 35.0, "C": 20.0, "D": 15.0, "E": 5.0, "F": 0.0}, "weeks": {"0": 5.0, "1": 15.0, "2": 15.0, "3": 15.0, "4": 15.0, "5": 15.0, "6": 15.0, "7": 5.0}, "functions": {"ogv": 0, "ogt": 0, "igv": 0, "igta": 0, "igte": 0, "b2c": 0, "mkt": 0, "b2b": 0, "bd": 0, "tm": 0, "fin": 0}}</script>
+  <form method="post" class="rcr-plan" x-data="rcrPlan()">
+    <input type="hidden" name="csrfmiddlewaretoken" value="tSkOOTsRCp77qfIzKajGHDhuYloofr3JaL8KSt3FyiWBmTkKucKC0SZZiu9T2eXM">
+    <input type="hidden" name="anchor" value="numbers">
+    <fieldset  class="rcr-plain">
+
+    <section class="ops-panel" id="state">
+      <header class="ops-panel-head"><h2>Current & desired state</h2><p>Per function, from the sensing form: who continues next peak and who wants to lead. Type the ideal headcount for each function; the gap is who you need to recruit.</p></header>
+      <div class="table-wrap">
+        <table class="table ops-table ops-compact rcr-state">
+          <thead>
+            <tr><th>Function</th><th class="q-num">In Rouh</th><th class="q-num">Answered</th><th class="q-num">Definitely</th><th class="q-num">Probably</th><th class="q-num">Not sure</th><th class="q-num">Leaving</th><th class="q-num">Apply for TL</th><th class="q-num">Return as member</th><th class="q-num">Return as TL</th><th class="q-num">Continuing</th><th>Risk</th><th class="q-num is-sum">Ideal</th><th class="q-num is-sum">To recruit</th><th class="q-num">1st choice of</th></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <th scope="row">oGV</th>
+                <td class="q-num">5</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num"><strong>0</strong> <small class="muted">—</small></td>
+                <td><span class="muted">—</span></td>
+                <td class="q-num is-sum"><input type="number" min="0" name="desired_ogv" value="0" x-model.number="s.desired.ogv" aria-label="Ideal oGV headcount" class="rcr-num"></td>
+                <td class="q-num is-sum"><strong x-text="gap('ogv')">0</strong></td>
+                <td class="q-num">0</td>
+              </tr>
+            
+              <tr>
+                <th scope="row">oGTa/e</th>
+                <td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num"><strong>0</strong> <small class="muted">—</small></td>
+                <td><span class="muted">—</span></td>
+                <td class="q-num is-sum"><input type="number" min="0" name="desired_ogt" value="0" x-model.number="s.desired.ogt" aria-label="Ideal oGTa/e headcount" class="rcr-num"></td>
+                <td class="q-num is-sum"><strong x-text="gap('ogt')">0</strong></td>
+                <td class="q-num">0</td>
+              </tr>
+            
+              <tr>
+                <th scope="row">iGV</th>
+                <td class="q-num">2</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num"><strong>0</strong> <small class="muted">—</small></td>
+                <td><span class="muted">—</span></td>
+                <td class="q-num is-sum"><input type="number" min="0" name="desired_igv" value="0" x-model.number="s.desired.igv" aria-label="Ideal iGV headcount" class="rcr-num"></td>
+                <td class="q-num is-sum"><strong x-text="gap('igv')">0</strong></td>
+                <td class="q-num">0</td>
+              </tr>
+            
+              <tr>
+                <th scope="row">iGTa</th>
+                <td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num"><strong>0</strong> <small class="muted">—</small></td>
+                <td><span class="muted">—</span></td>
+                <td class="q-num is-sum"><input type="number" min="0" name="desired_igta" value="0" x-model.number="s.desired.igta" aria-label="Ideal iGTa headcount" class="rcr-num"></td>
+                <td class="q-num is-sum"><strong x-text="gap('igta')">0</strong></td>
+                <td class="q-num">0</td>
+              </tr>
+            
+              <tr>
+                <th scope="row">iGTe</th>
+                <td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num"><strong>0</strong> <small class="muted">—</small></td>
+                <td><span class="muted">—</span></td>
+                <td class="q-num is-sum"><input type="number" min="0" name="desired_igte" value="0" x-model.number="s.desired.igte" aria-label="Ideal iGTe headcount" class="rcr-num"></td>
+                <td class="q-num is-sum"><strong x-text="gap('igte')">0</strong></td>
+                <td class="q-num">0</td>
+              </tr>
+            
+              <tr>
+                <th scope="row">B2C</th>
+                <td class="q-num">2</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num"><strong>0</strong> <small class="muted">—</small></td>
+                <td><span class="muted">—</span></td>
+                <td class="q-num is-sum"><input type="number" min="0" name="desired_b2c" value="0" x-model.number="s.desired.b2c" aria-label="Ideal B2C headcount" class="rcr-num"></td>
+                <td class="q-num is-sum"><strong x-text="gap('b2c')">0</strong></td>
+                <td class="q-num">0</td>
+              </tr>
+            
+              <tr>
+                <th scope="row">MKT</th>
+                <td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num"><strong>0</strong> <small class="muted">—</small></td>
+                <td><span class="muted">—</span></td>
+                <td class="q-num is-sum"><input type="number" min="0" name="desired_mkt" value="0" x-model.number="s.desired.mkt" aria-label="Ideal MKT headcount" class="rcr-num"></td>
+                <td class="q-num is-sum"><strong x-text="gap('mkt')">0</strong></td>
+                <td class="q-num">0</td>
+              </tr>
+            
+              <tr>
+                <th scope="row">B2B</th>
+                <td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num"><strong>0</strong> <small class="muted">—</small></td>
+                <td><span class="muted">—</span></td>
+                <td class="q-num is-sum"><input type="number" min="0" name="desired_b2b" value="0" x-model.number="s.desired.b2b" aria-label="Ideal B2B headcount" class="rcr-num"></td>
+                <td class="q-num is-sum"><strong x-text="gap('b2b')">0</strong></td>
+                <td class="q-num">0</td>
+              </tr>
+            
+              <tr>
+                <th scope="row">BD</th>
+                <td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num"><strong>0</strong> <small class="muted">—</small></td>
+                <td><span class="muted">—</span></td>
+                <td class="q-num is-sum"><input type="number" min="0" name="desired_bd" value="0" x-model.number="s.desired.bd" aria-label="Ideal BD headcount" class="rcr-num"></td>
+                <td class="q-num is-sum"><strong x-text="gap('bd')">0</strong></td>
+                <td class="q-num">0</td>
+              </tr>
+            
+              <tr>
+                <th scope="row">TM</th>
+                <td class="q-num">4</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num"><strong>0</strong> <small class="muted">—</small></td>
+                <td><span class="muted">—</span></td>
+                <td class="q-num is-sum"><input type="number" min="0" name="desired_tm" value="0" x-model.number="s.desired.tm" aria-label="Ideal TM headcount" class="rcr-num"></td>
+                <td class="q-num is-sum"><strong x-text="gap('tm')">0</strong></td>
+                <td class="q-num">0</td>
+              </tr>
+            
+              <tr>
+                <th scope="row">F&amp;L</th>
+                <td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td>
+                <td class="q-num"><strong>0</strong> <small class="muted">—</small></td>
+                <td><span class="muted">—</span></td>
+                <td class="q-num is-sum"><input type="number" min="0" name="desired_fin" value="0" x-model.number="s.desired.fin" aria-label="Ideal F&amp;L headcount" class="rcr-num"></td>
+                <td class="q-num is-sum"><strong x-text="gap('fin')">0</strong></td>
+                <td class="q-num">0</td>
+              </tr>
+            
+          </tbody>
+          <tfoot>
+            <tr><th scope="row">Total</th><td class="q-num">13</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num">0</td><td class="q-num"><strong>0</strong> <small class="muted">—</small></td><td></td><td class="q-num is-sum"><strong x-text="sum(s.desired)">0</strong></td><td class="q-num is-sum"><strong x-text="gaps()">0</strong></td><td class="q-num">0</td></tr>
+          </tfoot>
+        </table>
+      </div>
+      <label class="field-check"><input type="checkbox" name="all_sensed"> <span>Every member filled the sensing form: this is our LC's current state</span></label>
+    </section>
+
+    <section class="ops-panel" id="numbers">
+      <header class="ops-panel-head"><h2>Numerical planning</h2><p>How many new members you need this cycle (REC), and the conversions you expect. The goals work back from REC: ACC = REC ÷ ACC→REC, APP = ACC ÷ APP→ACC, LEAD = APP ÷ LEAD→APP. Max membership for start-ups is 30, for expansions 50; any change goes through the MCVP TM.</p></header>
+      <div class="rcr-numbers">
+        <label class="field"><span>New members needed (REC)</span><input id="p-needed" type="number" min="0" name="members_needed" value="0" x-model.number="s.needed"><small class="muted">The gaps above suggest <b x-text="gaps()">0</b>. <button type="button" class="btn-link" @click="s.needed = gaps()">Use it</button></small></label>
+        <label class="field"><span>LEAD → APP %</span><input id="p-la" type="number" min="1" max="100" step="0.01" name="lead_app" value="35" x-model.number="s.la"></label>
+        <label class="field"><span>APP → ACC %</span><input id="p-aa" type="number" min="1" max="100" step="0.01" name="app_acc" value="88" x-model.number="s.aa"></label>
+        <label class="field"><span>ACC → REC %</span><input id="p-ar" type="number" min="1" max="100" step="0.01" name="acc_rec" value="85" x-model.number="s.ar"></label>
+      </div>
+      <div class="ops-share-grid rcr-goals">
+        <div class="ops-share"><span class="ops-share-label">Lead goal</span><strong x-text="goal('lead')">0</strong><span class="ops-share-meta">sign-ups to reach</span></div>
+        <div class="ops-share"><span class="ops-share-label">APP goal</span><strong x-text="goal('app')">0</strong><span class="ops-share-meta">F2F interviews</span></div>
+        <div class="ops-share"><span class="ops-share-label">ACC goal</span><strong x-text="goal('acc')">0</strong><span class="ops-share-meta">accepted</span></div>
+        <div class="ops-share"><span class="ops-share-label">REC goal</span><strong x-text="goal('rec')">0</strong><span class="ops-share-meta">at the conference</span></div>
+      </div>
+      <div class="rcr-funnel-viz" aria-hidden="true">
+        <i style="--w: 100%"><span>LEAD</span></i>
+        <i :style="'--w:' + pctOf('app') + '%'"><span>APP</span></i>
+        <i :style="'--w:' + pctOf('acc') + '%'"><span>ACC</span></i>
+        <i :style="'--w:' + pctOf('rec') + '%'"><span>REC</span></i>
+      </div>
+    </section>
+
+    <section class="ops-panel" id="weekly">
+      <header class="ops-panel-head"><h2>Weekly KPI goals</h2><p>The share of the goals each week should bring. Week 0 is the trial week. The MC hasn't set the recruitment dates yet, so the weeks have no dates.</p></header>
+      <div class="table-wrap">
+        <table class="table ops-compact">
+          <thead><tr><th>Week</th><th>Days</th><th class="q-num">Share %</th><th class="q-num">LEAD</th><th class="q-num">APP</th><th class="q-num">ACC</th><th class="q-num">REC</th></tr></thead>
+          <tbody>
+            
+              <tr><th scope="row">Week 0 <small class="muted">trial</small></th><td><span class="muted">—</span></td>
+                <td class="q-num"><span class="rcr-week-bar"><i :style="'width:' + (s.weeks['0'] || 0) * 2.5 + '%'"></i></span><input type="number" min="0" max="100" step="0.5" name="week_0" value="5" x-model.number="s.weeks['0']" class="rcr-num" aria-label="Share of week 0"></td>
+                <td class="q-num" x-text="weekGoal('0', 'lead')">0</td><td class="q-num" x-text="weekGoal('0', 'app')">0</td><td class="q-num" x-text="weekGoal('0', 'acc')">0</td><td class="q-num" x-text="weekGoal('0', 'rec')">0</td></tr>
+            
+              <tr><th scope="row">Week 1</th><td><span class="muted">—</span></td>
+                <td class="q-num"><span class="rcr-week-bar"><i :style="'width:' + (s.weeks['1'] || 0) * 2.5 + '%'"></i></span><input type="number" min="0" max="100" step="0.5" name="week_1" value="15" x-model.number="s.weeks['1']" class="rcr-num" aria-label="Share of week 1"></td>
+                <td class="q-num" x-text="weekGoal('1', 'lead')">0</td><td class="q-num" x-text="weekGoal('1', 'app')">0</td><td class="q-num" x-text="weekGoal('1', 'acc')">0</td><td class="q-num" x-text="weekGoal('1', 'rec')">0</td></tr>
+            
+              <tr><th scope="row">Week 2</th><td><span class="muted">—</span></td>
+                <td class="q-num"><span class="rcr-week-bar"><i :style="'width:' + (s.weeks['2'] || 0) * 2.5 + '%'"></i></span><input type="number" min="0" max="100" step="0.5" name="week_2" value="15" x-model.number="s.weeks['2']" class="rcr-num" aria-label="Share of week 2"></td>
+                <td class="q-num" x-text="weekGoal('2', 'lead')">0</td><td class="q-num" x-text="weekGoal('2', 'app')">0</td><td class="q-num" x-text="weekGoal('2', 'acc')">0</td><td class="q-num" x-text="weekGoal('2', 'rec')">0</td></tr>
+            
+              <tr><th scope="row">Week 3</th><td><span class="muted">—</span></td>
+                <td class="q-num"><span class="rcr-week-bar"><i :style="'width:' + (s.weeks['3'] || 0) * 2.5 + '%'"></i></span><input type="number" min="0" max="100" step="0.5" name="week_3" value="15" x-model.number="s.weeks['3']" class="rcr-num" aria-label="Share of week 3"></td>
+                <td class="q-num" x-text="weekGoal('3', 'lead')">0</td><td class="q-num" x-text="weekGoal('3', 'app')">0</td><td class="q-num" x-text="weekGoal('3', 'acc')">0</td><td class="q-num" x-text="weekGoal('3', 'rec')">0</td></tr>
+            
+              <tr><th scope="row">Week 4</th><td><span class="muted">—</span></td>
+                <td class="q-num"><span class="rcr-week-bar"><i :style="'width:' + (s.weeks['4'] || 0) * 2.5 + '%'"></i></span><input type="number" min="0" max="100" step="0.5" name="week_4" value="15" x-model.number="s.weeks['4']" class="rcr-num" aria-label="Share of week 4"></td>
+                <td class="q-num" x-text="weekGoal('4', 'lead')">0</td><td class="q-num" x-text="weekGoal('4', 'app')">0</td><td class="q-num" x-text="weekGoal('4', 'acc')">0</td><td class="q-num" x-text="weekGoal('4', 'rec')">0</td></tr>
+            
+              <tr><th scope="row">Week 5</th><td><span class="muted">—</span></td>
+                <td class="q-num"><span class="rcr-week-bar"><i :style="'width:' + (s.weeks['5'] || 0) * 2.5 + '%'"></i></span><input type="number" min="0" max="100" step="0.5" name="week_5" value="15" x-model.number="s.weeks['5']" class="rcr-num" aria-label="Share of week 5"></td>
+                <td class="q-num" x-text="weekGoal('5', 'lead')">0</td><td class="q-num" x-text="weekGoal('5', 'app')">0</td><td class="q-num" x-text="weekGoal('5', 'acc')">0</td><td class="q-num" x-text="weekGoal('5', 'rec')">0</td></tr>
+            
+              <tr><th scope="row">Week 6</th><td><span class="muted">—</span></td>
+                <td class="q-num"><span class="rcr-week-bar"><i :style="'width:' + (s.weeks['6'] || 0) * 2.5 + '%'"></i></span><input type="number" min="0" max="100" step="0.5" name="week_6" value="15" x-model.number="s.weeks['6']" class="rcr-num" aria-label="Share of week 6"></td>
+                <td class="q-num" x-text="weekGoal('6', 'lead')">0</td><td class="q-num" x-text="weekGoal('6', 'app')">0</td><td class="q-num" x-text="weekGoal('6', 'acc')">0</td><td class="q-num" x-text="weekGoal('6', 'rec')">0</td></tr>
+            
+              <tr><th scope="row">Week 7</th><td><span class="muted">—</span></td>
+                <td class="q-num"><span class="rcr-week-bar"><i :style="'width:' + (s.weeks['7'] || 0) * 2.5 + '%'"></i></span><input type="number" min="0" max="100" step="0.5" name="week_7" value="5" x-model.number="s.weeks['7']" class="rcr-num" aria-label="Share of week 7"></td>
+                <td class="q-num" x-text="weekGoal('7', 'lead')">0</td><td class="q-num" x-text="weekGoal('7', 'app')">0</td><td class="q-num" x-text="weekGoal('7', 'acc')">0</td><td class="q-num" x-text="weekGoal('7', 'rec')">0</td></tr>
+            
+          </tbody>
+          <tfoot><tr><th scope="row">Total</th><td></td><td class="q-num"><span class="rcr-sum" :class="sumClass(sum(s.weeks))" x-text="sum(s.weeks) + '%'"></span></td><td colspan="4"></td></tr></tfoot>
+        </table>
+      </div>
+    </section>
+
+    <div class="rcr-two">
+      <section class="ops-panel" id="clusters">
+        <header class="ops-panel-head"><h2>Clusters to recruit</h2><p>The mix of new members by cluster (the MC's targets are filled in).</p></header>
+        <table class="table ops-compact">
+          <thead><tr><th>Cluster</th><th class="q-num">Target %</th><th class="q-num">Members</th><th>Decision</th></tr></thead>
+          <tbody>
+            
+              <tr><th scope="row"><b class="rcr-cluster is-k" title="A rare profile with outstanding ownership, growth drive and impact orientation. Potential future MCP, MCVP, LCP or national leader.">K</b></th><td class="q-num"><input type="number" min="0" max="100" step="0.5" name="cluster_K" value="5" x-model.number="s.clusters.K" class="rcr-num" aria-label="Cluster K share"></td><td class="q-num"><b x-text="Math.round((s.needed || 0) * (s.clusters.K || 0) / 100)">0</b></td><td>Best candidate, highly recommended</td></tr>
+            
+              <tr><th scope="row"><b class="rcr-cluster is-a" title="Strong alignment with AIESEC values and high leadership potential. Potential future LCVP, LCP or MC applicant.">A</b></th><td class="q-num"><input type="number" min="0" max="100" step="0.5" name="cluster_A" value="20" x-model.number="s.clusters.A" class="rcr-num" aria-label="Cluster A share"></td><td class="q-num"><b x-text="Math.round((s.needed || 0) * (s.clusters.A || 0) / 100)">0</b></td><td>Strongly recommended</td></tr>
+            
+              <tr><th scope="row"><b class="rcr-cluster is-b" title="Reliable contributor likely to stay several years and lead projects. Team Leader, Project Manager or future LCVP.">B</b></th><td class="q-num"><input type="number" min="0" max="100" step="0.5" name="cluster_B" value="35" x-model.number="s.clusters.B" class="rcr-num" aria-label="Cluster B share"></td><td class="q-num"><b x-text="Math.round((s.needed || 0) * (s.clusters.B || 0) / 100)">0</b></td><td>Recommended</td></tr>
+            
+              <tr><th scope="row"><b class="rcr-cluster is-c" title="Performs well inside one function, less drawn to long-term leadership. Strong operational member.">C</b></th><td class="q-num"><input type="number" min="0" max="100" step="0.5" name="cluster_C" value="20" x-model.number="s.clusters.C" class="rcr-num" aria-label="Cluster C share"></td><td class="q-num"><b x-text="Math.round((s.needed || 0) * (s.clusters.C || 0) / 100)">0</b></td><td>Recommended with a functional allocation focus</td></tr>
+            
+              <tr><th scope="row"><b class="rcr-cluster is-d" title="Motivated and positive, adds value in projects and OCs with real support. OC member, event organiser.">D</b></th><td class="q-num"><input type="number" min="0" max="100" step="0.5" name="cluster_D" value="15" x-model.number="s.clusters.D" class="rcr-num" aria-label="Cluster D share"></td><td class="q-num"><b x-text="Math.round((s.needed || 0) * (s.clusters.D || 0) / 100)">0</b></td><td>Conditional acceptance</td></tr>
+            
+              <tr><th scope="row"><b class="rcr-cluster is-e" title="Wants to join but lacks several elements for a successful journey. Needs intensive support; retention risk.">E</b></th><td class="q-num"><input type="number" min="0" max="100" step="0.5" name="cluster_E" value="5" x-model.number="s.clusters.E" class="rcr-num" aria-label="Cluster E share"></td><td class="q-num"><b x-text="Math.round((s.needed || 0) * (s.clusters.E || 0) / 100)">0</b></td><td>High-risk acceptance</td></tr>
+            
+              <tr><th scope="row"><b class="rcr-cluster is-f" title="Significant misalignment with AIESEC&#x27;s values and expectations. Rejected from the process.">F</b></th><td class="q-num"><input type="number" min="0" max="100" step="0.5" name="cluster_F" value="0" x-model.number="s.clusters.F" class="rcr-num" aria-label="Cluster F share"></td><td class="q-num"><b x-text="Math.round((s.needed || 0) * (s.clusters.F || 0) / 100)">0</b></td><td>Rejected</td></tr>
+            
+          </tbody>
+          <tfoot><tr><th scope="row">Total</th><td class="q-num"><span class="rcr-sum" :class="sumClass(sum(s.clusters))" x-text="sum(s.clusters) + '%'"></span></td><td class="q-num"><b x-text="s.needed || 0"></b></td><td></td></tr></tfoot>
+        </table>
+      </section>
+      <section class="ops-panel" id="functions">
+        <header class="ops-panel-head"><h2>Functions</h2><p>How many of the new members each function takes. The gap from the state above is beside it.</p></header>
+        <table class="table ops-compact">
+          <thead><tr><th>Function</th><th class="q-num">Gap</th><th class="q-num">New members</th></tr></thead>
+          <tbody>
+            
+              <tr><th scope="row">oGV</th><td class="q-num muted">0</td><td class="q-num"><input type="number" min="0" name="function_ogv" value="0" x-model.number="s.functions.ogv" class="rcr-num" aria-label="New oGV members"></td></tr>
+            
+              <tr><th scope="row">oGTa/e</th><td class="q-num muted">0</td><td class="q-num"><input type="number" min="0" name="function_ogt" value="0" x-model.number="s.functions.ogt" class="rcr-num" aria-label="New oGTa/e members"></td></tr>
+            
+              <tr><th scope="row">iGV</th><td class="q-num muted">0</td><td class="q-num"><input type="number" min="0" name="function_igv" value="0" x-model.number="s.functions.igv" class="rcr-num" aria-label="New iGV members"></td></tr>
+            
+              <tr><th scope="row">iGTa</th><td class="q-num muted">0</td><td class="q-num"><input type="number" min="0" name="function_igta" value="0" x-model.number="s.functions.igta" class="rcr-num" aria-label="New iGTa members"></td></tr>
+            
+              <tr><th scope="row">iGTe</th><td class="q-num muted">0</td><td class="q-num"><input type="number" min="0" name="function_igte" value="0" x-model.number="s.functions.igte" class="rcr-num" aria-label="New iGTe members"></td></tr>
+            
+              <tr><th scope="row">B2C</th><td class="q-num muted">0</td><td class="q-num"><input type="number" min="0" name="function_b2c" value="0" x-model.number="s.functions.b2c" class="rcr-num" aria-label="New B2C members"></td></tr>
+            
+              <tr><th scope="row">MKT</th><td class="q-num muted">0</td><td class="q-num"><input type="number" min="0" name="function_mkt" value="0" x-model.number="s.functions.mkt" class="rcr-num" aria-label="New MKT members"></td></tr>
+            
+              <tr><th scope="row">B2B</th><td class="q-num muted">0</td><td class="q-num"><input type="number" min="0" name="function_b2b" value="0" x-model.number="s.functions.b2b" class="rcr-num" aria-label="New B2B members"></td></tr>
+            
+              <tr><th scope="row">BD</th><td class="q-num muted">0</td><td class="q-num"><input type="number" min="0" name="function_bd" value="0" x-model.number="s.functions.bd" class="rcr-num" aria-label="New BD members"></td></tr>
+            
+              <tr><th scope="row">TM</th><td class="q-num muted">0</td><td class="q-num"><input type="number" min="0" name="function_tm" value="0" x-model.number="s.functions.tm" class="rcr-num" aria-label="New TM members"></td></tr>
+            
+              <tr><th scope="row">F&amp;L</th><td class="q-num muted">0</td><td class="q-num"><input type="number" min="0" name="function_fin" value="0" x-model.number="s.functions.fin" class="rcr-num" aria-label="New F&amp;L members"></td></tr>
+            
+          </tbody>
+          <tfoot><tr><th scope="row">Total</th><td class="q-num muted" x-text="gaps()"></td><td class="q-num"><span class="rcr-sum" :class="sum(s.functions) === (s.needed || 0) ? 'is-ok' : 'is-off'" x-text="sum(s.functions) + ' / ' + (s.needed || 0)"></span></td></tr></tfoot>
+        </table>
+      </section>
+    </div>
+
+    <section class="ops-panel">
+      <ul class="rcr-checks" x-show="problems().length"><template x-for="note in problems()"><li x-text="note"></li></template></ul>
+      <p class="rcr-ok" x-show="s.needed && !problems().length">The plan adds up.</p>
+      <label class="field"><span>Notes for the MCVP TM</span><textarea id="p-notes" name="notes" rows="3"></textarea></label>
+      <button class="btn btn-primary btn-md" type="submit">Save the plan</button>
+      
+    </section>
+    </fieldset>
+  </form>
+
+      </main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+<script>
+  function rcrPlan() {
+    const start = JSON.parse(document.getElementById("rcr-plan-state").textContent);
+    return {
+      s: start,
+      sum(map) { return Math.round(Object.values(map || {}).reduce((a, b) => a + (Number(b) || 0), 0) * 10) / 10; },
+      gap(code) { return Math.max((Number(this.s.desired[code]) || 0) - (Number(this.s.continuing[code]) || 0), 0); },
+      gaps() { return Object.keys(this.s.desired).reduce((a, code) => a + this.gap(code), 0); },
+      back(value, pct) { return pct ? Math.ceil(value * 100 / pct) : 0; },
+      goal(kind) {
+        const rec = Number(this.s.needed) || 0;
+        const acc = this.back(rec, this.s.ar), app = this.back(acc, this.s.aa), lead = this.back(app, this.s.la);
+        return { rec, acc, app, lead }[kind];
+      },
+      pctOf(kind) { const lead = this.goal("lead"); return lead ? Math.max(6, Math.round(this.goal(kind) / lead * 100)) : 6; },
+      weekGoal(week, kind) { const share = Number(this.s.weeks[week]) || 0; return share ? Math.ceil(this.goal(kind) * share / 100) : 0; },
+      sumClass(total) { return Math.abs(total - 100) <= 0.5 ? "is-ok" : "is-off"; },
+      problems() {
+        const out = [];
+        if (!this.s.needed) return out;
+        const c = this.sum(this.s.clusters), w = this.sum(this.s.weeks), f = this.sum(this.s.functions);
+        if (Math.abs(c - 100) > 0.5) out.push(`The clusters add up to ${c}%, not 100%.`);
+        if (Math.abs(w - 100) > 0.5) out.push(`The weekly split adds up to ${w}%, not 100%.`);
+        if (f !== Number(this.s.needed)) out.push(`The functions plan ${f} new members, ${f < this.s.needed ? "below" : "above"} the ${this.s.needed} needed.`);
+        return out;
+      },
+    };
+  }
+</script>
+
+</body>
+</html>

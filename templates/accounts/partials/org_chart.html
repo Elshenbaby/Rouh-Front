@@ -1,0 +1,75 @@
+{% load i18n %}
+<section class="org-chart" id="org-chart">
+  <div class="org-chart-head">
+    <p class="tree-kicker">{% trans "Board" %}</p>
+    <h2>{% trans "LC chart" %}</h2>
+    <p class="muted">{% trans "Same people as the outline. Drag someone onto a circle to assign them. Functions with no membership stay off this board." %}</p>
+  </div>
+  <div class="org-chart-stage">
+    <div class="chart-center">
+      {% url 'people:org_lcp' as lcp_url %}
+      {% include "accounts/partials/org_chart_node.html" with slot="lcp" person=lcp role="LCP" kind="lcp" assign_url=lcp_url %}
+    </div>
+    {% if chart_branches %}
+      <div class="chart-functions">
+        {% for branch in chart_branches %}
+          <div class="chart-function">
+            {% url 'people:org_slot' branch.function as slot_url %}
+            <div class="chart-vp-row">
+              {% include "accounts/partials/org_chart_node.html" with slot="vp" person=branch.vp role=branch.plan.get_function_display kind="vp" assign_url=slot_url %}
+            </div>
+            {% if branch.coords %}
+              <div class="chart-coord-row">
+                {% for coord in branch.coords %}
+                  {% include "accounts/partials/org_chart_node.html" with slot=coord.slot person=coord.member role="Coordinator" kind="coord" assign_url=slot_url %}
+                {% endfor %}
+              </div>
+            {% endif %}
+            {% if branch.mms %}
+              <div class="chart-mm-row">
+                {% for mm in branch.mms %}
+                  {% include "accounts/partials/org_chart_node.html" with slot=mm.slot person=mm.member role="MM" kind="mm" assign_url=slot_url %}
+                {% endfor %}
+              </div>
+            {% endif %}
+            {% if branch.team_rows %}
+              <div class="chart-teams">
+                {% for row in branch.team_rows %}
+                  <div class="chart-team">
+                    <p class="chart-team-name">{{ row.team.name }}</p>
+                    {% include "accounts/partials/org_chart_node.html" with slot=row.tl_slot person=row.tl role="Team leader" kind="tl" assign_url=slot_url %}
+                    {% if row.members %}
+                      <div class="chart-members">
+                        {% for seat in row.members %}
+                          {% include "accounts/partials/org_chart_node.html" with slot=seat.slot person=seat.member role="Member" kind="member" assign_url=slot_url %}
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="chart-empty muted">{% trans "Add a VP, coordinator or team in the outline below. Empty functions stay off the board until they have membership." %}</p>
+    {% endif %}
+  </div>
+  {% if awaiting %}
+    <div class="chart-pool">
+      <p class="tree-kicker">{% trans "Awaiting a node" %}</p>
+      <p class="muted">{% trans "Drag a name onto a circle. Access puts people here; TM places them." %}</p>
+      <ul class="awaiting-list">
+        {% for member in awaiting %}
+          <li class="awaiting-chip" draggable="true" data-member-id="{{ member.pk }}">
+            <span class="chart-avatar mini">
+              {% include "accounts/partials/org_avatar.html" with person=member %}
+            </span>
+            {{ member.full_name }}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+</section>

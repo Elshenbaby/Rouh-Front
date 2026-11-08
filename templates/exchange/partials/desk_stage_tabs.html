@@ -1,0 +1,33 @@
+{% load i18n %}
+{% if desk %}
+  <nav class="tabs" aria-label="{% trans 'Desk lists' %}">
+    {% if desk_spec.is_icx %}
+      <a class="tab{% if list_stage == 'opens' %} is-active{% endif %}" href="{% url 'exchange:desk_slots' desk %}">{% trans "Slots" %}</a>
+      <a class="tab{% if list_stage == 'signups' %} is-active{% endif %}" href="{% url 'exchange:desk_signups' desk %}{% if queue_query %}?{{ queue_query }}{% endif %}">{% trans "Applications" %}</a>
+    {% else %}
+      <a class="tab{% if list_stage == 'signups' %} is-active{% endif %}" href="{% url 'exchange:desk_signups' desk %}{% if queue_query %}?{{ queue_query }}{% endif %}">{% trans "Signups" %}</a>
+    {% endif %}
+    <a class="tab{% if list_stage == 'applicants' %} is-active{% endif %}" href="{% url 'exchange:desk_applicants' desk %}{% if queue_query %}?{{ queue_query }}{% endif %}">{% trans "Applicants" %}</a>
+    <a class="tab{% if list_stage == 'apds' %} is-active{% endif %}" href="{% url 'exchange:desk_apds' desk %}{% if queue_query %}?{{ queue_query }}{% endif %}">{% trans "APDs" %}</a>
+    {% if desk_spec and desk_spec.has_raising %}
+    <a class="tab{% if list_stage == 'raising' or work == 'raising' %} is-active{% endif %}" href="{% url 'raising:desk' desk %}{% if queue_query %}?{{ queue_query }}{% endif %}">{% trans "Raising" %}</a>
+    <a class="tab{% if list_stage == 'calendar' %} is-active{% endif %}" href="{% url 'raising:calendar' desk %}">{% trans "Calendar" %}</a>
+    {% endif %}
+  </nav>
+  {% if list_stage != 'opens' and list_stage != 'calendar' %}
+  <nav class="queue-tabs" aria-label="{% trans 'Queues' %}">
+    {% if assign.show_overall %}
+      <a class="queue-tab{% if assign.queue == 'all' and list_stage != 'teams' %} is-active{% endif %}" href="{{ list_url }}?queue=all">{% trans "Overall" %}</a>
+    {% endif %}
+    {% if assign.is_team_lead and assign.team %}
+      <a class="queue-tab{% if assign.queue == 'team' and list_stage != 'teams' %} is-active{% endif %}" href="{{ list_url }}?queue=team&amp;team={{ assign.team.pk }}">{% trans "My team" %}</a>
+    {% endif %}
+    <a class="queue-tab{% if assign.queue == 'mine' %} is-active{% endif %}" href="{{ list_url }}?queue=mine">{% trans "My work" %}</a>
+    <a class="queue-tab{% if assign.queue == 'unassigned' %} is-active{% endif %}" href="{{ list_url }}?queue=unassigned">{% trans "Unassigned" %}{% if unassigned_count %} <span class="badge">{{ unassigned_count }}</span>{% endif %}</a>
+    {% if assign.show_teams_board %}
+      <a class="queue-tab{% if list_stage == 'teams' %} is-active{% endif %}" href="{% url 'exchange:desk_teams' desk %}{% if list_stage == 'raising' %}?work=raising{% endif %}">{% trans "Teams" %}</a>
+    {% endif %}
+  </nav>
+  {% include "exchange/partials/team_chips.html" %}
+  {% endif %}
+{% endif %}

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow">{% trans "Talent" %}</p>
+    <h1>{% trans "Join requests" %}</h1>
+    <p class="lede">{% trans "Members who signed up and picked your LC. Approve the ones you know: they get in with the seat and function you choose, and you can move them in Structure later. Members with an AIESEC email in Soluo get their account by themselves." %}</p>
+  </header>
+
+  {% if invite_lcs %}
+  <section class="card access-card invite-card" id="invite">
+    <h2>{% trans "Invite people by email" %}</h2>
+    <p class="muted">{% trans "For someone who isn't in Rouh yet. Each one gets an email to finish their setup: they confirm their name and choose a password, and they're in with the seat you pick. The link works for 14 days." %}</p>
+    <form method="post" action="{% url 'people:invite_send' %}" class="access-form invite-form">
+      {% csrf_token %}
+      <label class="field invite-emails">
+        <span>{% trans "Emails, one person a line" %}</span>
+        <textarea name="emails" rows="4" required placeholder="name@aiesec.net&#10;Sara Ahmed, sara.ahmed@aiesec.net"></textarea>
+      </label>
+      {% if invite_lcs|length > 1 %}
+        <label class="field"><span>{% trans "LC" %}</span>
+          <select name="entity">{% for lc in invite_lcs %}<option value="{{ lc.pk }}">{{ lc.name }}</option>{% endfor %}</select>
+        </label>
+      {% else %}<input type="hidden" name="entity" value="{{ invite_lcs.0.pk }}">{% endif %}
+      <label class="field"><span>{% trans "Function" %}</span>
+        <select name="function"><option value="">{% trans "Awaiting TM" %}</option>{% for value, label in functions %}<option value="{{ value }}">{{ label }}</option>{% endfor %}</select>
+      </label>
+      <label class="field"><span>{% trans "Seat" %}</span>
+        <select name="seat">{% for value, label in seats %}<option value="{{ value }}">{{ label }}</option>{% endfor %}</select>
+      </label>
+      <div class="row"><button class="btn btn-primary btn-sm" type="submit">{% trans "Send the invitations" %}</button></div>
+    </form>
+    {% if invited %}
+      <h3 class="invite-waiting-title">{% trans "Invited, not set up yet" %}</h3>
+      <ul class="invite-waiting">
+        {% for m in invited %}
+          <li>
+            <span><b>{{ m.full_name }}</b> <small class="muted">{{ m.user.email }}{% if invite_lcs|length > 1 %} · {{ m.home_entity.short_name }}{% endif %}</small></span>
+            <form method="post" action="{% url 'people:invite_resend' m.pk %}">{% csrf_token %}<button class="btn btn-ghost btn-sm" type="submit">{% trans "Resend the email" %}</button></form>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  <h2 class="join-title">{% trans "Signed up by themselves" %}</h2>
+
+  {% if pending %}
+    <div class="stack">
+      {% for item in pending %}
+        <article class="card access-card jr-card">
+          <div class="ca-head">
+            <div>
+              <h3>{{ item.full_name|default:item.email }}</h3>
+              <p class="muted">{{ item.email }} · {{ item.requested_entity.name }} · {% blocktrans with when=item.created_at|timesince %}asked {{ when }} ago{% endblocktrans %}</p>
+            </div>
+          </div>
+          <form method="post" action="{% url 'people:join_approve' item.pk %}" class="access-form">
+            {% csrf_token %}
+            <label class="field">
+              <span>{% trans "Function" %}</span>
+              <select name="function">
+                <option value="">{% trans "Awaiting TM" %}</option>
+                {% for value, label in functions %}<option value="{{ value }}">{{ label }}</option>{% endfor %}
+              </select>
+            </label>
+            <label class="field">
+              <span>{% trans "Seat" %}</span>
+              <select name="seat">
+                {% for value, label in seats %}<option value="{{ value }}">{{ label }}</option>{% endfor %}
+              </select>
+            </label>
+            <label class="field">
+              <span>{% trans "Note" %}</span>
+              <input type="text" name="review_note" placeholder="{% trans 'Optional' %}">
+            </label>
+            <div class="row"><button class="btn btn-primary btn-sm" type="submit">{% trans "Approve" %}</button></div>
+          </form>
+          <form method="post" action="{% url 'people:join_reject' item.pk %}" class="access-form">
+            {% csrf_token %}
+            <label class="field">
+              <span>{% trans "Reject reason" %}</span>
+              <input type="text" name="review_note" placeholder="{% trans 'Optional: they see this' %}">
+            </label>
+            <div class="row"><button class="btn btn-danger btn-sm" type="submit">{% trans "Reject" %}</button></div>
+          </form>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty">
+      <h2>{% trans "No one is waiting" %}</h2>
+      <p>{% trans "When a member signs up and picks your LC, they show up here and in your notifications." %}</p>
+    </div>
+  {% endif %}
+{% endblock %}

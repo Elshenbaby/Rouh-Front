@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load i18n static mc_format %}
+
+{% block content %}
+  <header class="page-header row-between bd-head">
+    <div>
+      <p class="eyebrow"><a href="{% url 'ui:desk' 'bd' %}">{{ desk_spec.label }}</a></p>
+      <h1>{{ title }}</h1>
+      <p class="lede">{{ scope_label }} · {{ d.period.label }}. Money collected from partners, against the BD goal in the LC planning tools.</p>
+    </div>
+    <div class="bd-actions">
+      {% if can_review_cashin and cashin_waiting %}
+        <a class="btn btn-secondary" href="{% url 'b2b:cashin_review' %}?desk=bd">{% blocktrans count n=cashin_waiting %}Review {{ n }} waiting{% plural %}Review {{ n }} waiting{% endblocktrans %}</a>
+      {% endif %}
+      <a class="btn btn-primary" href="{% url 'b2b:cashin' %}?desk=bd">{% trans "Log a cash in" %}</a>
+    </div>
+  </header>
+  {% include "b2b/partials/tabs.html" %}
+
+  <nav class="queue-tabs bd-periods" aria-label="{% trans 'Period' %}">
+    {% for key, label in d.periods %}
+      <a class="queue-tab{% if key == d.period.key %} is-active{% endif %}" href="?desk=bd&amp;p={{ key }}">{{ label }}</a>
+    {% endfor %}
+  </nav>
+
+  <section class="bd-hero">
+    <article class="bd-collected">
+      <p class="bd-kicker">{% trans "Collected" %} <span>EGP · {% trans "approved cash-ins" %}</span></p>
+      <p class="bd-big">{{ d.collected|floatformat:"0g" }}</p>
+      {% if d.goal %}
+        <div class="bd-progress" role="img" aria-label="{% blocktrans with pct=d.progress|pct0 %}{{ pct }} of the BD goal{% endblocktrans %}">
+          <i class="is-{{ d.pace|pace_band }}" style="width: {% widthratio d.collected d.goal 100 %}%"></i>
+          <b style="left: {% widthratio d.goal_to_date d.goal 100 %}%" title="{% trans 'Where the plan is today' %}"></b>
+        </div>
+        <p class="bd-goal-line">
+          <strong>{{ d.progress|pct0 }}</strong> {% blocktrans with goal=d.goal|floatformat:"0g" %}of the {{ goal }} goal{% endblocktrans %}
+          <span class="pva-pill is-{{ d.pace|pace_band }}">{% if d.pace is None %}{% trans "No plan yet" %}{% elif d.pace >= 1 %}{% trans "Ahead of plan" %}{% elif d.pace >= 0.85 %}{% trans "Close to plan" %}{% else %}{% trans "Behind plan" %}{% endif %}</span>
+        </p>
+        <p class="bd-sub">{% blocktrans with todate=d.goal_to_date|floatformat:"0g" %}The plan expects {{ todate }} by today.{% endblocktrans %}</p>
+      {% else %}
+        <p class="bd-sub">{% trans "No BD revenue goal in the planning tools for this selection." %}</p>
+      {% endif %}
+    </article>
+    <div class="bd-tiles">
+      <div class="bd-tile"><p>{% trans "Deals" %}</p><b>{{ d.deals }}</b><span>{% trans "approved cash-ins" %}</span></div>
+      <div class="bd-tile"><p>{% trans "Average deal" %}</p><b>{% if d.average %}{{ d.average|floatformat:"0g" }}{% else %}—{% endif %}</b><span>EGP</span></div>
+      {% if national %}
+        <div class="bd-tile"><p>{% trans "LCs collecting" %}</p><b>{{ d.lcs_collecting }}</b><span>{% trans "with an approved cash-in" %}</span></div>
+      {% else %}
+        <div class="bd-tile"><p>{% trans "Partners" %}</p><b>{% if d.partners %}{{ d.partners }}{% else %}—{% endif %}</b><span>{% trans "named on approved cash-ins" %}</span></div>
+      {% endif %}
+      <a class="bd-tile is-waiting{% if not d.pending.count %} is-clear{% endif %}" href="{% if can_review_cashin %}{% url 'b2b:cashin_review' %}{% else %}{% url 'b2b:cashin' %}{% endif %}?desk=bd{% if not can_review_cashin %}&amp;status=pending{% endif %}">
+        <p>{% trans "Waiting for approval" %}</p><b>{{ d.pending.amount|floatformat:"0g" }}</b>
+        <span>{% blocktrans count n=d.pending.count %}{{ n }} cash-in, not counted yet{% plural %}{{ n }} cash-ins, not counted yet{% endblocktrans %}</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="bd-grid">
+    <article class="bd-panel bd-span-2">
+      <header><h2>{% trans "Month by month" %}</h2><p>{% trans "Bars: approved cash-ins by collection month. Line: the BD plan. The chosen period is highlighted." %}</p></header>
+      <div class="bd-chart" data-bd-chart="months"></div>
+    </article>
+    <article class="bd-panel">
+      <header><h2>{% trans "By event" %}</h2><p>{% trans "Where the money came from." %}</p></header>
+      {% if d.by_event %}
+        <ul class="bd-bars">
+          {% for e in d.by_event %}
+            <li>
+              <span class="bd-bar-label">{{ e.label }}{% if e.scope %} <em class="bd-scope is-{{ e.scope }}">{{ e.scope }}</em>{% endif %}</span>
+              <span class="bd-bar-track"><i style="width: {% widthratio e.share 1 100 %}%"></i></span>
+              <span class="bd-bar-num">{{ e.amount|short_money }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="bd-empty">{% trans "No approved cash-in in this period yet." %}</p>
+      {% endif %}
+    </article>
+  </section>
+
+  <section class="bd-grid">
+    {% if national %}
+      <article class="bd-panel">
+        <header><h2>{% trans "Leading LCs" %}</h2><p><a href="{% url 'b2b:cashin_ranking' %}?desk=bd">{% trans "Full commission ranking" %} →</a></p></header>
+        {% if d.leaders %}
+          <ol class="bd-leaders">
+            {% for l in d.leaders %}
+              <li>
+                <span class="bd-rank{% if forloop.first %} is-first{% endif %}">{{ forloop.counter }}</span>
+                <span class="bd-leader-name">{{ l.name }}<small>{% blocktrans count n=l.count %}{{ n }} deal{% plural %}{{ n }} deals{% endblocktrans %}</small></span>
+                <span class="bd-bar-track"><i style="width: {% widthratio l.share 1 100 %}%"></i></span>
+                <span class="bd-bar-num">{{ l.amount|short_money }}</span>
+              </li>
+            {% endfor %}
+          </ol>
+        {% else %}
+          <p class="bd-empty">{% trans "No approved cash-in in this period yet." %}</p>
+        {% endif %}
+      </article>
+    {% endif %}
+    <article class="bd-panel">
+      <header><h2>{% trans "From account to contract" %}</h2><p>{% trans "Soluo BD accounts worked in Rouh, and the deals that closed." %}</p></header>
+      <ul class="bd-funnel">
+        <li><span>{% trans "Accounts" %}</span><b>{{ d.funnel.accounts|default:0 }}</b></li>
+        <li><span>{% trans "Contacted" %}</span><b>{{ d.funnel.contacted|default:0 }}</b></li>
+        <li><span>{% trans "Visited" %}</span><b>{{ d.funnel.visited|default:0 }}</b></li>
+        <li class="is-end"><span>{% trans "Contracts (approved)" %}</span><b>{{ d.funnel.contracts|default:0 }}</b></li>
+      </ul>
+      <p class="bd-foot"><a href="{% url 'b2b:accounts' %}?desk=bd">{% trans "Open raising" %} →</a> · <a href="{% url 'b2b:calendar' %}?desk=bd">{% trans "Visits calendar" %} →</a></p>
+    </article>
+    <article class="bd-panel{% if not national %} bd-span-2{% endif %}">
+      <header><h2>{% trans "Latest cash-ins" %}</h2><p><a href="{% url 'b2b:cashin' %}?desk=bd">{% trans "All cash-ins" %} →</a></p></header>
+      {% if d.recent %}
+        <ul class="bd-recent">
+          {% for item in d.recent %}
+            <li>
+              <span class="bd-recent-main"><b>{% if item.partner_name %}{{ item.partner_name }}{% else %}{{ item.home_entity.short_name|default:item.lc_name }}{% endif %}</b><small>{% if national and item.partner_name %}{{ item.home_entity.short_name|default:item.lc_name }} · {% endif %}{{ item.event_display }} · {{ item.collected_on|date:"j M" }}</small></span>
+              <span class="bd-recent-amount">{{ item.amount|floatformat:"0g" }}</span>
+              <span class="badge badge-{% if item.status == 'approved' %}success{% elif item.status == 'rejected' %}danger{% else %}pending{% endif %}">{{ item.get_status_display }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="bd-empty">{% trans "No cash-in logged yet." %} <a href="{% url 'b2b:cashin' %}?desk=bd">{% trans "Log the first one" %} →</a></p>
+      {% endif %}
+    </article>
+  </section>
+
+  {{ d.chart|json_script:"bd-data" }}
+{% endblock %}
+
+{% block extra_js %}
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js" defer></script>
+  <script src="{% static 'js/bd.js' %}?v=1" defer></script>
+{% endblock %}

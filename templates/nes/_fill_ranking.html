@@ -1,0 +1,13 @@
+{% load i18n %}
+{% if ranking %}
+  <section class="ops-panel nes-ranking" aria-label="{% trans 'NES ranking across Egypt' %}">
+    <header class="ops-panel-head">
+      <h2>{% trans "Who filled it most · every LC in Egypt" %}</h2>
+      <p>{% blocktrans with month=ranking_round.month|date:"F Y" %}{{ month }}: each LC's share of its MMs and members in Rouh who filled the NES, then how many. Counts only, no names. "Others" answered for the LC but aren't on its member list in Rouh yet, so they don't count in the share.{% endblocktrans %}</p>
+    </header>
+    <div class="table-wrap"><table class="table ops-table ops-compact">
+      <thead><tr><th class="q-num">#</th><th>{% trans "LC" %}</th><th class="q-num">{% trans "Members who filled" %}</th><th class="q-num">{% trans "Members in Rouh" %}</th><th class="q-num">{% trans "Filled %" %}</th><th class="q-num">{% trans "Others" %}</th></tr></thead>
+      <tbody>{% for row in ranking %}<tr{% if row.mine %} class="is-mine"{% endif %}><td class="q-num">{{ row.rank }}</td><th scope="row">{{ row.entity.short_name|default:row.entity.name }}{% if row.mine %} <span class="nes-pill">{% trans "You" %}</span>{% endif %}</th><td class="q-num">{{ row.count }}</td><td class="q-num">{{ row.members }}</td><td class="q-num">{% if row.participation is not None %}{{ row.participation }}%{% else %}—{% endif %}</td><td class="q-num">{% if row.outside %}{{ row.outside }}{% else %}—{% endif %}</td></tr>{% endfor %}</tbody>
+    </table></div>
+  </section>
+{% endif %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <h1>{% trans "Component gallery" %}</h1>
+    <p class="lede">{% trans "Living examples of the Phase 0 design system. Dev and staff only." %}</p>
+  </header>
+
+  <section class="stack">
+    <h2>{% trans "Buttons" %}</h2>
+    <div class="row">
+      {% include "components/button.html" with label="Primary" variant="primary" %}
+      {% include "components/button.html" with label="Secondary" variant="secondary" %}
+      {% include "components/button.html" with label="Ghost" variant="ghost" %}
+      {% include "components/button.html" with label="Danger" variant="danger" %}
+      {% include "components/button.html" with label="Small" variant="primary" size="sm" %}
+    </div>
+
+    <h2>{% trans "Badges" %}</h2>
+    <div class="row">
+      {% include "components/badge.html" with label="Active" tone="success" %}
+      {% include "components/badge.html" with label="Pending" tone="warning" %}
+      {% include "components/badge.html" with label="Denied" tone="danger" %}
+      {% include "components/badge.html" with label="oGV" tone="ogv" %}
+      {% include "components/badge.html" with label="iGV" tone="igv" %}
+    </div>
+
+    <h2>{% trans "Metric tile" %}</h2>
+    {% include "components/metric_tile.html" with label="Members" value="—" delta="" hint="No operational KPIs in Phase 0" %}
+
+    <h2>{% trans "Card" %}</h2>
+    <div class="card">
+      <h3>{% trans "Card title" %}</h3>
+      <p>{% trans "Cards carry dense operational content. Terracotta is reserved for actions, not surfaces." %}</p>
+    </div>
+
+    <h2>{% trans "Table" %}</h2>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr><th>{% trans "Name" %}</th><th>{% trans "LC" %}</th><th>{% trans "Status" %}</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Sara Ahmed</td><td>Cairo University</td><td>{% include "components/badge.html" with label="Active" tone="success" %}</td></tr>
+          <tr><td>National MCP</td><td>Egypt</td><td>{% include "components/badge.html" with label="MC" tone="info" %}</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>{% trans "Empty state" %}</h2>
+    {% include "components/empty_state.html" with title="Nothing here yet" body="Empty states say what to do next, not just “No data”." action_label="Open People" action_href="/people/" %}
+  </section>
+{% endblock %}

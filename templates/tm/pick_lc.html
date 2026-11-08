@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'ui:desk' 'tm' %}">{% trans "Talent" %}</a></p>
+    <h1>{% trans "Pick an LC" %}</h1>
+    <p class="lede">{% trans "This screen is for one committee. Choose the LC, and you stay on this page." %}</p>
+  </header>
+  {% include "tm/partials/tabs.html" %}
+  {% include "partials/pick_lc_grid.html" %}
+  {% if can_view_national %}
+    <p><a class="btn" href="{% url 'tm:national' %}">{% trans "National retention" %}</a></p>
+  {% endif %}
+{% endblock %}

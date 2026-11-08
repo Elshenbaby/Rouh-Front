@@ -1,0 +1,901 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>RCR Summer 27 · CU · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "gxE3vdy6WHBnE3FSMBJJQ6jpV2vCZnSrXqsZzN9USAqRAHh3wDaF9l1Ufbg7MaMu"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link is-active">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="gxE3vdy6WHBnE3FSMBJJQ6jpV2vCZnSrXqsZzN9USAqRAHh3wDaF9l1Ufbg7MaMu">
+      <input type="hidden" name="next" value="/tm/rcr/summer-27/interviews/new/">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="gxE3vdy6WHBnE3FSMBJJQ6jpV2vCZnSrXqsZzN9USAqRAHh3wDaF9l1Ufbg7MaMu">
+      <input type="hidden" name="next" value="/tm/rcr/summer-27/interviews/new/">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="gxE3vdy6WHBnE3FSMBJJQ6jpV2vCZnSrXqsZzN9USAqRAHh3wDaF9l1Ufbg7MaMu">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page">
+        
+        
+  
+<header class="page-header rcr-header">
+  <p class="eyebrow"><a href="desks__tm.html">Talent</a> · RCR · CU</p>
+  <h1>RCR Summer 27 <span class="rcr-lc">CU</span></h1>
+</header>
+
+
+<nav class="tabs tm-tabs" aria-label="Talent">
+  <a class="tab" href="tm.html">Overview</a>
+  <a class="tab" href="tm__structure.html">Structure</a>
+  <a class="tab" href="tm__performance.html">Performance</a>
+  <a class="tab" href="tm__planning.html">Planning</a>
+  <a class="tab" href="tm__attendance.html">Attendance</a>
+  <a class="tab" href="tm__hr.html">HR Status</a>
+  <a class="tab is-active" href="tm__rcr.html">RCR</a>
+  <a class="tab" href="tm__nes.html">NES</a>
+  <a class="tab" href="tm__settings.html">Settings</a>
+</nav>
+
+
+
+
+
+
+<nav class="rcr-journey" aria-label="The recruitment journey">
+  <a class="rcr-today-btn" href="tm__rcr__summer-27.html"><b>Today</b><small>what waits on you</small></a>
+  <ol class="rcr-phases">
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__new-leads.html" title="Call every lead, run the phone interview, accept or reject.">
+          <span class="rcr-phase-n">1</span>
+          <span class="rcr-phase-text"><b>Leads &amp; calls</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+      <li class="rcr-phase is-active">
+        <a href="tm__rcr__summer-27__scheduling.html" title="Book a slot (or send them their booking link), confirm the day before, fill the form.">
+          <span class="rcr-phase-n">2</span>
+          <span class="rcr-phase-text"><b>Interviews</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__gds.html" title="Seat the accepted ones in a GD, run it, score it.">
+          <span class="rcr-phase-n">3</span>
+          <span class="rcr-phase-text"><b>Group discussions</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__conference.html" title="Collect the payment and get them to the conference.">
+          <span class="rcr-phase-n">4</span>
+          <span class="rcr-phase-text"><b>Conference</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+  </ol>
+</nav>
+<div class="rcr-subnav">
+  <nav class="rcr-phase-tabs" aria-label="This phase">
+    <a class="" href="tm__rcr__summer-27__scheduling.html">Calendar</a><a class="is-active" href="tm__rcr__summer-27__interviews.html">Interview forms</a>
+  </nav>
+  <nav class="rcr-tools" aria-label="Tools">
+    <a class="" href="tm__rcr__summer-27__insights.html">Insights</a><a class="" href="tm__rcr__summer-27__planning.html">Capacity plan</a><a class="" href="tm__rcr__summer-27__sensing.html">Sensing</a><a class="" href="tm__rcr__summer-27__team.html">Team &amp; shifts</a><a class="" href="tm__rcr__summer-27__timeline.html">Timeline</a><a class="" href="tm__rcr__summer-27__easy-answers.html">Easy answers</a>
+  </nav>
+</div>
+
+
+  <p class="rcr-back"><a href="tm__rcr__summer-27__interviews.html">← All interviews</a></p>
+
+  <form method="post" class="rcr-iv rcr-wizard" novalidate x-data="rcrWizard(12)" @change="tally()" @keydown.window="keys($event)">
+    <input type="hidden" name="csrfmiddlewaretoken" value="gxE3vdy6WHBnE3FSMBJJQ6jpV2vCZnSrXqsZzN9USAqRAHh3wDaF9l1Ufbg7MaMu">
+
+    <header class="rcr-wiz-head">
+      <div>
+        <h2>RCR Summer 27 · F2F interview</h2>
+        <p class="muted">Step <b x-text="step + 1">1</b> of <span x-text="total">12</span> · <b x-text="answered">0</b> of <span x-text="scorable">0</span> answers scored · average <b x-text="avg">—</b></p>
+      </div>
+      <div class="rcr-gauge" role="img" :aria-label="'Average score ' + avg">
+        <svg viewBox="0 0 120 64" aria-hidden="true"><path d="M10 60 A50 50 0 0 1 110 60" class="rcr-gauge-bg"/><path d="M10 60 A50 50 0 0 1 110 60" class="rcr-gauge-fg" :style="'stroke-dashoffset:' + (157 - 157 * (avgNum / 5))"/></svg>
+        <strong x-text="avg">—</strong><small>of 5</small>
+      </div>
+    </header>
+
+    <nav class="rcr-wiz-steps" aria-label="Parts of the interview">
+      <button type="button" :class="{ 'is-now': step === 0, 'is-done': step > 0 }" @click="go(0)">Candidate</button>
+      <button type="button" :class="{ 'is-now': step === 1, 'is-done': step > 1 }" @click="go(1)">Before we begin</button><button type="button" :class="{ 'is-now': step === 2, 'is-done': step > 2 }" @click="go(2)">Personality &amp; leadership</button><button type="button" :class="{ 'is-now': step === 3, 'is-done': step > 3 }" @click="go(3)">Global mindset</button><button type="button" :class="{ 'is-now': step === 4, 'is-done': step > 4 }" @click="go(4)">oGV</button><button type="button" :class="{ 'is-now': step === 5, 'is-done': step > 5 }" @click="go(5)">oGT</button><button type="button" :class="{ 'is-now': step === 6, 'is-done': step > 6 }" @click="go(6)">iGV</button><button type="button" :class="{ 'is-now': step === 7, 'is-done': step > 7 }" @click="go(7)">iGT</button><button type="button" :class="{ 'is-now': step === 8, 'is-done': step > 8 }" @click="go(8)">B2C &amp; marketing</button><button type="button" :class="{ 'is-now': step === 9, 'is-done': step > 9 }" @click="go(9)">B2B &amp; BD</button><button type="button" :class="{ 'is-now': step === 10, 'is-done': step > 10 }" @click="go(10)">Conference</button>
+      <button type="button" :class="{ 'is-now': step === total - 1 }" @click="go(total - 1)">Verdict</button>
+    </nav>
+    <div class="rcr-wiz-bar" aria-hidden="true"><i :style="'width:' + ((step + 1) / total * 100) + '%'"></i></div>
+
+    
+
+    <section class="ops-panel rcr-wiz-step" x-show="step === 0">
+      <header class="ops-panel-head"><h2>The candidate</h2><p>Complete the calibration session with your LCVP TM before you start. Open the candidate&#x27;s lead, sit somewhere quiet, plan for about 45 minutes, and fill this in during the interview, not afterwards. Score each answer from 0 to 5 using the rubric in Easy Answers.</p></header>
+      <div class="rcr-form-grid">
+        
+          <label class="field is-wide"><span>Candidate (from your leads)</span>
+            <select id="iv-lead" name="lead">
+              <option value="">Not in the list: type the name below</option>
+              
+            </select>
+          </label>
+          <label class="field"><span>Full name</span><input id="iv-name" name="candidate_name" value=""></label>
+          <label class="field"><span>EXPA ID (or the Alpha ID)</span><input id="iv-id" name="candidate_id" value=""></label>
+        
+        <label class="field"><span>Interviewer 1</span><input id="iv-i1" name="interviewer_1" value="LCP CU"></label>
+        <label class="field"><span>Interviewer 2 <small class="muted">(blank if there's only one)</small></span><input id="iv-i2" name="interviewer_2" value=""></label>
+      </div>
+    </section>
+
+    
+      <section class="ops-panel rcr-wiz-step" x-show="step === 1" x-cloak>
+        <header class="ops-panel-head"><h2>Before we begin</h2><p>1 question. Pick a score and the next question comes up.</p></header>
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">1</span> Any questions before we begin?</legend>
+            
+            
+              <input name="q_2f45f5e7-dd72-40b9-b0ba-40bb0ae8127d" type="text" value="" aria-label="Any questions before we begin?">
+            
+          </fieldset>
+          
+        
+      </section>
+    
+      <section class="ops-panel rcr-wiz-step" x-show="step === 2" x-cloak>
+        <header class="ops-panel-head"><h2>Personality &amp; leadership</h2><p>5 questions. Pick a score and the next question comes up.</p></header>
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">1</span> Tell me 3 things that are not in you.</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_9225336a-07fb-4e8a-832e-b114745bef80" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_9225336a-07fb-4e8a-832e-b114745bef80" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_9225336a-07fb-4e8a-832e-b114745bef80" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_9225336a-07fb-4e8a-832e-b114745bef80" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_9225336a-07fb-4e8a-832e-b114745bef80" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_9225336a-07fb-4e8a-832e-b114745bef80" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">2</span> What is the one thing that affects how you make decisions the most: logic, emotions, past experiences, or the people around you? Illustrate.</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_65630992-b3df-48f5-8f93-79fa4f0ae694" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_65630992-b3df-48f5-8f93-79fa4f0ae694" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_65630992-b3df-48f5-8f93-79fa4f0ae694" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_65630992-b3df-48f5-8f93-79fa4f0ae694" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_65630992-b3df-48f5-8f93-79fa4f0ae694" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_65630992-b3df-48f5-8f93-79fa4f0ae694" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">3</span> Define leadership from your own point of view.</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_02984f40-fc4b-4976-9881-a14ca5206531" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_02984f40-fc4b-4976-9881-a14ca5206531" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_02984f40-fc4b-4976-9881-a14ca5206531" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_02984f40-fc4b-4976-9881-a14ca5206531" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_02984f40-fc4b-4976-9881-a14ca5206531" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_02984f40-fc4b-4976-9881-a14ca5206531" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">4</span> Tell me about a time you were so supportive with someone that it ended up affecting you in a bad way.</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_f55eb3d2-be83-4016-9e14-fb0f54177936" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_f55eb3d2-be83-4016-9e14-fb0f54177936" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_f55eb3d2-be83-4016-9e14-fb0f54177936" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_f55eb3d2-be83-4016-9e14-fb0f54177936" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_f55eb3d2-be83-4016-9e14-fb0f54177936" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_f55eb3d2-be83-4016-9e14-fb0f54177936" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">5</span> What is the difference between a place that pushes you to grow and a place that just burns you out?</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_a96453a8-ed21-4425-81f8-c671c0039900" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_a96453a8-ed21-4425-81f8-c671c0039900" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_a96453a8-ed21-4425-81f8-c671c0039900" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_a96453a8-ed21-4425-81f8-c671c0039900" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_a96453a8-ed21-4425-81f8-c671c0039900" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_a96453a8-ed21-4425-81f8-c671c0039900" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+      </section>
+    
+      <section class="ops-panel rcr-wiz-step" x-show="step === 3" x-cloak>
+        <header class="ops-panel-head"><h2>Global mindset</h2><p>2 questions. Pick a score and the next question comes up.</p></header>
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">1</span> What do you think are the major global issues in the world right now?</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_03edf78b-3bb4-4e30-a636-c1b58517285e" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_03edf78b-3bb4-4e30-a636-c1b58517285e" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_03edf78b-3bb4-4e30-a636-c1b58517285e" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_03edf78b-3bb4-4e30-a636-c1b58517285e" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_03edf78b-3bb4-4e30-a636-c1b58517285e" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_03edf78b-3bb4-4e30-a636-c1b58517285e" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">2</span> A lot of young people see what&#x27;s wrong with the world but feel there&#x27;s nothing they can do. What is the first real step someone your age can take?</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_364f1700-ec92-400a-8fb2-5a199d8fe222" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_364f1700-ec92-400a-8fb2-5a199d8fe222" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_364f1700-ec92-400a-8fb2-5a199d8fe222" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_364f1700-ec92-400a-8fb2-5a199d8fe222" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_364f1700-ec92-400a-8fb2-5a199d8fe222" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_364f1700-ec92-400a-8fb2-5a199d8fe222" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+      </section>
+    
+      <section class="ops-panel rcr-wiz-step" x-show="step === 4" x-cloak>
+        <header class="ops-panel-head"><h2>oGV</h2><p>4 questions. Pick a score and the next question comes up.</p></header>
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">1</span> You have a lead (signup) who is interested in volunteering abroad but their parents are completely against it. What do you do, step by step?</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_8e3f2dcb-bdd7-4d38-9358-970a96b205df" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_8e3f2dcb-bdd7-4d38-9358-970a96b205df" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_8e3f2dcb-bdd7-4d38-9358-970a96b205df" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_8e3f2dcb-bdd7-4d38-9358-970a96b205df" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_8e3f2dcb-bdd7-4d38-9358-970a96b205df" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_8e3f2dcb-bdd7-4d38-9358-970a96b205df" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">2</span> You&#x27;ve been following up with someone for 2 weeks and they suddenly stop replying. What do you do?</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_14dfe7d7-913a-4bff-8c5c-3cf454adac87" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_14dfe7d7-913a-4bff-8c5c-3cf454adac87" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_14dfe7d7-913a-4bff-8c5c-3cf454adac87" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_14dfe7d7-913a-4bff-8c5c-3cf454adac87" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_14dfe7d7-913a-4bff-8c5c-3cf454adac87" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_14dfe7d7-913a-4bff-8c5c-3cf454adac87" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">3</span> Someone just got accepted to go on their volunteer experience abroad. Walk me through everything you&#x27;d tell them to prepare, from paperwork to what to expect when they land.</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_167afd4b-f78f-4c2d-bbb8-d5517b61a172" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_167afd4b-f78f-4c2d-bbb8-d5517b61a172" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_167afd4b-f78f-4c2d-bbb8-d5517b61a172" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_167afd4b-f78f-4c2d-bbb8-d5517b61a172" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_167afd4b-f78f-4c2d-bbb8-d5517b61a172" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_167afd4b-f78f-4c2d-bbb8-d5517b61a172" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">4</span> Convince me — I&#x27;m a student — why spending my summer in Sri Lanka teaching English and living in a shared flat makes sense for me.</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_8fd58407-62f7-4574-9da6-674ddfa8e484" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_8fd58407-62f7-4574-9da6-674ddfa8e484" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_8fd58407-62f7-4574-9da6-674ddfa8e484" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_8fd58407-62f7-4574-9da6-674ddfa8e484" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_8fd58407-62f7-4574-9da6-674ddfa8e484" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_8fd58407-62f7-4574-9da6-674ddfa8e484" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+      </section>
+    
+      <section class="ops-panel rcr-wiz-step" x-show="step === 5" x-cloak>
+        <header class="ops-panel-head"><h2>oGT</h2><p>2 questions. Pick a score and the next question comes up.</p></header>
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">1</span> You&#x27;re helping someone through a multi-step application: an English test, a task and an interview. They fail the first step. What do you do next?</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_7cb2fb6c-9f28-4c9b-a482-083536e521c1" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_7cb2fb6c-9f28-4c9b-a482-083536e521c1" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_7cb2fb6c-9f28-4c9b-a482-083536e521c1" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_7cb2fb6c-9f28-4c9b-a482-083536e521c1" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_7cb2fb6c-9f28-4c9b-a482-083536e521c1" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_7cb2fb6c-9f28-4c9b-a482-083536e521c1" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">2</span> How would you guide a candidate to improve their professional skills to compete for a global talent opportunity?</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_e98840ce-a8df-4e4b-b43f-b38b2aaf1884" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_e98840ce-a8df-4e4b-b43f-b38b2aaf1884" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_e98840ce-a8df-4e4b-b43f-b38b2aaf1884" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_e98840ce-a8df-4e4b-b43f-b38b2aaf1884" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_e98840ce-a8df-4e4b-b43f-b38b2aaf1884" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_e98840ce-a8df-4e4b-b43f-b38b2aaf1884" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+      </section>
+    
+      <section class="ops-panel rcr-wiz-step" x-show="step === 6" x-cloak>
+        <header class="ops-panel-head"><h2>iGV</h2><p>3 questions. Pick a score and the next question comes up.</p></header>
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">1</span> You have 30 seconds to convince someone from anywhere in the world to come volunteer in Egypt. Go.</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_8905fc26-4be5-43d7-ba3f-7dceb9459877" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_8905fc26-4be5-43d7-ba3f-7dceb9459877" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_8905fc26-4be5-43d7-ba3f-7dceb9459877" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_8905fc26-4be5-43d7-ba3f-7dceb9459877" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_8905fc26-4be5-43d7-ba3f-7dceb9459877" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_8905fc26-4be5-43d7-ba3f-7dceb9459877" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">2</span> An incoming volunteer faces accommodation problems on their first night in Egypt. How do you support them?</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_5b192c34-f27a-4df0-a396-3eed853b429d" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_5b192c34-f27a-4df0-a396-3eed853b429d" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_5b192c34-f27a-4df0-a396-3eed853b429d" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_5b192c34-f27a-4df0-a396-3eed853b429d" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_5b192c34-f27a-4df0-a396-3eed853b429d" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_5b192c34-f27a-4df0-a396-3eed853b429d" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">3</span> What is the greatest social issue in Egypt? Then: design a project international volunteers could run to help with it.</legend>
+            <p class="muted">Wait for the answer before the second part.</p>
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_b93cfd75-24ca-4fb9-a21a-6ec6c89d5e28" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_b93cfd75-24ca-4fb9-a21a-6ec6c89d5e28" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_b93cfd75-24ca-4fb9-a21a-6ec6c89d5e28" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_b93cfd75-24ca-4fb9-a21a-6ec6c89d5e28" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_b93cfd75-24ca-4fb9-a21a-6ec6c89d5e28" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_b93cfd75-24ca-4fb9-a21a-6ec6c89d5e28" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+      </section>
+    
+      <section class="ops-panel rcr-wiz-step" x-show="step === 7" x-cloak>
+        <header class="ops-panel-head"><h2>iGT</h2><p>3 questions. Pick a score and the next question comes up.</p></header>
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">1</span> Tell me about a company you admire. Then: I&#x27;m the CEO — convince me to give you an internship.</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_68b3f87f-9ce2-444f-b7be-5086b35ad78c" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_68b3f87f-9ce2-444f-b7be-5086b35ad78c" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_68b3f87f-9ce2-444f-b7be-5086b35ad78c" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_68b3f87f-9ce2-444f-b7be-5086b35ad78c" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_68b3f87f-9ce2-444f-b7be-5086b35ad78c" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_68b3f87f-9ce2-444f-b7be-5086b35ad78c" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">2</span> How would you help someone integrate smoothly into a new professional work environment?</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_dd330c47-f80f-454c-9a7d-3808870ec696" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_dd330c47-f80f-454c-9a7d-3808870ec696" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_dd330c47-f80f-454c-9a7d-3808870ec696" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_dd330c47-f80f-454c-9a7d-3808870ec696" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_dd330c47-f80f-454c-9a7d-3808870ec696" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_dd330c47-f80f-454c-9a7d-3808870ec696" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">3</span> A foreign professional arrives for their project in Egypt and after 3 days says it&#x27;s nothing like what they were promised. What do you do?</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_5de88995-35d2-41ba-889d-c9af9ecb7efc" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_5de88995-35d2-41ba-889d-c9af9ecb7efc" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_5de88995-35d2-41ba-889d-c9af9ecb7efc" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_5de88995-35d2-41ba-889d-c9af9ecb7efc" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_5de88995-35d2-41ba-889d-c9af9ecb7efc" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_5de88995-35d2-41ba-889d-c9af9ecb7efc" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+      </section>
+    
+      <section class="ops-panel rcr-wiz-step" x-show="step === 8" x-cloak>
+        <header class="ops-panel-head"><h2>B2C &amp; marketing</h2><p>3 questions. Pick a score and the next question comes up.</p></header>
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">1</span> How would you position AIESEC differently to an engineering student, a business student and an arts student on the same campus?</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_70a57196-0d2f-4eb5-a36e-806021f685c3" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_70a57196-0d2f-4eb5-a36e-806021f685c3" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_70a57196-0d2f-4eb5-a36e-806021f685c3" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_70a57196-0d2f-4eb5-a36e-806021f685c3" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_70a57196-0d2f-4eb5-a36e-806021f685c3" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_70a57196-0d2f-4eb5-a36e-806021f685c3" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">2</span> You&#x27;re at an external event with 200 young people. No booth, no banner, just you. How do you walk out with at least 15 signups?</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_74f8d850-ab6b-44de-b010-e7253cd197ca" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_74f8d850-ab6b-44de-b010-e7253cd197ca" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_74f8d850-ab6b-44de-b010-e7253cd197ca" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_74f8d850-ab6b-44de-b010-e7253cd197ca" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_74f8d850-ab6b-44de-b010-e7253cd197ca" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_74f8d850-ab6b-44de-b010-e7253cd197ca" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">3</span> You call someone to check on their experience after a member reached out. They say the member was unprofessional, gave wrong information, and they&#x27;re no longer interested. What do you do?</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_b26f5a55-ff5a-4d8b-9ba1-b004523e2c8b" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_b26f5a55-ff5a-4d8b-9ba1-b004523e2c8b" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_b26f5a55-ff5a-4d8b-9ba1-b004523e2c8b" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_b26f5a55-ff5a-4d8b-9ba1-b004523e2c8b" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_b26f5a55-ff5a-4d8b-9ba1-b004523e2c8b" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_b26f5a55-ff5a-4d8b-9ba1-b004523e2c8b" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+      </section>
+    
+      <section class="ops-panel rcr-wiz-step" x-show="step === 9" x-cloak>
+        <header class="ops-panel-head"><h2>B2B &amp; BD</h2><p>3 questions. Pick a score and the next question comes up.</p></header>
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">1</span> You&#x27;ve been trying to reach someone at a company for 2 weeks and they haven&#x27;t replied to anything. What do you do?</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_607001cf-96dc-4fd1-9221-513d33fe443e" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_607001cf-96dc-4fd1-9221-513d33fe443e" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_607001cf-96dc-4fd1-9221-513d33fe443e" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_607001cf-96dc-4fd1-9221-513d33fe443e" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_607001cf-96dc-4fd1-9221-513d33fe443e" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_607001cf-96dc-4fd1-9221-513d33fe443e" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">2</span> A company that worked with us last conference had a bad experience with AIESEC. They agreed to meet you one more time. How do you run that meeting?</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_b34fdc26-6a7f-46dc-aaea-458559a439c9" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_b34fdc26-6a7f-46dc-aaea-458559a439c9" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_b34fdc26-6a7f-46dc-aaea-458559a439c9" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_b34fdc26-6a7f-46dc-aaea-458559a439c9" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_b34fdc26-6a7f-46dc-aaea-458559a439c9" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_b34fdc26-6a7f-46dc-aaea-458559a439c9" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">3</span> You&#x27;re convincing an Egyptian company to host an international intern. The HR manager asks: &quot;why would I hire someone who doesn&#x27;t know Egypt&#x27;s market?&quot; How do you respond?</legend>
+            
+            
+              <div class="rcr-scale is-big" role="radiogroup">
+                <label class="is-s0"><input type="radio" name="q_fe0bb6d0-b580-468e-a468-deb8ad519543" value="0" data-score @change="next($el)"><span>0</span></label><label class="is-s1"><input type="radio" name="q_fe0bb6d0-b580-468e-a468-deb8ad519543" value="1" data-score @change="next($el)"><span>1</span></label><label class="is-s2"><input type="radio" name="q_fe0bb6d0-b580-468e-a468-deb8ad519543" value="2" data-score @change="next($el)"><span>2</span></label><label class="is-s3"><input type="radio" name="q_fe0bb6d0-b580-468e-a468-deb8ad519543" value="3" data-score @change="next($el)"><span>3</span></label><label class="is-s4"><input type="radio" name="q_fe0bb6d0-b580-468e-a468-deb8ad519543" value="4" data-score @change="next($el)"><span>4</span></label><label class="is-s5"><input type="radio" name="q_fe0bb6d0-b580-468e-a468-deb8ad519543" value="5" data-score @change="next($el)"><span>5</span></label>
+              </div>
+            
+          </fieldset>
+          
+        
+      </section>
+    
+      <section class="ops-panel rcr-wiz-step" x-show="step === 10" x-cloak>
+        <header class="ops-panel-head"><h2>Conference</h2><p>3 questions. Pick a score and the next question comes up.</p></header>
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">1</span> The conference is 3 days with a sleepover. Can you attend?</legend>
+            
+            
+              <div class="rcr-options is-pills"><label><input type="radio" name="q_77dcb920-09d5-4727-82f0-98201998f33f" value="Yes, no problem"><span>Yes, no problem</span></label><label><input type="radio" name="q_77dcb920-09d5-4727-82f0-98201998f33f" value="Maybe, I need to check"><span>Maybe, I need to check</span></label><label><input type="radio" name="q_77dcb920-09d5-4727-82f0-98201998f33f" value="No"><span>No</span></label></div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">2</span> The conference fees are between 1,500 and 2,000 EGP. Can you manage it?</legend>
+            
+            
+              <div class="rcr-options is-pills"><label><input type="radio" name="q_694f0bf6-5768-412f-873d-a5ed9d8d1591" value="Yes, fully manageable"><span>Yes, fully manageable</span></label><label><input type="radio" name="q_694f0bf6-5768-412f-873d-a5ed9d8d1591" value="With some difficulty"><span>With some difficulty</span></label><label><input type="radio" name="q_694f0bf6-5768-412f-873d-a5ed9d8d1591" value="No"><span>No</span></label></div>
+            
+          </fieldset>
+          
+        
+          
+          <fieldset class="rcr-q" data-q>
+            <legend><span class="rcr-q-n">3</span> One quick thing before you leave: did you receive the invitation email for this interview correctly?</legend>
+            
+            
+              <input name="q_7d93e5df-1d70-45cf-a1a1-26aa142d4b52" type="text" value="" aria-label="One quick thing before you leave: did you receive the invit…">
+            
+          </fieldset>
+          
+        
+      </section>
+    
+
+    <section class="ops-panel rcr-wiz-step rcr-verdict" x-show="step === total - 1" x-cloak>
+      <header class="ops-panel-head"><h2>Verdict</h2><p>Average <strong x-text="avg">—</strong> over <span x-text="answered">0</span> scored answers. Cluster labels are internal: never share them with the candidate.</p></header>
+      <div class="rcr-cluster-pick" role="radiogroup" aria-label="Cluster">
+        
+          <label class="is-k"><input type="radio" name="cluster" value="K"><b>K</b><span>Exceptional Member</span><small>A rare profile with outstanding ownership, growth drive and impact orientation. Potential …</small></label>
+        
+          <label class="is-a"><input type="radio" name="cluster" value="A"><b>A</b><span>Leadership Pipeline Member</span><small>Strong alignment with AIESEC values and high leadership potential. Potential future LCVP, …</small></label>
+        
+          <label class="is-b"><input type="radio" name="cluster" value="B"><b>B</b><span>Long-Term Core Member</span><small>Reliable contributor likely to stay several years and lead projects. Team Leader, …</small></label>
+        
+          <label class="is-c"><input type="radio" name="cluster" value="C"><b>C</b><span>Functional Contributor</span><small>Performs well inside one function, less drawn to long-term leadership. Strong operational …</small></label>
+        
+          <label class="is-d"><input type="radio" name="cluster" value="D"><b>D</b><span>Supportive Contributor</span><small>Motivated and positive, adds value in projects and OCs with real support. …</small></label>
+        
+          <label class="is-e"><input type="radio" name="cluster" value="E"><b>E</b><span>Developmental Candidate</span><small>Wants to join but lacks several elements for a successful journey. Needs …</small></label>
+        
+          <label class="is-f"><input type="radio" name="cluster" value="F"><b>F</b><span>Not an AIESEC Fit</span><small>Significant misalignment with AIESEC&#x27;s values and expectations. Rejected from the process.</small></label>
+        
+      </div>
+      <div class="rcr-decide" role="radiogroup" aria-label="Decision">
+        <label class="is-pending"><input type="radio" name="decision" value="pending" checked><span>Pending</span></label><label class="is-accepted"><input type="radio" name="decision" value="accepted"><span>Accepted</span></label><label class="is-rejected"><input type="radio" name="decision" value="rejected"><span>Rejected</span></label>
+      </div>
+      <div class="rcr-form-grid">
+        <label class="field"><span>Best function for them</span>
+          <select id="iv-function" name="function_fit"><option value="">—</option><option value="ogv">oGV</option><option value="ogt">oGTa/e</option><option value="igv">iGV</option><option value="igta">iGTa</option><option value="igte">iGTe</option><option value="b2c">B2C</option><option value="mkt">MKT</option><option value="b2b">B2B</option><option value="bd">BD</option><option value="tm">TM</option><option value="fin">F&amp;L</option></select>
+        </label>
+        <label class="field-check"><input type="checkbox" name="mail_sent"> <span>Result mail sent</span></label>
+        <label class="field is-wide"><span>Comments about the candidate</span><textarea id="iv-comments" name="comments" rows="4"></textarea></label>
+      </div>
+    </section>
+
+    <footer class="rcr-wiz-foot">
+      <button type="button" class="btn btn-secondary btn-md" x-show="step > 0" @click="go(step - 1)">← Back</button>
+      <span class="rcr-wiz-hint muted">Keys: ← → to move between parts, 0–5 to score.</span>
+      <button type="button" class="btn btn-primary btn-md" x-show="step < total - 1" @click="go(step + 1)">Next →</button>
+      <button type="submit" class="btn btn-primary btn-md" x-show="step === total - 1" x-cloak>Submit the interview</button>
+    </footer>
+  </form>
+
+      </main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+<script>
+  function rcrWizard(total) {
+    return {
+      step: 0, total, avg: "—", avgNum: 0, answered: 0, scorable: 0,
+      init() { this.tally(); },
+      tally() {
+        const groups = new Set([...this.$el.querySelectorAll("input[data-score]")].map((i) => i.name));
+        const picked = [...this.$el.querySelectorAll("input[data-score]:checked")].map((i) => Number(i.value));
+        this.scorable = groups.size;
+        this.answered = picked.length;
+        this.avgNum = picked.length ? picked.reduce((a, b) => a + b, 0) / picked.length : 0;
+        this.avg = picked.length ? this.avgNum.toFixed(2) : "—";
+      },
+      go(n) {
+        this.step = Math.max(0, Math.min(this.total - 1, n));
+        this.$nextTick(() => this.$el.scrollIntoView({ behavior: "smooth", block: "start" }));
+      },
+      next(input) {
+        const all = [...this.$el.querySelectorAll(".rcr-wiz-step:not([style*='display: none']) [data-q]")];
+        const here = input.closest("[data-q]");
+        const after = all[all.indexOf(here) + 1];
+        if (after) after.scrollIntoView({ behavior: "smooth", block: "center" });
+      },
+      keys(event) {
+        if (["INPUT", "TEXTAREA", "SELECT"].includes(event.target.tagName) && event.target.type !== "radio") return;
+        if (event.key === "ArrowRight") { event.preventDefault(); this.go(this.step + 1); }
+        if (event.key === "ArrowLeft") { event.preventDefault(); this.go(this.step - 1); }
+        if (/^[0-5]$/.test(event.key)) {
+          const open = [...this.$el.querySelectorAll(".rcr-wiz-step:not([style*='display: none']) [data-q]")];
+          const target = open.find((q) => q.querySelector("input[data-score]") && !q.querySelector("input[data-score]:checked"));
+          const radio = target && target.querySelector(`input[data-score][value="${event.key}"]`);
+          if (radio) { radio.checked = true; radio.dispatchEvent(new Event("change", { bubbles: true })); }
+        }
+      },
+    };
+  }
+</script>
+
+</body>
+</html>

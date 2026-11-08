@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow">
+      {% if desk_spec %}
+        <a href="{% url 'exchange:desk_signups' desk_spec.code %}">{{ desk_spec.label }} {% if desk_spec.is_icx %}{% trans "applications" %}{% else %}{% trans "signups" %}{% endif %}</a>
+      {% else %}
+        <a href="{% url 'exchange:ogx_list' %}">{% trans "OGX signups" %}</a>
+      {% endif %}
+    </p>
+    <h1>{{ person.full_name }}</h1>
+    <p class="lede">
+      {% if person.is_icx %}
+        {{ person.sending_lc|default:_("Unmapped LC") }}{% if person.sending_mc %} · {{ person.sending_mc }}{% endif %}
+      {% else %}
+        {{ person.lc_display_name|default:_("Unmapped LC") }}
+      {% endif %}
+      · {{ person.sheet_status }}
+      {% if person.product %} · {{ person.product.display }}{% endif %}
+    </p>
+  </header>
+
+  {% include "exchange/partials/person_tabs.html" %}
+
+  <section class="card">
+    <h2>{% trans "Applications" %}</h2>
+    <p class="muted">{% if person.is_icx %}{% trans "From EXPA. One EP can have many applications. Approved rows open the Approval tab for CXP." %}{% else %}{% trans "From EXPA. One signup can have many applications. Approved rows open the Approval tab for CXP." %}{% endif %}</p>
+    {% if applications %}
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{% trans "Function" %}</th>
+              <th>{% trans "Opportunity" %}</th>
+              <th>{% if person.is_icx %}{% trans "Home" %}{% else %}{% trans "Host" %}{% endif %}</th>
+              <th>{% trans "Status" %}</th>
+              <th>{% trans "Applied" %}</th>
+              <th>{% trans "Accepted" %}</th>
+              <th>{% trans "Approved" %}</th>
+              <th>{% trans "Realized" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for app in applications %}
+              <tr>
+                <td>
+                  <span class="badge badge-{{ app.function|default:'neutral' }}">{{ app.function_label }}</span>
+                  {% if app.is_apd %}<span class="badge badge-approved">{% trans "APD" %}</span>{% endif %}
+                </td>
+                <td>
+                  {{ app.opportunity_title|default:"—" }}
+                  <div>{% include "exchange/partials/expa_person_link.html" with expa_id=app.expa_person_id only %}</div>
+                  {% if app.cv_url %}
+                    <div><a href="{{ app.cv_url }}" rel="noopener noreferrer" target="_blank">{% trans "CV" %}</a></div>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if person.is_icx %}
+                    {{ app.home_lc_name|default:"—" }}{% if app.home_mc_name %} · {{ app.home_mc_name }}{% endif %}
+                  {% else %}
+                    {{ app.host_lc_name|default:"—" }}{% if app.host_mc_name %} · {{ app.host_mc_name }}{% endif %}
+                  {% endif %}
+                </td>
+                <td>
+                  {% if app.is_apd %}
+                    <a class="status-link" href="{% url 'exchange:person_approval' person.pk %}">
+                      <span class="badge badge-{{ app.status_badge }}">{{ app.status_label }}</span>
+                      <span class="status-link-hint">{% trans "Open approval" %} →</span>
+                    </a>
+                  {% else %}
+                    <span class="badge badge-{{ app.status_badge }}">{{ app.status_label }}</span>
+                  {% endif %}
+                </td>
+                <td>{{ app.applied_at|date:"Y-m-d"|default:"—" }}</td>
+                <td>{{ app.accepted_at|date:"Y-m-d"|default:"—" }}</td>
+                <td>{{ app.approved_at|date:"Y-m-d"|default:"—" }}</td>
+                <td>{{ app.realized_at|date:"Y-m-d"|default:"—" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="muted">{% trans "No EXPA applications linked yet. Status sync will attach them here." %}</p>
+    {% endif %}
+  </section>
+{% endblock %}

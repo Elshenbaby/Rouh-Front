@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+  {% include "rcr/_chrome.html" %}
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>Pick an LC</h2><p>The RCR tool works one LC at a time. Choose the LC and you stay on this page. The national numbers are in MC data › Recruitment.</p></header>
+    {% include "partials/pick_lc_grid.html" %}
+  </section>
+{% endblock %}

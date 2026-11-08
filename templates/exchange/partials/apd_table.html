@@ -1,0 +1,91 @@
+{% load i18n %}
+<form method="post" action="{% url 'exchange:desk_assign' desk %}" class="assign-form">
+  {% csrf_token %}
+  <input type="hidden" name="next" value="{{ request.get_full_path }}">
+  {% if assign.selected_team %}<input type="hidden" name="team" value="{{ assign.selected_team.pk }}">{% endif %}
+  {% if assign.selected_member %}<input type="hidden" name="who" value="{{ assign.selected_member.pk }}">{% endif %}
+  {% include "exchange/partials/assign_bar.html" %}
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          {% if assign.can_assign %}
+            <th class="col-check">
+              <label class="sr-only">{% trans "Select all on this page" %}</label>
+              <input type="checkbox" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=person_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=person_ids]').forEach(el => el.checked = $event.target.checked)">
+            </th>
+          {% endif %}
+          <th>{% trans "EP Manager" %}</th>
+          <th>{% trans "EP Name" %}</th>
+          <th>{% trans "Function" %}</th>
+          <th>{% trans "Opportunity" %}</th>
+          <th>{% if is_icx %}{% trans "Home" %}{% else %}{% trans "Host" %}{% endif %}</th>
+          <th>{% trans "Approved" %}</th>
+          <th>{% trans "Status" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for app in page %}
+          <tr>
+            {% if assign.can_assign %}
+              <td class="col-check">
+                {% if app.person_id %}
+                  <input type="checkbox" name="person_ids" value="{{ app.person_id }}" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                {% endif %}
+              </td>
+            {% endif %}
+            <td>
+              {% if app.person.assigned_to %}
+                {{ app.person.assigned_to.full_name }}
+              {% else %}
+                <span class="owner-empty">{% trans "Unassigned" %}</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if app.person_id %}
+                <a href="{% url 'exchange:person_approval' app.person_id %}">{{ app.person.full_name|default:app.ep_name }}</a>
+                <div><a class="status-link-hint" href="{% url 'exchange:person_applications' app.person_id %}">{% trans "Open applications" %} →</a></div>
+              {% else %}
+                {{ app.ep_name|default:"—" }}
+              {% endif %}
+              <div>{% include "exchange/partials/expa_person_link.html" with expa_id=app.expa_person_id only %}</div>
+            </td>
+            <td><span class="badge badge-{{ app.function|default:'neutral' }}">{{ app.function_label }}</span></td>
+            <td>{{ app.opportunity_title|default:"—" }}</td>
+            <td>
+              {% if is_icx %}
+                {{ app.home_lc_name|default:"—" }}{% if app.home_mc_name %} · {{ app.home_mc_name }}{% endif %}
+              {% else %}
+                {{ app.host_lc_name|default:"—" }}{% if app.host_mc_name %} · {{ app.host_mc_name }}{% endif %}
+              {% endif %}
+            </td>
+            <td>{{ app.approved_at|date:"Y-m-d"|default:"—" }}</td>
+            <td>
+              {% if app.person_id %}
+                <a class="status-link" href="{% url 'exchange:person_approval' app.person_id %}">
+                  <span class="badge badge-{{ app.status_badge }}">{{ app.status_label }}</span>
+                  <span class="status-link-hint">{% trans "Open CXP" %} →</span>
+                </a>
+              {% else %}
+                <span class="badge badge-{{ app.status_badge }}">{{ app.status_label }}</span>
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="{% if assign.can_assign %}8{% else %}7{% endif %}">{% trans "No APDs in this queue yet." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</form>
+{% if page.has_other_pages %}
+  <nav class="pager">
+    {% if page.has_previous %}
+      <a href="?{{ queue_query }}&page={{ page.previous_page_number }}" hx-get="?{{ queue_query }}&page={{ page.previous_page_number }}" hx-target="#ogx-table">{% trans "Previous" %}</a>
+    {% endif %}
+    <span>{% blocktrans with n=page.number total=page.paginator.num_pages %}Page {{ n }} of {{ total }}{% endblocktrans %}</span>
+    {% if page.has_next %}
+      <a href="?{{ queue_query }}&page={{ page.next_page_number }}" hx-get="?{{ queue_query }}&page={{ page.next_page_number }}" hx-target="#ogx-table">{% trans "Next" %}</a>
+    {% endif %}
+  </nav>
+{% endif %}

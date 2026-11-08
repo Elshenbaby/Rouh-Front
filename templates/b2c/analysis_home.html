@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  {% include "b2c/partials/analysis_chrome.html" %}
+
+  <section class="desk-grid">
+    {% for item in analysis_sections %}
+      <a class="card desk-card" href="{% url item.url_name %}{% if month %}?month={{ month }}{% endif %}">
+        <h2>{{ item.label }}</h2>
+        <p>{{ item.blurb }}</p>
+      </a>
+    {% endfor %}
+  </section>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% load i18n %}
+<section class="desk-grid">
+  {% for entity in visible_entities %}
+    <form method="post" action="{% url 'ui:switch_entity' %}">
+      {% csrf_token %}
+      <input type="hidden" name="entity_id" value="{{ entity.id }}">
+      <input type="hidden" name="next" value="{{ request.get_full_path }}">
+      <button class="card desk-card" type="submit">
+        <h2>{{ entity.short_name }}</h2>
+        <p>{{ entity.name }}</p>
+      </button>
+    </form>
+  {% empty %}
+    <p class="alert">{% trans "No LCs to open." %}</p>
+  {% endfor %}
+</section>

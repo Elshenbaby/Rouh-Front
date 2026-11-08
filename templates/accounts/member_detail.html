@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'people:directory' %}">{% trans "People" %}</a></p>
+    <h1>{{ target.full_name }}</h1>
+    <p class="lede">{{ target.home_entity.name }} · {{ target.get_status_display }}</p>
+  </header>
+
+  <div class="detail-grid">
+    <section class="card">
+      <h2>{% trans "Profile" %}</h2>
+      <dl class="meta">
+        <div><dt>{% trans "Email" %}</dt><dd>{{ target.email }}</dd></div>
+        <div><dt>{% trans "Phone" %}</dt><dd>{{ target.phone|default:"—" }}</dd></div>
+        <div><dt>{% trans "WhatsApp" %}</dt><dd>{{ target.whatsapp|default:"—" }}</dd></div>
+        <div><dt>{% trans "Campus" %}</dt><dd>{{ target.campus|default:"—" }}</dd></div>
+        <div><dt>{% trans "Area of study" %}</dt><dd>{{ target.area_of_study|default:"—" }}</dd></div>
+        <div><dt>{% trans "IXP" %}</dt><dd>{{ target.ixp|default:"—" }}</dd></div>
+      </dl>
+    </section>
+    <aside class="card">
+      <h2>{% trans "Positions" %}</h2>
+      <ul class="plain-list">
+        {% for pos in target.positions.all %}
+          <li>{{ pos.role.name }} · {{ pos.get_function_display }} · {{ pos.entity.short_name }} · {{ pos.term.code }}</li>
+        {% empty %}
+          <li>{% trans "No positions this directory can show." %}</li>
+        {% endfor %}
+      </ul>
+    </aside>
+  </div>
+{% endblock %}

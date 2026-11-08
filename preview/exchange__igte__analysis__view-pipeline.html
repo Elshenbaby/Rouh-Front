@@ -1,0 +1,840 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>iGTe analysis · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "jhZQCMEluRKw62fFmnBNv3YcmEMGCzS90aNMGmf9qKz02GRQ6p2JOiGHGNxbpmMc"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link is-active">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="jhZQCMEluRKw62fFmnBNv3YcmEMGCzS90aNMGmf9qKz02GRQ6p2JOiGHGNxbpmMc">
+      <input type="hidden" name="next" value="/exchange/igte/analysis/?view=pipeline">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="jhZQCMEluRKw62fFmnBNv3YcmEMGCzS90aNMGmf9qKz02GRQ6p2JOiGHGNxbpmMc">
+      <input type="hidden" name="next" value="/exchange/igte/analysis/?view=pipeline">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="jhZQCMEluRKw62fFmnBNv3YcmEMGCzS90aNMGmf9qKz02GRQ6p2JOiGHGNxbpmMc">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page">
+        
+        
+  <header class="page-header">
+    <p class="eyebrow">
+      
+        <a href="desks__igte.html">iGTe</a>
+      
+    </p>
+    <h1>iGTe analysis</h1>
+    <p class="lede">The people who signed up in these days (iCX: who applied), and how far each has got by now: a cohort, by member and team. For what happened in these days, as EXPA counts it, see Performance.</p>
+    <details class="how-counted">
+      <summary>How it's counted</summary>
+      <ul>
+        
+        <li><b>The list:</b> people who applied to our opportunities in the term picked at the top (or the days you choose). Each is followed to today: accepted, approved, realized, whenever that happened.</li>
+        
+        <li><b>So it isn't EXPA's count for the term.</b> Someone who signed up before the term and was approved in it is counted by EXPA (and on Performance) but isn't on this list. Someone on this list approved after the term is counted here, not by EXPA for the term.</li>
+        <li><b>Each person counts once</b>, at the furthest step any of their applications reached. Applications counts every application they sent, at any time.</li>
+        <li><b>Contacted, assigned, teams and members</b> come from what your LC records in Rouh. If nobody is assigned or marked contacted, those show 0.</li>
+        <li><b>From 1 Feb 2026:</b> Rouh's records start that day, so the dates can't go earlier. For older days use Performance, which reads EXPA's analytics.</li>
+      </ul>
+    </details>
+  </header>
+
+  
+  <nav class="pf-views" aria-label="Analysis views">
+    <a href="exchange__igte__analysis.html">Performance<small>What happened in these days, as EXPA counts it</small></a>
+    <a class="is-active" href="exchange__igte__analysis__view-pipeline.html">Pipeline & team<small>How far the people who signed up got, by member and team</small></a>
+  </nav>
+  
+
+  <form
+    id="analysis-filters"
+    method="get"
+    class="filter-bar is-wide dash-filters"
+    hx-get="/exchange/igte/analysis/"
+    hx-target="#analysis-body"
+    hx-push-url="true"
+    hx-trigger="change, submit"
+    x-data="{ more: false }"
+  >
+    <input type="hidden" name="view" value="pipeline">
+    <label class="field">
+      <span>From</span>
+      <input type="date" name="date_from" value="" min="2026-02-01">
+    </label>
+    <label class="field">
+      <span>To</span>
+      <input type="date" name="date_to" value="" min="2026-02-01">
+    </label>
+    <label class="field">
+      <span>Team</span>
+      <select name="team" hx-trigger="change">
+        <option value="">All teams</option>
+        
+      </select>
+    </label>
+    <label class="field">
+      <span>Person</span>
+      <select name="member" hx-trigger="change">
+        <option value="">Everyone</option>
+        
+          <option value="7768b1f7-106f-4159-9848-1cc6c5eb6c0e">Hana Fathy</option>
+        
+          <option value="9e231132-570e-4436-ad42-f4b87b603b39">Salma Hamdy</option>
+        
+      </select>
+    </label>
+    
+    <label class="field">
+      <span>Country</span>
+      <select name="country" hx-trigger="change">
+        <option value="">All countries</option>
+        
+      </select>
+    </label>
+    <label class="field">
+      <span>Owner</span>
+      <select name="owner" hx-trigger="change">
+        <option value="">Assigned and not</option>
+        <option value="assigned">Assigned</option>
+        <option value="unassigned">Unassigned</option>
+      </select>
+    </label>
+    <button type="button" class="btn btn-ghost btn-sm" @click="more = !more">
+      <span x-show="!more">More filters</span>
+      <span x-show="more" x-cloak>Fewer filters</span>
+    </button>
+    
+
+    <div class="dash-more" x-show="more" x-cloak>
+      <label class="field">
+        <span>Contact</span>
+        <select name="contact" hx-trigger="change">
+          <option value="">All contact</option>
+          
+            <option value="yes">Yes</option>
+          
+            <option value="no">No</option>
+          
+            <option value="not_contacted">Not Contacted</option>
+          
+            <option value="no_answer">No answer</option>
+          
+            <option value="busy">Busy</option>
+          
+            <option value="out_of_service">Out of Service</option>
+          
+            <option value="not_interested">Not Interested</option>
+          
+            <option value="dont_call">Don&#x27;t Call Me Again</option>
+          
+        </select>
+      </label>
+      <label class="field">
+        <span>Status</span>
+        <select name="status" hx-trigger="change">
+          <option value="">All statuses</option>
+          
+            <option value="parents_approval">Parents Approval</option>
+          
+            <option value="back_to_process">Back to process</option>
+          
+            <option value="applied">Applied</option>
+          
+            <option value="accepted">Accepted</option>
+          
+            <option value="approved">Approved</option>
+          
+            <option value="realized">Realized</option>
+          
+            <option value="out_of_process">Out of process</option>
+          
+            <option value="signed_up">Signed up</option>
+          
+            <option value="finished">Finished</option>
+          
+            <option value="completed">Completed</option>
+          
+            <option value="withdrawn">Withdrawn</option>
+          
+            <option value="rejected">Rejected</option>
+          
+            <option value="other">Other</option>
+          
+        </select>
+      </label>
+      <label class="field">
+        <span>Out of process</span>
+        <select name="oop" hx-trigger="change">
+          <option value="">All reasons</option>
+          
+            <option value="military">Military service</option>
+          
+            <option value="health">health issues</option>
+          
+            <option value="financial">Financial issues</option>
+          
+            <option value="summer_course">Summer course</option>
+          
+            <option value="bad_lead">Bad Lead</option>
+          
+            <option value="gt">GT</option>
+          
+            <option value="not_interested">Not Interested</option>
+          
+            <option value="parents">Parent&#x27;s Issue</option>
+          
+            <option value="backed_out">Backed out</option>
+          
+            <option value="other_plans">Other Plans</option>
+          
+            <option value="country">Not Preferable Country</option>
+          
+            <option value="working">Currently working</option>
+          
+            <option value="join_aiesec">Want to join AIESEC</option>
+          
+        </select>
+      </label>
+      
+      <label class="field">
+        <span>Interviewed</span>
+        <select name="interviewed" hx-trigger="change">
+          <option value="">All</option>
+          
+            <option value="yes">Yes</option>
+          
+            <option value="no">No</option>
+          
+        </select>
+      </label>
+      
+      <label class="field">
+        <span>Gender</span>
+        <select name="gender" hx-trigger="change">
+          <option value="">All genders</option>
+          
+        </select>
+      </label>
+      <label class="field">
+        <span>Source</span>
+        <select name="source" hx-trigger="change">
+          <option value="">All sources</option>
+          
+        </select>
+      </label>
+      <label class="field">
+        <span>Referral</span>
+        <select name="referral" hx-trigger="change">
+          <option value="">All referrals</option>
+          
+        </select>
+      </label>
+      <label class="field">
+        <span>Home MC</span>
+        <select name="host" hx-trigger="change">
+          <option value="">All home MCs</option>
+          
+        </select>
+      </label>
+      <label class="field">
+        <span>Home LC</span>
+        <select name="host_lc" hx-trigger="change">
+          <option value="">All home LCs</option>
+          
+        </select>
+      </label>
+      <label class="field">
+        <span>Opportunity</span>
+        <select name="project" hx-trigger="change">
+          <option value="">All opportunities</option>
+          
+        </select>
+      </label>
+    </div>
+  </form>
+
+  <div id="analysis-body">
+    
+
+
+<p class="analysis-window">
+  Every number below follows these 0 people: how far they have got by today, whenever it happened.
+</p>
+
+<div class="dash-kpis">
+  <div class="metric-tile">
+    <p class="metric-label">Applications</p>
+    <p class="metric-value">0</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">Contacted</p>
+    <p class="metric-value">0</p>
+  </div>
+  
+  <div class="metric-tile">
+    <p class="metric-label">Interviewed</p>
+    <p class="metric-value">0</p>
+  </div>
+  
+  <div class="metric-tile">
+    <p class="metric-label">Accepted</p>
+    <p class="metric-value">0</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">Approved</p>
+    <p class="metric-value">0</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">Realized</p>
+    <p class="metric-value">0</p>
+  </div>
+</div>
+
+<div class="dash-kpis dash-kpis-sub">
+  
+  <div class="metric-tile">
+    <p class="metric-label">Out of process</p>
+    <p class="metric-value">0</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">Unassigned</p>
+    <p class="metric-value">0</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">Accepted, not APD</p>
+    <p class="metric-value">0</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">Applications</p>
+    <p class="metric-value">0</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">Assigned</p>
+    <p class="metric-value">0</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">Countries</p>
+    <p class="metric-value">0</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">Home LCs</p>
+    <p class="metric-value">0</p>
+  </div>
+</div>
+
+<section class="dash-section">
+  <h2>Conversions</h2>
+  <div class="dash-kpis dash-kpis-sub">
+    
+      <div class="metric-tile">
+        <p class="metric-label">APL → Cont</p>
+        <p class="metric-value">—</p>
+        
+      </div>
+    
+      <div class="metric-tile">
+        <p class="metric-label">Cont → Int</p>
+        <p class="metric-value">—</p>
+        
+      </div>
+    
+      <div class="metric-tile">
+        <p class="metric-label">Int → ACC</p>
+        <p class="metric-value">—</p>
+        
+      </div>
+    
+      <div class="metric-tile">
+        <p class="metric-label">APL → ACC</p>
+        <p class="metric-value">—</p>
+        
+      </div>
+    
+      <div class="metric-tile">
+        <p class="metric-label">ACC → APD</p>
+        <p class="metric-value">—</p>
+        
+      </div>
+    
+      <div class="metric-tile">
+        <p class="metric-label">APL → APD</p>
+        <p class="metric-value">—</p>
+        
+      </div>
+    
+      <div class="metric-tile">
+        <p class="metric-label">APD → RE</p>
+        <p class="metric-value">—</p>
+        
+      </div>
+    
+  </div>
+</section>
+
+<section class="dash-section">
+  <h2>Funnel</h2>
+  <ul class="dash-funnel">
+    
+      <li>
+        <div class="dash-mix-meta">
+          <span>Applications</span>
+          <span>0</span>
+        </div>
+        <div class="dash-track" aria-hidden="true"><span style="width: 100%"></span></div>
+      </li>
+    
+      <li>
+        <div class="dash-mix-meta">
+          <span>Contacted</span>
+          <span>0</span>
+        </div>
+        <div class="dash-track" aria-hidden="true"><span style="width: 0%"></span></div>
+      </li>
+    
+      <li>
+        <div class="dash-mix-meta">
+          <span>Interviewed</span>
+          <span>0</span>
+        </div>
+        <div class="dash-track" aria-hidden="true"><span style="width: 0%"></span></div>
+      </li>
+    
+      <li>
+        <div class="dash-mix-meta">
+          <span>Accepted</span>
+          <span>0</span>
+        </div>
+        <div class="dash-track" aria-hidden="true"><span style="width: 0%"></span></div>
+      </li>
+    
+      <li>
+        <div class="dash-mix-meta">
+          <span>Approved</span>
+          <span>0</span>
+        </div>
+        <div class="dash-track" aria-hidden="true"><span style="width: 0%"></span></div>
+      </li>
+    
+      <li>
+        <div class="dash-mix-meta">
+          <span>Realized</span>
+          <span>0</span>
+        </div>
+        <div class="dash-track" aria-hidden="true"><span style="width: 0%"></span></div>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+
+<div class="dash-split">
+  
+
+
+  
+
+
+  
+    
+
+
+    
+
+
+  
+  
+
+
+  
+  
+
+
+</div>
+
+
+
+<section class="dash-section">
+  <h2>Team performance</h2>
+  
+    <p class="muted">No teams on this desk yet. TM names them on the LC tree first.</p>
+  
+</section>
+
+<section class="dash-section">
+  <h2>People performance</h2>
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Name</th>
+          <th>Team</th>
+          <th>APL</th>
+          <th>Contacted</th>
+          <th>Interviewed</th>
+          <th>Accepted</th>
+          <th>Approved</th>
+          <th>Realized</th>
+          
+            <th>APL → Cont</th>
+            <th>Int → ACC</th>
+            <th>APL → ACC</th>
+            <th>ACC → APD</th>
+            <th>APL → APD</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        
+          <tr>
+            <td>Member</td>
+            <td>Hana Fathy</td>
+            <td>—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+            
+          </tr>
+        
+          <tr>
+            <td>Member</td>
+            <td>Salma Hamdy</td>
+            <td>—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+            
+          </tr>
+        
+      </tbody>
+    </table>
+  </div>
+</section>
+
+  </div>
+
+      </main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+</body>
+</html>

@@ -1,0 +1,35 @@
+{% load i18n %}
+<div id="org-board">
+  {% if org_error and not org_error_function %}<div class="alert alert-error org-error" role="alert">{{ org_error }}</div>{% endif %}
+  <div class="lc-tree">
+    <div class="tree-root">
+      <span class="tree-dot internal" aria-hidden="true"></span>
+      <div>
+        <p class="tree-kicker">{% trans "Local committee" %}</p>
+        <h2>{{ entity.name }}</h2>
+        <p class="muted">{{ term.switcher_label|default:term.label }} · {{ stats.filled }}/{{ stats.seats }} {% trans "seats filled" %}</p>
+      </div>
+    </div>
+    {% url 'people:org_lcp' as lcp_url %}
+    <div class="tree-lcp">
+      {% include "accounts/partials/org_person_select.html" with slot="lcp" current=lcp role="LCP" leaf=False assign_url=lcp_url %}
+    </div>
+    <div class="tree-functions">
+      {% for branch in branches %}
+        {% include "accounts/partials/org_branch.html" %}
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if awaiting %}
+    <section class="card awaiting-card">
+      <h2>{% trans "Awaiting a node" %}</h2>
+      <p class="muted">{% trans "Access puts people here; TM places them on a VP, coordinator, team leader or member seat." %}</p>
+      <ul class="awaiting-list">
+        {% for member in awaiting %}
+          <li>{{ member.full_name }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+</div>

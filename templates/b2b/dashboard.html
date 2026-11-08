@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'ui:desk' desk %}">{{ desk_spec.label }}</a></p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+  {% include "b2b/partials/tabs.html" %}
+  <div class="metric-row">
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Accounts" %}</p>
+      <p class="metric-value">{{ metrics.accounts|default:0 }}</p>
+    </div>
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Contacted" %}</p>
+      <p class="metric-value">{{ metrics.contacted|default:0 }}</p>
+    </div>
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Visit done" %}</p>
+      <p class="metric-value">{{ metrics.visit_done|default:0 }}</p>
+    </div>
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Slot raised" %}</p>
+      <p class="metric-value">{{ metrics.slot_raised|default:0 }}</p>
+    </div>
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Unassigned" %}</p>
+      <p class="metric-value">{{ metrics.unassigned|default:0 }}</p>
+    </div>
+  </div>
+  <section class="desk-grid">
+    <a class="card desk-card" href="{% url 'b2b:accounts' %}?desk={{ desk }}">
+      <h2>{% trans "Raising" %}</h2>
+      <p>{% trans "Open the account list. Contact, visit, and raise slots. Comments stay on the account." %}</p>
+    </a>
+    {% if desk == "b2b" %}
+    <a class="card desk-card" href="{% url 'b2b:slots' %}?desk={{ desk }}">
+      <h2>{% trans "Slots" %}</h2>
+      <p>{% trans "EXPA slots of the B2B opportunities in the LCs' financial tools." %}</p>
+    </a>
+    {% endif %}
+    {% if assign and assign.show_teams_board %}
+    <a class="card desk-card" href="{% url 'b2b:teams' %}?desk={{ desk }}">
+      <h2>{% trans "Teams" %}</h2>
+      <p>{% trans "Send accounts to a team. The team leader then assigns members." %}</p>
+    </a>
+    {% endif %}
+  </section>
+{% endblock %}

@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% load mc_format %}
+
+{% block content %}
+  {% include "rcr/_chrome.html" %}
+
+  <section class="rcr-strip" aria-label="{{ kind_label }} in numbers">
+    <div><span>{{ kind_label }}</span><strong>{{ stats.total|count }}</strong></div>
+    <div><span>Not contacted</span><strong>{{ uncontacted|count }}</strong></div>
+    <div><span>No recruiter</span><strong>{{ unassigned|count }}</strong></div>
+    <div><span>Contacted</span><strong>{{ stats.contacted|count }}</strong></div>
+    <div><span>PC accepted</span><strong>{{ stats.pc_accepted|count }}</strong></div>
+    <div><span>F2F done</span><strong>{{ stats.f2f_done|count }}</strong></div>
+    <div><span>Recruited</span><strong>{{ stats.attended|count }}</strong></div>
+  </section>
+
+  <section class="ops-panel rcr-leads-panel">
+    <header class="ops-panel-head rcr-head-row">
+      <div>
+        <h2>{{ kind_label }}</h2>
+        <p>{% if kind == "new" %}Everyone who signed up on Alpha or EXPA for your LC since {{ cycle.new_leads_from|date:"j F Y" }}, live (a new pull every 15 minutes).{% elif kind == "all" %}Every lead of {{ entity.short_name }} this cycle: new, old and returnees.{% elif kind == "old" %}Leads who signed up in the {{ cycle.old_leads_years }} years before {{ cycle.new_leads_from|date:"j F Y" }}. Re-contact them: many are still students.{% else %}Your returnees: EPs back from an exchange. They know AIESEC already and make strong members.{% endif %} Each change saves on its own.</p>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn-secondary btn-sm" href="?{{ pq }}&export=csv">Download CSV</a>
+        {% if kind == "new" %}<button class="btn btn-secondary btn-sm" type="button" onclick="document.getElementById('rcr-add-lead').showModal()">Add a lead</button>{% endif %}
+      </div>
+    </header>
+
+    <form method="get" class="rcr-filters" aria-label="Filter leads">
+      <label class="field"><span>Search</span><input id="lead-q" type="search" name="q" value="{{ filters.q }}" placeholder="Name, phone, email, EXPA ID"></label>
+      <label class="field"><span>Status</span>
+        <select id="lead-stage" name="stage" onchange="this.form.submit()">
+          <option value="">Any status</option>
+          {% for code, label in stages %}<option value="{{ code }}"{% if code == filters.stage %} selected{% endif %}>{{ label }}</option>{% endfor %}
+        </select>
+      </label>
+      <label class="field"><span>In process?</span>
+        <select id="lead-outcome" name="outcome" onchange="this.form.submit()">
+          <option value="">All</option>
+          {% for code, label in outcomes %}<option value="{{ code }}"{% if code == filters.outcome %} selected{% endif %}>{{ label }}</option>{% endfor %}
+        </select>
+      </label>
+      <label class="field"><span>Recruiter</span>
+        <select id="lead-recruiter" name="recruiter" onchange="this.form.submit()">
+          <option value="">Anyone</option>
+          <option value="none"{% if filters.recruiter == "none" %} selected{% endif %}>No recruiter</option>
+          {% for label, people in recruiter_groups %}<optgroup label="{{ label }}">{% for m in people %}<option value="{{ m.pk }}"{% if filters.recruiter == m.pk|stringformat:"s" %} selected{% endif %}>{{ m.full_name }}</option>{% endfor %}</optgroup>{% endfor %}
+        </select>
+      </label>
+      <label class="field"><span>Phone call</span>
+        <select id="lead-phone" name="phone" onchange="this.form.submit()">
+          <option value="">Any</option>
+          <option value="none"{% if filters.phone == "none" %} selected{% endif %}>Not called</option>
+          {% for code, label in phone_statuses %}<option value="{{ code }}"{% if code == filters.phone %} selected{% endif %}>{{ label }}</option>{% endfor %}
+        </select>
+      </label>
+      <label class="field"><span>Channel</span>
+        <select id="lead-channel" name="channel" onchange="this.form.submit()">
+          <option value="">Any</option>
+          {% for code, label, color in channels %}<option value="{{ code }}"{% if code == filters.channel %} selected{% endif %}>{{ label }}</option>{% endfor %}
+        </select>
+      </label>
+      {% if campuses %}
+      <label class="field"><span>Campus</span>
+        <select id="lead-campus" name="campus" onchange="this.form.submit()">
+          <option value="">Any</option>
+          {% for name in campuses %}<option{% if name == filters.campus %} selected{% endif %}>{{ name }}</option>{% endfor %}
+        </select>
+      </label>
+      {% endif %}
+      <label class="field"><span>Order</span>
+        <select id="lead-sort" name="sort" onchange="this.form.submit()">
+          <option value="">Newest first</option>
+          <option value="old"{% if filters.sort == "old" %} selected{% endif %}>Oldest first</option>
+          <option value="name"{% if filters.sort == "name" %} selected{% endif %}>By name</option>
+          <option value="stage"{% if filters.sort == "stage" %} selected{% endif %}>Furthest first</option>
+        </select>
+      </label>
+      <label class="field"><span>Per page</span>
+        <select id="lead-per" name="per" onchange="this.form.submit()">{% for n in page_sizes %}<option value="{{ n }}"{% if n == per %} selected{% endif %}>{{ n }}</option>{% endfor %}</select>
+      </label>
+      <label class="field-check rcr-stuck-check"><input type="checkbox" name="stuck" value="1"{% if filters.stuck %} checked{% endif %} onchange="this.form.submit()"> <span>Only stuck</span></label>
+      <div class="filter-actions"><button class="btn btn-primary btn-sm" type="submit">Filter</button>{% if pq %}<a class="btn btn-ghost btn-sm" href="?">Clear</a>{% endif %}</div>
+    </form>
+
+    <form method="post" id="rcr-bulk" action="{% url 'rcr:leads_assign' cycle.slug %}" class="rcr-handout" x-data="{ n: 0, all: false }"
+          @change.window="n = document.querySelectorAll('input[name=lead][form=rcr-bulk]:checked').length"
+          @submit="if (all && !confirm('Hand out all {{ matching }} leads matching these filters?')) $event.preventDefault()">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.get_full_path }}">
+      <input type="hidden" name="kind" value="{{ kind }}">
+      <input type="hidden" name="filters" value="{{ filter_query }}">
+      <input type="hidden" name="scope" :value="all ? 'matching' : 'ticked'" value="ticked">
+      <h3 class="rcr-handout-title">Hand out leads</h3>
+      <div class="rcr-handout-pick">
+        <p x-show="!all"><b x-text="n">0</b> ticked on this page.
+          <button class="btn-link" type="button" @click="document.querySelectorAll('input[name=lead][form=rcr-bulk]').forEach(b => b.checked = true); n = document.querySelectorAll('input[name=lead][form=rcr-bulk]:checked').length">Tick this page</button>
+          · <button class="btn-link" type="button" @click="document.querySelectorAll('input[name=lead][form=rcr-bulk]').forEach(b => b.checked = false); n = 0">Untick</button>
+          {% if matching > page.object_list|length %}· <button class="btn-link" type="button" @click="all = true">Pick every lead matching these filters ({{ matching|count }})</button>{% endif %}</p>
+        <p x-show="all" x-cloak class="rcr-handout-all"><b>All {{ matching|count }} leads matching these filters are picked</b>, on every page. <button class="btn-link" type="button" @click="all = false">Only the ticked ones</button></p>
+      </div>
+      <div class="rcr-handout-actions">
+        <div class="rcr-handout-act">
+          <label class="field"><span>Give them all to</span>
+            <select id="bulk-recruiter" name="recruiter">
+              <option value="">Pick someone…</option>
+              {% for label, people in recruiter_groups %}<optgroup label="{{ label }}">{% for m in people %}<option value="{{ m.pk }}">{{ m.full_name }}</option>{% endfor %}</optgroup>{% endfor %}
+            </select>
+          </label>
+          <button class="btn btn-primary btn-sm" type="submit" name="action" value="give">Give</button>
+        </div>
+        <details class="rcr-handout-share">
+          <summary class="btn btn-secondary btn-sm">Share evenly between…</summary>
+          <div class="rcr-share-box">
+            <p class="muted">They're shared in turn, oldest signup first. Nobody ticked: the whole RcR team.</p>
+            {% for label, people in recruiter_groups %}
+              <fieldset><legend>{{ label }}</legend>
+                {% for m in people %}<label><input type="checkbox" name="share_to" value="{{ m.pk }}"> {{ m.full_name }}</label>{% endfor %}
+              </fieldset>
+            {% endfor %}
+            <button class="btn btn-primary btn-sm" type="submit" name="action" value="share">Share them</button>
+          </div>
+        </details>
+        <button class="btn btn-ghost btn-sm" type="submit" name="action" value="unassign">Take the recruiter off</button>
+      </div>
+    </form>
+
+    {% if team_load %}
+      <nav class="rcr-load" aria-label="Who holds how many">
+        <span class="rcr-load-title">Holding now (in process):</span>
+        {% for row in team_load %}<a href="?recruiter={{ row.member.pk }}" class="{% if filters.recruiter == row.member.pk|stringformat:'s' %}is-active{% endif %}"><b>{{ row.n|count }}</b> {{ row.member.full_name }}{% if row.waiting %} <small>{{ row.waiting }} not called</small>{% endif %}</a>{% endfor %}
+        <a href="?recruiter=none" class="is-nobody{% if filters.recruiter == 'none' %} is-active{% endif %}"><b>{{ unassigned_active|count }}</b> No recruiter</a>
+      </nav>
+    {% endif %}
+
+    <div class="table-wrap">
+      <table class="table rcr-table">
+        <thead>
+          <tr><th class="rcr-check"><input type="checkbox" aria-label="Tick this page" onchange="document.querySelectorAll('input[name=lead][form=rcr-bulk]').forEach(b => { b.checked = this.checked; b.dispatchEvent(new Event('change', { bubbles: true })) })"></th><th>Lead</th><th>Contact</th><th>Source</th><th>Status</th><th>Recruiter</th><th>Phone call · English · result · location sent</th></tr>
+        </thead>
+        <tbody>
+          {% for lead in page %}
+            {% include "rcr/partials/lead_row.html" %}
+          {% empty %}
+            <tr><td colspan="7">{% if pq %}No leads match these filters.{% elif kind == "rxp" %}No returnees yet for your LC.{% else %}No leads yet. They arrive as people sign up.{% endif %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% include "rcr/partials/pager.html" %}
+  </section>
+
+  {% if kind == "new" %}
+  <dialog class="rcr-dialog" id="rcr-add-lead">
+    <form method="post" action="{% url 'rcr:lead_add' cycle.slug %}" class="rcr-form">
+      {% csrf_token %}
+      <h2>Add a lead</h2>
+      <p class="muted">Someone who isn't on Alpha or EXPA yet: a walk-in, a referral. They join your new leads.</p>
+      <label class="field"><span>Full name</span><input id="add-name" name="full_name" required></label>
+      <label class="field"><span>Phone</span><input id="add-phone" name="phone" inputmode="tel"></label>
+      <label class="field"><span>Email</span><input id="add-email" name="email" type="email"></label>
+      <label class="field"><span>University</span><input id="add-uni" name="university"></label>
+      <label class="field"><span>Channel</span>
+        <select id="add-channel" name="channel">{% for code, label, color in channels %}<option value="{{ code }}">{{ label }}</option>{% endfor %}</select>
+      </label>
+      <div class="btn-row"><button class="btn btn-primary btn-sm" type="submit">Add the lead</button><button class="btn btn-ghost btn-sm" type="button" onclick="this.closest('dialog').close()">Cancel</button></div>
+    </form>
+  </dialog>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,278 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'en' }}" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% include "partials/favicon.html" %}
+  <title>{% trans "Rouh" %}</title>
+  <meta name="description" content="{% trans 'Rouh is AIESEC in Egypt’s CRM. Every LC’s signups, teams and KPIs in one place, live from EXPA.' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  <link rel="stylesheet" href="{% static 'css/landing.css' %}?v=3">
+</head>
+<body class="lp">
+  <header class="lp-nav">
+    <a class="lp-brand" href="{% url 'ui:landing' %}">
+      <img class="nav-mark" src="{% static 'img/rouh-mark-64.png' %}" alt="" width="32" height="32">
+      <span class="nav-title">{% trans "Rouh" %}</span>
+    </a>
+    <nav class="lp-nav-links" aria-label="{% trans 'Main' %}">
+      <a class="lp-hide-sm" href="#does">{% trans "What it does" %}</a>
+      <a class="lp-hide-sm" href="#roles">{% trans "Your view" %}</a>
+      <a class="lp-hide-sm" href="{% url 'icomm:index' %}">{% trans "ICOMM" %}</a>
+      <a class="lp-hide-sm" href="{% url 'sd:index' %}" title="{% trans "Sign in to open it" %}">{% trans "Supply & Demand" %}</a>
+      <a href="{% url 'account_login' %}">{% trans "Sign in" %}</a>
+      <a class="btn btn-primary btn-sm" href="{% url 'account_signup' %}">{% trans "Sign up now" %}</a>
+    </nav>
+  </header>
+
+  <section class="lp-hero">
+    <div class="lp-hero-copy">
+      <a class="lp-pill lp-in" href="{% url 'icomm:index' %}">
+        <span class="lp-pulse" aria-hidden="true"></span>
+        <span>{% trans "October ICOMM is live" %}</span>
+        <span aria-hidden="true">→</span>
+      </a>
+      <h1 class="lp-in" aria-label="{% trans 'One home for every LC' %}">
+        <span class="lp-h1-line" aria-hidden="true">{% trans "One home" %}</span>
+        <span class="lp-h1-line" aria-hidden="true">{% trans "for every" %}</span>
+        <span class="lp-h1-line" aria-hidden="true"><span class="lp-rotator"><span class="lp-rotator-word" data-words="{% trans 'LC' %}|{% trans 'team' %}|{% trans 'member' %}|{% trans 'KPI' %}">{% trans "LC" %}</span></span></span>
+      </h1>
+      <p class="lede lp-in">{% trans "Rouh is AIESEC in Egypt’s CRM. Your queue, your team and your KPIs in one place, live from EXPA." %}</p>
+      <div class="lp-actions lp-in">
+        <a class="btn btn-primary btn-lg" href="{% url 'account_signup' %}">{% trans "Create account" %}</a>
+        <a class="btn btn-secondary btn-lg" href="{% url 'account_login' %}">{% trans "Sign in" %}</a>
+      </div>
+      <p class="lp-open-links lp-in">
+        <span>{% trans "Open to everyone" %}</span>
+        <a href="{% url 'icomm:index' %}">{% trans "ICOMM leaderboard" %} <span aria-hidden="true">→</span></a>
+        <a href="{% url 'icomm:ops_day' %}">{% trans "OPS Day screen" %} <span aria-hidden="true">→</span></a>
+      </p>
+      <dl class="lp-proof lp-in">
+        <div><dt data-count="18">18</dt><dd>{% trans "LCs" %}</dd></div>
+        <div><dt data-count="8">8</dt><dd>{% trans "desks" %}</dd></div>
+        <div><dt>1</dt><dd>{% trans "login" %}</dd></div>
+      </dl>
+    </div>
+
+    <div class="lp-stage" aria-hidden="true">
+      <div class="lp-app" data-tilt>
+        <div class="lp-app-bar">
+          <span class="lp-dots"><i></i><i></i><i></i></span>
+          <span>{% trans "Rouh · Home" %}</span>
+          <span class="lp-live"><span class="lp-pulse"></span>EXPA</span>
+        </div>
+        <div class="lp-app-body">
+          <div class="lp-app-nav">
+            <span class="is-on">{% trans "Home" %}</span>
+            <span>oGV</span>
+            <span>{% trans "Team" %}</span>
+            <span>{% trans "Logs" %}</span>
+          </div>
+          <div class="lp-app-main">
+            <p class="lp-app-hi">{% trans "Good morning, Sara" %}</p>
+            <div class="lp-app-tiles">
+              <div><span>{% trans "Open work" %}</span><strong data-count="12">12</strong></div>
+              <div><span>{% trans "Contacted" %}</span><strong><b data-count="18">18</b><i>/20</i></strong><em class="lp-bar"><span style="--w: 90%"></span></em></div>
+              <div><span>{% trans "Applied" %}</span><strong><b data-count="7">7</b><i>/10</i></strong><em class="lp-bar"><span style="--w: 70%"></span></em></div>
+            </div>
+            <p class="lp-app-label">{% trans "My queue" %}</p>
+            <ul class="lp-queue">
+              <li><span class="lp-avatar">MA</span><span>Mona A.</span><span class="lp-chip lp-chip-new">{% trans "New" %}</span></li>
+              <li><span class="lp-avatar">YK</span><span>Youssef K.</span><span class="lp-chip lp-chip-ok">{% trans "Applied" %}</span></li>
+              <li><span class="lp-avatar">SF</span><span>Salma F.</span><span class="lp-chip">{% trans "Contacted" %}</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="lp-float lp-float-a"><span>{% trans "Assigned to you" %}</span><strong>+3</strong></div>
+      <div class="lp-float lp-float-b"><span>{% trans "ICOMM rank" %}</span><strong>#2</strong></div>
+    </div>
+  </section>
+
+  <div class="lp-marquee" aria-hidden="true">
+    <div class="lp-marquee-track">
+      <span>Cairo University</span><span>AUC</span><span>GUC</span><span>Alexandria</span><span>Ain Shams</span><span>Helwan</span><span>Mansoura</span><span>Tanta</span><span>Zagazig</span><span>MIU</span><span>Menofia</span><span>MUST</span>
+      <span>Cairo University</span><span>AUC</span><span>GUC</span><span>Alexandria</span><span>Ain Shams</span><span>Helwan</span><span>Mansoura</span><span>Tanta</span><span>Zagazig</span><span>MIU</span><span>Menofia</span><span>MUST</span>
+    </div>
+  </div>
+
+  <section class="lp-section" id="does">
+    <p class="eyebrow">{% trans "What it does" %}</p>
+    <h2>{% trans "Everything an LC runs on" %}</h2>
+    <div class="lp-bento">
+      <article class="lp-tile lp-t-queue lp-up">
+        <h3>{% trans "Your queue, sorted" %}</h3>
+        <p>{% trans "Signups and applications land with the right person. Nothing gets lost in a sheet." %}</p>
+        <ul class="lp-mini-list">
+          <li><span>Mona A.</span><span class="lp-chip lp-chip-new">{% trans "New" %}</span></li>
+          <li><span>Youssef K.</span><span class="lp-chip lp-chip-ok">{% trans "Applied" %}</span></li>
+          <li><span>Salma F.</span><span class="lp-chip">{% trans "Contacted" %}</span></li>
+        </ul>
+      </article>
+      <article class="lp-tile lp-t-live lp-up">
+        <span class="lp-tile-tag"><span class="lp-pulse"></span>{% trans "Live" %}</span>
+        <h3>{% trans "Straight from EXPA" %}</h3>
+        <p>{% trans "Applications, acceptances and approvals arrive on their own." %}</p>
+      </article>
+      <article class="lp-tile lp-t-kpi lp-up">
+        <h3>{% trans "KPIs vs plan" %}</h3>
+        <div class="lp-kpis">
+          <p><span>{% trans "Contacted" %}</span><em class="lp-bar"><span style="--w: 82%"></span></em><b>82%</b></p>
+          <p><span>{% trans "Applied" %}</span><em class="lp-bar"><span style="--w: 64%"></span></em><b>64%</b></p>
+          <p><span>{% trans "Approved" %}</span><em class="lp-bar"><span style="--w: 41%"></span></em><b>41%</b></p>
+        </div>
+      </article>
+      <article class="lp-tile lp-t-desks lp-up">
+        <h3>{% trans "Every desk, one login" %}</h3>
+        <p class="lp-desks"><span class="d-ogv">oGV</span><span class="d-ogt">oGT</span><span class="d-igv">iGV</span><span class="d-igt">iGT</span><span>B2B</span><span>B2C</span><span>{% trans "Talent" %}</span><span>{% trans "Finance" %}</span></p>
+      </article>
+      <article class="lp-tile lp-t-safe lp-up">
+        <h3>{% trans "Safe by default" %}</h3>
+        <p>{% trans "Each LC sees its own house. Every change is logged." %}</p>
+      </article>
+      <a class="lp-tile lp-t-icomm lp-up" href="{% url 'icomm:index' %}">
+        <h3>{% trans "ICOMM leaderboard" %}</h3>
+        <p>{% trans "Every LC, ranked live. No login needed." %}</p>
+        <span class="lp-tile-link">{% trans "See the board" %} <span aria-hidden="true">→</span></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="lp-section lp-open" id="open">
+    <p class="eyebrow">{% trans "Open to everyone" %}</p>
+    <h2>{% trans "No login needed" %}</h2>
+    <div class="lp-open-grid">
+      <a class="lp-tile lp-t-icomm lp-up" href="{% url 'icomm:index' %}">
+        <h3>{% trans "ICOMM leaderboard" %}</h3>
+        <p>{% trans "Every LC ranked by campaign points, live." %}</p>
+        <span class="lp-tile-link">{% trans "See the board" %} <span aria-hidden="true">→</span></span>
+      </a>
+      <a class="lp-tile lp-t-opsday lp-up" href="{% url 'icomm:ops_day' %}">
+        <span class="lp-tile-tag"><span class="lp-pulse"></span>{% trans "Live" %}</span>
+        <h3>{% trans "OPS Day screen" %}</h3>
+        <p>{% trans "Today's applicants and approvals per LC, with the campaign points, for the big screen." %}</p>
+        <span class="lp-tile-link">{% trans "Open the screen" %} <span aria-hidden="true">→</span></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="lp-section lp-roles" id="roles">
+    <p class="eyebrow">{% trans "Your view" %}</p>
+    <h2>{% trans "It opens on your work" %}</h2>
+    <div class="lp-tabs" role="tablist" aria-label="{% trans 'Roles' %}">
+      <button type="button" role="tab" id="tab-member" aria-controls="panel-member" aria-selected="true">{% trans "Member" %}</button>
+      <button type="button" role="tab" id="tab-tl" aria-controls="panel-tl" aria-selected="false" tabindex="-1">{% trans "Team leader" %}</button>
+      <button type="button" role="tab" id="tab-vp" aria-controls="panel-vp" aria-selected="false" tabindex="-1">{% trans "VP" %}</button>
+      <button type="button" role="tab" id="tab-lcp" aria-controls="panel-lcp" aria-selected="false" tabindex="-1">{% trans "LCP" %}</button>
+    </div>
+
+    <div class="lp-panel" role="tabpanel" id="panel-member" aria-labelledby="tab-member" tabindex="0">
+      <div class="lp-panel-copy">
+        <h3>{% trans "Your work and your progress" %}</h3>
+        <ul>
+          <li>{% trans "Everything assigned to you, in one queue" %}</li>
+          <li>{% trans "Your KPIs against your plan" %}</li>
+          <li>{% trans "Your team and team leader, one click away" %}</li>
+        </ul>
+      </div>
+      <div class="lp-panel-mock" aria-hidden="true">
+        <p class="lp-app-label">{% trans "My queue" %} · 12</p>
+        <ul class="lp-mini-list">
+          <li><span>Mona A.</span><span class="lp-chip lp-chip-new">{% trans "New" %}</span></li>
+          <li><span>Youssef K.</span><span class="lp-chip lp-chip-ok">{% trans "Applied" %}</span></li>
+          <li><span>Salma F.</span><span class="lp-chip">{% trans "Contacted" %}</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="lp-panel" role="tabpanel" id="panel-tl" aria-labelledby="tab-tl" tabindex="0" hidden>
+      <div class="lp-panel-copy">
+        <h3>{% trans "Your team at a glance" %}</h3>
+        <ul>
+          <li>{% trans "Who has what, and who is free" %}</li>
+          <li>{% trans "Assign or rebalance in two clicks" %}</li>
+          <li>{% trans "Each member’s KPIs this month" %}</li>
+        </ul>
+      </div>
+      <div class="lp-panel-mock" aria-hidden="true">
+        <p class="lp-app-label">{% trans "oGV team 1 · this month" %}</p>
+        <div class="lp-kpis">
+          <p><span>Sara</span><em class="lp-bar"><span style="--w: 87%"></span></em><b>87%</b></p>
+          <p><span>Omar</span><em class="lp-bar"><span style="--w: 62%"></span></em><b>62%</b></p>
+          <p><span>Hana</span><em class="lp-bar"><span style="--w: 74%"></span></em><b>74%</b></p>
+        </div>
+      </div>
+    </div>
+    <div class="lp-panel" role="tabpanel" id="panel-vp" aria-labelledby="tab-vp" tabindex="0" hidden>
+      <div class="lp-panel-copy">
+        <h3>{% trans "Your function, every team" %}</h3>
+        <ul>
+          <li>{% trans "Send new signups to a team" %}</li>
+          <li>{% trans "Compare teams on the KPIs that matter" %}</li>
+          <li>{% trans "Catch unassigned work before it goes cold" %}</li>
+        </ul>
+      </div>
+      <div class="lp-panel-mock" aria-hidden="true">
+        <p class="lp-app-label">{% trans "oGV · applied vs plan" %}</p>
+        <div class="lp-kpis">
+          <p><span>{% trans "Team 1" %}</span><em class="lp-bar"><span style="--w: 78%"></span></em><b>78%</b></p>
+          <p><span>{% trans "Team 2" %}</span><em class="lp-bar"><span style="--w: 66%"></span></em><b>66%</b></p>
+          <p><span>{% trans "Unassigned" %}</span><em class="lp-bar lp-bar-warn"><span style="--w: 24%"></span></em><b>9</b></p>
+        </div>
+      </div>
+    </div>
+    <div class="lp-panel" role="tabpanel" id="panel-lcp" aria-labelledby="tab-lcp" tabindex="0" hidden>
+      <div class="lp-panel-copy">
+        <h3>{% trans "The whole LC on one screen" %}</h3>
+        <ul>
+          <li>{% trans "Every function, its VP and its pace" %}</li>
+          <li>{% trans "Who did what, in plain words" %}</li>
+          <li>{% trans "Where your LC stands nationally" %}</li>
+        </ul>
+      </div>
+      <div class="lp-panel-mock" aria-hidden="true">
+        <p class="lp-app-label">{% trans "Your LC · this month" %}</p>
+        <div class="lp-kpis">
+          <p><span>oGV</span><em class="lp-bar"><span style="--w: 72%"></span></em><b>72%</b></p>
+          <p><span>iGT</span><em class="lp-bar"><span style="--w: 58%"></span></em><b>58%</b></p>
+          <p><span>B2C</span><em class="lp-bar"><span style="--w: 81%"></span></em><b>81%</b></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-section lp-steps">
+    <p class="eyebrow">{% trans "Getting in" %}</p>
+    <h2>{% trans "Three steps, then you’re working" %}</h2>
+    <ol class="lp-step-list">
+      <li class="lp-up"><span class="lp-step-n">01</span><h3>{% trans "Sign up" %}</h3><p>{% trans "Use your AIESEC email." %}</p></li>
+      <li class="lp-up"><span class="lp-step-n">02</span><h3>{% trans "IM approves you" %}</h3><p>{% trans "Your LC and role get attached." %}</p></li>
+      <li class="lp-up"><span class="lp-step-n">03</span><h3>{% trans "You’re in" %}</h3><p>{% trans "Your desk and your team are waiting." %}</p></li>
+    </ol>
+  </section>
+
+  <section class="lp-band">
+    <div class="lp-band-inner">
+      <h2>{% trans "Your LC is already here" %}</h2>
+      <p class="lede">{% trans "Sign up with your AIESEC email and pick up where your team is." %}</p>
+      <div class="lp-actions">
+        <a class="btn btn-primary btn-lg" href="{% url 'account_signup' %}">{% trans "Sign up now" %}</a>
+        <a class="btn btn-secondary btn-lg" href="{% url 'account_login' %}">{% trans "I already have an account" %}</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="lp-foot">
+    <p>{% trans "Rouh · AIESEC in Egypt" %}</p>
+    <a href="{% url 'account_login' %}">{% trans "Sign in" %}</a>
+  </footer>
+  {% include "partials/credit.html" %}
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="{% static 'js/landing.js' %}"></script>
+</body>
+</html>

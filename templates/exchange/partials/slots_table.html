@@ -1,0 +1,74 @@
+{% load i18n %}
+<div class="table-wrap">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{% trans "Start" %}</th>
+        <th>{% trans "End" %}</th>
+        <th>{% trans "Opportunity" %}</th>
+        {% if show_product %}
+          <th>{% trans "Product" %}</th>
+        {% endif %}
+        <th>{% trans "Organisation" %}</th>
+        <th>{% trans "LC" %}</th>
+        <th>{% trans "Openings" %}</th>
+        <th>{% trans "Available" %}</th>
+        <th>{% trans "Status" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in page %}
+        <tr>
+          <td>{{ row.start_date|default:"—" }}</td>
+          <td>{{ row.end_date|default:"—" }}</td>
+          <td>
+            {% if open_detail_url == "b2b:slot" %}
+              <a href="{% url 'b2b:slot' row.account.pk %}?desk={{ desk }}">{{ row.account.title }}</a>
+            {% else %}
+              <a href="{% url 'exchange:open_detail' desk row.account.pk %}">{{ row.account.title }}</a>
+            {% endif %}
+            {% if row.title %}<p class="muted">{{ row.title }}</p>{% endif %}
+          </td>
+          {% if show_product %}
+            <td>{{ row.account.product_label }}</td>
+          {% endif %}
+          <td>{{ row.account.organisation_name|default:"—" }}</td>
+          <td>{{ row.account.lc_display_name|default:"—" }}</td>
+          <td>{{ row.openings|default:0 }}</td>
+          <td>{{ row.available_openings }}</td>
+          <td>
+            <span class="badge badge-{% if row.live %}approved{% else %}out_of_process{% endif %}">
+              {% if row.live %}{% trans "Live" %}{% else %}{{ row.status|default:"—" }}{% endif %}
+            </span>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="{% if show_product %}9{% else %}8{% endif %}">
+            {% trans "No live EXPA slots for this LC yet." %}
+            {% if last_sync %}
+              <span class="muted">
+                {% if last_sync.error and "organisation_type" not in last_sync.error and "MeasureOfImpact" not in last_sync.error %}
+                  {% trans "Last EXPA pull failed:" %} {{ last_sync.error }}
+                {% else %}
+                  {% trans "Last EXPA pull:" %} {{ last_sync.status }}
+                {% endif %}
+              </span>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% if page.has_other_pages %}
+  <nav class="pager">
+    {% if page.has_previous %}
+      <a href="?{{ queue_query }}&page={{ page.previous_page_number }}" hx-get="?{{ queue_query }}&page={{ page.previous_page_number }}" hx-target="#opens-table">{% trans "Previous" %}</a>
+    {% endif %}
+    <span>{% blocktrans with n=page.number total=page.paginator.num_pages %}Page {{ n }} of {{ total }}{% endblocktrans %}</span>
+    {% if page.has_next %}
+      <a href="?{{ queue_query }}&page={{ page.next_page_number }}" hx-get="?{{ queue_query }}&page={{ page.next_page_number }}" hx-target="#opens-table">{% trans "Next" %}</a>
+    {% endif %}
+  </nav>
+{% endif %}

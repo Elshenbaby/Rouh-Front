@@ -1,0 +1,17 @@
+{% load i18n %}
+{% if rows %}
+<section class="dash-section">
+  <h2>{% trans title %}</h2>
+  <ul class="dash-mix">
+    {% for row in rows %}
+      <li>
+        <div class="dash-mix-meta">
+          <span>{{ row.label }}</span>
+          <span>{{ row.n }} · {{ row.share_label }}</span>
+        </div>
+        <div class="dash-track" aria-hidden="true"><span style="width: {{ row.width }}%"></span></div>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}

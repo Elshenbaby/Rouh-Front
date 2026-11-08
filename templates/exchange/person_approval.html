@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow">
+      {% if desk_spec %}
+        <a href="{% url 'exchange:desk_signups' desk_spec.code %}">{{ desk_spec.label }} {% if desk_spec.is_icx %}{% trans "applications" %}{% else %}{% trans "signups" %}{% endif %}</a>
+      {% else %}
+        <a href="{% url 'exchange:ogx_list' %}">{% trans "OGX signups" %}</a>
+      {% endif %}
+    </p>
+    <h1>{{ person.full_name }}</h1>
+    <p class="lede">
+      {% if person.is_icx %}
+        {{ person.sending_lc|default:_("Unmapped LC") }}{% if person.sending_mc %} · {{ person.sending_mc }}{% endif %}
+      {% else %}
+        {{ person.lc_display_name|default:_("Unmapped LC") }}
+      {% endif %}
+      · {{ person.sheet_status }}
+      {% if person.product %} · {{ person.product.display }}{% endif %}
+    </p>
+  </header>
+
+  {% include "exchange/partials/person_tabs.html" %}
+
+  {% if apd_cards %}
+    {% for card in apd_cards %}
+      <section class="card cxp-card" id="apd-{{ card.application.pk }}">
+        <h2>{% trans "Approval" %} · {{ card.application.function_label }}</h2>
+        <p class="muted">
+          {{ card.application.opportunity_title|default:_("Opportunity") }}
+          · {{ card.application.host_lc_name|default:"—" }}{% if card.application.host_mc_name %} · {{ card.application.host_mc_name }}{% endif %}
+          · {{ card.application.status_label }}
+        </p>
+        <dl class="meta">
+          <div><dt>{% trans "EXPA account" %}</dt><dd>{% include "exchange/partials/expa_person_link.html" with expa_id=card.application.expa_person_id only %}</dd></div>
+          <div><dt>{% trans "EP ID_Opp" %}</dt><dd>{{ card.application.person_opportunity_key }}</dd></div>
+          <div><dt>{% trans "Email" %}</dt><dd>{{ card.application.email|default:person.email|default:"—" }}</dd></div>
+          <div><dt>{% trans "Phone" %}</dt><dd>{{ card.application.phone|default:person.phone|default:"—" }}</dd></div>
+          <div><dt>{% trans "Home" %}</dt><dd>{{ card.application.home_lc_name|default:"—" }} · {{ card.application.home_mc_name|default:"—" }}</dd></div>
+          <div><dt>{% trans "Host" %}</dt><dd>{{ card.application.host_lc_name|default:"—" }} · {{ card.application.host_mc_name|default:"—" }}</dd></div>
+          <div><dt>{% trans "Duration" %}</dt><dd>{{ card.application.duration_type|default:"—" }}</dd></div>
+          <div><dt>{% trans "Approved" %}</dt><dd>{{ card.application.approved_at|date:"Y-m-d"|default:"—" }}</dd></div>
+          <div><dt>{% trans "Slot" %}</dt><dd>{{ card.application.slot_start|date:"Y-m-d"|default:"—" }} – {{ card.application.slot_end|date:"Y-m-d"|default:"—" }}</dd></div>
+          <div><dt>{% trans "EP Manager" %}</dt><dd>{{ person.assigned_to.full_name|default:"—" }}</dd></div>
+        </dl>
+
+        <form
+          method="post"
+          class="work-form cxp-form"
+          hx-post="{% url 'exchange:person_approval' person.pk %}"
+          hx-trigger="change"
+          hx-target="#cxp-log-{{ card.application.pk }}"
+          hx-swap="outerHTML"
+        >
+          {% csrf_token %}
+          <input type="hidden" name="intent" value="cxp">
+          <input type="hidden" name="application_id" value="{{ card.application.pk }}">
+          {% for group in card.groups %}
+            <h3>{{ group.label }}</h3>
+            <div class="cxp-grid">
+              {% for field in group.fields %}
+                <label class="field{% if field.kind == 'text' or field.kind == 'url' %} is-wide{% endif %}">
+                  <span>{{ field.label }}</span>
+                  {{ field.bound }}
+                </label>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </form>
+
+        <form
+          method="post"
+          class="comment-compose"
+          hx-post="{% url 'exchange:person_approval' person.pk %}"
+          hx-target="#cxp-log-{{ card.application.pk }}"
+          hx-swap="outerHTML"
+          hx-on::after-request="if (event.detail.successful) this.reset()"
+        >
+          {% csrf_token %}
+          <input type="hidden" name="intent" value="comment">
+          <input type="hidden" name="application_id" value="{{ card.application.pk }}">
+          <label class="field">
+            <span>{% trans "Comment" %}</span>
+            <textarea name="comment" rows="3" placeholder="{% trans 'Write a CXP comment' %}"></textarea>
+          </label>
+          <button type="submit" class="btn btn-primary btn-md">{% trans "Add comment" %}</button>
+        </form>
+
+        {% include "exchange/partials/signup_log.html" with comments=card.comments log_id=card.log_id hx_oob=False %}
+      </section>
+    {% endfor %}
+  {% else %}
+    <section class="card">
+      <h2>{% trans "Approval" %}</h2>
+      <p class="muted">{% trans "No approved applications yet. When EXPA marks one approved, CXP opens here." %}</p>
+    </section>
+  {% endif %}
+{% endblock %}

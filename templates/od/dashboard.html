@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% load i18n humanize static %}
+
+{% block content %}
+  {{ od.charts|json_script:"od-charts" }}
+
+  <div class="od-shell">
+  <header class="page-header">
+    <p class="eyebrow">{% trans "LCP · OD Model" %}</p>
+    {% if od.is_mc_view %}
+      <h1>{% trans "National OD status" %}</h1>
+      <p class="od-meta">
+        {% if od.term_label %}<span>{{ od.term_label }}</span>{% endif %}
+        <span>{% trans "All LCs" %}</span>
+      </p>
+      <p class="lede">{% trans "Where every LC sits on the L-shape model — scored live from CRM." %}</p>
+    {% else %}
+      <h1>{% trans "Your OD status" %}</h1>
+      <p class="od-meta">
+        {% if od.term_label %}<span>{{ od.term_label }}</span>{% endif %}
+        {% if od.entity %}<span>{{ od.entity.short_name }}</span>{% endif %}
+      </p>
+      <p class="lede">{% trans "Cluster, indexes, and next move — one clear read of where you stand." %}</p>
+    {% endif %}
+    <details class="how-counted">
+      <summary>{% trans "How it's counted" %}</summary>
+      <ul>
+        <li>{% blocktrans %}<b>Signups, applicants, accepted, approvals, realizations and completions</b> are EXPA's analytics for the term picked, per LC: each counted on the day it happened, the same numbers LCs see in EXPA. Approvals that were broken don't count.{% endblocktrans %}</li>
+        <li>{% blocktrans %}<b>Completions</b> are experiences that ended in the term and were completed.{% endblocktrans %}</li>
+        <li>{% blocktrans %}<b>Opens</b> are the LC's opportunities open on EXPA now; <b>raising, B2C campaigns, BD deals, members and retention</b> come from Rouh; <b>finance</b> from the LC financial tools.{% endblocktrans %}</li>
+        <li>{% blocktrans %}<b>Scores</b> put each LC against the best LC in the network on each metric, then group them into the OD clusters.{% endblocktrans %}</li>
+      </ul>
+    </details>
+  </header>
+
+  {% include "od/partials/chrome.html" with od=od active="scoreboard" %}
+
+  {% if od.focus %}
+    {% include "od/partials/status_hero.html" with card=od.focus mine=True %}
+    {% include "od/partials/kpi_strip.html" with feed=od.focus.feed %}
+
+    {% if od.finance_pending %}
+    <p class="od-note" role="status">{% trans "Some finance metrics are still pending (MOCR, BVA, fines). Sustainability coverage and profitability are live when imported." %}</p>
+    {% endif %}
+
+    <section class="od-viz od-section" aria-label="{% trans 'Visuals' %}">
+      <article class="od-viz-card">
+        <h3>{% trans "Cluster mix" %}</h3>
+        <p class="muted">{% trans "National distribution" %}</p>
+        <div class="chart-frame"><canvas id="od-chart-clusters"></canvas></div>
+      </article>
+      <article class="od-viz-card">
+        <h3>{% trans "Pillar radar" %}</h3>
+        <p class="muted">{% trans "Your drivers at a glance" %}</p>
+        <div class="chart-frame"><canvas id="od-chart-secondary"></canvas></div>
+      </article>
+    </section>
+
+    <section class="od-section">
+      <div class="od-section-head">
+        <h2>{% trans "Drivers" %}</h2>
+        <p>{% blocktrans with opi=od.opi_weight ohi=od.ohi_weight %}ODI = {{ opi }}% OPI + {{ ohi }}% OHI{% endblocktrans %}</p>
+      </div>
+      {% include "od/partials/pillars.html" with card=od.focus %}
+    </section>
+
+    {% include "od/partials/playbook.html" with card=od.focus %}
+
+  {% elif od.national %}
+    <section class="od-pulse" aria-label="{% trans 'National pulse' %}">
+      <div class="od-pulse-main">
+        <p class="od-score-label">{% trans "National ODI" %}</p>
+        <p class="od-score-value">{{ od.national.odi }}%</p>
+        <p class="sub">
+          {% blocktrans with n=od.national.lc_count %}Average across {{ n }} LCs{% endblocktrans %}
+        </p>
+      </div>
+      <div class="od-pulse-split">
+        <p class="od-score-label">{% trans "OPI" %} · {{ od.opi_weight }}%</p>
+        <p class="od-score-value">{{ od.national.opi }}%</p>
+        <p class="od-score-label">{% trans "OHI" %} · {{ od.ohi_weight }}%</p>
+        <p class="od-score-value">{{ od.national.ohi }}%</p>
+      </div>
+      <div class="od-kpis od-pulse-kpis">
+        <div class="od-kpi"><strong>{{ od.national.total_members|intcomma }}</strong><span>{% trans "Members" %}</span></div>
+        <div class="od-kpi"><strong>{{ od.national.total_sus|intcomma }}</strong><span>{% trans "Sign ups" %}</span></div>
+        <div class="od-kpi"><strong>{{ od.national.total_apds|intcomma }}</strong><span>{% trans "APDs" %}</span></div>
+        <div class="od-kpi"><strong>{{ od.national.total_re|intcomma }}</strong><span>{% trans "Realizations" %}</span></div>
+      </div>
+    </section>
+
+    {% if od.finance_pending %}
+    <p class="od-note" role="status">{% trans "Some finance metrics are still pending (MOCR, BVA, fines)." %}</p>
+    {% endif %}
+
+    <section class="od-viz od-section" aria-label="{% trans 'Visuals' %}">
+      <article class="od-viz-card">
+        <h3>{% trans "Cluster mix" %}</h3>
+        <p class="muted">{% trans "How many LCs in each tier" %}</p>
+        <div class="chart-frame"><canvas id="od-chart-clusters"></canvas></div>
+      </article>
+      <article class="od-viz-card">
+        <h3>{% trans "ODI by LC" %}</h3>
+        <p class="muted">{% trans "Top scores this term" %}</p>
+        <div class="chart-frame"><canvas id="od-chart-secondary"></canvas></div>
+      </article>
+      <article class="od-viz-card od-viz-wide">
+        <h3>{% trans "OPI × OHI map" %}</h3>
+        <p class="muted">{% trans "Cluster follows the weaker axis. Launchpad LCs sit off-plot." %}</p>
+        <div class="chart-frame"><canvas id="od-chart-scatter"></canvas></div>
+      </article>
+    </section>
+
+    <section class="od-section">
+      <div class="od-section-head">
+        <h2>{% trans "Tiers" %}</h2>
+        <p>{% trans "L-shape clusters" %}</p>
+      </div>
+      <div class="od-tiers">
+        {% for row in od.cluster_summary %}
+        <article class="od-tier" style="--od-c: {{ row.cluster.color }}; --od-cw: {{ row.cluster.color_weak }}">
+          <p class="od-score-label">{{ row.cluster.emoji }} {% blocktrans with t=row.cluster.tier %}Tier {{ t }}{% endblocktrans %}</p>
+          <h3>{{ row.cluster.label }}</h3>
+          <p class="n">{{ row.count }}</p>
+          <p class="avg">{% if row.avg_odi %}ODI {{ row.avg_odi }}%{% else %}—{% endif %}</p>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="od-board od-section">
+      <div class="od-section-head">
+        <h2>{% trans "LC board" %}</h2>
+        <p>{% trans "Sorted by ODI · click a row for drivers" %}</p>
+      </div>
+      <div class="table-wrap od-board-wrap">
+        <table class="table od-board-table">
+          <thead>
+            <tr>
+              <th scope="col">{% trans "LC" %}</th>
+              <th scope="col">{% trans "Cluster" %}</th>
+              <th scope="col" class="num">{% trans "ODI" %}</th>
+              <th scope="col" class="num">{% trans "OPI" %}</th>
+              <th scope="col" class="num">{% trans "OHI" %}</th>
+              <th scope="col" class="num">{% trans "Members" %}</th>
+              <th scope="col" class="num">{% trans "SUs" %}</th>
+              <th scope="col" class="num">{% trans "APDs" %}</th>
+              <th scope="col" class="num">{% trans "REs" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for card in od.cards %}
+            <tr class="is-link">
+              <td>
+                <a class="row-link" href="{% url 'od:lc_detail' card.feed.entity_id %}">{{ card.feed.entity_short }}</a>
+              </td>
+              <td>
+                <span class="od-tag" style="--od-c: {{ card.cluster_color }}; --od-cw: {{ card.cluster_color_weak }}">
+                  <span aria-hidden="true">{{ card.cluster_emoji }}</span>
+                  {{ card.cluster_label }}
+                </span>
+              </td>
+              <td class="num od-odi">
+                <span class="od-odi-val">{{ card.odi }}%</span>
+                <span class="od-odi-bar" aria-hidden="true"><i style="width: {{ card.odi }}%"></i></span>
+              </td>
+              <td class="num">{{ card.opi }}%</td>
+              <td class="num">{{ card.ohi }}%</td>
+              <td class="num">{{ card.feed.headcount }}</td>
+              <td class="num">{{ card.feed.sus }}</td>
+              <td class="num">{{ card.feed.total_apds }}</td>
+              <td class="num">{{ card.feed.total_re }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="9">{% trans "No active LCs in scope." %}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  {% endif %}
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  <script src="{% static 'js/od-dashboard.js' %}"></script>
+{% endblock %}

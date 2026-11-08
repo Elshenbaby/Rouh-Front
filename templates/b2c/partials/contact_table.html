@@ -1,0 +1,58 @@
+{% load i18n %}
+{# Signups, contacting and conversion for one cut of the OGX population. #}
+<section class="card">
+  <h2>{{ title }}</h2>
+  {% if blurb %}<p class="muted">{{ blurb }}</p>{% endif %}
+  <div class="table-wrap">
+    <table class="table table-dense">
+      <thead>
+        <tr>
+          <th>{{ header|default:title }}</th>
+          <th>SUs</th>
+          <th>{% trans "Assigned" %}</th>
+          <th>{% trans "Contacted" %}</th>
+          <th>{% trans "Not contacted" %}</th>
+          <th>{% trans "Contact rate" %}</th>
+          <th>{% trans "Days to contact" %}</th>
+          <th>{% trans "Interviewed" %}</th>
+          <th>{% trans "Interested" %}</th>
+          <th>{% trans "OOP" %}</th>
+          <th>APPs</th>
+          <th>ACC</th>
+          <th>APDs</th>
+          <th>REs</th>
+          <th>%SU→APP</th>
+          <th>{% trans "Contacted→APP" %}</th>
+          <th>%SU→APD</th>
+          <th>%SU→RE</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+          <tr>
+            <td>{{ row.label }}</td>
+            <td>{{ row.su }}</td>
+            <td>{{ row.assigned }}</td>
+            <td>{{ row.contacted }}</td>
+            <td>{{ row.not_contacted }}</td>
+            <td>{{ row.contact_rate_label }}</td>
+            <td>{{ row.avg_days_to_contact|default:"—" }}</td>
+            <td>{{ row.interviewed }}</td>
+            <td>{{ row.interested }}</td>
+            <td>{{ row.oop }}</td>
+            <td>{{ row.app }}</td>
+            <td>{{ row.acc }}</td>
+            <td>{{ row.apd }}</td>
+            <td>{{ row.realized }}</td>
+            <td>{{ row.su_to_app }}</td>
+            <td>{{ row.contacted_to_app }}</td>
+            <td>{{ row.su_to_apd }}</td>
+            <td>{{ row.su_to_re }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="18">{% trans "Nothing here yet." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>

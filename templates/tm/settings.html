@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'ui:desk' 'tm' %}">{% trans "Talent" %}</a>{% if entity %} · {{ entity.short_name }}{% endif %}</p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+  {% include "tm/partials/tabs.html" %}
+  {% include "tm/partials/settings_body.html" %}
+{% endblock %}

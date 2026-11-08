@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static mc_format rcr_tags %}
+
+{% block content %}
+  {% include "rcr/_chrome.html" %}
+
+  <section class="rcr-today-top">
+    <div class="rcr-today-hello">
+      <h2>{% if todo %}{{ todo|count }} {{ todo|pluralize:"person,people" }} waiting on {% if mine %}you{% else %}{{ entity.short_name }}{% endif %}{% else %}All clear{% endif %}</h2>
+      <p class="muted">{% if stuck_count %}<a class="rcr-stuck-link" href="{% url 'rcr:leads_all' cycle.slug %}?stuck=1{% if mine %}&recruiter=me{% endif %}">{{ stuck_count }} stuck longer than their step should take</a> · {% endif %}Work down each phase: every card hands the person on to the next one.</p>
+    </div>
+    <nav class="rcr-seg" aria-label="Whose work">
+      <a href="?" class="{% if not mine %}is-active{% endif %}">{{ entity.short_name }}</a>
+      <a href="?mine=1" class="{% if mine %}is-active{% endif %}">Mine</a>
+    </nav>
+    <ol class="rcr-goalstrip" aria-label="Planned vs achieved">
+      {% for row in pva %}
+        <li class="{% if row.level %}is-{{ row.level }}{% endif %}"><span>{{ row.label }}</span><b>{{ row.ach|count }}</b><small>{% if row.goal %}of {{ row.goal|count }}{% else %}no goal{% endif %}</small><i style="width: {% if row.pct %}{% widthratio row.ach row.goal 100 %}{% else %}0{% endif %}%"></i></li>
+      {% endfor %}
+    </ol>
+  </section>
+
+  <div class="rcr-today-grid">
+    {% for item in phases %}
+      <section class="rcr-today-phase">
+        <header>
+          <span class="rcr-phase-n">{{ item.phase.number }}</span>
+          <div><h3><a href="{% url item.phase.url_name cycle.slug %}">{{ item.phase.label }}</a></h3><p>{{ item.phase.hint }}</p></div>
+        </header>
+        {% for q in item.queues %}
+          <article class="rcr-queue{% if not q.count %} is-clear{% endif %}{% if q.tone %} is-{{ q.tone }}{% endif %}">
+            <div class="rcr-queue-head">
+              <strong>{{ q.count|count }}</strong>
+              <div><h4>{{ q.title }}</h4><p>{{ q.hint }}</p></div>
+            </div>
+            {% if q.people %}
+              <ul class="rcr-queue-people">
+                {% for lead in q.people %}
+                  <li><button type="button" hx-get="{% url 'rcr:lead_drawer' cycle.slug lead.pk %}" hx-target="#rcr-drawer-body" class="{% if lead.stage_changed_at and lead|stuck %}is-stuck{% endif %}">
+                    {% if lead.recruiter %}<i class="rcr-avatar" title="{{ lead.recruiter.full_name }}">{{ lead.recruiter.initials }}</i>{% else %}<i class="rcr-avatar is-empty">+</i>{% endif %}
+                    <span>{{ lead.full_name }}</span><time>{{ lead.stage_changed_at|default:lead.signed_up_at|since }}</time>
+                  </button></li>
+                {% endfor %}
+              </ul>
+              <a class="rcr-queue-go" href="{{ q.action_url }}">{{ q.action_label }}{% if q.more %} · {{ q.more }} more{% endif %} →</a>
+            {% else %}
+              <p class="rcr-queue-clear">All clear ✓</p>
+            {% endif %}
+          </article>
+        {% endfor %}
+        {% if item.phase.number == 3 and gds_soon %}
+          <article class="rcr-queue">
+            <div class="rcr-queue-head"><strong>{{ gds_soon|length }}</strong><div><h4>GDs this week</h4><p>Confirm everyone the day before.</p></div></div>
+            <ul class="rcr-queue-people">{% for gd in gds_soon %}<li><a href="{% url 'rcr:gd' cycle.slug gd.pk %}"><span>{{ gd.name }}</span><time>{{ gd.day|date:"D j M" }}{% if gd.starts_at %} {{ gd.starts_at|time:"H:i" }}{% endif %}</time></a></li>{% endfor %}</ul>
+          </article>
+        {% endif %}
+      </section>
+    {% endfor %}
+  </div>
+
+  {% include "rcr/partials/drawer_shell.html" %}
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/rcr-board.js' %}?v=5" defer></script>
+{% endblock %}

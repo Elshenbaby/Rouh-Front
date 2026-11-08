@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static mc_format rcr_tags %}
+
+{% block content %}
+  {% include "rcr/_chrome.html" %}
+  <p class="rcr-board-hint">Everyone who passed their GD{% if conference_name %}, on their way to {{ conference_name }}{% endif %}. Move each person on as they register, pay and come. "At the conference" counts them as recruited (REC).</p>
+
+  <ul class="rcr-result-tally" aria-label="Where everyone is">
+    {% for col in columns %}<li class="is-{{ col.code }}{% if not col.cards %} is-zero{% endif %}"><b>{{ col.cards|length }}</b><span>{{ col.label }}</span></li>{% endfor %}
+  </ul>
+
+  {% for col in columns %}
+    <section class="ops-panel" id="conf-{{ col.code }}">
+      <header class="ops-panel-head"><h2>{{ col.label }} <small class="rcr-count">{{ col.cards|length }}</small></h2></header>
+      {% if col.cards %}
+        <div class="table-wrap">
+          <table class="table ops-table ops-compact rcr-conf-table">
+            <thead><tr><th scope="col">Name</th><th scope="col">Phone</th><th scope="col">Recruiter</th><th scope="col">Since</th><th scope="col">Move to</th></tr></thead>
+            <tbody>
+              {% for lead in col.cards %}
+                <tr>
+                  <th scope="row"><button type="button" class="btn-link rcr-name" hx-get="{% url 'rcr:lead_drawer' cycle.slug lead.pk %}" hx-target="#rcr-drawer-body">{{ lead.full_name }}</button>{% if lead.kind != "new" %} <em class="rcr-tag is-{{ lead.kind }}">{% if lead.kind == "old" %}Old{% else %}RXP{% endif %}</em>{% endif %}</th>
+                  <td>{% if lead.phone %}<a href="https://wa.me/{{ lead.phone|wa }}" target="_blank" rel="noopener">{{ lead.phone }}</a>{% else %}—{% endif %}</td>
+                  <td>{{ lead.recruiter.full_name|default:"—" }}</td>
+                  <td>{{ lead.stage_changed_at|default:lead.signed_up_at|since }}</td>
+                  <td>
+                    <div class="rcr-move-btns">
+                      {% for code, label in moves %}{% if code != col.code %}
+                        <form method="post" action="{% url 'rcr:conference_drop' cycle.slug %}">
+                          {% csrf_token %}<input type="hidden" name="lead" value="{{ lead.pk }}"><input type="hidden" name="column" value="{{ code }}"><input type="hidden" name="next" value="{{ request.get_full_path }}#conf-{{ code }}">
+                          <button class="btn btn-sm {% if forloop.counter0 > col.index %}btn-secondary{% else %}btn-ghost{% endif %}" type="submit">{% if forloop.counter0 < col.index %}Back to {% endif %}{{ label }}</button>
+                        </form>
+                      {% endif %}{% endfor %}
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="muted">Nobody here.</p>
+      {% endif %}
+    </section>
+  {% endfor %}
+  {% include "rcr/partials/drawer_shell.html" %}
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/rcr-board.js' %}?v=5" defer></script>
+{% endblock %}

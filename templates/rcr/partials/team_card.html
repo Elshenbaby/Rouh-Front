@@ -1,0 +1,16 @@
+<li class="rcr-card is-team" data-card data-key="member" data-id="{{ one.member_id }}">
+  <span class="rcr-card-top">
+    <i class="rcr-avatar is-big">{{ one.member.initials }}</i>
+    <span class="rcr-team-who"><b class="rcr-card-name">{{ one.member.full_name }}</b><small>{{ one.member.email }}</small></span>
+  </span>
+  {% if manage %}
+    <span class="rcr-card-foot no-drag">
+      <select aria-label="Position of {{ one.member.full_name }}" name="role" hx-post="{% url 'rcr:team_edit' cycle.slug one.pk %}" hx-trigger="change" hx-swap="none">{% for code, label in roles %}<option value="{{ code }}"{% if code == one.role %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+      <button type="button" class="rcr-toggle{% if one.nda_done %} is-on{% endif %}" x-data="{ on: {{ one.nda_done|yesno:'true,false' }} }" :class="{ 'is-on': on }" @click="on = !on; rcrPost('{% url 'rcr:team_edit' cycle.slug one.pk %}', { nda_done: on ? '1' : '0' }).catch(e => { on = !on; rcrToast(e.message) })">NDA</button>
+      <button type="button" class="rcr-toggle{% if one.interviewer %} is-on{% endif %}" x-data="{ on: {{ one.interviewer|yesno:'true,false' }} }" :class="{ 'is-on': on }" @click="on = !on; rcrPost('{% url 'rcr:team_edit' cycle.slug one.pk %}', { interviewer: on ? '1' : '0' }).catch(e => { on = !on; rcrToast(e.message) })">Interviews</button>
+    </span>
+  {% else %}
+    <span class="rcr-card-foot"><em class="rcr-tag">{{ one.get_role_display }}</em>{% if one.nda_done %}<em class="rcr-tag">NDA ✓</em>{% endif %}</span>
+  {% endif %}
+  {% if one.stats %}<span class="rcr-team-stats"><span><b>{{ one.stats.assigned|default:0 }}</b> leads</span><span><b>{{ one.stats.contacted|default:0 }}</b> contacted</span><span><b>{{ one.stats.pc_accepted|default:0 }}</b> PC ✓</span><span><b>{{ one.interviews|default:0 }}</b> interviews</span></span>{% endif %}
+</li>

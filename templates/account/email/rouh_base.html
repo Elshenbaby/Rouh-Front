@@ -1,0 +1,51 @@
+{% load i18n %}<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>{% block title %}Rouh{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Poppins:wght@400;600&family=Yanone+Kaffeesatz:wght@700&display=swap" rel="stylesheet">
+</head>
+<body style="margin:0;padding:0;background:#f6f6f6;">
+  <div style="display:none;max-height:0;overflow:hidden;">{% block preheader %}{% endblock %}</div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f6f6f6;">
+    <tr>
+      <td align="center" style="padding:32px 12px;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;background:#ffffff;border:1px solid #000000;">
+          <tr>
+            <td style="background:#000000;padding:18px 28px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="background:#d84d2b;width:30px;height:30px;text-align:center;vertical-align:middle;font-family:'Yanone Kaffeesatz','Oswald','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:22px;line-height:30px;color:#ffffff;"><img src="{{ site_url|default:'https://rouh.aiesec.org.eg' }}/static/img/rouh-logo-white.png" width="14" height="24" alt="R" style="display:inline-block;vertical-align:middle;border:0;"></td>
+                  <td style="padding-left:12px;font-family:'Yanone Kaffeesatz','Oswald','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:24px;letter-spacing:1px;color:#ffffff;text-transform:uppercase;">Rouh</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:36px 28px 8px;">
+              <p style="margin:0 0 10px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#d84d2b;">{% block eyebrow %}AIESEC in Egypt{% endblock %}</p>
+              <h1 style="margin:0 0 18px;font-family:'Yanone Kaffeesatz','Oswald','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:40px;line-height:1;text-transform:uppercase;color:#000000;">{% block heading %}{% endblock %}</h1>
+              <div style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#404040;">
+                {% block body %}{% endblock %}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:8px 28px 32px;font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:13px;line-height:1.6;color:#727272;">
+              {% block fineprint %}{% endblock %}
+            </td>
+          </tr>
+          <tr>
+            <td style="border-top:1px solid #ebebeb;padding:18px 28px;font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#727272;">
+              Rouh · AIESEC in Egypt's CRM<br>
+              Sent from rouhcrm@aiesec.net · <a href="{{ site_url|default:'https://rouh.aiesec.org.eg' }}/" style="color:#727272;">rouh.aiesec.org.eg</a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

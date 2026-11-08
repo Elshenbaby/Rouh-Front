@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load static mc_format %}
+
+{% block content %}
+  {% include "rcr/_chrome.html" %}
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>RcR team <small class="rcr-count">{{ seats|length }}</small></h2><p>The people working this cycle's leads, interviews and GDs for {{ entity.short_name }}. They open this RCR tool.{% if manage %} Change someone's row and press Save.{% endif %}</p></header>
+    {% if seats %}
+      <div class="table-wrap">
+        <table class="table ops-table ops-compact rcr-team-table">
+          <thead><tr><th scope="col">Name</th><th scope="col">Position</th><th scope="col">Phone</th><th scope="col">NDA signed</th><th scope="col">Interviews</th><th scope="col" class="q-num">Leads</th><th scope="col" class="q-num">Contacted</th>{% if manage %}<th scope="col" aria-label="Save or remove"></th>{% endif %}</tr></thead>
+          <tbody>
+            {% for one in seats %}
+              <tr>
+                <th scope="row">{{ one.member.full_name }}<small class="muted">{{ one.member.email }}</small></th>
+                {% if manage %}
+                  <td><select form="team-{{ one.pk }}" name="role" aria-label="Position of {{ one.member.full_name }}">{% for code, label in roles %}<option value="{{ code }}"{% if code == one.role %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></td>
+                  <td><input form="team-{{ one.pk }}" name="phone" value="{{ one.phone }}" aria-label="Phone of {{ one.member.full_name }}" class="rcr-phone-input"></td>
+                  <td><input form="team-{{ one.pk }}" type="checkbox" name="nda_done"{% if one.nda_done %} checked{% endif %} aria-label="NDA signed"></td>
+                  <td><input form="team-{{ one.pk }}" type="checkbox" name="interviewer"{% if one.interviewer %} checked{% endif %} aria-label="Runs interviews"></td>
+                {% else %}
+                  <td>{{ one.get_role_display }}</td><td>{{ one.phone|default:"—" }}</td><td>{{ one.nda_done|yesno:"Yes,No" }}</td><td>{{ one.interviewer|yesno:"Yes,No" }}</td>
+                {% endif %}
+                <td class="q-num">{{ one.stats.assigned|default:0 }}</td>
+                <td class="q-num">{{ one.stats.contacted|default:0 }}</td>
+                {% if manage %}
+                  <td class="rcr-row-actions">
+                    <form id="team-{{ one.pk }}" method="post">{% csrf_token %}<input type="hidden" name="action" value="edit"><input type="hidden" name="seat" value="{{ one.pk }}"><input type="hidden" name="week" value="{{ week|date:'Y-m-d' }}"><button class="btn btn-secondary btn-sm" type="submit">Save</button></form>
+                    <form method="post" onsubmit="return confirm('Take {{ one.member.full_name|escapejs }} off the RcR team?')">{% csrf_token %}<input type="hidden" name="action" value="remove"><input type="hidden" name="seat" value="{{ one.pk }}"><input type="hidden" name="week" value="{{ week|date:'Y-m-d' }}"><button class="btn-link" type="submit">Remove</button></form>
+                  </td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="muted">No RcR team yet.{% if manage %} Add {{ entity.short_name }}'s members below.{% endif %}</p>
+    {% endif %}
+
+    {% if manage and candidates %}
+      <details class="rcr-edit rcr-add-team"{% if not seats %} open{% endif %}>
+        <summary>Add members to the team</summary>
+        <form method="post" class="rcr-form">
+          {% csrf_token %}<input type="hidden" name="action" value="add"><input type="hidden" name="week" value="{{ week|date:'Y-m-d' }}">
+          <label class="rcr-search"><span class="sr-only">Find a member</span><input type="search" data-filter="team-members" placeholder="Find a member…"></label>
+          <ul class="rcr-ticklist is-columns" id="team-members">{% for m in candidates %}<li data-card><label><input type="checkbox" name="member" value="{{ m.pk }}"><span><b>{{ m.full_name }}</b></span></label></li>{% endfor %}</ul>
+          <div class="rcr-seat-bar">
+            <label class="field"><span>As</span><select id="team-role" name="role">{% for code, label in roles %}<option value="{{ code }}">{{ label }}</option>{% endfor %}</select></label>
+            <button class="btn btn-primary btn-sm" type="submit">Add the ticked</button>
+          </div>
+        </form>
+      </details>
+    {% endif %}
+  </section>
+
+  <section class="ops-panel" id="shifts">
+    <header class="ops-panel-head rcr-head-row">
+      <div><h2>Shifts</h2><p>Week of {{ week|date:"j F" }}. Who is on the booth or interview shift each day; tick ✓ when they show up.</p></div>
+      <nav class="ops-time-presets"><a class="ops-chip" href="?week={{ prev_week|date:'Y-m-d' }}#shifts" aria-label="Week before">←</a><a class="ops-chip" href="?#shifts">This week</a><a class="ops-chip" href="?week={{ next_week|date:'Y-m-d' }}#shifts" aria-label="Week after">→</a></nav>
+    </header>
+    {% if manage and team_members %}
+      <form method="post" class="rcr-seat-bar rcr-shift-form">
+        {% csrf_token %}<input type="hidden" name="action" value="shift"><input type="hidden" name="week" value="{{ week|date:'Y-m-d' }}">
+        <label class="field"><span>Who</span><select id="sh-member" name="member" required><option value="">Pick someone…</option>{% for m in team_members %}<option value="{{ m.pk }}">{{ m.full_name }}</option>{% endfor %}</select></label>
+        <label class="field"><span>Day</span><select id="sh-day" name="day">{% for day in days %}<option value="{{ day|date:'Y-m-d' }}">{{ day|date:"D j M" }}</option>{% endfor %}</select></label>
+        <label class="field"><span>Shift</span><select id="sh-shift" name="shift">{% for code, label in shifts %}<option value="{{ code }}">{{ label }}</option>{% endfor %}</select></label>
+        <button class="btn btn-primary btn-sm" type="submit">Put on the shift</button>
+      </form>
+    {% endif %}
+    <div class="table-wrap">
+      <table class="table rcr-shift-table">
+        <thead><tr><th scope="col" aria-label="Shift"></th>{% for day in days %}<th scope="col">{{ day|date:"D" }} <span class="muted">{{ day|date:"j M" }}</span></th>{% endfor %}</tr></thead>
+        <tbody>
+          {% for row in shift_rows %}
+            <tr>
+              <th scope="row">{{ row.label }}</th>
+              {% for cell in row.days %}
+                <td>
+                  <ul class="rcr-shift-list">
+                    {% for slot in cell.people %}
+                      <li class="{% if slot.attended %}is-attended{% endif %}">
+                        <span>{{ slot.member.full_name }}</span>
+                        {% if manage %}
+                          <form method="post">{% csrf_token %}<input type="hidden" name="action" value="shift_attended"><input type="hidden" name="slot" value="{{ slot.pk }}"><input type="hidden" name="week" value="{{ week|date:'Y-m-d' }}"><button class="rcr-mini{% if slot.attended %} is-on{% endif %}" type="submit" title="{% if slot.attended %}Came. Click to undo{% else %}Mark as came{% endif %}" aria-label="{% if slot.attended %}{{ slot.member.full_name }} came. Undo{% else %}Mark {{ slot.member.full_name }} as came{% endif %}">✓</button></form>
+                          <form method="post">{% csrf_token %}<input type="hidden" name="action" value="shift_remove"><input type="hidden" name="slot" value="{{ slot.pk }}"><input type="hidden" name="week" value="{{ week|date:'Y-m-d' }}"><button class="rcr-mini" type="submit" title="Take off this shift" aria-label="Take {{ slot.member.full_name }} off this shift">×</button></form>
+                        {% elif slot.attended %}<em>✓</em>{% endif %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>What each recruiter has done</h2><p>From the leads they hold, the slots they confirmed and the interview forms they filled.</p></header>
+    <div class="table-wrap">
+      <table class="table ops-table ops-compact rcr-team">
+        <thead><tr><th>Name</th><th>Position</th><th class="q-num">Leads</th><th class="q-num">Contacted</th><th class="q-num">PC accepted</th><th class="q-num">Scheduled</th><th class="q-num">Day-before confirmations</th><th class="q-num">Interviews filled</th><th class="q-num">GD attended</th></tr></thead>
+        <tbody>
+          {% for one in seats %}
+            <tr><th scope="row"><a href="{% url 'rcr:leads_all' cycle.slug %}?recruiter={{ one.member_id }}">{{ one.member.full_name }}</a></th><td>{{ one.get_role_display }}</td>
+              <td class="q-num">{{ one.stats.assigned|default:0 }}</td><td class="q-num"><strong>{{ one.stats.contacted|default:0 }}</strong></td><td class="q-num">{{ one.stats.pc_accepted|default:0 }}</td><td class="q-num">{{ one.stats.scheduled|default:0 }}</td><td class="q-num">{{ one.confirmed }}</td><td class="q-num">{{ one.interviews }}</td><td class="q-num">{{ one.stats.gd|default:0 }}</td></tr>
+          {% empty %}
+            <tr><td colspan="9">No RcR team yet.</td></tr>
+          {% endfor %}
+          {% for row in others %}
+            <tr class="muted"><th scope="row">{{ row.name }} <small>(holds leads, not on the team)</small></th><td></td><td class="q-num">{{ row.assigned }}</td><td class="q-num">{{ row.contacted }}</td><td class="q-num">{{ row.pc_accepted }}</td><td class="q-num">{{ row.scheduled }}</td><td></td><td></td><td class="q-num">{{ row.gd }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/rcr-board.js' %}?v=5" defer></script>
+{% endblock %}

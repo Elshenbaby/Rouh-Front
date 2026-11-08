@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% load mc_format rcr_tags %}
+
+{% block content %}
+  {% include "rcr/_chrome.html" %}
+  <p class="rcr-back"><a href="{{ back }}">← Back to the list</a></p>
+
+  <section class="rcr-lead-head">
+    <div>
+      <h2>{{ lead.full_name }}</h2>
+      <p class="muted">{{ lead.get_kind_display }} · {{ lead.get_source_display }} · ID {{ lead.display_id }}{% if lead.signed_up_at %} · signed up {{ lead.signed_up_at|date:"j M Y, H:i" }}{% endif %}</p>
+      <p class="rcr-stagebar" aria-label="Where {{ lead.full_name }} is">
+        {% for code, label in stages %}<span class="{% if forloop.counter0 <= lead.stage_rank %}is-done{% endif %}{% if code == lead.stage %} is-now{% endif %}" title="{{ label }}">{{ stage_short|get_item:code }}</span>{% endfor %}
+      </p>
+      {% if lead.outcome != "active" %}<p class="rcr-outcome-banner">{{ lead.get_outcome_display }}</p>{% endif %}
+    </div>
+    <div class="rcr-lead-actions">
+      {% if lead.phone %}<a class="btn btn-secondary btn-sm" href="tel:{{ lead.phone|tel }}">Call {{ lead.phone }}</a><a class="btn btn-secondary btn-sm" href="https://wa.me/{{ lead.phone|wa }}" target="_blank" rel="noopener">WhatsApp</a>{% endif %}
+      <a class="btn btn-primary btn-sm" href="{% url 'rcr:interview_new' cycle.slug %}?lead={{ lead.pk }}">Fill the interview form</a>
+    </div>
+  </section>
+
+  <div class="rcr-two">
+    <section class="ops-panel">
+      <header class="ops-panel-head"><h2>Phone call</h2><p>The phone-call interview phase. The status moves on its own as you fill this in.</p></header>
+      <form method="post" class="rcr-form">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <div class="rcr-form-grid">
+          <label class="field"><span>Status</span>
+            <select id="l-stage" name="stage">{% for code, label in stages %}<option value="{{ code }}"{% if code == lead.stage %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+          </label>
+          <label class="field"><span>In process?</span>
+            <select id="l-outcome" name="outcome">{% for code, label in outcomes %}<option value="{{ code }}"{% if code == lead.outcome %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+          </label>
+          <label class="field"><span>Responsible recruiter</span>
+            <select id="l-recruiter" name="recruiter"><option value="">—</option>{% for m in recruiters %}<option value="{{ m.pk }}"{% if m.pk == lead.recruiter_id %} selected{% endif %}>{{ m.full_name }}</option>{% endfor %}</select>
+          </label>
+          <label class="field"><span>Phone call interview</span>
+            <select id="l-phone" name="phone_status"><option value="">Not called</option>{% for code, label in phone_statuses %}<option value="{{ code }}"{% if code == lead.phone_status %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+          </label>
+          <label class="field"><span>English level</span>
+            <select id="l-english" name="english_level"><option value="">—</option>{% for level in english_levels %}<option{% if level == lead.english_level %} selected{% endif %}>{{ level }}</option>{% endfor %}</select>
+          </label>
+          <label class="field"><span>Phone call result</span>
+            <select id="l-result" name="phone_result"><option value="">—</option>{% for code, label in phone_results %}<option value="{{ code }}"{% if code == lead.phone_result %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+          </label>
+          <label class="field is-wide"><span>Reason of rejection</span><input id="l-reason" name="rejection_reason" value="{{ lead.rejection_reason }}"></label>
+          <label class="field-check is-wide"><input type="checkbox" name="location_sent"{% if lead.location_sent %} checked{% endif %}> <span>Location of the interview sent</span></label>
+          <label class="field is-wide"><span>Notes (calls, messages, what they said)</span><textarea id="l-notes" name="notes" rows="4">{{ lead.notes }}</textarea></label>
+        </div>
+        <button class="btn btn-primary btn-sm" type="submit">Save</button>
+      </form>
+    </section>
+
+    <section class="ops-panel">
+      <header class="ops-panel-head"><h2>About them</h2></header>
+      <dl class="rcr-facts">
+        <div><dt>Phone</dt><dd>{{ lead.phone|default:"—" }}</dd></div>
+        <div><dt>Email</dt><dd>{% if "@inbound.aiesec.org" in lead.email %}Hidden by EXPA{% else %}{{ lead.email|default:"—" }}{% endif %}</dd></div>
+        <div><dt>University</dt><dd>{{ lead.university|default:"—" }}</dd></div>
+        <div><dt>Faculty</dt><dd>{{ lead.faculty|default:"—" }}</dd></div>
+        <div><dt>Graduation</dt><dd>{{ lead.graduation_year|default:"—" }}</dd></div>
+        <div><dt>Born</dt><dd>{{ lead.dob|date:"j M Y"|default:"—" }}</dd></div>
+        <div><dt>Gender</dt><dd>{{ lead.gender|default:"—" }}</dd></div>
+        <div><dt>City</dt><dd>{{ lead.city|default:"—" }}</dd></div>
+        <div><dt>Heard of us</dt><dd>{{ lead.referral|default:"—" }} <small class="muted">({{ channel_labels|get_item:lead.channel|default:"Other" }})</small></dd></div>
+        <div><dt>Why AIESEC</dt><dd>{{ lead.reason|default:"—" }}</dd></div>
+        {% if lead.campaign %}<div><dt>Campaign</dt><dd>{{ lead.campaign }}</dd></div>{% endif %}
+        {% if lead.representative %}<div><dt>AIESEC rep</dt><dd>{{ lead.representative }}</dd></div>{% endif %}
+        {% if lead.kind == "rxp" %}<div><dt>Exchange</dt><dd>{{ lead.extra.product }} in {{ lead.extra.host }}{% if lead.extra.host_mc %}, {{ lead.extra.host_mc }}{% endif %} · {{ lead.extra.status }}</dd></div>{% endif %}
+      </dl>
+    </section>
+  </div>
+
+  <div class="rcr-two">
+    <section class="ops-panel">
+      <header class="ops-panel-head"><h2>F2F interview</h2></header>
+      {% for slot in slots %}
+        <p class="rcr-line"><b>{{ slot.day|date:"D j M" }} {{ slot.starts_at|time:"H:i" }}</b> · {{ slot.room }}{% if slot.place %} · {{ slot.place }}{% endif %} · {{ slot.get_confirmation_display|default:"not confirmed yet" }}{% if slot.did_interview %} · interviewed{% endif %}</p>
+      {% endfor %}
+      {% for interview in interviews %}
+        <p class="rcr-line"><a href="{% url 'rcr:interview' cycle.slug interview.pk %}">Interview {{ interview.created_at|date:"j M" }}</a> · score {{ interview.score|default:"—" }}{% if interview.cluster %} · cluster {{ interview.cluster }}{% endif %} · <span class="badge badge-{{ interview.decision }}">{{ interview.get_decision_display }}</span></p>
+      {% endfor %}
+      {% if free_slots %}
+        <form method="post" action="{% url 'rcr:lead_book' cycle.slug lead.pk %}" class="rcr-inline">
+          {% csrf_token %}
+          <label class="field"><span>Book a free slot</span>
+            <select id="l-slot" name="slot">{% for slot in free_slots %}<option value="{{ slot.pk }}">{{ slot.day|date:"D j M" }} · {{ slot.starts_at|time:"H:i" }} · {{ slot.room }}</option>{% endfor %}</select>
+          </label>
+          <button class="btn btn-secondary btn-sm" type="submit">Book</button>
+        </form>
+      {% elif not slots %}
+        <p class="muted">No free interview slots. Add them in <a href="{% url 'rcr:scheduling' cycle.slug %}">Interview scheduling</a>.</p>
+      {% endif %}
+    </section>
+
+    <section class="ops-panel">
+      <header class="ops-panel-head"><h2>Group discussion</h2></header>
+      {% for one in seats %}
+        <p class="rcr-line"><a href="{% url 'rcr:gd' cycle.slug one.gd.pk %}">{{ one.gd.name }}</a>{% if one.gd.day %} · {{ one.gd.day|date:"j M" }}{% endif %} · {{ one.get_attendance_display|default:"attendance not marked" }} · <span class="badge badge-{{ one.decision }}">{{ one.get_decision_display }}</span>{% if one.registration %} · {{ one.get_registration_display }}{% endif %}</p>
+      {% empty %}
+        <p class="muted">Not in a group discussion yet.</p>
+      {% endfor %}
+      {% if gds %}
+        <form method="post" action="{% url 'rcr:lead_gd' cycle.slug lead.pk %}" class="rcr-inline">
+          {% csrf_token %}
+          <label class="field"><span>Add to a GD</span>
+            <select id="l-gd" name="gd">{% for gd in gds %}<option value="{{ gd.pk }}">{{ gd.name }}{% if gd.day %} · {{ gd.day|date:"j M" }}{% endif %}</option>{% endfor %}</select>
+          </label>
+          <button class="btn btn-secondary btn-sm" type="submit">Add</button>
+        </form>
+      {% endif %}
+    </section>
+  </div>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>History</h2></header>
+    <ul class="rcr-history">
+      {% for event in events %}
+        <li><time>{{ event.created_at|date:"j M, H:i" }}</time> {% if event.stage %}<b>{{ event.get_stage_display }}</b>{% endif %}{% if event.outcome %}<b>{{ event.get_outcome_display }}</b>{% endif %}{% if event.note %} · {{ event.note }}{% endif %}{% if event.actor %} <small class="muted">by {{ event.actor.full_name }}</small>{% endif %}</li>
+      {% empty %}
+        <li class="muted">Nothing yet.</li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock %}

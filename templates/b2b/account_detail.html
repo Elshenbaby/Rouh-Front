@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow">
+      <a href="{% url 'ui:desk' desk %}">{{ desk_spec.label }}</a>
+      · <a href="{% url 'b2b:accounts' %}?desk={{ desk }}">{% trans "Raising" %}</a>
+    </p>
+    <h1>{{ account.account_name }}</h1>
+    <p class="lede">
+      {{ account.lc_display_name|default:_("Unmapped LC") }}
+      · {{ account.product_label }}
+      · {{ account.sheet_status }}
+    </p>
+  </header>
+
+  <div class="detail-grid">
+    <section class="card">
+      <h2>{% trans "Account" %}</h2>
+      <p class="muted">{% trans "From Soluo. Sync owns these cells." %}</p>
+      {% include "components/soluo_fields.html" with fields=soluo_fields %}
+      {% include "exchange/partials/raising_log.html" %}
+    </section>
+    <aside class="card">
+      <h2>{% trans "Raising work" %}</h2>
+      <p class="muted">{% trans "Status saves as soon as you change it. Comments go in the log." %}</p>
+      <form
+        method="post"
+        class="work-form"
+        hx-post="{% url 'b2b:account' account.pk %}?desk={{ desk }}"
+        hx-trigger="change"
+        hx-target="#raising-log"
+        hx-select="#raising-log"
+        hx-swap="outerHTML"
+      >
+        {% csrf_token %}
+        <input type="hidden" name="desk" value="{{ desk }}">
+        <input type="hidden" name="intent" value="status">
+        <label class="field">
+          <span>{% trans "Account Responsible" %}</span>
+          {{ form.assigned_to }}
+          <span class="muted">{% trans "LCP and VP can give this account to anyone on the desk. Team leaders only to their members." %}</span>
+        </label>
+        <label class="field">
+          <span>{% trans "Contact status" %}</span>
+          {{ form.contact_status }}
+        </label>
+        <label class="field">
+          <span>{% trans "Visit scheduled" %}</span>
+          {{ form.visit_scheduled }}
+        </label>
+        <label class="field">
+          <span>{% trans "Visit date" %}</span>
+          {{ form.visit_date }}
+          <span id="visit-cal-hint" class="muted">
+            {% if account.visit_date %}
+              <a href="{{ calendar_url }}">{% trans "Open on the calendar" %}</a>
+            {% else %}
+              {% trans "Pick a day — it appears on the desk calendar." %}
+              <a href="{{ calendar_url }}">{% trans "Open calendar" %}</a>
+            {% endif %}
+          </span>
+        </label>
+        <label class="field">
+          <span>{% trans "Visit done" %}</span>
+          {{ form.visit_done }}
+        </label>
+        <label class="field">
+          <span>{% trans "Slot raised" %}</span>
+          {{ form.slot_raised }}
+        </label>
+        <label class="field">
+          <span>{% trans "No. of opens" %}</span>
+          {{ form.opens_count }}
+        </label>
+        <label class="field">
+          <span>{% trans "Sub product" %}</span>
+          {{ form.sub_product }}
+        </label>
+        <label class="field">
+          <span>{% trans "Out of process" %}</span>
+          {{ form.process_status }}
+        </label>
+        <label class="field">
+          <span>{% trans "Reason" %}</span>
+          {{ form.out_of_process_reason }}
+        </label>
+        <p id="work-meta" class="muted">
+          {% trans "Assigned" %}: {{ account.assigned_at|date:"Y-m-d H:i"|default:"—" }}
+          · {% trans "Contacted" %}: {{ account.contacted_at|date:"Y-m-d H:i"|default:"—" }}
+          · {% trans "Visit" %}: {{ account.visit_done_at|date:"Y-m-d H:i"|default:"—" }}
+        </p>
+        {% if form.errors %}
+          <p class="alert alert-danger">{{ form.errors }}</p>
+        {% endif %}
+      </form>
+      <form
+        method="post"
+        class="comment-compose"
+        hx-post="{% url 'b2b:account' account.pk %}?desk={{ desk }}"
+        hx-target="#raising-log"
+        hx-swap="outerHTML"
+        hx-on::after-request="if (event.detail.successful) this.reset()"
+      >
+        {% csrf_token %}
+        <input type="hidden" name="desk" value="{{ desk }}">
+        <input type="hidden" name="intent" value="comment">
+        <label class="field">
+          <span>{% trans "Comment" %}</span>
+          <textarea name="comment" rows="4" placeholder="{% trans 'Write a comment' %}"></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary btn-md">{% trans "Add comment" %}</button>
+      </form>
+    </aside>
+  </div>
+{% endblock %}

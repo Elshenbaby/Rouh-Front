@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n mc_format %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'ui:desk' 'tm' %}">{% trans "Talent" %}</a> · {{ entity.short_name }}</p>
+    <h1>NES</h1>
+    <p class="lede">What {{ entity.short_name }}'s members said in the monthly NES: who answered, the NES itself and every question, next to Egypt's.</p>
+  </header>
+  {% include "tm/partials/tabs.html" %}
+
+  {% if not round %}
+    <section class="ops-panel">
+      <h2>No NES out yet</h2>
+      <p>The MC opens the NES at the start of each month, and everyone in {{ entity.short_name }} is told in Rouh (the bell). Their answers show here as they come in.</p>
+      {% if can_manage %}<p><a class="btn btn-secondary btn-sm" href="{% url 'mc:nes' %}">Open MC data › NES</a></p>{% endif %}
+    </section>
+  {% else %}
+    <div class="nes-bar">
+      <p class="rcr-back"><a href="{% url 'nes:lc' %}">← All months</a></p>
+      <h2 class="nes-scope">{{ round.month|date:"F Y" }}</h2>
+      <p class="nes-status">
+        {% if round.status == "live" %}<span class="nes-pill is-live">Open</span> until {{ round.close_at|date:"l j F, H:i" }} · <a href="{% url 'nes_public:form' round.token %}">the form</a> <button class="btn-link" type="button" onclick="navigator.clipboard.writeText('{{ request.scheme }}://{{ request.get_host }}{% url 'nes_public:form' round.token %}'); this.textContent='Link copied'">copy the link to share</button>
+        {% else %}<span class="nes-pill">Closed</span> on {{ round.close_at|date:"j F Y" }}{% endif %}
+        · <a href="{% url 'nes:lc_export' round.pk %}">Download the answers (CSV)</a>
+      </p>
+    </div>
+
+    {% include "nes/_results.html" with summary=summary egypt=egypt people=True %}
+
+    {% include "nes/_fill_ranking.html" %}
+
+    {% if trend|length > 1 %}
+      <section class="ops-panel">
+        <header class="ops-panel-head"><h2>Month by month</h2><p>{{ entity.short_name }}'s NES and how many answered, each round.</p></header>
+        <div class="table-wrap"><table class="table ops-table ops-compact">
+          <thead><tr><th>Month</th><th class="q-num">Answered</th><th class="q-num">NES</th><th class="q-num">Average score</th></tr></thead>
+          <tbody>{% for row in trend %}<tr><th scope="row"><a href="{% url 'nes:lc_round' row.round.pk %}">{{ row.round.month|date:"F Y" }}</a></th><td class="q-num">{{ row.count }}</td><td class="q-num">{% if row.nes.nes is None %}—{% else %}{% if row.nes.nes > 0 %}+{% endif %}{{ row.nes.nes }}{% endif %}</td><td class="q-num">{{ row.nes.average|default_if_none:"—" }}</td></tr>{% endfor %}</tbody>
+        </table></div>
+      </section>
+    {% endif %}
+  {% endif %}
+{% endblock %}

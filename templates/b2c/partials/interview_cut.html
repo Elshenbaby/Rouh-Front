@@ -1,0 +1,31 @@
+{% load i18n %}
+<section class="card">
+  <h2>{{ title }}</h2>
+  {% if blurb %}<p class="muted">{{ blurb }}</p>{% endif %}
+  <div class="table-wrap">
+    <table class="table table-dense">
+      <thead>
+        <tr>
+          <th>{{ header|default:title }}</th>
+          <th>{% trans "Completed" %}</th>
+          <th>{% trans "Back to process" %}</th>
+          <th>{% trans "Return rate" %}</th>
+          <th>{% trans "Average NPS" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+          <tr>
+            <td>{{ row.label }}</td>
+            <td>{{ row.n }}</td>
+            <td>{{ row.back }}</td>
+            <td>{{ row.back_rate_label }}</td>
+            <td>{{ row.avg_nps|default:"—" }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5">{% trans "Nothing here yet." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>

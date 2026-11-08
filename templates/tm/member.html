@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'tm:structure' %}">{% trans "Structure" %}</a></p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+  {% include "tm/partials/tabs.html" %}
+  <nav class="queue-tabs" aria-label="{% trans 'Member' %}">
+    <a class="queue-tab{% if member_tab == 'overview' %} is-active{% endif %}" href="{% url 'tm:member' snap.member.pk %}">{% trans "Overview" %}</a>
+    <a class="queue-tab{% if member_tab == 'performance' %} is-active{% endif %}" href="{% url 'tm:member' snap.member.pk %}?tab=performance">{% trans "Performance" %}</a>
+    <a class="queue-tab{% if member_tab == 'attendance' %} is-active{% endif %}" href="{% url 'tm:member' snap.member.pk %}?tab=attendance">{% trans "Attendance" %}</a>
+    {% if can_view_hr %}
+      <a class="queue-tab{% if member_tab == 'hr' %} is-active{% endif %}" href="{% url 'tm:member' snap.member.pk %}?tab=hr">{% trans "HR status" %}</a>
+    {% endif %}
+    <a class="queue-tab{% if member_tab == 'activity' %} is-active{% endif %}" href="{% url 'tm:member' snap.member.pk %}?tab=activity">{% trans "Activity" %}</a>
+  </nav>
+
+  {% if member_tab == 'overview' %}
+    <div class="metric-row">
+      <div class="metric-tile">
+        <p class="metric-label">{% trans "Function" %}</p>
+        <p class="metric-value" style="font-size: 1.6rem;">{% if snap.position %}{{ snap.position.get_function_display }}{% else %}—{% endif %}</p>
+      </div>
+      <div class="metric-tile">
+        <p class="metric-label">{% trans "Attendance" %}</p>
+        <p class="metric-value">{{ snap.attendance_display }}</p>
+      </div>
+      <div class="metric-tile">
+        <p class="metric-label">{% trans "%MAG" %}</p>
+        <p class="metric-value">{% if snap.performance_row %}{{ snap.performance_row.mag_display }}{% else %}—{% endif %}</p>
+      </div>
+      {% if can_view_hr %}
+      <div class="metric-tile">
+        <p class="metric-label">{% trans "HR" %}</p>
+        <p class="metric-value" style="font-size: 1.4rem;">
+          {% if snap.hr_step %}<span class="badge badge-{{ snap.hr_step.colour }}">{{ snap.hr_step.name }}</span>{% else %}—{% endif %}
+        </p>
+      </div>
+      {% endif %}
+    </div>
+    {% if snap.open_items %}
+      <section class="card">
+        <h2>{% trans "Open on other desks" %}</h2>
+        <ul class="plain-list">
+          {% for item in snap.open_items %}
+            <li>{{ item.desk }} · {{ item.label }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endif %}
+    <dl class="meta">
+      <div><dt>{% trans "Email" %}</dt><dd>{{ snap.member.email }}</dd></div>
+      <div><dt>{% trans "Role" %}</dt><dd>{% if snap.position %}{{ snap.position.role.name }}{% else %}—{% endif %}</dd></div>
+      <div><dt>{% trans "Team" %}</dt><dd>{% if snap.position and snap.position.team %}{{ snap.position.team.name }}{% else %}—{% endif %}</dd></div>
+      <div><dt>{% trans "Started" %}</dt><dd>{% if snap.position %}{{ snap.position.starts_on }}{% else %}—{% endif %}</dd></div>
+    </dl>
+  {% elif member_tab == 'performance' %}
+    {% if snap.performance %}
+      {% include "tm/partials/performance_table.html" with table=snap.performance %}
+    {% else %}
+      <p class="muted">{% trans "No performance row for this member this month." %}</p>
+    {% endif %}
+  {% elif member_tab == 'attendance' %}
+    <p>{% trans "This month" %}: {{ snap.attendance_display }}</p>
+  {% elif member_tab == 'hr' %}
+    {% if snap.hr_step %}<p><span class="badge badge-{{ snap.hr_step.colour }}">{{ snap.hr_step.name }}</span></p>{% endif %}
+    {% if can_change_hr %}<p><a class="btn" href="{% url 'tm:hr_change' snap.member.pk %}">{% trans "Change status" %}</a></p>{% endif %}
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{% trans "When" %}</th>
+            <th>{% trans "From" %}</th>
+            <th>{% trans "To" %}</th>
+            <th>{% trans "Reason" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for change in snap.history %}
+            <tr>
+              <td>{{ change.effective_on }}</td>
+              <td>{{ change.from_step.name|default:"—" }}</td>
+              <td>{{ change.to_step.name }}</td>
+              <td>{{ change.reason }}</td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="4">{% trans "No HR changes recorded." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% elif member_tab == 'activity' %}
+    <ul class="plain-list">
+      {% for event in snap.activity %}
+        <li>{{ event.occurred_at|date:"Y-m-d H:i" }} · {{ event.get_verb_display }} · {{ event.actor|default:"system" }} · {{ event.target_repr }}</li>
+      {% empty %}
+        <li>{% trans "No activity yet." %}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}

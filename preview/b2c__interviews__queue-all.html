@@ -1,0 +1,1224 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>Customer interviews · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "35P2Bn42hBZtERRi1i2c5jV9diwkZvOMKYDYFXFQduOXAvttLkt8oyDExrhPMiIP"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link is-active">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="35P2Bn42hBZtERRi1i2c5jV9diwkZvOMKYDYFXFQduOXAvttLkt8oyDExrhPMiIP">
+      <input type="hidden" name="next" value="/b2c/interviews/?queue=all">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="35P2Bn42hBZtERRi1i2c5jV9diwkZvOMKYDYFXFQduOXAvttLkt8oyDExrhPMiIP">
+      <input type="hidden" name="next" value="/b2c/interviews/?queue=all">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="35P2Bn42hBZtERRi1i2c5jV9diwkZvOMKYDYFXFQduOXAvttLkt8oyDExrhPMiIP">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page">
+        
+        
+  <header class="page-header">
+    <p class="eyebrow"><a href="desks__b2c.html">B2C</a></p>
+    <h1>Customer interviews</h1>
+    <p class="lede">Every OGX signup. Call them, capture the research answers, and send people back to process.</p>
+  </header>
+  
+
+  <nav class="tabs" aria-label="B2C lists">
+    <a class="tab" href="b2c.html">Analysis</a>
+    <a class="tab is-active" href="b2c__interviews.html">Interviews</a>
+    <a class="tab" href="b2c__accounts.html">Accounts</a>
+    <a class="tab" href="b2c__campus-access.html">Campuses</a>
+    <a class="tab" href="b2c__campaign-requests.html">Campaigns</a>
+  </nav>
+  
+  <nav class="queue-tabs" aria-label="Queues">
+    
+      <a class="queue-tab is-active" href="b2c__interviews__queue-all.html">Overall</a>
+    
+    
+    <a class="queue-tab" href="b2c__interviews__queue-mine.html">My work</a>
+    <a class="queue-tab" href="b2c__interviews.html">Unassigned</a>
+    
+      <a class="queue-tab" href="b2c__teams.html">Teams</a>
+    
+    
+      
+      <a class="queue-tab" href="b2c__interviews.html">Not yet contacted</a>
+      <a class="queue-tab" href="b2c__interviews.html">Completed</a>
+      <a class="queue-tab" href="b2c__interviews.html">Returning to process</a>
+      
+    
+  </nav>
+  
+
+
+
+  
+
+
+  <form method="get" class="filter-bar is-wide" hx-get="/b2c/interviews/" hx-target="#b2c-interviews" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
+    <input type="hidden" name="queue" value="all">
+    
+    
+    
+    <label class="field">
+      <span class="sr-only">Search</span>
+      <input type="search" name="q" value="" placeholder="Name, email, phone, campus or campaign">
+    </label>
+  </form>
+  <div id="b2c-interviews" x-data="{ selected: [] }">
+    <form method="post" action="#" class="assign-form">
+      <input type="hidden" name="csrfmiddlewaretoken" value="35P2Bn42hBZtERRi1i2c5jV9diwkZvOMKYDYFXFQduOXAvttLkt8oyDExrhPMiIP">
+      <input type="hidden" name="next" value="/b2c/interviews/?queue=all">
+      
+    
+      
+
+  <div class="assign-bar" x-show="selected.length" x-cloak role="region" aria-label="Assign selected rows">
+    <input type="hidden" name="queue" value="all">
+    <div class="assign-row">
+      <p class="assign-count"><strong x-text="selected.length"></strong> selected</p>
+      <button type="button" class="assign-clear" @click="selected = []; $root.querySelectorAll('input[type=checkbox]').forEach(el => el.checked = false)">Clear</button>
+
+      <span class="assign-divider" aria-hidden="true"></span>
+
+      <button type="submit" name="intent" value="me" class="assign-btn">Assign to me</button>
+
+      
+
+      
+
+      
+
+      <button type="submit" name="intent" value="unassign" class="assign-btn is-quiet">Unassign</button>
+    </div>
+
+    
+      <p class="assign-hint">Take these yourself, or give back the ones you hold.</p>
+    
+  </div>
+
+
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              
+                <th class="col-check">
+                  <label class="sr-only">Select all on this page</label>
+                  <input type="checkbox" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=person_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=person_ids]').forEach(el => el.checked = $event.target.checked)">
+                </th>
+              
+              <th>Assigned</th>
+              <th>EP</th>
+              <th>Product</th>
+              <th>LC</th>
+              <th>Campus</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Gender</th>
+              <th>Referral</th>
+              <th>Campaign</th>
+              <th>Signed up</th>
+              <th>Contacted B2C</th>
+              <th>Contacted OGX</th>
+              <th>Back to process</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="fcd4eb53-dc48-4e3d-9268-0f2d49d1d940" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="b2c__interviews__fcd4eb53-dc48-4e3d-9268-0f2d49d1d940.html">Hassan Hamdy</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Engineering</td>
+                <td>01000000012</td>
+                <td>sample12@example.org</td>
+                <td>—</td>
+                <td>Friend</td>
+                <td>Summer campaign</td>
+                <td>2026-11-03</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="39403d3c-acdd-4336-927e-39a265b52621" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="b2c__interviews__39403d3c-acdd-4336-927e-39a265b52621.html">Hassan Hamdy</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Engineering</td>
+                <td>01000000032</td>
+                <td>sample32@example.org</td>
+                <td>—</td>
+                <td>Friend</td>
+                <td>Summer campaign</td>
+                <td>2026-11-02</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="4198d3c0-0a63-479d-8af8-d58c342e7669" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Youssef Samir</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>—</td>
+                <td>01000000003</td>
+                <td>sample3@example.org</td>
+                <td>—</td>
+                <td>Facebook</td>
+                <td>—</td>
+                <td>2026-11-01</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="7984f9f0-f24d-423f-9b44-e0f31306d616" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Hana Fathy</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Arts</td>
+                <td>01000000026</td>
+                <td>sample26@example.org</td>
+                <td>—</td>
+                <td>Instagram</td>
+                <td>Instagram push</td>
+                <td>2026-10-31</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="704eb3c6-2212-4f6b-8b3f-34fb3f9b4fde" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Omar Wagdy</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Commerce</td>
+                <td>01000000021</td>
+                <td>sample21@example.org</td>
+                <td>—</td>
+                <td>Instagram</td>
+                <td>Campus booth week</td>
+                <td>2026-10-31</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="c71e12e3-e572-4991-b71c-3eac6389c42b" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Adam Nabil</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Commerce</td>
+                <td>01000000009</td>
+                <td>sample9@example.org</td>
+                <td>—</td>
+                <td>—</td>
+                <td>Campus booth week</td>
+                <td>2026-10-31</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="3b94262c-3ebb-4b5c-b278-e5aefcd1b22c" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Tarek Fathy</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Engineering</td>
+                <td>01000000016</td>
+                <td>sample16@example.org</td>
+                <td>—</td>
+                <td>Instagram</td>
+                <td>Summer campaign</td>
+                <td>2026-10-30</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="f6b8192f-7128-4318-b25e-7eb2346475fd" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Mariam Ezzat</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Engineering</td>
+                <td>01000000004</td>
+                <td>sample4@example.org</td>
+                <td>—</td>
+                <td>—</td>
+                <td>Summer campaign</td>
+                <td>2026-10-29</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="2563160d-4997-4db1-87bd-0d57d0428fba" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Ali Sherif</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Arts</td>
+                <td>01000000018</td>
+                <td>sample18@example.org</td>
+                <td>—</td>
+                <td>Facebook</td>
+                <td>Instagram push</td>
+                <td>2026-10-27</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="6826db51-6202-48b3-b22b-7e06fcdf4610" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Jana Samir</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Commerce</td>
+                <td>01000000013</td>
+                <td>sample13@example.org</td>
+                <td>—</td>
+                <td>Facebook</td>
+                <td>Campus booth week</td>
+                <td>2026-10-27</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="4a25c3d7-257e-4b47-958e-6b82260c79e2" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Hana Fathy</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Arts</td>
+                <td>01000000006</td>
+                <td>sample6@example.org</td>
+                <td>—</td>
+                <td>Instagram</td>
+                <td>Instagram push</td>
+                <td>2026-10-26</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="ee83ce5f-2d74-4de3-9968-287cfd71e0de" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Youssef Samir</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>—</td>
+                <td>01000000023</td>
+                <td>sample23@example.org</td>
+                <td>—</td>
+                <td>Facebook</td>
+                <td>—</td>
+                <td>2026-10-23</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="38a716cc-f97a-4acc-9938-24e8623f47ab" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Seif Ezzat</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Arts</td>
+                <td>01000000034</td>
+                <td>sample34@example.org</td>
+                <td>—</td>
+                <td>—</td>
+                <td>Instagram push</td>
+                <td>2026-10-21</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="cdb04440-27df-4afa-86d2-7cc6f6cacf7a" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Omar Wagdy</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Commerce</td>
+                <td>01000000001</td>
+                <td>sample1@example.org</td>
+                <td>—</td>
+                <td>Instagram</td>
+                <td>Campus booth week</td>
+                <td>2026-10-19</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="fdfc19df-d28f-4d0e-ad7b-50ea68bafafd" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Malak Wagdy</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>—</td>
+                <td>01000000011</td>
+                <td>sample11@example.org</td>
+                <td>—</td>
+                <td>Instagram</td>
+                <td>—</td>
+                <td>2026-10-11</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="bfc1ed59-4e36-44e4-845e-4c0f50045fc2" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Malak Wagdy</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>—</td>
+                <td>01000000031</td>
+                <td>sample31@example.org</td>
+                <td>—</td>
+                <td>Instagram</td>
+                <td>—</td>
+                <td>2026-10-10</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="2f321f2d-1e78-4fda-9257-65d4390406d3" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Mariam Ezzat</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Engineering</td>
+                <td>01000000024</td>
+                <td>sample24@example.org</td>
+                <td>—</td>
+                <td>—</td>
+                <td>Summer campaign</td>
+                <td>2026-10-10</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="178f1c73-a219-40ab-909e-f71f00f5f79d" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Dina Galal</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Commerce</td>
+                <td>01000000017</td>
+                <td>sample17@example.org</td>
+                <td>—</td>
+                <td>Friend</td>
+                <td>Campus booth week</td>
+                <td>2026-10-08</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="fbeddd41-f09f-4831-82dd-8860e2052fac" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Ziad Galal</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>—</td>
+                <td>01000000007</td>
+                <td>sample7@example.org</td>
+                <td>—</td>
+                <td>Friend</td>
+                <td>—</td>
+                <td>2026-09-22</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="92d42eb5-c3ee-4bcb-a786-214ac165f43c" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Adam Nabil</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Commerce</td>
+                <td>01000000029</td>
+                <td>sample29@example.org</td>
+                <td>—</td>
+                <td>—</td>
+                <td>Campus booth week</td>
+                <td>2026-09-18</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="8c15099f-d68d-4457-9ba2-7c300157e9ae" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Salma Hamdy</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Arts</td>
+                <td>01000000002</td>
+                <td>sample2@example.org</td>
+                <td>—</td>
+                <td>Friend</td>
+                <td>Instagram push</td>
+                <td>2026-09-18</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="4c58e0c1-309f-4212-a1f6-f8989f92d2b8" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Seif Ezzat</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Arts</td>
+                <td>01000000014</td>
+                <td>sample14@example.org</td>
+                <td>—</td>
+                <td>—</td>
+                <td>Instagram push</td>
+                <td>2026-09-13</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="a54c7f2c-61e3-4e72-873f-fec69075620a" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Yara Nabil</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>—</td>
+                <td>01000000019</td>
+                <td>sample19@example.org</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td>2026-08-29</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="c1d1c200-20ba-43a7-b966-b037b3ead8f8" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Jana Samir</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Commerce</td>
+                <td>01000000033</td>
+                <td>sample33@example.org</td>
+                <td>—</td>
+                <td>Facebook</td>
+                <td>Campus booth week</td>
+                <td>2026-08-28</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="ad13fd51-138a-4adf-ba84-b8e01e079980" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Salma Hamdy</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Arts</td>
+                <td>01000000022</td>
+                <td>sample22@example.org</td>
+                <td>—</td>
+                <td>Friend</td>
+                <td>Instagram push</td>
+                <td>2026-08-27</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="1be89cc7-3c6b-4e8b-a6a9-64aa346db9ce" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Ziad Galal</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>—</td>
+                <td>01000000027</td>
+                <td>sample27@example.org</td>
+                <td>—</td>
+                <td>Friend</td>
+                <td>—</td>
+                <td>2026-08-26</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="b565bc47-ae7c-4010-8499-67cf05a93ae0" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Laila Sherif</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Engineering</td>
+                <td>01000000028</td>
+                <td>sample28@example.org</td>
+                <td>—</td>
+                <td>Facebook</td>
+                <td>Summer campaign</td>
+                <td>2026-08-25</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+              <tr>
+                
+                  <td class="col-check">
+                    <input type="checkbox" name="person_ids" value="9a0e85d8-4ddd-48df-8f86-ae05a68fa003" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                  </td>
+                
+                <td>
+                  
+                    <span class="owner-empty">Unassigned</span>
+                  
+                </td>
+                <td><a href="#not-in-preview">Laila Sherif</a><div>
+</div></td>
+                <td>oGV</td>
+                <td>Cairo University</td>
+                <td>Faculty of Engineering</td>
+                <td>01000000008</td>
+                <td>sample8@example.org</td>
+                <td>—</td>
+                <td>Facebook</td>
+                <td>Summer campaign</td>
+                <td>2026-08-25</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="badge badge-signed_up">Signed up</span></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      </div>
+    </form>
+    
+  </div>
+
+      </main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+</body>
+</html>

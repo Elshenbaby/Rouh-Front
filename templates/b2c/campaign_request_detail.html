@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'b2c:campaign_requests' %}">{% trans "Campaign requests" %}</a></p>
+    <h1>{{ campaign.name }}</h1>
+    <p class="lede">
+      {{ campaign.lc_display_name }}
+      · {{ campaign.get_campaign_type_display }}
+      · <span class="badge badge-{{ campaign.status_badge }}">{{ campaign.get_status_display }}</span>
+      {% if campaign.campus_name %} · {{ campaign.campus_name }}{% endif %}
+    </p>
+  </header>
+  {% include "b2c/partials/tabs.html" %}
+  <div class="detail-grid">
+    <section class="card">
+      <h2>{% trans "Requisition" %}</h2>
+      {% if can_edit %}
+        <form method="post" class="work-form campaign-form">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="save">
+          <div class="field is-wide">
+            <span>{{ form.campaign_type.label }}</span>
+            <div class="choice-pills">{{ form.campaign_type }}</div>
+            {{ form.campaign_type.errors }}
+          </div>
+          <label class="field"><span>{{ form.name.label }}</span>{{ form.name }}{{ form.name.errors }}</label>
+          <label class="field"><span>{{ form.campus_name.label }}</span>{{ form.campus_name }}</label>
+          <label class="field"><span>{{ form.starts_on.label }}</span>{{ form.starts_on }}{{ form.starts_on.errors }}</label>
+          <label class="field"><span>{{ form.expected_delegation.label }}</span>{{ form.expected_delegation }}</label>
+          <label class="field"><span>{{ form.expected_signups.label }}</span>{{ form.expected_signups }}</label>
+          <label class="field"><span>{{ form.oc_count.label }}</span>{{ form.oc_count }}</label>
+          <label class="field is-wide"><span>{{ form.selling_projects.label }}</span>{{ form.selling_projects }}</label>
+          <label class="field is-wide"><span>{{ form.selling_countries.label }}</span>{{ form.selling_countries }}</label>
+          <label class="field is-wide"><span>{{ form.materials.label }}</span>{{ form.materials }}</label>
+          <label class="field"><span>{{ form.oc_summit.label }}</span>{{ form.oc_summit }}</label>
+          <label class="field"><span>{{ form.ppt.label }}</span>{{ form.ppt }}</label>
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">{% trans "Update request" %}</button>
+          </div>
+        </form>
+      {% else %}
+        <dl class="kv">
+          <div><dt>{% trans "Date" %}</dt><dd>{{ campaign.date_display|default:"—" }}</dd></div>
+          <div><dt>{% trans "# Expected delegation" %}</dt><dd>{{ campaign.expected_delegation|default:"—" }}</dd></div>
+          <div><dt>{% trans "# SUs" %}</dt><dd>{{ campaign.expected_signups|default:"—" }}</dd></div>
+          <div><dt>{% trans "# OC" %}</dt><dd>{{ campaign.oc_count|default:"—" }}</dd></div>
+          <div><dt>{% trans "Selling projects" %}</dt><dd>{{ campaign.selling_projects|default:"—"|linebreaksbr }}</dd></div>
+          <div><dt>{% trans "Selling countries" %}</dt><dd>{{ campaign.selling_countries|default:"—"|linebreaksbr }}</dd></div>
+          <div><dt>{% trans "Materials" %}</dt><dd>{{ campaign.materials|default:"—"|linebreaksbr }}</dd></div>
+          <div><dt>{% trans "OC summit" %}</dt><dd>{{ campaign.oc_summit|default:"—"|linebreaksbr }}</dd></div>
+          <div><dt>{% trans "PPT / deck" %}</dt><dd>{{ campaign.ppt|default:"—"|linebreaksbr }}</dd></div>
+        </dl>
+      {% endif %}
+    </section>
+    <section class="card">
+      <h2>{% trans "Campaign link" %}</h2>
+      {% if campaign.campaign_link %}
+        <p><a class="btn btn-primary" href="{{ campaign.campaign_link }}" rel="noopener noreferrer" target="_blank">{% trans "Open campaign link" %}</a></p>
+        <p class="muted">{{ campaign.campaign_link }}</p>
+      {% else %}
+        <p class="muted">{% trans "No link yet. MCVP adds it when the request is approved." %}</p>
+      {% endif %}
+      <p class="muted">
+        {% trans "Requested by" %}: {{ campaign.requested_by.full_name|default:"—" }}
+        · {{ campaign.requested_at|date:"Y-m-d H:i"|default:"—" }}
+      </p>
+      {% if campaign.approved_by %}
+        <p class="muted">
+          {% trans "MCVP" %}: {{ campaign.approved_by.full_name }}
+          · {{ campaign.approved_at|date:"Y-m-d H:i"|default:"—" }}
+        </p>
+      {% endif %}
+      {% if campaign.mcvp_comment %}
+        <p>{{ campaign.mcvp_comment|linebreaksbr }}</p>
+      {% endif %}
+      {% if campaign.rejection_reason %}
+        <p class="form-error">{{ campaign.rejection_reason|linebreaksbr }}</p>
+      {% endif %}
+      {% if can_approve %}
+        <form method="post" class="work-form">
+          {% csrf_token %}
+          <label class="field"><span>{{ review.campaign_link.label }}</span>{{ review.campaign_link }}</label>
+          {{ review.campaign_link.errors }}
+          <label class="field"><span>{{ review.mcvp_comment.label }}</span>{{ review.mcvp_comment }}</label>
+          <label class="field"><span>{{ review.rejection_reason.label }}</span>{{ review.rejection_reason }}</label>
+          {{ review.rejection_reason.errors }}
+          {{ review.non_field_errors }}
+          <div class="btn-row">
+            <button class="btn btn-primary" type="submit" name="action" value="approve">{% trans "Approve and give link" %}</button>
+            <button class="btn" type="submit" name="action" value="reject">{% trans "Reject" %}</button>
+          </div>
+        </form>
+      {% endif %}
+    </section>
+  </div>
+{% endblock %}

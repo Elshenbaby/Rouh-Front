@@ -1,0 +1,22 @@
+{% extends "account/email/rouh_base.html" %}
+{% block title %}You're invited to Rouh{% endblock %}
+{% block preheader %}{{ inviter }} invited you to Rouh. Finish your setup in a minute.{% endblock %}
+{% block eyebrow %}AIESEC in Egypt{% if lc %} · {{ lc.name }}{% endif %}{% endblock %}
+{% block heading %}You're invited to Rouh{% endblock %}
+{% block body %}
+  <p style="margin:0 0 16px;">Hi{% if name %} {{ name }}{% endif %},</p>
+  <p style="margin:0 0 16px;"><strong style="color:#000000;">{{ inviter }}</strong> invited you to Rouh, AIESEC in Egypt's CRM{% if lc %}, as part of <strong style="color:#000000;">{{ lc.name }}</strong>{% endif %}.</p>
+  <p style="margin:0 0 24px;">Finish your setup: confirm your name and choose a password for <strong style="color:#000000;">{{ email }}</strong>. Then you're in.</p>
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px;">
+    <tr>
+      <td style="background:#d84d2b;">
+        <a href="{{ link }}" style="display:inline-block;padding:14px 26px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#ffffff;text-decoration:none;">Finish my setup</a>
+      </td>
+    </tr>
+  </table>
+  <p style="margin:0 0 8px;">The link works for {{ days }} days, until you set your password.</p>
+{% endblock %}
+{% block fineprint %}
+  <p style="margin:0 0 8px;">Not expecting this? Ignore this email; nothing happens without you.</p>
+  <p style="margin:0;">Button not working? Paste this into your browser:<br><a href="{{ link }}" style="color:#d84d2b;word-break:break-all;">{{ link }}</a></p>
+{% endblock %}

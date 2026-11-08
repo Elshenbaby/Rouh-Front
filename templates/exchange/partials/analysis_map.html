@@ -1,0 +1,91 @@
+{% load i18n %}
+{% if analysis.country_rows %}
+<section class="dash-section">
+  <h2>{% trans "IR analysis" %}</h2>
+  <p class="muted">{% if analysis.is_icx %}{% trans "Applications by home MC. The map colours follow volume, red to green." %}{% else %}{% trans "Applications by host country. The map colours follow volume, red to green." %}{% endif %}</p>
+  <div class="dash-ir">
+    {% for row in analysis.country_tiles %}
+      <button
+        type="submit"
+        class="dash-ir-tile{% if analysis.query.host == row.key %} is-on{% endif %}"
+        form="analysis-filters"
+        name="host"
+        value="{{ row.key }}"
+      >
+        <span class="dash-ir-flag" aria-hidden="true">{{ row.flag }}</span>
+        <span class="dash-ir-name">{{ row.label }}</span>
+        <span class="dash-ir-n">{{ row.apps }}</span>
+      </button>
+    {% endfor %}
+  </div>
+  <div class="dash-map">
+    <svg class="dash-world" viewBox="0 0 1000 500" role="img" aria-label="{% trans 'World map of host countries' %}">
+      <style>
+        {% for iso, fill in analysis.map_fills.items %}
+        #c-{{ iso }} { fill: {{ fill }}; }
+        {% endfor %}
+      </style>
+      {% include "exchange/partials/world_paths.svg" %}
+    </svg>
+    <div class="dash-scale" aria-hidden="true">
+      <span>1</span>
+      <span class="dash-scale-swatch" style="background:#c13206"></span>
+      <span class="dash-scale-swatch" style="background:#ead9c0"></span>
+      <span class="dash-scale-swatch" style="background:#004f32"></span>
+      <span>{{ analysis.country_peak }}</span>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>{% trans "Country" %}</th>
+          <th>{% trans "Apps" %}</th>
+          <th>{% trans "Accepted" %}</th>
+          <th>{% trans "Approved" %}</th>
+          <th>{% trans "Realized" %}</th>
+          <th>{% trans "People" %}</th>
+          <th>{% trans "APP → APD" %}</th>
+          <th>{% trans "APD → RE" %}</th>
+          <th>{% trans "Share" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in analysis.country_rows %}
+          <tr{% if analysis.query.host == row.key %} class="is-on"{% endif %}>
+            <td>{{ row.flag }} {{ row.label }}</td>
+            <td>{{ row.apps }}</td>
+            <td>{{ row.accepted }}</td>
+            <td>{{ row.approved }}</td>
+            <td>{{ row.realized }}</td>
+            <td>{{ row.people }}</td>
+            <td>{{ row.app_apd.label }}</td>
+            <td>{{ row.apd_re.label }}</td>
+            <td>{{ row.share_label }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endif %}
+
+{% if analysis.host_lc_tiles %}
+<section class="dash-section">
+  <h2>{% if analysis.is_icx %}{% trans "Home LCs" %}{% else %}{% trans "Host LCs" %}{% endif %}</h2>
+  <div class="dash-ir dash-ir-lc">
+    {% for row in analysis.host_lc_tiles %}
+      <button
+        type="submit"
+        class="dash-ir-tile dash-ir-lc-tile{% if analysis.query.host_lc == row.key %} is-on{% endif %}"
+        form="analysis-filters"
+        name="host_lc"
+        value="{{ row.key }}"
+      >
+        <span class="dash-ir-name">{{ row.label }}</span>
+        <span class="dash-ir-n">{{ row.apps }}</span>
+      </button>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

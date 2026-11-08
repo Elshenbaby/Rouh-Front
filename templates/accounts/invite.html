@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <h1>{% trans "Invite a member" %}</h1>
+    <p class="lede">{% trans "Invitation delivery (email + token) ships with Talent Management. This screen confirms you have permission to invite." %}</p>
+  </header>
+  <div class="empty">
+    <h2>{% trans "Coming in a later phase" %}</h2>
+    <p>{% trans "You can already manage members in Django Admin for support. LC-facing invite flow will use this permission." %}</p>
+    <a class="btn btn-secondary" href="{% url 'people:directory' %}">{% trans "Back to directory" %}</a>
+  </div>
+{% endblock %}

@@ -1,0 +1,7 @@
+<div class="empty">
+  <h2>{{ title }}</h2>
+  {% if body %}<p>{{ body }}</p>{% endif %}
+  {% if action_label and action_href %}
+    <a class="btn btn-primary" href="{{ action_href }}">{{ action_label }}</a>
+  {% endif %}
+</div>

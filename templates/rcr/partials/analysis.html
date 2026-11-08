@@ -1,0 +1,20 @@
+{% load mc_format %}
+<div class="table-wrap">
+  <table class="table ops-table ops-compact rcr-analysis">
+    <thead>
+      <tr><th>Campus</th>{% for code, label, color in analysis.channels %}<th class="q-num"><span class="mkt-swatch" style="background: {{ color }}"></span>{{ label }}</th>{% endfor %}<th class="q-num is-sum">Total</th></tr>
+    </thead>
+    <tbody>
+      {% for row in analysis.rows %}
+        <tr><th scope="row">{{ row.campus }}</th>{% for code, label, color in analysis.channels %}{% with v=row.channels|get_item:code %}<td class="q-num{% if not v %} muted{% endif %}">{{ v|default:0 }}</td>{% endwith %}{% endfor %}<td class="q-num is-sum"><strong>{{ row.total|count }}</strong></td></tr>
+      {% empty %}
+        <tr><td colspan="{{ analysis.channels|length|add:2 }}">No leads yet.</td></tr>
+      {% endfor %}
+    </tbody>
+    {% if analysis.rows %}
+    <tfoot>
+      <tr><th scope="row">Total{% if analysis.more %} <small class="muted">(+{{ analysis.more }} more campuses)</small>{% endif %}</th>{% for code, label, color in analysis.channels %}<td class="q-num"><strong>{{ analysis.totals|get_item:code|default:0 }}</strong></td>{% endfor %}<td class="q-num is-sum"><strong>{{ analysis.total|count }}</strong></td></tr>
+    </tfoot>
+    {% endif %}
+  </table>
+</div>

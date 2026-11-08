@@ -1,0 +1,8 @@
+{% load mc_format %}
+{% if page.paginator.num_pages > 1 %}
+<nav class="rcr-pager" aria-label="Pages">
+  {% if page.has_previous %}<a class="ops-chip" href="?{{ pq }}&page={{ page.previous_page_number }}">← Previous</a>{% endif %}
+  <span>Page {{ page.number }} of {{ page.paginator.num_pages }} · {{ page.paginator.count|count }} in all</span>
+  {% if page.has_next %}<a class="ops-chip" href="?{{ pq }}&page={{ page.next_page_number }}">Next →</a>{% endif %}
+</nav>
+{% endif %}

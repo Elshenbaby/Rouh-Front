@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'tm:attendance' %}">{% trans "Attendance" %}</a>{% if entity %} · {{ entity.short_name }}{% endif %}</p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+  {% include "tm/partials/tabs.html" %}
+  <section class="card tm-form-card">
+    <form method="post" class="work-form">
+      {% csrf_token %}
+      {% for field in form %}
+        <label class="field">
+          <span>{{ field.label }}</span>
+          {{ field }}
+          {{ field.errors }}
+        </label>
+      {% endfor %}
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit">{% trans "Create and mark" %}</button>
+        <a class="btn" href="{% url 'tm:attendance' %}">{% trans "Cancel" %}</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}

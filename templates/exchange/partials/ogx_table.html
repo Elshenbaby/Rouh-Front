@@ -1,0 +1,111 @@
+{% load i18n %}
+{% if is_htmx %}{% include "exchange/partials/ogx_metrics.html" with oob=True %}{% endif %}
+<form method="post" action="{% url 'exchange:desk_assign' desk %}" class="assign-form">
+  {% csrf_token %}
+  <input type="hidden" name="next" value="{{ request.get_full_path }}">
+  {% if assign.selected_team %}<input type="hidden" name="team" value="{{ assign.selected_team.pk }}">{% endif %}
+  {% if assign.selected_member %}<input type="hidden" name="who" value="{{ assign.selected_member.pk }}">{% endif %}
+  {% include "exchange/partials/assign_bar.html" %}
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          {% if assign.can_assign %}
+            <th class="col-check">
+              <label class="sr-only">{% trans "Select all on this page" %}</label>
+              <input type="checkbox" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=person_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=person_ids]').forEach(el => el.checked = $event.target.checked)">
+            </th>
+          {% endif %}
+          <th>{% trans "EP Manager" %}</th>
+          <th>{% trans "EP Name" %}</th>
+          {% if is_icx %}
+            <th>{% trans "Home LC" %}</th>
+            <th>{% trans "Home MC" %}</th>
+            <th>{% trans "Opportunity" %}</th>
+          {% else %}
+            <th>{% trans "LC" %}</th>
+          {% endif %}
+          <th>{% trans "Phone" %}</th>
+          <th>{% trans "Contact" %}</th>
+          {% if is_icx %}
+            <th>{% trans "Interviewed" %}</th>
+          {% else %}
+            <th>{% trans "Interested" %}</th>
+          {% endif %}
+          <th>{% trans "Comment" %}</th>
+          <th>{% trans "Status" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for person in page %}
+          <tr>
+            {% if assign.can_assign %}
+              <td class="col-check">
+                <input type="checkbox" name="person_ids" value="{{ person.pk }}" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+              </td>
+            {% endif %}
+            <td>
+              {% if person.assigned_to %}
+                {{ person.assigned_to.full_name }}
+              {% else %}
+                <span class="owner-empty">{% trans "Unassigned" %}</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if list_stage == "applicants" %}
+                <a href="{% url 'exchange:person_applications' person.pk %}">{{ person.full_name }}</a>
+                <div><a class="status-link-hint" href="{% url 'exchange:person_detail' person.pk %}">{% if is_icx %}{% trans "Open consideration" %}{% else %}{% trans "Open signup" %}{% endif %} →</a></div>
+              {% else %}
+                <a href="{% url 'exchange:person_detail' person.pk %}">{{ person.full_name }}</a>
+              {% endif %}
+              <div>{% include "exchange/partials/expa_person_link.html" with expa_id=person.expa_id only %}</div>
+            </td>
+            {% if is_icx %}
+              <td>{{ person.sending_lc|default:"—" }}</td>
+              <td>{{ person.sending_mc|default:"—" }}</td>
+              <td>{{ person.listed_title|default:"—" }}</td>
+            {% else %}
+              <td>{{ person.lc_display_name|default:"—" }}</td>
+            {% endif %}
+            <td>{{ person.phone|default:"—" }}</td>
+            <td>{{ person.get_contact_status_display|default:"—" }}</td>
+            {% if is_icx %}
+              <td>{{ person.get_interviewed_display|default:"—" }}</td>
+            {% else %}
+              <td>{{ person.get_interested_display|default:"—" }}</td>
+            {% endif %}
+            <td class="note-cell">{{ person.latest_comment_body|default:"—" }}</td>
+            <td>
+              {% if list_stage == "applicants" and person.has_apd %}
+                <a class="status-link" href="{% url 'exchange:person_approval' person.pk %}">
+                  <span class="badge badge-{{ person.process_status|default:person.funnel_status }}">{{ person.sheet_status }}</span>
+                  <span class="status-link-hint">{% trans "Open approval" %} →</span>
+                </a>
+              {% elif person.has_applied %}
+                <a class="status-link" href="{% url 'exchange:person_applications' person.pk %}">
+                  <span class="badge badge-{{ person.process_status|default:person.funnel_status }}">{{ person.sheet_status }}</span>
+                  <span class="status-link-hint">{% trans "Open applications" %} →</span>
+                </a>
+              {% else %}
+                <span class="badge badge-{{ person.process_status|default:person.funnel_status }}">{{ person.sheet_status }}</span>
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="{% if assign.can_assign %}{% if is_icx %}11{% else %}9{% endif %}{% else %}{% if is_icx %}10{% else %}8{% endif %}{% endif %}">{% if list_stage == "applicants" %}{% trans "No applicants in this queue yet." %}{% elif is_icx %}{% trans "No applications in this queue yet." %}{% else %}{% trans "No signups in this queue yet." %}{% endif %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</form>
+{% if page.has_other_pages %}
+  <nav class="pager">
+    {% if page.has_previous %}
+      <a href="?{{ queue_query }}&page={{ page.previous_page_number }}" hx-get="?{{ queue_query }}&page={{ page.previous_page_number }}" hx-target="#ogx-table">{% trans "Previous" %}</a>
+    {% endif %}
+    <span>{% blocktrans with n=page.number total=page.paginator.num_pages %}Page {{ n }} of {{ total }}{% endblocktrans %}</span>
+    {% if page.has_next %}
+      <a href="?{{ queue_query }}&page={{ page.next_page_number }}" hx-get="?{{ queue_query }}&page={{ page.next_page_number }}" hx-target="#ogx-table">{% trans "Next" %}</a>
+    {% endif %}
+  </nav>
+{% endif %}

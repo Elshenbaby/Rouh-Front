@@ -1,0 +1,4 @@
+<li class="rcr-shift-chip{% if slot.attended %} is-attended{% endif %}" data-card data-key="slot" data-id="{{ slot.pk }}" data-extra='{"action": "move"}' title="Drag to another day, or to the bin to remove">
+  <span class="rcr-shift-name">{{ slot.member.full_name|truncatechars:16 }}</span>
+  <button type="button" class="rcr-shift-btn" aria-label="{% if slot.attended %}Attended. Undo{% else %}Mark {{ slot.member.full_name }} attended{% endif %}" title="{% if slot.attended %}Attended. Click to undo{% else %}Mark attended{% endif %}" hx-post="{% url 'rcr:shift_drop' cycle.slug %}" hx-vals='{"action": "toggle", "slot": "{{ slot.pk }}"}' hx-target="closest [data-card]" hx-swap="outerHTML">✓</button>
+</li>

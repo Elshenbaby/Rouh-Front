@@ -1,0 +1,56 @@
+{% load i18n %}
+{% if assign.can_assign %}
+  <div class="assign-bar" x-show="selected.length" x-cloak role="region" aria-label="{% trans 'Assign selected rows' %}">
+    <input type="hidden" name="queue" value="{{ assign.queue }}">
+    <div class="assign-row">
+      <p class="assign-count"><strong x-text="selected.length"></strong> {% trans "selected" %}</p>
+      <button type="button" class="assign-clear" @click="selected = []; $root.querySelectorAll('input[type=checkbox]').forEach(el => el.checked = false)">{% trans "Clear" %}</button>
+
+      <span class="assign-divider" aria-hidden="true"></span>
+
+      <button type="submit" name="intent" value="me" class="assign-btn">{% trans "Assign to me" %}</button>
+
+      {% if assign.show_team_picker %}
+        <div class="assign-combo" x-data="{ pick: '' }">
+          <label class="sr-only" for="assign-team-pick">{% trans "Send to a team" %}</label>
+          <select id="assign-team-pick" name="assign_team" x-model="pick">
+            <option value="">{% trans "Send to a team…" %}</option>
+            {% for team in assign.teams %}
+              <option value="{{ team.pk }}">{{ team.name }}{% if not assign.entity and team.entity %} · {{ team.entity.short_name }}{% endif %}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" name="intent" value="team" class="assign-btn is-primary" :disabled="!pick">{% trans "Send" %}</button>
+        </div>
+      {% endif %}
+
+      {% if assign.show_person_picker %}
+        <div class="assign-combo" x-data="{ pick: '' }">
+          <label class="sr-only" for="assign-person-pick">{{ assign.person_picker_label }}</label>
+          <select id="assign-person-pick" name="assignee" x-model="pick">
+            <option value="">{{ assign.person_picker_label }}…</option>
+            {% for group in assign.bar_groups %}
+              {% for item in group.people %}
+                <option value="{{ item.member.pk }}">{{ item.member.full_name }}{% if item.member.pk == assign.actor.pk %} ({% trans "you" %}){% elif item.role and item.role != "Member" %} · {{ item.role }}{% endif %}</option>
+              {% endfor %}
+            {% endfor %}
+          </select>
+          <button type="submit" name="intent" value="member" class="assign-btn is-primary" :disabled="!pick">{% trans "Give" %}</button>
+        </div>
+      {% endif %}
+
+      {% if assign.can_distribute %}
+        <button type="submit" name="intent" value="distribute" class="assign-btn">{{ assign.distribute_label }}</button>
+      {% endif %}
+
+      <button type="submit" name="intent" value="unassign" class="assign-btn is-quiet">{% trans "Unassign" %}</button>
+    </div>
+
+    {% if assign.own_team_page_query %}
+      <p class="assign-hint">{% trans "To give work to your members, open your team:" %} <a href="{{ request.path }}?{{ assign.own_team_page_query }}{% if desk_spec and desk_spec.is_b2b %}&amp;desk={{ desk }}{% endif %}">{{ assign.team.name }}</a></p>
+    {% elif assign.show_team_picker %}
+      <p class="assign-hint">{% trans "Work goes to the team leader, who gives it to the team’s members." %}</p>
+    {% elif not assign.on_team_page %}
+      <p class="assign-hint">{% trans "Take these yourself, or give back the ones you hold." %}</p>
+    {% endif %}
+  </div>
+{% endif %}

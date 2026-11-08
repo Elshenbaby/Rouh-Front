@@ -1,0 +1,123 @@
+{% load mc_format rcr_tags %}
+<header class="rcr-drawer-head" data-drawer-lead="{{ lead.pk }}" data-drawer-url="{% url 'rcr:lead_drawer' cycle.slug lead.pk %}">
+  <p class="rcr-drawer-kicker"><i class="rcr-dot" style="background: {{ channel_colors|get_item:lead.channel|default:'#727272' }}"></i>{{ channel_labels|get_item:lead.channel|default:"Other" }}{% if lead.referral and lead.referral != channel_labels|get_item:lead.channel %} · {{ lead.referral }}{% endif %} · {{ lead.get_kind_display }}</p>
+  <h2>{{ lead.full_name }}</h2>
+  <p class="muted">{{ lead.university|default:"—" }}{% if lead.faculty %} · {{ lead.faculty }}{% endif %}{% if lead.graduation_year %} · class of {{ lead.graduation_year }}{% endif %}</p>
+  <div class="rcr-drawer-actions">
+    {% if lead.phone %}<a class="rcr-pill is-call" href="tel:{{ lead.phone|tel }}">Call {{ lead.phone }}</a><a class="rcr-pill is-wa" href="https://wa.me/{{ lead.phone|wa }}" target="_blank" rel="noopener">WhatsApp</a>{% endif %}
+    <a class="rcr-pill" href="{% url 'rcr:lead' cycle.slug lead.pk %}">Full page</a>
+  </div>
+</header>
+
+<ol class="rcr-mini-journey" aria-label="Where {{ lead.full_name }} is">
+  {% for p in phases %}<li class="{% if phase and p.number < phase.number %}is-done{% elif phase and p.number == phase.number %}is-now{% elif lead.stage == 'attended' %}is-done{% endif %}"><span>{{ p.number }}</span>{{ p.label }}</li>{% endfor %}
+</ol>
+<ol class="rcr-steps" aria-label="Move to">
+  {% for code, label in stages %}
+    <li><button type="button" class="{% if forloop.counter0 < lead.stage_rank %}is-done{% elif code == lead.stage %}is-now{% endif %}" title="{{ label }}"
+      data-step="{{ code }}" data-lead="{{ lead.pk }}" data-drawer="{% url 'rcr:lead_drawer' cycle.slug lead.pk %}"
+      hx-post="{% url 'rcr:lead_drop' cycle.slug %}" hx-vals='{"lead": "{{ lead.pk }}", "stage": "{{ code }}"}' hx-swap="none">{{ stage_short|get_item:code }}</button></li>
+  {% endfor %}
+</ol>
+<div class="rcr-out-row" aria-label="Out of the process">
+  {% if lead.outcome == "active" %}
+    <span>Out of the process:</span>
+    {% for code, label in out_lanes %}<button type="button" class="btn-link" data-step="{{ code }}" data-lead="{{ lead.pk }}" data-drawer="{% url 'rcr:lead_drawer' cycle.slug lead.pk %}" hx-post="{% url 'rcr:lead_drop' cycle.slug %}" hx-vals='{"lead": "{{ lead.pk }}", "outcome": "{{ code }}"}' hx-swap="none" hx-confirm="Mark {{ lead.full_name|escapejs }} as {{ label|lower }}?">{{ label }}</button>{% endfor %}
+  {% else %}
+    <span>{{ lead.get_outcome_display }}.</span>
+    <button type="button" class="btn-link" data-step="back" data-lead="{{ lead.pk }}" data-drawer="{% url 'rcr:lead_drawer' cycle.slug lead.pk %}" hx-post="{% url 'rcr:lead_drop' cycle.slug %}" hx-vals='{"lead": "{{ lead.pk }}", "stage": "{{ lead.stage }}"}' hx-swap="none">Back in the process</button>
+  {% endif %}
+</div>
+
+<section class="rcr-next{% if stuck %} is-stuck{% endif %}" aria-label="Next step">
+  <p class="rcr-next-label">Next step{% if stuck %} · <em>waiting {{ lead.stage_changed_at|default:lead.signed_up_at|since }}, longer than it should</em>{% endif %}</p>
+  <p class="rcr-next-text">{{ step.text }}</p>
+
+  {% if step.code == "book" or step.code == "confirm" %}
+    {% if slot %}
+      <p class="rcr-next-fact"><b>{{ slot.day|date:"l j M" }} · {{ slot.starts_at|time:"H:i" }}</b> · {{ slot.room }}{% if slot.place %} · {{ slot.place }}{% endif %}{% if slot.confirmation %} · {{ slot.get_confirmation_display }}{% endif %}</p>
+    {% endif %}
+    {% if free_slots %}
+      <p class="rcr-next-sub">{% if slot %}Move to another time:{% else %}Book a free slot:{% endif %}</p>
+      <div class="rcr-slot-picks">
+        {% for s in free_slots %}<button type="button" hx-post="{% url 'rcr:lead_action' cycle.slug lead.pk %}" hx-vals='{"action": "book", "slot": "{{ s.pk }}"}' hx-target="#rcr-drawer-body"><b>{{ s.day|date:"D j M" }}</b>{{ s.starts_at|time:"H:i" }}</button>{% endfor %}
+      </div>
+    {% elif not slot %}
+      <p class="muted">No free slots. <a href="{% url 'rcr:scheduling' cycle.slug %}">Add interview slots</a>.</p>
+    {% endif %}
+    {% if booking_url %}
+      <p class="rcr-next-sub">Or let them pick: <button type="button" class="btn-link" onclick="navigator.clipboard.writeText('{{ booking_url }}'); this.textContent='Link copied'">copy their booking link</button></p>
+    {% endif %}
+    <div class="rcr-drawer-actions"><a class="btn btn-primary btn-sm" href="{% url 'rcr:interview_new' cycle.slug %}?lead={{ lead.pk }}">Interview form</a><a class="btn btn-ghost btn-sm" href="{% url 'rcr:scheduling' cycle.slug %}{% if slot %}?week={{ slot.day|date:'Y-m-d' }}{% endif %}">Calendar</a></div>
+  {% elif step.code == "verdict" %}
+    {% if interview %}<p class="rcr-next-fact">Interview filled · score {{ interview.score|default:"—" }}{% if interview.cluster %} · cluster {{ interview.cluster }}{% endif %} · {{ interview.get_decision_display }}</p>{% endif %}
+    <div class="rcr-drawer-actions">
+      <a class="btn btn-primary btn-sm" href="{% if interview %}{% url 'rcr:interview' cycle.slug interview.pk %}{% else %}{% url 'rcr:interview_new' cycle.slug %}?lead={{ lead.pk }}{% endif %}">{% if interview %}Give the verdict{% else %}Fill the interview form{% endif %}</a>
+    </div>
+  {% elif step.code == "seat" %}
+    {% if gds %}
+      <p class="rcr-next-sub">Seat them in:</p>
+      <div class="rcr-slot-picks">{% for gd in gds %}<button type="button" hx-post="{% url 'rcr:lead_action' cycle.slug lead.pk %}" hx-vals='{"action": "seat", "gd": "{{ gd.pk }}"}' hx-target="#rcr-drawer-body"><b>{{ gd.name }}</b>{{ gd.day|date:"D j M"|default:"no date" }} · {{ gd.n }} in</button>{% endfor %}</div>
+    {% else %}
+      <p class="muted">No GD coming up. <a href="{% url 'rcr:gds' cycle.slug %}">Add one on the GD board</a>.</p>
+    {% endif %}
+    {% if seat %}<p class="rcr-next-fact">In <a href="{% url 'rcr:gd' cycle.slug seat.gd.pk %}">{{ seat.gd.name }}</a>{% if seat.gd.day %} on {{ seat.gd.day|date:"D j M" }}{% endif %}.</p>{% endif %}
+  {% elif step.code == "gd_result" %}
+    {% if seat %}<div class="rcr-drawer-actions"><a class="btn btn-primary btn-sm" href="{% url 'rcr:gd' cycle.slug seat.gd.pk %}">Open {{ seat.gd.name }}</a></div>{% endif %}
+  {% elif step.code == "pay" or step.code == "attend" %}
+    <div class="rcr-slot-picks">
+      {% if step.code == "pay" %}<button type="button" hx-post="{% url 'rcr:lead_action' cycle.slug lead.pk %}" hx-vals='{"action": "registered"}' hx-target="#rcr-drawer-body"><b>Registered</b>not paid yet</button>
+      <button type="button" class="is-go" hx-post="{% url 'rcr:lead_action' cycle.slug lead.pk %}" hx-vals='{"action": "paid"}' hx-target="#rcr-drawer-body"><b>Paid</b>for the conference</button>{% endif %}
+      <button type="button" class="is-go" hx-post="{% url 'rcr:lead_action' cycle.slug lead.pk %}" hx-vals='{"action": "attended"}' hx-target="#rcr-drawer-body"><b>At the conference</b>recruited</button>
+    </div>
+  {% endif %}
+</section>
+
+{% if messages %}
+<section class="rcr-msgs" aria-label="WhatsApp messages">
+  <p class="rcr-next-label">Message them</p>
+  {% for m in messages %}
+    <details class="rcr-msg{% if m.now %} is-now{% endif %}"{% if forloop.first %} open{% endif %}>
+      <summary>{{ m.title }}</summary>
+      <p>{{ m.text }}</p>
+      <a class="rcr-pill is-wa" href="{{ m.url }}" target="_blank" rel="noopener">Send on WhatsApp</a>
+    </details>
+  {% endfor %}
+</section>
+{% endif %}
+
+{% if lead.outcome != "active" %}<p class="rcr-outcome-banner">{{ lead.get_outcome_display }}</p>{% endif %}
+
+<details class="rcr-drawer-more"{% if step.code == "call" or step.code == "result" or saved %} open{% endif %}>
+  <summary>Phone call, recruiter & notes</summary>
+  <form class="rcr-drawer-form" hx-post="{% url 'rcr:lead_drawer' cycle.slug lead.pk %}" hx-target="#rcr-drawer-body" hx-trigger="change delay:300ms, submit">
+    <div class="rcr-chooser" role="radiogroup" aria-label="Phone call">
+      <span class="rcr-chooser-label">Phone call</span>
+      {% for code, label in phone_statuses %}<label class="{% if code == lead.phone_status %}is-on{% endif %}"><input type="radio" name="phone_status" value="{{ code }}"{% if code == lead.phone_status %} checked{% endif %}>{{ label }}</label>{% endfor %}
+    </div>
+    <div class="rcr-chooser" role="radiogroup" aria-label="Result">
+      <span class="rcr-chooser-label">Result</span>
+      {% for code, label in phone_results %}<label class="is-{{ code }}{% if code == lead.phone_result %} is-on{% endif %}"><input type="radio" name="phone_result" value="{{ code }}"{% if code == lead.phone_result %} checked{% endif %}>{{ label }}</label>{% endfor %}
+    </div>
+    <div class="rcr-chooser" role="radiogroup" aria-label="English level">
+      <span class="rcr-chooser-label">English</span>
+      {% for level in english_levels %}<label class="{% if level == lead.english_level %}is-on{% endif %}"><input type="radio" name="english_level" value="{{ level }}"{% if level == lead.english_level %} checked{% endif %}>{{ level }}</label>{% endfor %}
+    </div>
+    <label class="field"><span>Recruiter</span>
+      <select name="recruiter"><option value="">—</option>{% for m in recruiters %}<option value="{{ m.pk }}"{% if m.pk == lead.recruiter_id %} selected{% endif %}>{{ m.full_name }}</option>{% endfor %}</select>
+    </label>
+    {% if lead.phone_result == "rejected" or lead.rejection_reason %}<label class="field"><span>Reason of rejection</span><input name="rejection_reason" value="{{ lead.rejection_reason }}"></label>{% else %}<input type="hidden" name="rejection_reason" value="{{ lead.rejection_reason }}">{% endif %}
+    <label class="field-check rcr-switch"><input type="checkbox" name="location_sent"{% if lead.location_sent %} checked{% endif %}> <span>Interview location sent</span></label>
+    <label class="field"><span>Notes</span><textarea name="notes" rows="3" placeholder="What they said, when to call back…">{{ lead.notes }}</textarea></label>
+    <p class="rcr-saved" aria-live="polite">{% if saved %}Saved ✓{% else %}Changes save on their own.{% endif %}</p>
+  </form>
+</details>
+
+{% if events %}
+<details class="rcr-drawer-more">
+  <summary>History</summary>
+  <ul class="rcr-history is-mini">
+    {% for event in events %}<li><time>{{ event.created_at|since }}</time> {% if event.stage %}{{ event.get_stage_display }}{% endif %}{% if event.outcome %}{{ event.get_outcome_display }}{% endif %}{% if event.note %} · {{ event.note }}{% endif %}{% if event.actor %} <small class="muted">· {{ event.actor.full_name }}</small>{% endif %}</li>{% endfor %}
+  </ul>
+</details>
+{% endif %}

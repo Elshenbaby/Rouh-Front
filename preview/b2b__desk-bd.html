@@ -1,0 +1,422 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>BD dashboard · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "sxjYULDLarmgXT5MsMeY2m0Eby0or5JI9q7UYlez6kbKTxHXcOFUlBI9vHLTeSDL"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link is-active">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="sxjYULDLarmgXT5MsMeY2m0Eby0or5JI9q7UYlez6kbKTxHXcOFUlBI9vHLTeSDL">
+      <input type="hidden" name="next" value="/b2b/?desk=bd">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="sxjYULDLarmgXT5MsMeY2m0Eby0or5JI9q7UYlez6kbKTxHXcOFUlBI9vHLTeSDL">
+      <input type="hidden" name="next" value="/b2b/?desk=bd">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="sxjYULDLarmgXT5MsMeY2m0Eby0or5JI9q7UYlez6kbKTxHXcOFUlBI9vHLTeSDL">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page">
+        
+        
+  <header class="page-header row-between bd-head">
+    <div>
+      <p class="eyebrow"><a href="desks__bd.html">BD</a></p>
+      <h1>BD dashboard</h1>
+      <p class="lede">CU · LC term 26 · Feb – Jan. Money collected from partners, against the BD goal in the LC planning tools.</p>
+    </div>
+    <div class="bd-actions">
+      
+      <a class="btn btn-primary" href="b2b__cash-in__desk-bd.html">Log a cash in</a>
+    </div>
+  </header>
+  
+
+  <nav class="tabs" aria-label="B2B lists">
+    <a class="tab is-active" href="b2b__desk-bd.html">Dashboard</a>
+    
+    <a class="tab" href="b2b__cash-in__desk-bd.html">Cash in</a>
+    
+    <a class="tab" href="b2b__cash-in__ranking__desk-bd.html">Commission ranking</a>
+    <span class="tab-divider" aria-hidden="true"></span>
+    
+    
+    <a class="tab" href="b2b__accounts__desk-bd.html">Raising</a>
+    <a class="tab" href="b2b__calendar__desk-bd.html">Calendar</a>
+    
+      <a class="tab" href="b2b__teams__desk-bd.html">Teams</a>
+    
+  </nav>
+  
+
+
+
+  <nav class="queue-tabs bd-periods" aria-label="Period">
+    
+      <a class="queue-tab is-active" href="#not-in-preview">LC term 26 · Feb – Jan</a>
+    
+      <a class="queue-tab" href="#not-in-preview">26.1 · Feb – Jul</a>
+    
+      <a class="queue-tab" href="#not-in-preview">26.2 · Aug – Jan</a>
+    
+  </nav>
+
+  <section class="bd-hero">
+    <article class="bd-collected">
+      <p class="bd-kicker">Collected <span>EGP · approved cash-ins</span></p>
+      <p class="bd-big">0</p>
+      
+        <p class="bd-sub">No BD revenue goal in the planning tools for this selection.</p>
+      
+    </article>
+    <div class="bd-tiles">
+      <div class="bd-tile"><p>Deals</p><b>0</b><span>approved cash-ins</span></div>
+      <div class="bd-tile"><p>Average deal</p><b>—</b><span>EGP</span></div>
+      
+        <div class="bd-tile"><p>Partners</p><b>—</b><span>named on approved cash-ins</span></div>
+      
+      <a class="bd-tile is-waiting is-clear" href="b2b__cash-in__desk-bd_status-pending.html">
+        <p>Waiting for approval</p><b>0</b>
+        <span>0 cash-ins, not counted yet</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="bd-grid">
+    <article class="bd-panel bd-span-2">
+      <header><h2>Month by month</h2><p>Bars: approved cash-ins by collection month. Line: the BD plan. The chosen period is highlighted.</p></header>
+      <div class="bd-chart" data-bd-chart="months"></div>
+    </article>
+    <article class="bd-panel">
+      <header><h2>By event</h2><p>Where the money came from.</p></header>
+      
+        <p class="bd-empty">No approved cash-in in this period yet.</p>
+      
+    </article>
+  </section>
+
+  <section class="bd-grid">
+    
+    <article class="bd-panel">
+      <header><h2>From account to contract</h2><p>Soluo BD accounts worked in Rouh, and the deals that closed.</p></header>
+      <ul class="bd-funnel">
+        <li><span>Accounts</span><b>0</b></li>
+        <li><span>Contacted</span><b>0</b></li>
+        <li><span>Visited</span><b>0</b></li>
+        <li class="is-end"><span>Contracts (approved)</span><b>0</b></li>
+      </ul>
+      <p class="bd-foot"><a href="b2b__accounts__desk-bd.html">Open raising →</a> · <a href="b2b__calendar__desk-bd.html">Visits calendar →</a></p>
+    </article>
+    <article class="bd-panel bd-span-2">
+      <header><h2>Latest cash-ins</h2><p><a href="b2b__cash-in__desk-bd.html">All cash-ins →</a></p></header>
+      
+        <p class="bd-empty">No cash-in logged yet. <a href="b2b__cash-in__desk-bd.html">Log the first one →</a></p>
+      
+    </article>
+  </section>
+
+  <script id="bd-data" type="application/json">{"months": ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan"], "plan": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "collected": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null, null], "period": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]}</script>
+
+      </main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js" defer></script>
+  <script src="../static/js/bd.js?v=1" defer></script>
+
+</body>
+</html>

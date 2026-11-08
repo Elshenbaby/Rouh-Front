@@ -1,0 +1,99 @@
+{% load i18n %}
+<form method="post" action="{% url 'raising:assign' desk %}" class="assign-form">
+  {% csrf_token %}
+  <input type="hidden" name="next" value="{{ request.get_full_path }}">
+  {% if assign.selected_team %}<input type="hidden" name="team" value="{{ assign.selected_team.pk }}">{% endif %}
+  {% if assign.selected_member %}<input type="hidden" name="who" value="{{ assign.selected_member.pk }}">{% endif %}
+  {% include "exchange/partials/assign_bar.html" %}
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          {% if assign.can_assign %}
+            <th class="col-check">
+              <label class="sr-only">{% trans "Select all on this page" %}</label>
+              <input type="checkbox" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=account_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=account_ids]').forEach(el => el.checked = $event.target.checked)">
+            </th>
+          {% endif %}
+          <th>{% trans "Account Responsible" %}</th>
+          <th>{% trans "Account" %}</th>
+          <th>{% trans "Product" %}</th>
+          <th>{% trans "Phone" %}</th>
+          <th>{% trans "Contact" %}</th>
+          <th>{% trans "Visit" %}</th>
+          <th>{% trans "Slot raised" %}</th>
+          <th>{% trans "Opens" %}</th>
+          <th>{% trans "Comment" %}</th>
+          <th>{% trans "Status" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for account in page %}
+          <tr>
+            {% if assign.can_assign %}
+              <td class="col-check">
+                <input type="checkbox" name="account_ids" value="{{ account.pk }}" @change="selected = Array.from($root.querySelectorAll('[name=account_ids]:checked')).map(el => el.value)">
+              </td>
+            {% endif %}
+            <td>
+              {% if account.assigned_to %}
+                {{ account.assigned_to.full_name }}
+              {% else %}
+                <span class="owner-empty">{% trans "Unassigned" %}</span>
+              {% endif %}
+            </td>
+            <td>
+              <a href="{% url 'raising:detail' desk account.pk %}">{{ account.account_name }}</a>
+            </td>
+            <td>{{ account.product_label }}</td>
+            <td>{{ account.phone|default:"—" }}</td>
+            <td>{{ account.get_contact_status_display|default:"—" }}</td>
+            <td>
+              {% if account.visit_done == "yes" %}
+                {% trans "Done" %}{% if account.visit_date %} · {{ account.visit_date|date:"Y-m-d" }}{% endif %}
+              {% elif account.visit_scheduled == "yes" %}
+                {% trans "Scheduled" %}{% if account.visit_date %} · {{ account.visit_date|date:"Y-m-d" }}{% endif %}
+              {% else %}
+                —
+              {% endif %}
+            </td>
+            <td>{{ account.get_slot_raised_display|default:"—" }}</td>
+            <td>{{ account.opens_count|default:0 }}</td>
+            <td class="note-cell">{{ account.latest_comment_body|default:"—" }}</td>
+            <td>
+              <a class="status-link" href="{% url 'raising:detail' desk account.pk %}">
+                <span class="badge badge-{{ account.status_badge }}">{{ account.sheet_status }}</span>
+              </a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="{% if assign.can_assign %}11{% else %}10{% endif %}">
+              {% trans "No Soluo deals for this LC and product yet." %}
+              {% if last_sync %}
+                <span class="muted">
+                  {% if last_sync.error %}
+                    {% trans "Last Soluo pull failed:" %} {{ last_sync.error }}
+                  {% else %}
+                    {% trans "Last Soluo pull:" %} {{ last_sync.status }} · {{ last_sync.records_read }} {% trans "read" %} · {{ last_sync.records_upserted }} {% trans "saved" %}
+                  {% endif %}
+                </span>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</form>
+{% if page.has_other_pages %}
+  <nav class="pager">
+    {% if page.has_previous %}
+      <a href="?{{ queue_query }}&page={{ page.previous_page_number }}" hx-get="?{{ queue_query }}&page={{ page.previous_page_number }}" hx-target="#raising-table">{% trans "Previous" %}</a>
+    {% endif %}
+    <span>{% blocktrans with n=page.number total=page.paginator.num_pages %}Page {{ n }} of {{ total }}{% endblocktrans %}</span>
+    {% if page.has_next %}
+      <a href="?{{ queue_query }}&page={{ page.next_page_number }}" hx-get="?{{ queue_query }}&page={{ page.next_page_number }}" hx-target="#raising-table">{% trans "Next" %}</a>
+    {% endif %}
+  </nav>
+{% endif %}

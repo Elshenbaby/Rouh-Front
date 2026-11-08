@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'b2c:accounts' %}">{% trans "B2C accounts" %}</a></p>
+    <h1>{{ account.account_name }}</h1>
+    <p class="lede">
+      {{ account.lc_display_name|default:_("Unmapped LC") }}
+      · {{ account.product_label }}
+      · {{ account.sheet_status }}
+      {% if account.account_type %} · {{ account.account_type }}{% endif %}
+    </p>
+  </header>
+  {% include "b2c/partials/tabs.html" %}
+  <div class="detail-grid">
+    <section class="card">
+      <h2>{% trans "Account" %}</h2>
+      <p class="muted">{% trans "From Soluo. Sync owns these cells." %}</p>
+      {% include "components/soluo_fields.html" with fields=soluo_fields %}
+    </section>
+    <section class="card">
+      <h2>{% trans "Local work" %}</h2>
+      <p class="muted">{% trans "Status saves here. Soluo sync will not overwrite this work." %}</p>
+      <form method="post" class="work-form">
+        {% csrf_token %}
+        <label class="field"><span>{% trans "Account Responsible" %}</span>{{ form.assigned_to }}</label>
+        <label class="field"><span>{% trans "Contact" %}</span>{{ form.contact_status }}</label>
+        <label class="field"><span>{% trans "Out of process" %}</span>{{ form.process_status }}</label>
+        <label class="field"><span>{% trans "Reason" %}</span>{{ form.out_of_process_reason }}</label>
+        <label class="field"><span>{% trans "Comment" %}</span>{{ form.comment }}</label>
+        <p class="muted">
+          {% trans "Assigned" %}: {{ account.assigned_at|date:"Y-m-d H:i"|default:"—" }}
+          · {% trans "Contacted" %}: {{ account.contacted_at|date:"Y-m-d H:i"|default:"—" }}
+        </p>
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
+        </div>
+      </form>
+    </section>
+    <section class="card">
+      <h2>{% trans "Log" %}</h2>
+      {% for item in comments %}
+        <article class="log-item">
+          <p class="muted">{{ item.author.full_name|default:_("System") }} · {{ item.created_at|date:"Y-m-d H:i" }}</p>
+          <p>{{ item.body|linebreaksbr }}</p>
+        </article>
+      {% empty %}
+        <p class="muted">{% trans "No comments yet." %}</p>
+      {% endfor %}
+    </section>
+  </div>
+{% endblock %}

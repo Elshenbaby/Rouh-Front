@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  {% include "rcr/_chrome.html" %}
+
+  <section class="ops-panel rcr-month">
+    <header class="ops-panel-head rcr-head-row">
+      <div><h2>{{ month|date:"F Y" }}</h2><p>The MC's national steps, your LC's own, your GDs and interview days.{% if can_manage %} Click a day's number to add a step; change or remove your steps in the list below.{% endif %}</p></div>
+      <nav class="ops-time-presets"><a class="ops-chip" href="?month={{ prev_month|date:'Y-m' }}" aria-label="Month before">←</a><a class="ops-chip" href="?">This month</a><a class="ops-chip" href="?month={{ next_month|date:'Y-m' }}" aria-label="Month after">→</a></nav>
+    </header>
+    <div class="table-wrap">
+      <div class="rcr-month-grid">
+        {% for name in weekdays %}<div class="rcr-month-wd">{{ name }}</div>{% endfor %}
+        {% for week in weeks %}{% for cell in week %}
+          <div class="rcr-month-day{% if not cell.in_month %} is-out{% endif %}{% if cell.today %} is-today{% endif %}">
+            <span class="rcr-month-num">{% if can_manage %}<button type="button" class="btn-link" onclick="rcrStep('{{ cell.day|date:'Y-m-d' }}')" aria-label="Add a step on {{ cell.day|date:'j F' }}">{{ cell.day|date:"j" }}</button>{% else %}{{ cell.day|date:"j" }}{% endif %}</span>
+            <ul class="rcr-month-list">
+              {% for e in cell.events %}
+                {% if e.type == "gd" %}
+                  <li class="rcr-ev is-gd"><a href="{% url 'rcr:gd' cycle.slug e.pk %}">{{ e.title }}</a>{% if e.time %} <small>{{ e.time|time:"H:i" }}</small>{% endif %} <small>· {{ e.people }}</small></li>
+                {% elif e.type == "interviews" %}
+                  <li class="rcr-ev is-interviews"><a href="{% url 'rcr:scheduling' cycle.slug %}?week={{ cell.day|date:'Y-m-d' }}">{{ e.title }}</a></li>
+                {% else %}
+                  <li class="rcr-ev is-{{ e.kind }}{% if e.national %} is-national{% endif %}" title="{% if e.national %}National (the MC's){% else %}{{ entity.short_name }}{% endif %}">{% if not e.national and can_manage %}<a href="#step-{{ e.pk }}">{{ e.title }}</a>{% else %}{{ e.title }}{% endif %}</li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        {% endfor %}{% endfor %}
+      </div>
+    </div>
+    <p class="rcr-legend"><span class="rcr-key is-phase"></span>Phase <span class="rcr-key is-gd"></span>GD <span class="rcr-key is-conference"></span>Conference <span class="rcr-key is-deadline"></span>Deadline <span class="rcr-key is-interviews"></span>Interviews <span class="rcr-key is-national"></span>National</p>
+  </section>
+
+  {% if can_manage %}
+  <section class="ops-panel" id="steps">
+    <header class="ops-panel-head rcr-head-row">
+      <div><h2>{{ entity.short_name }}'s own steps</h2><p>Change a step's days or title and press Save. GD dates change on the GD's own page.</p></div>
+      <button class="btn btn-primary btn-sm" type="button" onclick="rcrStep('')">Add a step</button>
+    </header>
+    {% if own_steps %}
+      <div class="table-wrap">
+        <table class="table ops-table ops-compact rcr-steps-table">
+          <thead><tr><th scope="col">What</th><th scope="col">Kind</th><th scope="col">From</th><th scope="col">To</th><th scope="col" aria-label="Save or remove"></th></tr></thead>
+          <tbody>
+            {% for m in own_steps %}
+              <tr id="step-{{ m.pk }}">
+                <td><input form="step-form-{{ m.pk }}" name="title" value="{{ m.title }}" aria-label="What" required></td>
+                <td><select form="step-form-{{ m.pk }}" name="kind" aria-label="Kind">{% for code, label in kinds %}<option value="{{ code }}"{% if code == m.kind %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></td>
+                <td><input form="step-form-{{ m.pk }}" type="date" name="starts_on" value="{{ m.starts_on|date:'Y-m-d' }}" aria-label="From" required></td>
+                <td><input form="step-form-{{ m.pk }}" type="date" name="ends_on" value="{{ m.ends_on|date:'Y-m-d' }}" aria-label="To"></td>
+                <td class="rcr-row-actions">
+                  <form id="step-form-{{ m.pk }}" method="post">{% csrf_token %}<input type="hidden" name="action" value="edit"><input type="hidden" name="milestone" value="{{ m.pk }}"><button class="btn btn-secondary btn-sm" type="submit">Save</button></form>
+                  <form method="post" onsubmit="return confirm('Remove “{{ m.title|escapejs }}”?')">{% csrf_token %}<input type="hidden" name="action" value="remove"><input type="hidden" name="milestone" value="{{ m.pk }}"><button class="btn-link" type="submit">Remove</button></form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="muted">No steps of your own yet. Add info sessions, booths, deadlines…</p>
+    {% endif %}
+  </section>
+
+  <dialog class="rcr-dialog" id="rcr-step">
+    <form method="post" class="rcr-form">
+      {% csrf_token %}
+      <h2>Add a step for {{ entity.short_name }}</h2>
+      <label class="field"><span>What</span><input id="tl-title" name="title" required placeholder="Info session at the Faculty of Engineering"></label>
+      <div class="rcr-form-grid">
+        <label class="field"><span>Kind</span><select id="tl-kind" name="kind">{% for code, label in kinds %}<option value="{{ code }}">{{ label }}</option>{% endfor %}</select></label>
+        <label class="field"><span>From</span><input id="tl-start" type="date" name="starts_on" required></label>
+        <label class="field"><span>To (optional)</span><input id="tl-end" type="date" name="ends_on"></label>
+      </div>
+      <div class="btn-row"><button class="btn btn-primary btn-sm" type="submit">Add</button><button class="btn btn-ghost btn-sm" type="button" onclick="this.closest('dialog').close()">Cancel</button></div>
+    </form>
+  </dialog>
+  {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+  <script>
+    function rcrStep(day) {
+      const dialog = document.getElementById("rcr-step");
+      if (!dialog) return;
+      dialog.querySelector("#tl-start").value = day;
+      dialog.showModal();
+      dialog.querySelector("#tl-title").focus();
+    }
+  </script>
+{% endblock %}

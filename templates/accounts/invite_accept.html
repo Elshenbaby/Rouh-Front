@@ -1,0 +1,47 @@
+{% extends "account/auth_base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Finish your setup" %}{% endblock %}
+{% block panel_title %}{% trans "Welcome to Rouh" %}{% endblock %}
+{% block panel_text %}{% trans "Your LC added you. Choose a password and you're in: your queue, your team and your KPIs, in one place." %}{% endblock %}
+
+{% block content %}
+  {% if invalid %}
+    <h1>{% trans "This link doesn't work any more" %}</h1>
+    <p class="auth-sub">{% trans "It expired, or the account is already set up. If you set your password, sign in. If not, ask your VP TM to send you a new invitation." %}</p>
+    <p><a class="auth-submit" href="{% url 'account_login' %}">{% trans "Go to sign in" %}</a></p>
+  {% else %}
+    <h1>{% trans "Finish your setup" %}</h1>
+    <p class="auth-sub">{% if lc %}{% blocktrans with lc=lc.name %}You're joining {{ lc }} on Rouh as {% endblocktrans %}{% else %}{% trans "Your account is " %}{% endif %}<b>{{ invitee.email }}</b>.</p>
+
+    {% if errors %}
+      <div class="auth-alert is-error" role="alert"><ul>{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul></div>
+    {% endif %}
+
+    <form method="post" class="auth-fields" data-busy novalidate>
+      {% csrf_token %}
+      <div class="auth-field">
+        <label for="id_full_name">{% trans "Full name" %}</label>
+        <input type="text" name="full_name" id="id_full_name" value="{{ name }}" autocomplete="name" required>
+      </div>
+      <div class="auth-field">
+        <label for="id_password1">{% trans "Password" %}</label>
+        <div class="auth-pw">
+          <input type="password" name="password1" id="id_password1" autocomplete="new-password" required autofocus data-strength data-caps="caps-invite" aria-describedby="pw-meter">
+          <button type="button" class="auth-pw-toggle" data-pw-toggle aria-controls="id_password1" aria-pressed="false" data-show="{% trans 'Show' %}" data-hide="{% trans 'Hide' %}">{% trans "Show" %}</button>
+        </div>
+        <p class="auth-caps" id="caps-invite" hidden>{% trans "Caps Lock is on" %}</p>
+        <div class="auth-meter" id="pw-meter" data-meter data-score="0" data-empty="{% trans 'At least 10 characters, not just numbers.' %}" data-words='["{% trans "Too short" %}", "{% trans "Okay" %}", "{% trans "Good" %}", "{% trans "Strong" %}"]' aria-live="polite">
+          <span class="auth-meter-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span class="auth-meter-label" data-meter-label>{% trans "At least 10 characters, not just numbers." %}</span>
+        </div>
+      </div>
+      <div class="auth-field">
+        <label for="id_password2">{% trans "Confirm the password" %}</label>
+        <input type="password" name="password2" id="id_password2" autocomplete="new-password" required data-match="id_password1" data-match-out="pw-match">
+        <p class="auth-match" id="pw-match" data-ok="{% trans 'Passwords match' %}" data-no="{% trans 'Passwords don’t match yet' %}" aria-live="polite" hidden></p>
+      </div>
+      <button class="auth-submit" type="submit">{% trans "Set my password and sign in" %}</button>
+    </form>
+  {% endif %}
+{% endblock %}

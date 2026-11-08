@@ -1,0 +1,7 @@
+{% load mc_format %}
+<article class="rcr-tally">
+  <h3>{{ title }}</h3>
+  {% if rows %}
+    <ul>{% for row in rows|slice:":8" %}<li><span>{{ row.label }}</span><i style="width: {% widthratio row.share 1 100 %}%"></i><b>{{ row.count }}</b></li>{% endfor %}</ul>
+  {% else %}<p class="muted">No answers.</p>{% endif %}
+</article>

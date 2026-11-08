@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static mc_format %}
+
+{% block content %}
+  {% include "rcr/_chrome.html" %}
+  <p class="rcr-back"><a href="{% url 'rcr:gds' cycle.slug %}">← All group discussions</a></p>
+
+  <section class="rcr-lead-head is-gd">
+    <div>
+      <h2>{{ gd.name }}</h2>
+      <p class="muted">{{ gd.day|date:"l j F"|default:"No date yet" }}{% if gd.starts_at %} · {{ gd.starts_at|time:"H:i" }}{% endif %}{% if gd.place %} · {{ gd.place }}{% endif %} · {{ seats|length }} people</p>
+      <p class="rcr-board-hint">Run the GD here: for each person pick what happened, their day-before answer, their group and the six scores (1–5). Every change saves on its own.</p>
+    </div>
+    <details class="rcr-edit"><summary>Edit the GD</summary>
+      <form method="post" class="rcr-form">
+        {% csrf_token %}<input type="hidden" name="action" value="edit">
+        <div class="rcr-form-grid">
+          <label class="field"><span>Name</span><input id="gde-name" name="name" value="{{ gd.name }}"></label>
+          <label class="field"><span>Date</span><input id="gde-day" type="date" name="day" value="{{ gd.day|date:'Y-m-d' }}"></label>
+          <label class="field"><span>Start</span><input id="gde-time" type="time" name="starts_at" value="{{ gd.starts_at|time:'H:i' }}"></label>
+          <label class="field"><span>Place</span><input id="gde-place" name="place" value="{{ gd.place }}"></label>
+        </div>
+        <button class="btn btn-secondary btn-sm" type="submit">Save</button>
+      </form>
+      {% if not seats %}<form method="post">{% csrf_token %}<input type="hidden" name="action" value="delete"><button class="btn btn-ghost btn-sm" type="submit">Delete this GD</button></form>{% endif %}
+    </details>
+  </section>
+
+  <ul class="rcr-result-tally" aria-label="Where everyone is">
+    {% for code, label, n in results %}<li class="is-{{ code }}{% if not n %} is-zero{% endif %}"><b>{{ n }}</b><span>{{ label }}</span></li>{% endfor %}
+  </ul>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>People</h2></header>
+    {% if rows %}
+      <div class="table-wrap">
+        <table class="table rcr-seat-table">
+          <tbody>
+            {% for row in rows %}{% include "rcr/partials/seat_row.html" with seat=row.seat column=row.column criteria=row.criteria results=row.results confirmations=row.confirmations %}{% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="muted">Nobody in {{ gd.name }} yet. Add people below, or seat them from the GD board.</p>
+    {% endif %}
+  </section>
+
+  {% if ready %}
+    <section class="ops-panel">
+      <header class="ops-panel-head"><h2>Add people</h2><p>Passed the F2F interview and not in a GD yet.</p></header>
+      <form method="post" class="rcr-form">
+        {% csrf_token %}<input type="hidden" name="action" value="add">
+        <ul class="rcr-ticklist is-columns">{% for lead in ready %}<li><label><input type="checkbox" name="lead" value="{{ lead.pk }}"><span><b>{{ lead.full_name }}</b><small>{{ lead.get_stage_display }}</small></span></label></li>{% endfor %}</ul>
+        <button class="btn btn-primary btn-sm" type="submit">Add the ticked people</button>
+      </form>
+    </section>
+  {% endif %}
+{% endblock %}

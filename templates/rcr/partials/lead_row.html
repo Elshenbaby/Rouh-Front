@@ -1,0 +1,44 @@
+{% load mc_format rcr_tags %}
+<tr id="lead-{{ lead.pk }}" class="rcr-lead is-{{ lead.outcome }}">
+  <td class="rcr-check"><input type="checkbox" name="lead" value="{{ lead.pk }}" form="rcr-bulk" aria-label="Select {{ lead.full_name }}"></td>
+  <td class="rcr-who">
+    <a class="rcr-name" href="{% url 'rcr:lead' cycle.slug lead.pk %}">{{ lead.full_name }}</a>
+    <small>{{ lead.display_id }}{% if lead.signed_up_at %} · {{ lead.signed_up_at|date:"j M Y" }}{% endif %}</small>
+    {% if lead.university or lead.faculty %}<small>{{ lead.university }}{% if lead.faculty %} · {{ lead.faculty }}{% endif %}</small>{% endif %}
+    {% if lead.kind == "rxp" %}<small>{{ lead.extra.product }} · {{ lead.extra.host }}{% if lead.extra.approved %} · {{ lead.extra.approved }}{% endif %}</small>{% endif %}
+  </td>
+  <td class="rcr-contact">
+    {% if lead.phone %}<a href="tel:{{ lead.phone|tel }}">{{ lead.phone }}</a> <a class="rcr-wa" href="https://wa.me/{{ lead.phone|wa }}" target="_blank" rel="noopener" title="WhatsApp {{ lead.full_name }}">WhatsApp</a>{% endif %}
+    {% if lead.email and "@inbound.aiesec.org" not in lead.email %}<small><a href="mailto:{{ lead.email }}">{{ lead.email }}</a></small>{% endif %}
+  </td>
+  <td><span class="rcr-channel is-{{ lead.channel|default:'other' }}">{{ channel_labels|get_item:lead.channel|default:"Other" }}</span>{% if lead.referral and lead.referral != channel_labels|get_item:lead.channel %}<small>{{ lead.referral }}</small>{% endif %}</td>
+  <td>
+    <select name="stage" aria-label="Status of {{ lead.full_name }}" hx-post="{% url 'rcr:lead_row' cycle.slug lead.pk %}" hx-target="closest tr" hx-swap="outerHTML" class="rcr-stage is-{{ lead.stage }}">
+      {% for code, label in stages %}<option value="{{ code }}"{% if code == lead.stage %} selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+    {% if lead.outcome != "active" %}<small class="rcr-outcome">{{ lead.get_outcome_display }}</small>{% endif %}
+  </td>
+  <td>
+    <select name="recruiter" aria-label="Recruiter for {{ lead.full_name }}" hx-post="{% url 'rcr:lead_row' cycle.slug lead.pk %}" hx-target="closest tr" hx-swap="outerHTML">
+      <option value="">—</option>
+      {% for m in recruiters %}<option value="{{ m.pk }}"{% if m.pk == lead.recruiter_id %} selected{% endif %}>{{ m.full_name }}</option>{% endfor %}
+    </select>
+  </td>
+  <td class="rcr-call">
+    <select name="phone_status" aria-label="Phone call for {{ lead.full_name }}" hx-post="{% url 'rcr:lead_row' cycle.slug lead.pk %}" hx-target="closest tr" hx-swap="outerHTML">
+      <option value="">Not called</option>
+      {% for code, label in phone_statuses %}<option value="{{ code }}"{% if code == lead.phone_status %} selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+    <span class="rcr-call-row">
+      <select name="english_level" aria-label="English level of {{ lead.full_name }}" title="English level" hx-post="{% url 'rcr:lead_row' cycle.slug lead.pk %}" hx-target="closest tr" hx-swap="outerHTML" class="rcr-narrow">
+        <option value="">Eng.</option>
+        {% for level in english_levels %}<option{% if level == lead.english_level %} selected{% endif %}>{{ level }}</option>{% endfor %}
+      </select>
+      <select name="phone_result" aria-label="Phone call result for {{ lead.full_name }}" title="Phone call result" hx-post="{% url 'rcr:lead_row' cycle.slug lead.pk %}" hx-target="closest tr" hx-swap="outerHTML">
+        <option value="">Result</option>
+        {% for code, label in phone_results %}<option value="{{ code }}"{% if code == lead.phone_result %} selected{% endif %}>{{ label }}</option>{% endfor %}
+      </select>
+      <label class="rcr-loc" title="Location of the interview sent"><input type="checkbox" name="location_sent" aria-label="Interview location sent to {{ lead.full_name }}"{% if lead.location_sent %} checked{% endif %} hx-post="{% url 'rcr:lead_row' cycle.slug lead.pk %}" hx-vals='{"has_location": "1"}' hx-target="closest tr" hx-swap="outerHTML"> Loc.</label>
+    </span>
+  </td>
+</tr>

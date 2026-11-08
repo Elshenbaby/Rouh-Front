@@ -1,0 +1,39 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'en' }}" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% include "partials/favicon.html" %}
+  <title>{{ title }} · {% trans "Rouh" %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+<body class="auth-body">
+  <main class="auth-card">
+    <p class="eyebrow">{% trans "Rouh" %}</p>
+    {% if access_request.status == "rejected" %}
+      <h1>{% trans "Access declined" %}</h1>
+      <p class="lede">{% trans "This account wasn't approved. If that's a mistake, message your LC's VP TM." %}</p>
+      {% if access_request.review_note %}
+        <p class="muted">{{ access_request.review_note }}</p>
+      {% endif %}
+    {% else %}
+      <h1>{% trans "Waiting for access" %}</h1>
+      <p class="lede">{% trans "You're registered. Your LC's VP TM approves you (IM does for the MC), then you can sign in to everything." %}</p>
+      <dl class="meta">
+        <div><dt>{% trans "Email" %}</dt><dd>{{ access_request.email }}</dd></div>
+        <div><dt>{% trans "Name" %}</dt><dd>{{ access_request.full_name }}</dd></div>
+        <div><dt>{% trans "Requested" %}</dt><dd>{{ access_request.requested_entity.name|default:"—" }}</dd></div>
+      </dl>
+    {% endif %}
+    <form method="post" action="{% url 'account_logout' %}" class="stack">
+      {% csrf_token %}
+      <button class="btn btn-secondary" type="submit">{% trans "Log out" %}</button>
+    </form>
+  </main>
+  {% include "partials/credit.html" %}
+</body>
+</html>

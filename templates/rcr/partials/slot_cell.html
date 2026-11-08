@@ -1,0 +1,20 @@
+<td class="rcr-sc{% if slot.lead_id %} is-booked{% endif %}{% if slot.did_interview %} is-done{% endif %}" id="slot-{{ slot.pk }}">
+  {% if slot.lead_id %}
+    <a class="rcr-name" href="{% url 'rcr:lead' cycle.slug slot.lead_id %}">{{ slot.lead.full_name }}</a>
+    <small>{{ slot.lead.phone }}</small>
+    <select name="confirmation" aria-label="Day-before confirmation" hx-post="{% url 'rcr:slot' cycle.slug slot.pk %}" hx-target="closest td" hx-swap="outerHTML">
+      <option value="">Confirm the day before…</option>
+      {% for code, label in confirmations %}<option value="{{ code }}"{% if code == slot.confirmation %} selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+    <label class="field-check"><input type="checkbox" name="did_interview"{% if slot.did_interview %} checked{% endif %} hx-post="{% url 'rcr:slot' cycle.slug slot.pk %}" hx-vals='{"has_done": "1"}' hx-target="closest td" hx-swap="outerHTML"> <span>Did the interview</span></label>
+    <div class="rcr-sc-actions">
+      {% if not slot.did_interview %}<a href="{% url 'rcr:interview_new' cycle.slug %}?lead={{ slot.lead_id }}">Interview form</a>{% endif %}
+      <button type="button" class="btn-link" hx-post="{% url 'rcr:slot' cycle.slug slot.pk %}" hx-vals='{"lead": ""}' hx-target="closest td" hx-swap="outerHTML" hx-confirm="Free this slot?">Free</button>
+    </div>
+  {% else %}
+    <select name="lead" aria-label="Book a lead into {{ slot.room }} at {{ slot.starts_at|time:'H:i' }}" hx-post="{% url 'rcr:slot' cycle.slug slot.pk %}" hx-target="closest td" hx-swap="outerHTML">
+      <option value="">Free · book a lead…</option>
+      {% for lead in ready %}<option value="{{ lead.pk }}">{{ lead.full_name }}</option>{% endfor %}
+    </select>
+  {% endif %}
+</td>

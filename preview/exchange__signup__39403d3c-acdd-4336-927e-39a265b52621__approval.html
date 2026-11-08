@@ -1,0 +1,1065 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>Hassan Hamdy · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "S6D5CyDH802b3JqKQ2Jvos8haO23ZtPmzZr1G8ev4TRFZn2VA4arHHQMuXNyMgJp"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="S6D5CyDH802b3JqKQ2Jvos8haO23ZtPmzZr1G8ev4TRFZn2VA4arHHQMuXNyMgJp">
+      <input type="hidden" name="next" value="/exchange/signup/39403d3c-acdd-4336-927e-39a265b52621/approval/">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="S6D5CyDH802b3JqKQ2Jvos8haO23ZtPmzZr1G8ev4TRFZn2VA4arHHQMuXNyMgJp">
+      <input type="hidden" name="next" value="/exchange/signup/39403d3c-acdd-4336-927e-39a265b52621/approval/">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="S6D5CyDH802b3JqKQ2Jvos8haO23ZtPmzZr1G8ev4TRFZn2VA4arHHQMuXNyMgJp">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page">
+        
+        
+  <header class="page-header">
+    <p class="eyebrow">
+      
+        <a href="exchange__ogv.html">oGV signups</a>
+      
+    </p>
+    <h1>Hassan Hamdy</h1>
+    <p class="lede">
+      
+        Cairo University
+      
+      · Signed up
+       · oGV
+    </p>
+  </header>
+
+  
+<nav class="tabs" aria-label="Signup sections">
+  <a class="tab" href="exchange__signup__39403d3c-acdd-4336-927e-39a265b52621.html">Signup</a>
+  
+    <a class="tab" href="exchange__signup__39403d3c-acdd-4336-927e-39a265b52621__applications.html">Applications</a>
+  
+  
+    <a class="tab is-active" href="exchange__signup__39403d3c-acdd-4336-927e-39a265b52621__approval.html">Approval</a>
+  
+  
+</nav>
+
+
+  
+    
+      <section class="card cxp-card" id="apd-125a2977-ccb8-4fcf-86b2-a4f8db6b44ef">
+        <h2>Approval · oGV</h2>
+        <p class="muted">
+          Happy Bus
+          · Sample LC · Brazil
+          · Completed
+        </p>
+        <dl class="meta">
+          <div><dt>EXPA account</dt><dd><a class="expa-profile-link" href="https://expa.aiesec.org/people/800032" target="_blank" rel="noopener noreferrer" title="Open EXPA account 800032">EXPA account ↗</a>
+</dd></div>
+          <div><dt>EP ID_Opp</dt><dd>800032_0</dd></div>
+          <div><dt>Email</dt><dd>sample32@example.org</dd></div>
+          <div><dt>Phone</dt><dd>01000000032</dd></div>
+          <div><dt>Home</dt><dd>— · —</dd></div>
+          <div><dt>Host</dt><dd>Sample LC · Brazil</dd></div>
+          <div><dt>Duration</dt><dd>—</dd></div>
+          <div><dt>Approved</dt><dd>2026-11-14</dd></div>
+          <div><dt>Slot</dt><dd>— – —</dd></div>
+          <div><dt>EP Manager</dt><dd>Adam Nabil</dd></div>
+        </dl>
+
+        <form
+          method="post"
+          class="work-form cxp-form"
+          hx-post="/exchange/signup/39403d3c-acdd-4336-927e-39a265b52621/approval/"
+          hx-trigger="change"
+          hx-target="#cxp-log-125a2977-ccb8-4fcf-86b2-a4f8db6b44ef"
+          hx-swap="outerHTML"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="S6D5CyDH802b3JqKQ2Jvos8haO23ZtPmzZr1G8ev4TRFZn2VA4arHHQMuXNyMgJp">
+          <input type="hidden" name="intent" value="cxp">
+          <input type="hidden" name="application_id" value="125a2977-ccb8-4fcf-86b2-a4f8db6b44ef">
+          
+            <h3>CXP</h3>
+            <div class="cxp-grid">
+              
+                <label class="field">
+                  <span>Condition</span>
+                  <select name="condition" id="id_condition">
+  <option value="" selected>—</option>
+
+  <option value="on_track">On track</option>
+
+  <option value="delayed">Delayed</option>
+
+  <option value="at_risk">At risk</option>
+
+  <option value="broken">Broken</option>
+
+  <option value="completed">Completed</option>
+
+</select>
+                </label>
+              
+            </div>
+          
+            <h3>Preparation</h3>
+            <div class="cxp-grid">
+              
+                <label class="field">
+                  <span>Mail #1</span>
+                  <select name="mail_1" id="id_mail_1">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Mail #2 country booklet</span>
+                  <select name="mail_2_booklet" id="id_mail_2_booklet">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Mail #3</span>
+                  <select name="mail_3" id="id_mail_3">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Visa prep</span>
+                  <select name="visa_prep" id="id_visa_prep">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Passport</span>
+                  <select name="passport" id="id_passport">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field is-wide">
+                  <span>Passport link</span>
+                  <input type="text" name="passport_link" id="id_passport_link">
+                </label>
+              
+                <label class="field">
+                  <span>Invitation letter</span>
+                  <select name="invitation_letter" id="id_invitation_letter">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>OPS attendance / invitation email</span>
+                  <select name="ops_attendance" id="id_ops_attendance">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>PSG</span>
+                  <select name="psg" id="id_psg">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>OPS</span>
+                  <select name="ops" id="id_ops">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Insurance</span>
+                  <select name="insurance" id="id_insurance">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field is-wide">
+                  <span>Health insurance link</span>
+                  <input type="text" name="insurance_link" id="id_insurance_link">
+                </label>
+              
+                <label class="field">
+                  <span>Expectation settings</span>
+                  <select name="expectation_settings" id="id_expectation_settings">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Mail #4 visa process</span>
+                  <select name="mail_4_visa" id="id_mail_4_visa">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Visa / work permit</span>
+                  <select name="visa_permit" id="id_visa_permit">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field is-wide">
+                  <span>Visa proof link</span>
+                  <input type="text" name="visa_proof_link" id="id_visa_proof_link">
+                </label>
+              
+                <label class="field">
+                  <span>Security permit (Turkey)</span>
+                  <select name="security_permit" id="id_security_permit">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field is-wide">
+                  <span>Flight tickets proof</span>
+                  <input type="text" name="flight_tickets_link" id="id_flight_tickets_link">
+                </label>
+              
+                <label class="field">
+                  <span>WSL / Bslama</span>
+                  <select name="wsl_bslama" id="id_wsl_bslama">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+            </div>
+          
+            <h3>Experience</h3>
+            <div class="cxp-grid">
+              
+                <label class="field">
+                  <span>Arrival support</span>
+                  <select name="arrival_support" id="id_arrival_support">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Accommodation</span>
+                  <select name="accommodation" id="id_accommodation">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>IPS</span>
+                  <select name="ips" id="id_ips">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>First day of work</span>
+                  <select name="first_day_of_work" id="id_first_day_of_work">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Mail #5 first day of work survey</span>
+                  <select name="mail_5_survey" id="id_mail_5_survey">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Alignment with opportunity provider</span>
+                  <select name="alignment_spaces" id="id_alignment_spaces">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Job description</span>
+                  <select name="job_description" id="id_job_description">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Working hours</span>
+                  <select name="working_hours" id="id_working_hours">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Duration</span>
+                  <select name="duration" id="id_duration">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Opportunity benefits</span>
+                  <select name="opportunity_benefits" id="id_opportunity_benefits">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>1st LDA</span>
+                  <select name="lda_1" id="id_lda_1">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Survey #1 first week</span>
+                  <select name="survey_1" id="id_survey_1">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Survey #2 weeks 2–3</span>
+                  <select name="survey_2" id="id_survey_2">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Survey #3 weeks 4–5</span>
+                  <select name="survey_3" id="id_survey_3">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Survey #4 week 6</span>
+                  <select name="survey_4" id="id_survey_4">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Mid LDA</span>
+                  <select name="mid_lda" id="id_mid_lda">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Value / leadership education</span>
+                  <select name="value_education" id="id_value_education">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Departure support</span>
+                  <select name="departure_support" id="id_departure_support">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Review checkpoints</span>
+                  <select name="review_checkpoints" id="id_review_checkpoints">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+            </div>
+          
+            <h3>Post experience</h3>
+            <div class="cxp-grid">
+              
+                <label class="field">
+                  <span>Debrief invitation</span>
+                  <select name="debrief_invitation" id="id_debrief_invitation">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Debrief meeting</span>
+                  <select name="debrief_meeting" id="id_debrief_meeting">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Debrief with home AIESEC</span>
+                  <select name="debrief_home" id="id_debrief_home">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Final LDA</span>
+                  <select name="final_lda" id="id_final_lda">
+  <option value="" selected>—</option>
+
+  <option value="pending">Pending</option>
+
+  <option value="done">Done</option>
+
+  <option value="na">N/A</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Completed</span>
+                  <select name="completed" id="id_completed">
+  <option value="" selected>—</option>
+
+  <option value="yes">Yes</option>
+
+  <option value="no">No</option>
+
+</select>
+                </label>
+              
+                <label class="field">
+                  <span>Wants to travel again</span>
+                  <select name="travel_again" id="id_travel_again">
+  <option value="" selected>—</option>
+
+  <option value="yes">Yes</option>
+
+  <option value="no">No</option>
+
+</select>
+                </label>
+              
+                <label class="field is-wide">
+                  <span>If not completed, what happened</span>
+                  <textarea name="not_completed_comment" cols="40" rows="2" id="id_not_completed_comment">
+</textarea>
+                </label>
+              
+                <label class="field is-wide">
+                  <span>EP satisfaction</span>
+                  <textarea name="satisfaction" cols="40" rows="2" id="id_satisfaction">
+</textarea>
+                </label>
+              
+                <label class="field is-wide">
+                  <span>Mandatory standards</span>
+                  <textarea name="mandatory_standards" cols="40" rows="2" id="id_mandatory_standards">
+</textarea>
+                </label>
+              
+                <label class="field is-wide">
+                  <span>Non-mandatory standards</span>
+                  <textarea name="non_mandatory_standards" cols="40" rows="2" id="id_non_mandatory_standards">
+</textarea>
+                </label>
+              
+                <label class="field is-wide">
+                  <span>18 standards</span>
+                  <textarea name="standards_18" cols="40" rows="2" id="id_standards_18">
+</textarea>
+                </label>
+              
+            </div>
+          
+        </form>
+
+        <form
+          method="post"
+          class="comment-compose"
+          hx-post="/exchange/signup/39403d3c-acdd-4336-927e-39a265b52621/approval/"
+          hx-target="#cxp-log-125a2977-ccb8-4fcf-86b2-a4f8db6b44ef"
+          hx-swap="outerHTML"
+          hx-on::after-request="if (event.detail.successful) this.reset()"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="S6D5CyDH802b3JqKQ2Jvos8haO23ZtPmzZr1G8ev4TRFZn2VA4arHHQMuXNyMgJp">
+          <input type="hidden" name="intent" value="comment">
+          <input type="hidden" name="application_id" value="125a2977-ccb8-4fcf-86b2-a4f8db6b44ef">
+          <label class="field">
+            <span>Comment</span>
+            <textarea name="comment" rows="3" placeholder="Write a CXP comment"></textarea>
+          </label>
+          <button type="submit" class="btn btn-primary btn-md">Add comment</button>
+        </form>
+
+        
+<div id="cxp-log-125a2977-ccb8-4fcf-86b2-a4f8db6b44ef" class="signup-log">
+  <h3>Log</h3>
+  <p class="muted">Status changes and comments stay here with date and author. Sync never writes this.</p>
+  <ul class="comment-list">
+    
+      <li class="muted">No log yet.</li>
+    
+  </ul>
+</div>
+
+
+      </section>
+    
+  
+
+      </main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+</body>
+</html>

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load mc_format %}
+
+{% block content %}
+  {% include "rcr/_chrome.html" %}
+
+  <section class="rcr-board-bar" aria-label="Which leads">
+    <nav class="rcr-seg" aria-label="Which leads">
+      {% for code, label in kinds %}<a href="?kind={{ code }}" class="{% if kind == code %}is-active{% endif %}">{{ label }}</a>{% endfor %}
+      <a href="?kind=all" class="{% if kind == 'all' %}is-active{% endif %}">All</a>
+    </nav>
+    <p class="rcr-board-hint">Where every lead is right now. Click any number to open those leads in the list, where you hand them out and work them.</p>
+  </section>
+
+  <section class="rcr-strip" aria-label="In numbers">
+    <div><span>Leads</span><strong>{{ total|count }}</strong></div>
+    <div><span>In process</span><strong>{{ active_total|count }}</strong></div>
+    <div><span>Stuck</span><strong>{% if stuck_total %}<a href="{{ list_url }}?stuck=1">{{ stuck_total|count }}</a>{% else %}0{% endif %}</strong></div>
+    {% for lane in lanes %}<div><span>{{ lane.label }}</span><strong>{% if lane.n %}<a href="{{ lane.url }}">{{ lane.n|count }}</a>{% else %}0{% endif %}</strong></div>{% endfor %}
+  </section>
+
+  <div class="rcr-flow" aria-label="The journey">
+    {% for ph in phases %}
+      <section class="rcr-flow-phase">
+        <header>
+          <span class="rcr-phase-n">{{ ph.phase.number }}</span>
+          <div><h2>{{ ph.phase.label }}</h2><p>{{ ph.n|count }} in this phase{% if ph.stuck %} · <em>{{ ph.stuck }} stuck</em>{% endif %}</p></div>
+        </header>
+        <ol>
+          {% for step in ph.steps %}
+            <li>
+              <a href="{{ step.url }}" class="rcr-flow-step{% if not step.n %} is-zero{% endif %}">
+                <span class="rcr-flow-label">{{ step.label }}</span>
+                <b>{{ step.n|count }}</b>
+                <i class="rcr-flow-bar" style="width: {{ step.width }}%"></i>
+              </a>
+              {% if step.stuck %}<a class="rcr-flow-stuck" href="{{ step.url }}&stuck=1">{{ step.stuck }} stuck</a>{% endif %}
+            </li>
+          {% endfor %}
+        </ol>
+      </section>
+    {% endfor %}
+  </div>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>Who holds what</h2><p>Each recruiter's leads at each step (in process). Darker cells hold more. Click a number to open those leads.</p></header>
+    <div class="table-wrap">
+      <table class="table ops-table ops-compact rcr-matrix">
+        <thead>
+          <tr>
+            <th scope="col">Recruiter</th>
+            {% for code, short, label in stage_cols %}<th scope="col" class="q-num" title="{{ label }}">{{ short }}</th>{% endfor %}
+            <th scope="col" class="q-num">In process</th><th scope="col" class="q-num">Out</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in matrix %}
+            <tr{% if not row.member %} class="is-nobody"{% endif %}>
+              <th scope="row"><a href="{{ row.url }}">{{ row.label }}</a>{% if row.role %}<small>{{ row.role }}</small>{% endif %}</th>
+              {% for cell in row.cells %}<td class="q-num is-heat-{{ cell.heat }}">{% if cell.n %}<a href="{{ cell.url }}">{{ cell.n|count }}</a>{% else %}<span class="muted">·</span>{% endif %}</td>{% endfor %}
+              <td class="q-num"><strong>{{ row.active|count }}</strong></td>
+              <td class="q-num">{{ row.out|count }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}

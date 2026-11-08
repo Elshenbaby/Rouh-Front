@@ -1,0 +1,10 @@
+{% load i18n %}
+{% with active=active|default:"scoreboard" %}
+<nav class="od-nav" aria-label="{% trans 'OD sections' %}">
+  <a href="{% url 'od:dashboard' %}" class="{% if active == 'scoreboard' %}is-on{% endif %}">{% trans "Status" %}</a>
+  <a href="{% url 'od:clusters' %}" class="{% if active == 'clusters' %}is-on{% endif %}">{% trans "Clusters" %}</a>
+  {% if show_drivers and od.focus %}
+  <a href="{% url 'od:lc_detail' od.focus.feed.entity_id %}" class="{% if active == 'detail' %}is-on{% endif %}">{% trans "Drivers" %}</a>
+  {% endif %}
+</nav>
+{% endwith %}

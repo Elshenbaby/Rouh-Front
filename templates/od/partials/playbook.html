@@ -1,0 +1,32 @@
+{% load i18n %}
+<section class="od-play od-section">
+  <div class="od-play-head">
+    <h2>{{ card.cluster_emoji }} {% blocktrans with name=card.cluster_label %}{{ name }} playbook{% endblocktrans %}</h2>
+    <p>
+      {% trans "Focus" %}:
+      {% for item in card.focus %}{{ item }}{% if not forloop.last %} · {% endif %}{% empty %}—{% endfor %}
+      · {% blocktrans with n=card.member_target %}Ideal ~{{ n }} members{% endblocktrans %}
+    </p>
+  </div>
+  <div class="od-play-grid">
+    <article>
+      <h3>{% trans "Operations" %}</h3>
+      <ul>{% for line in card.playbook.operations %}<li>{{ line }}</li>{% empty %}<li>—</li>{% endfor %}</ul>
+    </article>
+    <article>
+      <h3>{% trans "Supply & Demand" %}</h3>
+      <ul>{% for line in card.playbook.supply_demand %}<li>{{ line }}</li>{% empty %}<li>—</li>{% endfor %}</ul>
+    </article>
+    <article>
+      <h3>{% trans "Membership" %}</h3>
+      <ul>{% for line in card.playbook.membership %}<li>{{ line }}</li>{% empty %}<li>—</li>{% endfor %}</ul>
+    </article>
+    <article>
+      <h3>{% trans "Back-office" %}</h3>
+      <ul>{% for line in card.playbook.backoffice %}<li>{{ line }}</li>{% empty %}<li>—</li>{% endfor %}</ul>
+    </article>
+  </div>
+  {% if card.playbook.path_next %}
+  <p class="od-play-next"><strong>{% trans "Path to next cluster" %}:</strong> {{ card.playbook.path_next }}</p>
+  {% endif %}
+</section>

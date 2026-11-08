@@ -1,0 +1,24 @@
+{% load i18n %}
+<div id="ogx-metrics" class="metric-row"{% if oob %} hx-swap-oob="true"{% endif %}>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Visible" %}</p>
+    <p class="metric-value">{{ page.paginator.count }}</p>
+  </div>
+  {% if desk != 'b2c' %}
+    {% if is_icx %}
+      <div class="metric-tile">
+        <p class="metric-label">{% trans "Accepted" %}</p>
+        <p class="metric-value">{{ list_counts.accepted }}</p>
+      </div>
+    {% else %}
+      <div class="metric-tile">
+        <p class="metric-label">{% trans "Applied" %}</p>
+        <p class="metric-value">{{ list_counts.applied }}</p>
+      </div>
+    {% endif %}
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Approved" %}</p>
+      <p class="metric-value">{{ list_counts.approved }}</p>
+    </div>
+  {% endif %}
+</div>

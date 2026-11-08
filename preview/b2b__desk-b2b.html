@@ -1,0 +1,725 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>B2B dashboard · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "d28mEHcqwa5hIMc21EYUulX6zKbqVQ2bUVWiIhNes3ULEqOdLGpQNAFBTTWVIDWe"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link is-active">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="d28mEHcqwa5hIMc21EYUulX6zKbqVQ2bUVWiIhNes3ULEqOdLGpQNAFBTTWVIDWe">
+      <input type="hidden" name="next" value="/b2b/?desk=b2b">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="d28mEHcqwa5hIMc21EYUulX6zKbqVQ2bUVWiIhNes3ULEqOdLGpQNAFBTTWVIDWe">
+      <input type="hidden" name="next" value="/b2b/?desk=b2b">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="d28mEHcqwa5hIMc21EYUulX6zKbqVQ2bUVWiIhNes3ULEqOdLGpQNAFBTTWVIDWe">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page">
+        
+        
+  <header class="page-header">
+    <p class="eyebrow"><a href="desks__b2b.html">B2B</a> · Dashboard</p>
+    <h1>B2B dashboard</h1>
+    <p class="lede">B2B slots are the paid OP Fee Revenues rows in the LCs&#x27; financial tools. Below them, what EXPA shows for those opportunities: capacity, mix and timing.</p>
+  </header>
+  
+
+  <nav class="tabs" aria-label="B2B lists">
+    <a class="tab is-active" href="b2b__desk-b2b.html">Dashboard</a>
+    
+    
+    <a class="tab" href="b2b__slots__desk-b2b.html">Slots</a>
+    
+    <a class="tab" href="b2b__accounts__desk-b2b.html">Raising</a>
+    <a class="tab" href="b2b__calendar__desk-b2b.html">Calendar</a>
+    
+      <a class="tab" href="b2b__teams__desk-b2b.html">Teams</a>
+    
+  </nav>
+  
+
+
+
+  <form
+    id="analysis-filters"
+    method="get"
+    class="filter-bar is-wide dash-filters"
+    hx-get="/b2b/"
+    hx-target="#analysis-body"
+    hx-push-url="true"
+    hx-trigger="change, keyup delay:300ms from:find input[type=search], submit"
+    x-data="{ more: false }"
+  >
+    <input type="hidden" name="desk" value="b2b">
+    <input type="hidden" name="more" :value="more ? '1' : ''">
+    <label class="field">
+      <span>Search</span>
+      <input type="search" name="q" value="" placeholder="Opportunity, organisation or LC">
+    </label>
+    <label class="field">
+      <span>Product</span>
+      <select name="product">
+        <option value="">All products</option>
+        <option value="igv">iGV</option>
+        <option value="igta">iGTa</option>
+        <option value="igte">iGTe</option>
+      </select>
+    </label>
+    <label class="field">
+      <span>LC</span>
+      <select name="lc">
+        <option value="">All LCs</option>
+        
+      </select>
+    </label>
+    <label class="field">
+      <span>Organisation</span>
+      <select name="org">
+        <option value="">All organisations</option>
+        
+      </select>
+    </label>
+    <label class="field">
+      <span>Status</span>
+      <select name="status">
+        <option value="live" selected>Live</option>
+        <option value="not_live">Not live</option>
+        <option value="all">Total (live and not live)</option>
+      </select>
+    </label>
+    <label class="field">
+      <span>Peak</span>
+      <select name="peak">
+        
+          <option value="" selected>LC term 26 · 1 Feb – 31 Jan</option>
+        
+          <option value="26.1">Summer peak 26.1</option>
+        
+          <option value="26.2">Winter peak 26.2</option>
+        
+      </select>
+    </label>
+    <button type="button" class="btn btn-ghost btn-sm" @click="more = !more">
+      <span x-show="!more">More filters</span>
+      <span x-show="more" x-cloak>Fewer filters</span>
+    </button>
+    
+
+    <div class="dash-more" x-show="more" x-cloak>
+      <label class="field">
+        <span>Start month</span>
+        <select name="month">
+          <option value="">All months</option>
+          
+        </select>
+      </label>
+      <label class="field">
+        <span>Timing</span>
+        <select name="window">
+          <option value="">Any timing</option>
+          <option value="current">Current</option>
+          <option value="upcoming">Upcoming</option>
+          <option value="past">Past</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Capacity</span>
+        <select name="fill">
+          <option value="">Any capacity</option>
+          <option value="open">Openings left</option>
+          <option value="full">Fully taken</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Slot size</span>
+        <select name="size">
+          <option value="">Any size</option>
+          <option value="1">1 opening</option>
+          <option value="2-3">2–3 openings</option>
+          <option value="4-6">4–6 openings</option>
+          <option value="7+">7+ openings</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Demand</span>
+        <select name="demand">
+          <option value="">Any demand</option>
+          <option value="none">No applicants</option>
+          <option value="light">Demand below capacity</option>
+          <option value="hot">Demand at or above capacity</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Length</span>
+        <select name="weeks">
+          <option value="">Any length</option>
+          <option value="1-4">1–4 weeks</option>
+          <option value="5-8">5–8 weeks</option>
+          <option value="9-12">9–12 weeks</option>
+          <option value="13+">13+ weeks</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Duration</span>
+        <select name="duration">
+          <option value="">All durations</option>
+          
+        </select>
+      </label>
+      <label class="field">
+        <span>Sub-product</span>
+        <select name="sub_product">
+          <option value="">All sub-products</option>
+          
+        </select>
+      </label>
+      <label class="field">
+        <span>Applicants</span>
+        <select name="applicants">
+          <option value="">With or without</option>
+          <option value="yes">Has applicants</option>
+          <option value="no">No applicants</option>
+        </select>
+      </label>
+    </div>
+  </form>
+
+  <div id="analysis-body">
+    
+<script id="b2b-analysis-charts" type="application/json">{"products": {"labels": [], "slots": [], "openings": []}, "demand": {"labels": [], "openings": [], "applicants": []}, "months": {"labels": [], "slots": [], "openings": [], "available": []}, "lcs": {"labels": [], "openings": [], "available": []}, "fill": {"labels": ["Taken", "Available"], "values": [0, 0]}}</script>
+
+
+
+
+<section class="card b2b-opps">
+  <div class="row-between">
+    <div>
+      <h2>B2B opportunities</h2>
+      <p class="muted">From the LCs' financial tools. A B2B slot is a paid OP Fee Revenues row; EXPA slots nobody paid for don't count. Live means on EXPA with a live slot.</p>
+    </div>
+    <a class="btn btn-secondary btn-sm" href="b2b__slots__desk-b2b.html">Open the list</a>
+  </div>
+  <div class="dash-kpis">
+    <a class="metric-tile b2b-opps-tile" href="b2b__slots__desk-b2b.html">
+      <p class="metric-label">Paid B2B slots</p>
+      <p class="metric-value">0</p>
+      <p class="muted">OP Fee Revenues rows</p>
+    </a>
+    <a class="metric-tile b2b-opps-tile" href="b2b__slots__desk-b2b.html">
+      <p class="metric-label">Opportunities</p>
+      <p class="metric-value">0</p>
+      <p class="muted">live and not live</p>
+    </a>
+    <a class="metric-tile b2b-opps-tile" href="b2b__slots__desk-b2b_status-live.html">
+      <p class="metric-label">Live</p>
+      <p class="metric-value">0</p>
+      <p class="muted">0 openings available</p>
+    </a>
+    <a class="metric-tile b2b-opps-tile" href="#not-in-preview">
+      <p class="metric-label">Not live</p>
+      <p class="metric-value">0</p>
+      <p class="muted">0 not on EXPA</p>
+    </a>
+  </div>
+  <div class="dash-duo">
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Product</th><th>Paid slots</th><th>Opportunities</th><th>Live</th><th>Not live</th></tr></thead>
+        <tbody>
+          
+            <tr><td>iGV</td><td><strong>0</strong></td><td>0</td><td>0</td><td>0</td></tr>
+          
+            <tr><td>iGTa</td><td><strong>0</strong></td><td>0</td><td>0</td><td>0</td></tr>
+          
+            <tr><td>iGTe</td><td><strong>0</strong></td><td>0</td><td>0</td><td>0</td></tr>
+          
+          
+        </tbody>
+      </table>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>LC</th><th>Paid slots</th><th>Opportunities</th><th>Live</th><th>Not live</th><th>iGV</th><th>iGTa</th><th>iGTe</th></tr></thead>
+        <tbody>
+          
+            <tr><td colspan="8">No B2B opportunities in the financial tools for this filter.</td></tr>
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<h2 class="b2b-opps-sub">EXPA capacity of these opportunities</h2>
+<p class="muted">What EXPA shows for them: live slots, openings and dates. For capacity only; B2B slots are the paid rows above.</p>
+
+
+<section class="card dash-callout">
+  <h3>This cut</h3>
+  <p>The B2B board: 0 slots · 0 openings · — filled · — still free · 0 applicants (— per opening).</p>
+</section>
+
+<div class="dash-kpis">
+  <div class="metric-tile">
+    <p class="metric-label">Slots</p>
+    <p class="metric-value">0</p>
+    <p class="muted">0 live</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">Openings</p>
+    <p class="metric-value">0</p>
+    <p class="muted">Avg 0 per slot</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">Available</p>
+    <p class="metric-value">0</p>
+    <p class="muted">— still free</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">Fill</p>
+    <p class="metric-value">—</p>
+    <p class="muted">0 taken</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">Applicants</p>
+    <p class="metric-value">0</p>
+    <p class="muted">— per opening</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">Coverage</p>
+    <p class="metric-value">0</p>
+    <p class="muted">0 opps · 0 orgs</p>
+  </div>
+</div>
+<div class="dash-kpis dash-kpis-sub">
+  <div class="metric-tile">
+    <p class="metric-label">Current</p>
+    <p class="metric-value">0</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">Upcoming</p>
+    <p class="metric-value">0</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">Past</p>
+    <p class="metric-value">0</p>
+  </div>
+</div>
+
+<div class="dash-duo">
+  <section class="card">
+    <h2>Slots by product</h2>
+    <p class="muted">How the matched B2B board splits across iGV, iGTa and iGTe.</p>
+    <div class="chart-frame">
+      <canvas id="chart-b2b-products"></canvas>
+      <p class="chart-empty muted" hidden>No product mix yet.</p>
+    </div>
+  </section>
+  <section class="card">
+    <h2>Capacity taken vs available</h2>
+    <p class="muted">Openings already placed against openings still free.</p>
+    <div class="chart-frame">
+      <canvas id="chart-b2b-fill"></canvas>
+      <p class="chart-empty muted" hidden>No capacity yet.</p>
+    </div>
+  </section>
+</div>
+
+<div class="dash-duo">
+  <section class="card">
+    <h2>Demand vs openings</h2>
+    <p class="muted">Applicants sitting on each product against the openings raised.</p>
+    <div class="chart-frame">
+      <canvas id="chart-b2b-demand"></canvas>
+      <p class="chart-empty muted" hidden>No demand yet.</p>
+    </div>
+  </section>
+  <section class="card">
+    <h2>Openings by LC</h2>
+    <p class="muted">Largest host LCs in this cut. Available openings stacked beside total.</p>
+    <div class="chart-frame chart-frame-tall">
+      <canvas id="chart-b2b-lcs"></canvas>
+      <p class="chart-empty muted" hidden>No LC mix yet.</p>
+    </div>
+  </section>
+</div>
+
+<section class="dash-section">
+  <h2 class="dash-section-title">Starts by month</h2>
+  <div class="chart-frame chart-frame-tall">
+    <canvas id="chart-b2b-months"></canvas>
+    <p class="chart-empty muted" hidden>No start dates yet.</p>
+  </div>
+</section>
+
+<section class="dash-section">
+  <h2 class="dash-section-title">LC × product</h2>
+  <p class="muted">Openings hosted by each LC across iGV, iGTa and iGTe.</p>
+  
+    <p class="muted">No matched B2B slots in this cut.</p>
+  
+</section>
+
+<section class="dash-section">
+  <h2 class="dash-section-title">Mix</h2>
+  <div class="dash-split">
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+  </div>
+</section>
+
+<section class="dash-section">
+  <h2 class="dash-section-title">Product performance</h2>
+  
+    <p class="muted">No matched B2B slots in this cut.</p>
+  
+</section>
+
+<section class="dash-section">
+  <h2 class="dash-section-title">LC performance</h2>
+  
+    <p class="muted">No matched B2B slots in this cut.</p>
+  
+</section>
+
+<section class="dash-section">
+  <h2 class="dash-section-title">Largest slots</h2>
+  <p class="muted">Top openings in this cut. Open EXPA for the opportunity.</p>
+  
+    <p class="muted">No matched B2B slots in this cut.</p>
+  
+</section>
+
+
+
+  </div>
+
+      </main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  <script src="../static/js/b2b-analysis.js"></script>
+
+</body>
+</html>

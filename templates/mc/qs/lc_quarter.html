@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% load mc_format %}
+
+{% block content %}
+  <header class="page-header row-between lq-head">
+    <div>
+      <p class="eyebrow"><a href="{% url 'lcqs:index' %}">Qs</a> · {{ quarter.label }}</p>
+      <h1>{% if current %}{{ current.name }} · {% endif %}{{ quarter.label }}</h1>
+      <p class="lede">Performance from {{ quarter.start_date|date:"j M" }} to {{ quarter.end_date|date:"j M Y" }}.
+        {% if release %}Released {{ release.released_at|date:"j M Y" }}.{% else %}<strong>Preview: not released to the LCs yet.</strong>{% endif %}</p>
+    </div>
+    <div class="bd-actions">
+      {% if choices %}
+        <form method="get" class="pf-lc"><label><span class="sr-only">LC</span>
+          <select name="lc" onchange="this.form.submit()">
+            {% for slug, name in choices %}<option value="{{ slug }}"{% if current_entity and current_entity.slug == slug %} selected{% endif %}>{{ name }}</option>{% endfor %}
+          </select></label></form>
+      {% endif %}
+      <a class="btn btn-secondary" href="{% url 'lcqs:export' quarter.pk %}">Download the report</a>
+    </div>
+  </header>
+
+  <p class="lq-live"><span class="lq-live-dot" aria-hidden="true"></span><b>Live</b> · amounts in EGP follow the dollar rate through the sustainability sheet{% if live_at %} · updated {{ live_at|date:"j M, H:i" }}{% endif %}. The budget, rules and units are final.</p>
+
+  {% if current %}
+    <section class="lq-cards">
+      <article class="lq-fee-card">
+        <p class="lq-kicker">Your {{ quarter.label }} fee</p>
+        <p class="lq-big">EGP {{ current.total|money }}</p>
+        <ul class="lq-facts">
+          {% if rank %}<li><b>#{{ rank }}</b> of {{ rows|length }} LCs</li>{% endif %}
+          <li><b>{{ current.contribution|pct:1 }}</b> of what the LCs pay</li>
+          {% if current.previous is not None %}<li>Last quarter <b>EGP {{ current.previous|money:0 }}</b></li>{% endif %}
+        </ul>
+      </article>
+      <article class="lq-due-card{% if days_left is not None and days_left < 0 %} is-late{% elif days_left is not None and days_left <= 7 %} is-soon{% endif %}">
+        <p class="lq-kicker">Pay by</p>
+        {% if deadline %}
+          <p class="lq-due-date">{{ deadline|date:"j F" }}</p>
+          <p class="lq-due-time">{{ deadline|date:"l, g:i A" }}</p>
+          <p class="lq-due-chip">{% if days_left > 1 %}{{ days_left }} days left{% elif days_left == 1 %}Tomorrow{% elif days_left == 0 %}Today{% else %}{{ days_left|stringformat:"d"|cut:"-" }} days late{% endif %}</p>
+        {% else %}
+          <p class="lq-due-date">To be set</p>
+          <p class="lq-due-time">The MC adds the deadline when it releases the quarter.</p>
+        {% endif %}
+      </article>
+      <article class="lq-split-card">
+        <p class="lq-kicker">How it's made</p>
+        <div class="lq-split-bar" role="img" aria-label="Fixed {{ current.fixed|money:0 }}, by performance {{ current.variable|money:0 }}">
+          <i class="is-fixed" style="flex: {{ current.fixed|floatformat:0 }} 1 0"></i><i class="is-var" style="flex: {% if current.variable|negative %}0{% else %}{{ current.variable|floatformat:0 }}{% endif %} 1 0"></i>
+        </div>
+        <dl class="lq-split-legend">
+          <div><dt><span class="lq-swatch is-fixed"></span>Fixed</dt><dd>EGP {{ current.fixed|money:0 }}</dd><small>tier weight {{ current.weight|num }}</small></div>
+          <div><dt><span class="lq-swatch is-var"></span>By performance</dt><dd>EGP {{ current.variable|money:0 }}</dd><small>your units × each product's rate</small></div>
+        </dl>
+      </article>
+    </section>
+  {% endif %}
+
+  {% if release.note %}<aside class="lq-note"><b>From the MC</b>{{ release.note|linebreaksbr }}</aside>{% endif %}
+
+  {% if release and deadline %}
+    <section class="pf-panel lq-pay">
+      <header><h2>How to pay</h2><p>Your VP Finance aligns with the MCVP Finance Management on the day of any payment, whatever the method.</p></header>
+      <div class="lq-methods">
+        <article><span class="lq-step">1</span><h3>Cash in the office</h3><p>Schedule a meeting in the office and pay the amount in cash.</p></article>
+        <article><span class="lq-step">2</span><h3>Bank deposit</h3><p>Deposit it, then reply to the release email with the receipt.</p>
+          {% if payment.bank %}<ul class="lq-lines">{% for line in payment.bank %}<li>{{ line }}</li>{% endfor %}</ul>{% endif %}</article>
+        {% if payment.wallets %}<article><span class="lq-step">3</span><h3>Electronic wallet</h3><p>Send it to the wallet below.</p>
+          <ul class="lq-lines">{% for line in payment.wallets %}<li>{{ line }}</li>{% endfor %}</ul></article>{% endif %}
+      </div>
+      {% if details.signer_name %}<p class="lq-contact">Questions? {{ details.signer_name }}{% if details.signer_title %}, {{ details.signer_title }}{% endif %}{% if details.signer_email %} · <a href="mailto:{{ details.signer_email }}">{{ details.signer_email }}</a>{% endif %}</p>{% endif %}
+    </section>
+  {% endif %}
+
+  {% if current %}
+    <section class="pf-panel">
+      <header><h2>Your statement</h2><p>Line by line: how {{ current.name }}'s fee is made.</p></header>
+      <div class="table-wrap">
+        <table class="table lq-table lq-statement">
+          <thead><tr><th>Component</th><th class="q-num">Your units</th><th class="q-num">Rate per unit</th><th class="q-num">Amount (EGP)</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Fixed</strong><div class="invs-meta">EGP {{ result.fixed_pool|money:0 }} shared by tier weight (Σ {{ result.weight_total|num }})</div></td>
+              <td class="q-num">{{ current.weight|num }}</td>
+              <td class="q-num">{{ result.fixed_rate|money }}</td>
+              <td class="q-num">{{ current.fixed|money }}</td>
+            </tr>
+            {% for line in statement %}
+              <tr class="{% if not line.units and not line.amount %}is-zero{% endif %}">
+                <td><strong>{{ line.product.label }}</strong><div class="invs-meta">Bucket EGP {{ line.product.bucket|money:0 }} ({{ line.product.share|pct }} of the variable pool) ÷ {% if line.product.money %}EGP {{ line.product.units|money:0 }}{% else %}{{ line.product.units|num }} units{% endif %}</div></td>
+                <td class="q-num">{% if line.product.money %}EGP {{ line.units|money }}{% else %}{{ line.units|num }}{% endif %}</td>
+                <td class="q-num">{% if line.product.money %}{{ line.rate|money:4 }}{% else %}{{ line.rate|money }}{% endif %}</td>
+                <td class="q-num{% if line.amount|negative %} q-neg{% endif %}">{{ line.amount|money }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot><tr><td colspan="3"><strong>Quarter fee</strong></td><td class="q-num"><strong>{{ current.total|money }}</strong></td></tr></tfoot>
+        </table>
+      </div>
+      <p class="invs-meta">Units are the considered units: e.g. oGV = APDs + 0.5 × paid re-APDs + 0.5 × discounted − refunds. Non-OPS is counted per EGP of non-ops profit. A negative amount means more refunds than units: it lowers the fee.</p>
+    </section>
+  {% endif %}
+
+  <section class="pf-panel">
+    <header><h2>Every LC</h2><p>The full report: each LC's fee this quarter, from the most to the least.{% if current %} {{ current.name }} is highlighted.{% endif %}</p></header>
+    <div class="table-wrap">
+      <table class="table lq-table lq-all">
+        <thead>
+          <tr><th>#</th><th>LC</th><th class="pf-bar-col">Quarter fee</th><th class="q-num">Fixed</th>{% for p in result.products %}<th class="q-num">{{ p.label }}</th>{% endfor %}<th class="q-num">Total (EGP)</th><th class="q-num">Share</th></tr>
+        </thead>
+        <tbody>
+          {% for row in rows %}
+            <tr class="{% if row.is_mine %}is-mine{% endif %}">
+              <td>{{ forloop.counter }}</td>
+              <th scope="row">{{ row.name }}</th>
+              <td class="pf-bar-col"><span class="pf-bar"><i style="width: {{ row.width }}%"></i></span></td>
+              <td class="q-num">{{ row.fixed|money:0 }}</td>
+              {% for p in result.products %}{% with c=row.components|get_item:p.code %}<td class="q-num{% if c.amount|negative %} q-neg{% endif %}">{{ c.amount|money:0 }}</td>{% endwith %}{% endfor %}
+              <td class="q-num"><strong>{{ row.total|money }}</strong></td>
+              <td class="q-num">{{ row.contribution|pct }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr><td></td><th scope="row">All LCs</th><td></td><td class="q-num">{{ result.fixed_pool|money:0 }}</td>{% for p in result.products %}<td class="q-num">{{ p.bucket|money:0 }}</td>{% endfor %}<td class="q-num"><strong>{{ result.charged|money }}</strong></td><td class="q-num">100%</td></tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
+
+  <section class="pf-grid lq-grid">
+    <article class="pf-panel">
+      <header><h2>Where the money goes</h2><p>The MC's costs this quarter, against its budget.</p></header>
+      <table class="table lq-table">
+        <thead><tr><th>Category</th><th class="q-num">Q budget</th><th class="q-num">Q actual</th><th class="q-num">Used</th></tr></thead>
+        <tbody>
+          {% for b in budget %}<tr><td>{{ b.label }}</td><td class="q-num">{{ b.budgeted|money:0 }}</td><td class="q-num">{{ b.actual|money:0 }}</td><td class="q-num">{% if b.used is None %}—{% else %}{{ b.used|pct:0 }}{% endif %}</td></tr>{% endfor %}
+        </tbody>
+        <tfoot><tr><td><strong>Total</strong></td><td class="q-num">{{ budget_total.budgeted|money:0 }}</td><td class="q-num"><strong>{{ budget_total.actual|money:0 }}</strong></td><td></td></tr></tfoot>
+      </table>
+    </article>
+    <article class="pf-panel">
+      <header><h2>Who pays what</h2><p>The MC keeps part of each category; the LCs share the rest.</p></header>
+      <table class="table lq-table">
+        <thead><tr><th>Category</th><th class="q-num">MC pays</th><th class="q-num">LCs pay</th></tr></thead>
+        <tbody>
+          {% for c in result.categories %}<tr><td>{{ c.label }}</td><td class="q-num">{{ c.mc_pays|money:0 }}</td><td class="q-num">{{ c.lcs_pay|money:0 }}</td></tr>{% endfor %}
+        </tbody>
+        <tfoot><tr><td><strong>Total</strong></td><td class="q-num">{{ result.mc_pays|money:0 }}</td><td class="q-num"><strong>{{ result.lcs_pay|money:0 }}</strong></td></tr></tfoot>
+      </table>
+    </article>
+    <article class="pf-panel">
+      <header><h2>How the pool is split</h2><p>EGP {{ result.fixed_pool|money:0 }} fixed by tier weight; EGP {{ result.variable_pool|money:0 }} by performance, in buckets that follow each product's gross margin.</p></header>
+      <table class="table lq-table">
+        <thead><tr><th>Product</th><th class="q-num">Bucket</th><th class="q-num">Rate</th></tr></thead>
+        <tbody>
+          {% for p in result.products %}<tr><td>{{ p.label }}</td><td class="q-num">{{ p.bucket|money:0 }}</td><td class="q-num">{% if p.money %}{{ p.rate|money:4 }} / EGP{% else %}{{ p.rate|money }} / unit{% endif %}</td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </article>
+  </section>
+{% endblock %}

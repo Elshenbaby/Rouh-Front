@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+  {% include "b2c/partials/analysis_chrome.html" %}
+  {{ data.charts|json_script:"b2c-dashboard-charts" }}
+  {% if signup_filters.coverage_note %}<p class="data-limit">{{ signup_filters.coverage_note }}</p>{% endif %}
+  <details class="how-counted">
+    <summary>{% trans "How it's counted" %}</summary>
+    <ul>
+      <li>{% blocktrans %}<b>SUs</b> are the people in Rouh who signed up in the term or days picked. Rouh may hold a few percent fewer than EXPA, because people who register straight on aiesec.org without Alpha may be missing.{% endblocktrans %}</li>
+      <li>{% blocktrans %}<b>APPs, ACC, APDs and REs</b> follow those people to today (a cohort): someone who signed up in these days and was approved later counts here. EXPA's count of approvals made in these days, by anyone, is on each function's Performance view.{% endblocktrans %}</li>
+      <li>{% blocktrans %}<b>Sources</b> come from "How did you hear about AIESEC?" and the campaign or campus the signup came through.{% endblocktrans %}</li>
+      <li>{% blocktrans %}<b>Contact rate, interviews, assigned and out of process</b> come from what your LC records in Rouh.{% endblocktrans %}</li>
+      <li>{% blocktrans with day=rouh_from|date:"j M Y" %}<b>Days</b> can't start before {{ day }}, when Rouh's records start.{% endblocktrans %}</li>
+    </ul>
+  </details>
+
+  <div class="dash-kpis">
+    <div class="metric-tile"><p class="metric-label">SUs</p><p class="metric-value">{{ data.overall.su }}</p></div>
+    <div class="metric-tile"><p class="metric-label">APPs</p><p class="metric-value">{{ data.overall.app }}</p></div>
+    <div class="metric-tile"><p class="metric-label">ACC</p><p class="metric-value">{{ data.overall.acc }}</p></div>
+    <div class="metric-tile"><p class="metric-label">APDs</p><p class="metric-value">{{ data.overall.apd }}</p></div>
+    <div class="metric-tile"><p class="metric-label">%SU→APP</p><p class="metric-value">{{ data.overall.su_to_app }}</p></div>
+    <div class="metric-tile"><p class="metric-label">%SU→APD</p><p class="metric-value">{{ data.overall.su_to_apd }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "OGX contact rate" %}</p><p class="metric-value">{{ data.ogx_contact_rate_label }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Interviews done" %}</p><p class="metric-value">{{ data.interviews_completed }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Campaigns" %}</p><p class="metric-value">{{ data.campaign_count }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Campuses" %}</p><p class="metric-value">{{ data.campus_count }}</p></div>
+    <div class="metric-tile"><p class="metric-label">REs</p><p class="metric-value">{{ data.realized }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Assigned" %}</p><p class="metric-value">{{ data.assigned }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Out of process" %}</p><p class="metric-value">{{ data.oop }}</p></div>
+  </div>
+
+  <div class="dash-duo">
+    <section class="card">
+      <h2>{% trans "Overall funnel" %}</h2>
+      <div class="chart-frame">
+        <canvas id="chart-overall-funnel"></canvas>
+        <p class="chart-empty muted" hidden>{% trans "No funnel data yet." %}</p>
+      </div>
+    </section>
+    <section class="card">
+      <h2>{% trans "Signups by month" %}</h2>
+      <div class="chart-frame">
+        <canvas id="chart-months"></canvas>
+        <p class="chart-empty muted" hidden>{% trans "No monthly data yet." %}</p>
+      </div>
+    </section>
+  </div>
+
+  <section class="dash-section">
+    <h2 class="dash-section-title">{% trans "Where signups come from" %}</h2>
+    <div class="dash-split">
+      {% include "b2c/partials/mix_block.html" with title=_("Products") rows=data.product_mix %}
+      {% include "b2c/partials/mix_block.html" with title=_("Referral") rows=data.referral_mix %}
+      {% include "b2c/partials/mix_block.html" with title=_("Gender") rows=data.gender_mix %}
+      {% include "b2c/partials/mix_block.html" with title=_("Preferred country") rows=data.country_mix %}
+    </div>
+  </section>
+
+  <section class="dash-section">
+    <h2 class="dash-section-title">{% trans "Conversion cuts" %}</h2>
+    {% include "b2c/partials/funnel_table.html" with title=_("Products") rows=data.products show_acc=True %}
+    {% include "b2c/partials/funnel_table.html" with title=_("Campus") rows=data.campuses show_acc=True %}
+    {% include "b2c/partials/funnel_table.html" with title=_("Referral") rows=data.referrals show_acc=True %}
+    {% include "b2c/partials/funnel_table.html" with title=_("Gender") rows=data.genders show_acc=True %}
+    {% include "b2c/partials/funnel_table.html" with title=_("Preferred country") rows=data.countries show_acc=True %}
+    {% include "b2c/partials/funnel_table.html" with title=_("AIESECer") rows=data.aiesecer show_acc=True %}
+    {% include "b2c/partials/funnel_table.html" with title=_("Monthly") rows=data.by_month show_acc=True %}
+  </section>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  <script src="{% static 'js/b2c-dashboard.js' %}"></script>
+{% endblock %}

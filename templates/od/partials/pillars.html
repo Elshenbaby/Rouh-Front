@@ -1,0 +1,81 @@
+{% load i18n %}
+{# Pillars split into OPI (ops) and OHI (health) — one job per group #}
+<div class="od-drivers">
+  <div class="od-driver-group">
+    <h3>{% trans "Operations · OPI" %}</h3>
+    <p class="hint">{% trans "Absolute · Maturity · Growth" %}</p>
+    <div class="od-pillars">
+      {% for pillar in card.pillars %}
+      {% if pillar.key == "absolute" or pillar.key == "maturity" or pillar.key == "growth" %}
+      <article class="od-pillar {% if pillar.pending %}is-pending{% endif %}">
+        <div class="od-pillar-top">
+          <h4>{{ pillar.label }}</h4>
+          <p class="od-pillar-score">
+            {% if pillar.pending %}<span class="od-pending">{% trans "Pending" %}</span>
+            {% elif pillar.score is not None %}{{ pillar.score }}%
+            {% else %}—{% endif %}
+          </p>
+        </div>
+        {% if pillar.note %}<p class="od-pillar-note">{{ pillar.note }}</p>{% endif %}
+        {% if not pillar.pending and pillar.score is not None %}
+        <div class="od-track"><i style="width: {{ pillar.score }}%"></i></div>
+        {% endif %}
+        <ul class="od-metrics">
+          {% for m in pillar.metrics %}
+          <li>
+            <div>
+              <strong>{{ m.label }}</strong>
+              <span class="src">{{ m.source }}</span>
+            </div>
+            <div class="vals">
+              <span>{{ m.display }}</span>
+              {% if m.pct is not None %}<em>{{ m.pct }}%</em>{% elif m.pending %}<em>{% trans "Soon" %}</em>{% endif %}
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </article>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="od-driver-group">
+    <h3>{% trans "Health · OHI" %}</h3>
+    <p class="hint">{% trans "Membership · Finance · Market" %}</p>
+    <div class="od-pillars">
+      {% for pillar in card.pillars %}
+      {% if pillar.key == "membership" or pillar.key == "finance" or pillar.key == "market" %}
+      <article class="od-pillar {% if pillar.pending %}is-pending{% endif %}">
+        <div class="od-pillar-top">
+          <h4>{{ pillar.label }}</h4>
+          <p class="od-pillar-score">
+            {% if pillar.pending %}<span class="od-pending">{% trans "Pending" %}</span>
+            {% elif pillar.score is not None %}{{ pillar.score }}%
+            {% else %}—{% endif %}
+          </p>
+        </div>
+        {% if pillar.note %}<p class="od-pillar-note">{{ pillar.note }}</p>{% endif %}
+        {% if not pillar.pending and pillar.score is not None %}
+        <div class="od-track"><i style="width: {{ pillar.score }}%"></i></div>
+        {% endif %}
+        <ul class="od-metrics">
+          {% for m in pillar.metrics %}
+          <li>
+            <div>
+              <strong>{{ m.label }}</strong>
+              <span class="src">{{ m.source }}</span>
+            </div>
+            <div class="vals">
+              <span>{{ m.display }}</span>
+              {% if m.pct is not None %}<em>{{ m.pct }}%</em>{% elif m.pending %}<em>{% trans "Soon" %}</em>{% endif %}
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </article>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>

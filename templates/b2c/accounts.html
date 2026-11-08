@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'ui:desk' 'b2c' %}">{% trans "B2C" %}</a></p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+  {% include "b2c/partials/tabs.html" %}
+  <div class="metric-row">
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Accounts" %}</p>
+      <p class="metric-value">{{ page.paginator.count }}</p>
+    </div>
+    {% if last_sync %}
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Last Soluo pull" %}</p>
+      <p class="metric-value">{{ last_sync.status }}</p>
+    </div>
+    {% endif %}
+    {% if can_pull_soluo %}
+    <form method="post" action="{% url 'b2c:accounts_pull' %}" class="metric-action">
+      {% csrf_token %}
+      <button class="btn" type="submit">{% trans "Pull from Soluo" %}</button>
+    </form>
+    {% endif %}
+  </div>
+  <form method="get" class="filter-bar is-wide">
+    <input type="hidden" name="queue" value="{{ assign.queue }}">
+    {% if assign.selected_team %}<input type="hidden" name="team" value="{{ assign.selected_team.pk }}">{% endif %}
+    {% if assign.selected_member %}<input type="hidden" name="who" value="{{ assign.selected_member.pk }}">{% endif %}
+    <label class="field">
+      <span class="sr-only">{% trans "Search" %}</span>
+      <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Account or phone' %}">
+    </label>
+  </form>
+  <div x-data="{ selected: [] }">
+    <form method="post" action="{% url 'b2c:accounts_assign' %}" class="assign-form">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.get_full_path }}">
+      {% if assign.selected_team %}<input type="hidden" name="team" value="{{ assign.selected_team.pk }}">{% endif %}
+    {% if assign.selected_member %}<input type="hidden" name="who" value="{{ assign.selected_member.pk }}">{% endif %}
+      {% include "exchange/partials/assign_bar.html" %}
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              {% if assign.can_assign %}
+                <th class="col-check">
+                  <label class="sr-only">{% trans "Select all on this page" %}</label>
+                  <input type="checkbox" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=account_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=account_ids]').forEach(el => el.checked = $event.target.checked)">
+                </th>
+              {% endif %}
+              <th>{% trans "Account Responsible" %}</th>
+              <th>{% trans "Account" %}</th>
+              <th>{% trans "Type" %}</th>
+              <th>{% trans "Product" %}</th>
+              <th>{% trans "LC" %}</th>
+              <th>{% trans "Phone" %}</th>
+              <th>{% trans "Social" %}</th>
+              <th>{% trans "Contact" %}</th>
+              <th>{% trans "Status" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for account in page %}
+              <tr>
+                {% if assign.can_assign %}
+                  <td class="col-check">
+                    <input type="checkbox" name="account_ids" value="{{ account.pk }}" @change="selected = Array.from($root.querySelectorAll('[name=account_ids]:checked')).map(el => el.value)">
+                  </td>
+                {% endif %}
+                <td>
+                  {% if account.assigned_to %}
+                    {{ account.assigned_to.full_name }}
+                  {% else %}
+                    <span class="owner-empty">{% trans "Unassigned" %}</span>
+                  {% endif %}
+                </td>
+                <td><a href="{% url 'b2c:account' account.pk %}">{{ account.account_name }}</a></td>
+                <td>{{ account.account_type|default:"B2C" }}</td>
+                <td>{{ account.product_label }}</td>
+                <td>{{ account.lc_display_name|default:"—" }}</td>
+                <td>{{ account.phone|default:"—" }}</td>
+                <td>
+                  {% if account.social_url %}
+                    <a href="{{ account.social_url }}" rel="noopener noreferrer" target="_blank">{% trans "Open" %}</a>
+                  {% else %}
+                    —
+                  {% endif %}
+                </td>
+                <td>{{ account.get_contact_status_display|default:"—" }}</td>
+                <td><span class="badge badge-{{ account.status_badge }}">{{ account.sheet_status }}</span></td>
+              </tr>
+            {% empty %}
+              <tr><td colspan="{% if assign.can_assign %}10{% else %}9{% endif %}">{% trans "No Soluo B2C accounts for this LC yet." %}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </form>
+  </div>
+{% endblock %}

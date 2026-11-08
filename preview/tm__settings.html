@@ -1,0 +1,1351 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>TM settings · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link is-active">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+      <input type="hidden" name="next" value="/tm/settings/">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+      <input type="hidden" name="next" value="/tm/settings/">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page">
+        
+        
+  <header class="page-header">
+    <p class="eyebrow"><a href="desks__tm.html">Talent</a> · CU</p>
+    <h1>TM settings</h1>
+    <p class="lede">HR track, which KPIs each function uses, and when someone needs attention.</p>
+  </header>
+  
+
+<nav class="tabs tm-tabs" aria-label="Talent">
+  <a class="tab" href="tm.html">Overview</a>
+  <a class="tab" href="tm__structure.html">Structure</a>
+  <a class="tab" href="tm__performance.html">Performance</a>
+  <a class="tab" href="tm__planning.html">Planning</a>
+  <a class="tab" href="tm__attendance.html">Attendance</a>
+  <a class="tab" href="tm__hr.html">HR Status</a>
+  <a class="tab" href="tm__rcr.html">RCR</a>
+  <a class="tab" href="tm__nes.html">NES</a>
+  <a class="tab is-active" href="tm__settings.html">Settings</a>
+</nav>
+
+
+
+  
+<div id="tm-settings">
+  <section class="card">
+    <h2>HR track</h2>
+    <p class="muted">Drag a step to reorder. Used steps can only be archived. New steps appear in every status dropdown immediately.</p>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="tm-drag-col"></th>
+            <th>Step</th>
+            <th>Colour</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody
+          data-sortable
+          data-sortable-url="/tm/settings/"
+          data-sortable-target="#tm-settings"
+          data-sortable-swap="outerHTML show:none focus-scroll:false"
+        >
+          
+            <tr draggable="true" data-id="1361bad9-9d2d-4bd1-a5a4-ed4e25f39bb3">
+              <td class="tm-drag-col"><span class="tm-drag-handle" aria-hidden="true">⋮⋮</span></td>
+              <td>
+                <span class="badge badge-neutral">Good standing</span>
+                 · default
+                
+              </td>
+              <td>Neutral</td>
+              <td>
+                <form
+                  method="post"
+                  class="tm-inline"
+                  hx-post="/tm/settings/"
+                  hx-target="#tm-settings"
+                  hx-swap="outerHTML show:none focus-scroll:false"
+                >
+                  <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+                  <input type="hidden" name="intent" value="archive">
+                  <input type="hidden" name="step" value="1361bad9-9d2d-4bd1-a5a4-ed4e25f39bb3">
+                  <button class="btn btn-sm" type="submit">Archive</button>
+                </form>
+              </td>
+            </tr>
+          
+            <tr draggable="true" data-id="61215ed5-25dd-4a5c-a44c-03b3ea5737ed">
+              <td class="tm-drag-col"><span class="tm-drag-handle" aria-hidden="true">⋮⋮</span></td>
+              <td>
+                <span class="badge badge-warning">Warning 1</span>
+                
+                
+              </td>
+              <td>Warning</td>
+              <td>
+                <form
+                  method="post"
+                  class="tm-inline"
+                  hx-post="/tm/settings/"
+                  hx-target="#tm-settings"
+                  hx-swap="outerHTML show:none focus-scroll:false"
+                >
+                  <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+                  <input type="hidden" name="intent" value="archive">
+                  <input type="hidden" name="step" value="61215ed5-25dd-4a5c-a44c-03b3ea5737ed">
+                  <button class="btn btn-sm" type="submit">Archive</button>
+                </form>
+              </td>
+            </tr>
+          
+            <tr draggable="true" data-id="b5746e6d-4eb5-423e-8387-3c36c9ef9913">
+              <td class="tm-drag-col"><span class="tm-drag-handle" aria-hidden="true">⋮⋮</span></td>
+              <td>
+                <span class="badge badge-warning">Warning 2</span>
+                
+                
+              </td>
+              <td>Warning</td>
+              <td>
+                <form
+                  method="post"
+                  class="tm-inline"
+                  hx-post="/tm/settings/"
+                  hx-target="#tm-settings"
+                  hx-swap="outerHTML show:none focus-scroll:false"
+                >
+                  <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+                  <input type="hidden" name="intent" value="archive">
+                  <input type="hidden" name="step" value="b5746e6d-4eb5-423e-8387-3c36c9ef9913">
+                  <button class="btn btn-sm" type="submit">Archive</button>
+                </form>
+              </td>
+            </tr>
+          
+            <tr draggable="true" data-id="c2e4c870-57d8-46eb-8350-7e57cbd493c6">
+              <td class="tm-drag-col"><span class="tm-drag-handle" aria-hidden="true">⋮⋮</span></td>
+              <td>
+                <span class="badge badge-warning">Probation task</span>
+                
+                
+              </td>
+              <td>Warning</td>
+              <td>
+                <form
+                  method="post"
+                  class="tm-inline"
+                  hx-post="/tm/settings/"
+                  hx-target="#tm-settings"
+                  hx-swap="outerHTML show:none focus-scroll:false"
+                >
+                  <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+                  <input type="hidden" name="intent" value="archive">
+                  <input type="hidden" name="step" value="c2e4c870-57d8-46eb-8350-7e57cbd493c6">
+                  <button class="btn btn-sm" type="submit">Archive</button>
+                </form>
+              </td>
+            </tr>
+          
+            <tr draggable="true" data-id="b872cf6c-7f9c-41bc-b141-6c863f3bedba">
+              <td class="tm-drag-col"><span class="tm-drag-handle" aria-hidden="true">⋮⋮</span></td>
+              <td>
+                <span class="badge badge-danger">Dismissal</span>
+                
+                 · ends membership
+              </td>
+              <td>Danger</td>
+              <td>
+                <form
+                  method="post"
+                  class="tm-inline"
+                  hx-post="/tm/settings/"
+                  hx-target="#tm-settings"
+                  hx-swap="outerHTML show:none focus-scroll:false"
+                >
+                  <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+                  <input type="hidden" name="intent" value="archive">
+                  <input type="hidden" name="step" value="b872cf6c-7f9c-41bc-b141-6c863f3bedba">
+                  <button class="btn btn-sm" type="submit">Archive</button>
+                </form>
+              </td>
+            </tr>
+          
+        </tbody>
+      </table>
+    </div>
+    <form
+      method="post"
+      class="work-form"
+      hx-post="/tm/settings/"
+      hx-target="#tm-settings"
+      hx-swap="outerHTML show:none focus-scroll:false"
+    >
+      <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+      <input type="hidden" name="intent" value="step">
+      
+        <label class="field">
+          <span>Step name</span>
+          <input type="text" name="name" maxlength="60" required id="id_name">
+        </label>
+      
+        <label class="field">
+          <span>Colour</span>
+          <select name="colour" id="id_colour">
+  <option value="neutral">Neutral</option>
+
+  <option value="warning">Warning</option>
+
+  <option value="danger">Danger</option>
+
+</select>
+        </label>
+      
+        <label class="field">
+          <span>Ends membership</span>
+          <input type="checkbox" name="ends_membership" id="id_ends_membership">
+        </label>
+      
+        <label class="field">
+          <span>Default for new members</span>
+          <input type="checkbox" name="is_default" id="id_is_default">
+        </label>
+      
+      <button class="btn btn-primary" type="submit">Add step</button>
+    </form>
+  </section>
+
+  <section class="card" style="margin-top: var(--space-4);">
+    <h2>Function KPIs</h2>
+    <p class="muted">Tick a desk metric to measure it automatically. Add a name to track something the desks do not count.</p>
+    
+      <div class="tm-kpi-form">
+        <h3>oGV</h3>
+        <form
+          method="post"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+          hx-trigger="change, submit"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="kpis">
+          <input type="hidden" name="function" value="ogv">
+          
+            <div class="tm-kpi-list">
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="60a1ba75-ff27-434e-a5aa-cdc5cfec3bf7">
+                  oGV APDs
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="41be7c53-9271-4e83-a5e8-633624249f63">
+                  oGV applied
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="e4c737da-4086-4e92-97ee-50761e0a6e1c">
+                  oGV contacted
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="ceba88c6-9bba-41d4-9019-662d0e474477">
+                  oGV interviewed
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="fd03a4d6-43d3-4ef2-8b94-53c7e5f9080a">
+                  oGV realized
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="bc8808f4-d986-4cae-8da3-aa0f379d75dd">
+                  oGV signups
+                  <span class="muted">Auto</span>
+                </label>
+              
+            </div>
+            <button class="btn" type="submit">Save KPIs</button>
+          
+        </form>
+        <form
+          method="post"
+          class="tm-kpi-add"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="add_kpi">
+          <input type="hidden" name="function" value="ogv">
+          <label class="field">
+            <span>KPI name</span>
+            <input type="text" name="name" maxlength="80" placeholder="e.g. Weekly 1-1s" required>
+          </label>
+          <label class="field">
+            <span>Unit</span>
+            <input type="text" name="unit" maxlength="20" value="units" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Add KPI</button>
+        </form>
+      </div>
+    
+      <div class="tm-kpi-form">
+        <h3>oGTa</h3>
+        <form
+          method="post"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+          hx-trigger="change, submit"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="kpis">
+          <input type="hidden" name="function" value="ogta">
+          
+            <div class="tm-kpi-list">
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="bb97fc63-cb93-4ec8-b44e-15863d89db2a">
+                  oGTa APDs
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="f6939ffe-50f4-4d66-9189-7a8b9c177b96">
+                  oGTa applied
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="8563b7af-f669-48c6-8953-4dbd9f2b9eb5">
+                  oGTa contacted
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="d2654250-b5a7-447c-bbc8-5ffcdccfaf5d">
+                  oGTa interviewed
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="8d307c35-a480-4037-a524-0b86f3becce9">
+                  oGTa realized
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="a96a294b-51e3-4a5f-830a-d83b8d201be5">
+                  oGTa signups
+                  <span class="muted">Auto</span>
+                </label>
+              
+            </div>
+            <button class="btn" type="submit">Save KPIs</button>
+          
+        </form>
+        <form
+          method="post"
+          class="tm-kpi-add"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="add_kpi">
+          <input type="hidden" name="function" value="ogta">
+          <label class="field">
+            <span>KPI name</span>
+            <input type="text" name="name" maxlength="80" placeholder="e.g. Weekly 1-1s" required>
+          </label>
+          <label class="field">
+            <span>Unit</span>
+            <input type="text" name="unit" maxlength="20" value="units" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Add KPI</button>
+        </form>
+      </div>
+    
+      <div class="tm-kpi-form">
+        <h3>oGTe</h3>
+        <form
+          method="post"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+          hx-trigger="change, submit"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="kpis">
+          <input type="hidden" name="function" value="ogte">
+          
+            <div class="tm-kpi-list">
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="f94b1d1f-0710-4bdd-9038-82e046438242">
+                  oGTe APDs
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="09a8d919-036e-4151-8bd9-6661d0cf3e4b">
+                  oGTe applied
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="1b8a5cd4-0655-421c-b43c-16aa9d25fa96">
+                  oGTe contacted
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="72422a54-26ee-48c8-b4b0-2886c24f5a48">
+                  oGTe interviewed
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="f61d4ea2-e5f0-49d2-8674-bd77164f8577">
+                  oGTe realized
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="321e6954-5917-4a58-b335-2b13e4eb419a">
+                  oGTe signups
+                  <span class="muted">Auto</span>
+                </label>
+              
+            </div>
+            <button class="btn" type="submit">Save KPIs</button>
+          
+        </form>
+        <form
+          method="post"
+          class="tm-kpi-add"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="add_kpi">
+          <input type="hidden" name="function" value="ogte">
+          <label class="field">
+            <span>KPI name</span>
+            <input type="text" name="name" maxlength="80" placeholder="e.g. Weekly 1-1s" required>
+          </label>
+          <label class="field">
+            <span>Unit</span>
+            <input type="text" name="unit" maxlength="20" value="units" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Add KPI</button>
+        </form>
+      </div>
+    
+      <div class="tm-kpi-form">
+        <h3>iGV</h3>
+        <form
+          method="post"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+          hx-trigger="change, submit"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="kpis">
+          <input type="hidden" name="function" value="igv">
+          
+            <div class="tm-kpi-list">
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="06b51370-3e6c-4ce7-93c6-8d2a53679a38">
+                  iGV APDs
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="b5d08c08-9a5e-4ded-b356-24338525e69b">
+                  iGV accounts contacted
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="c721428c-bd85-45b6-8f22-697157e0ef21">
+                  iGV applications
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="1fcab878-ae42-44ac-8d09-51158eb54082">
+                  iGV opens raised
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="e0848e5f-fba6-49df-8005-7ff68e29f650">
+                  iGV realized
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="a9dcd954-41aa-4fbf-92dc-f2782cead1a1">
+                  iGV visits done
+                  <span class="muted">Auto</span>
+                </label>
+              
+            </div>
+            <button class="btn" type="submit">Save KPIs</button>
+          
+        </form>
+        <form
+          method="post"
+          class="tm-kpi-add"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="add_kpi">
+          <input type="hidden" name="function" value="igv">
+          <label class="field">
+            <span>KPI name</span>
+            <input type="text" name="name" maxlength="80" placeholder="e.g. Weekly 1-1s" required>
+          </label>
+          <label class="field">
+            <span>Unit</span>
+            <input type="text" name="unit" maxlength="20" value="units" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Add KPI</button>
+        </form>
+      </div>
+    
+      <div class="tm-kpi-form">
+        <h3>iGTa</h3>
+        <form
+          method="post"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+          hx-trigger="change, submit"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="kpis">
+          <input type="hidden" name="function" value="igta">
+          
+            <div class="tm-kpi-list">
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="786e213f-7830-4df2-b774-d4be45169955">
+                  iGTa APDs
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="a4fcca44-351a-4efa-9178-90fdf376497f">
+                  iGTa accounts contacted
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="6e4d9b6b-cb12-4a4e-aac4-1e3d09fbe30b">
+                  iGTa applications
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="ee799806-d96f-4486-b593-d8fd915d9136">
+                  iGTa opens raised
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="0d92e858-135c-4396-ad6c-ac67c654b947">
+                  iGTa realized
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="e78acd57-f412-486b-b279-d0e8e216fe02">
+                  iGTa visits done
+                  <span class="muted">Auto</span>
+                </label>
+              
+            </div>
+            <button class="btn" type="submit">Save KPIs</button>
+          
+        </form>
+        <form
+          method="post"
+          class="tm-kpi-add"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="add_kpi">
+          <input type="hidden" name="function" value="igta">
+          <label class="field">
+            <span>KPI name</span>
+            <input type="text" name="name" maxlength="80" placeholder="e.g. Weekly 1-1s" required>
+          </label>
+          <label class="field">
+            <span>Unit</span>
+            <input type="text" name="unit" maxlength="20" value="units" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Add KPI</button>
+        </form>
+      </div>
+    
+      <div class="tm-kpi-form">
+        <h3>iGTe</h3>
+        <form
+          method="post"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+          hx-trigger="change, submit"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="kpis">
+          <input type="hidden" name="function" value="igte">
+          
+            <div class="tm-kpi-list">
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="7afabd6f-a79c-43eb-a113-ca893676ad2a">
+                  iGTe APDs
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="3ca9c469-4bd8-4f34-815b-0d1ac02ad0cd">
+                  iGTe accounts contacted
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="77498b3e-a002-45b8-aebe-76170a1ba424">
+                  iGTe applications
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="cc42c0f0-9953-44e3-afe1-2db0ca697827">
+                  iGTe opens raised
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="1b846f36-698b-48b3-a1f8-e90ac1432572">
+                  iGTe realized
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="8356baec-370f-4d8c-a823-1cdfdf1c918f">
+                  iGTe visits done
+                  <span class="muted">Auto</span>
+                </label>
+              
+            </div>
+            <button class="btn" type="submit">Save KPIs</button>
+          
+        </form>
+        <form
+          method="post"
+          class="tm-kpi-add"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="add_kpi">
+          <input type="hidden" name="function" value="igte">
+          <label class="field">
+            <span>KPI name</span>
+            <input type="text" name="name" maxlength="80" placeholder="e.g. Weekly 1-1s" required>
+          </label>
+          <label class="field">
+            <span>Unit</span>
+            <input type="text" name="unit" maxlength="20" value="units" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Add KPI</button>
+        </form>
+      </div>
+    
+      <div class="tm-kpi-form">
+        <h3>B2B</h3>
+        <form
+          method="post"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+          hx-trigger="change, submit"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="kpis">
+          <input type="hidden" name="function" value="b2b">
+          
+            <div class="tm-kpi-list">
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="202159b2-221a-4e21-ac1f-7f662e4e5d0b">
+                  B2B accounts contacted
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="8703ae00-2692-4198-9062-27a31016f7e5">
+                  B2B deals closed
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="209be810-24fe-4ea5-be0a-3298eb4fc8a3">
+                  B2B opens raised
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="df46bb28-fda1-40e8-98dc-2525e8057aa4">
+                  B2B visits done
+                  <span class="muted">Auto</span>
+                </label>
+              
+            </div>
+            <button class="btn" type="submit">Save KPIs</button>
+          
+        </form>
+        <form
+          method="post"
+          class="tm-kpi-add"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="add_kpi">
+          <input type="hidden" name="function" value="b2b">
+          <label class="field">
+            <span>KPI name</span>
+            <input type="text" name="name" maxlength="80" placeholder="e.g. Weekly 1-1s" required>
+          </label>
+          <label class="field">
+            <span>Unit</span>
+            <input type="text" name="unit" maxlength="20" value="units" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Add KPI</button>
+        </form>
+      </div>
+    
+      <div class="tm-kpi-form">
+        <h3>Business Development</h3>
+        <form
+          method="post"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+          hx-trigger="change, submit"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="kpis">
+          <input type="hidden" name="function" value="bd">
+          
+            <div class="tm-kpi-list">
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="3f91a8f9-755e-4fe1-96dd-07e11d7acb36">
+                  BD accounts contacted
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="ae7a5bfb-f7b9-4431-a410-dbd05cbe93ae">
+                  BD deals closed
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="c015f17d-6521-48da-be89-258fded1ded8">
+                  BD opens raised
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="24a5fd8e-0e7f-4016-b3e3-6f7e59e83458">
+                  BD visits done
+                  <span class="muted">Auto</span>
+                </label>
+              
+            </div>
+            <button class="btn" type="submit">Save KPIs</button>
+          
+        </form>
+        <form
+          method="post"
+          class="tm-kpi-add"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="add_kpi">
+          <input type="hidden" name="function" value="bd">
+          <label class="field">
+            <span>KPI name</span>
+            <input type="text" name="name" maxlength="80" placeholder="e.g. Weekly 1-1s" required>
+          </label>
+          <label class="field">
+            <span>Unit</span>
+            <input type="text" name="unit" maxlength="20" value="units" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Add KPI</button>
+        </form>
+      </div>
+    
+      <div class="tm-kpi-form">
+        <h3>B2C</h3>
+        <form
+          method="post"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+          hx-trigger="change, submit"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="kpis">
+          <input type="hidden" name="function" value="b2c">
+          
+            <div class="tm-kpi-list">
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="7d310830-c776-4e94-8a6d-62e095b21ad3">
+                  B2C accounts contacted
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="39793d94-a9cd-45ba-b763-a6d7de726aa5">
+                  B2C interviews completed
+                  <span class="muted">Auto</span>
+                </label>
+              
+                <label>
+                  <input type="checkbox" name="kpi" value="3b3d5a10-eab0-4494-8c02-b9c1811b1b70">
+                  B2C interviews logged
+                  <span class="muted">Auto</span>
+                </label>
+              
+            </div>
+            <button class="btn" type="submit">Save KPIs</button>
+          
+        </form>
+        <form
+          method="post"
+          class="tm-kpi-add"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="add_kpi">
+          <input type="hidden" name="function" value="b2c">
+          <label class="field">
+            <span>KPI name</span>
+            <input type="text" name="name" maxlength="80" placeholder="e.g. Weekly 1-1s" required>
+          </label>
+          <label class="field">
+            <span>Unit</span>
+            <input type="text" name="unit" maxlength="20" value="units" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Add KPI</button>
+        </form>
+      </div>
+    
+      <div class="tm-kpi-form">
+        <h3>Finance</h3>
+        <form
+          method="post"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+          hx-trigger="change, submit"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="kpis">
+          <input type="hidden" name="function" value="fin">
+          
+            <p class="muted">No KPIs on this function yet. Add one below.</p>
+          
+        </form>
+        <form
+          method="post"
+          class="tm-kpi-add"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="add_kpi">
+          <input type="hidden" name="function" value="fin">
+          <label class="field">
+            <span>KPI name</span>
+            <input type="text" name="name" maxlength="80" placeholder="e.g. Weekly 1-1s" required>
+          </label>
+          <label class="field">
+            <span>Unit</span>
+            <input type="text" name="unit" maxlength="20" value="units" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Add KPI</button>
+        </form>
+      </div>
+    
+      <div class="tm-kpi-form">
+        <h3>Talent Management</h3>
+        <form
+          method="post"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+          hx-trigger="change, submit"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="kpis">
+          <input type="hidden" name="function" value="tm">
+          
+            <p class="muted">No KPIs on this function yet. Add one below.</p>
+          
+        </form>
+        <form
+          method="post"
+          class="tm-kpi-add"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="add_kpi">
+          <input type="hidden" name="function" value="tm">
+          <label class="field">
+            <span>KPI name</span>
+            <input type="text" name="name" maxlength="80" placeholder="e.g. Weekly 1-1s" required>
+          </label>
+          <label class="field">
+            <span>Unit</span>
+            <input type="text" name="unit" maxlength="20" value="units" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Add KPI</button>
+        </form>
+      </div>
+    
+      <div class="tm-kpi-form">
+        <h3>Information Management</h3>
+        <form
+          method="post"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+          hx-trigger="change, submit"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="kpis">
+          <input type="hidden" name="function" value="it">
+          
+            <p class="muted">No KPIs on this function yet. Add one below.</p>
+          
+        </form>
+        <form
+          method="post"
+          class="tm-kpi-add"
+          hx-post="/tm/settings/"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+        >
+          <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+          <input type="hidden" name="intent" value="add_kpi">
+          <input type="hidden" name="function" value="it">
+          <label class="field">
+            <span>KPI name</span>
+            <input type="text" name="name" maxlength="80" placeholder="e.g. Weekly 1-1s" required>
+          </label>
+          <label class="field">
+            <span>Unit</span>
+            <input type="text" name="unit" maxlength="20" value="units" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Add KPI</button>
+        </form>
+      </div>
+    
+  </section>
+
+  <section class="card" style="margin-top: var(--space-4);">
+    <h2>Needs-attention thresholds</h2>
+    <form
+      method="post"
+      class="work-form"
+      hx-post="/tm/settings/"
+      hx-target="#tm-settings"
+      hx-swap="outerHTML show:none focus-scroll:false"
+    >
+      <input type="hidden" name="csrfmiddlewaretoken" value="yo3Ayinscu5EHJ477CoDIR8OKXPhQHoEfhRwCSYg8nU8DnGiREPz16Qj46AMDuiH">
+      <input type="hidden" name="intent" value="thresholds">
+      
+        <label class="field">
+          <span>Consecutive absences</span>
+          <input type="number" name="consecutive_absences" value="3" min="1" required id="id_consecutive_absences">
+        </label>
+      
+        <label class="field">
+          <span>%MAG below</span>
+          <input type="number" name="mag_below" value="50.00" step="0.01" required id="id_mag_below">
+        </label>
+      
+        <label class="field">
+          <span>Months below</span>
+          <input type="number" name="mag_months" value="2" min="1" required id="id_mag_months">
+        </label>
+      
+        <label class="field">
+          <span>Warning stale days</span>
+          <input type="number" name="warning_stale_days" value="30" min="1" required id="id_warning_stale_days">
+        </label>
+      
+      <button class="btn btn-primary" type="submit">Save thresholds</button>
+    </form>
+  </section>
+
+  <section class="card" style="margin-top: var(--space-4);">
+    <h2>Exit reasons</h2>
+    <p class="muted">Managed nationally. Flags drive retention: leaver vs void.</p>
+    <ul class="plain-list">
+      
+        <li>Added by mistake</li>
+      
+        <li>Resigned</li>
+      
+        <li>Dismissed</li>
+      
+    </ul>
+  </section>
+</div>
+
+
+      </main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+</body>
+</html>

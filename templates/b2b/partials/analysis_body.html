@@ -1,0 +1,354 @@
+{% load i18n %}
+{{ analysis.charts|json_script:"b2b-analysis-charts" }}
+
+{% if analysis.chips %}
+  <p class="dash-chips" aria-label="{% trans 'Active filters' %}">
+    {% for chip in analysis.chips %}
+      <span class="dash-chip">{{ chip }}</span>
+    {% endfor %}
+  </p>
+{% endif %}
+
+{% if b2b_summary %}
+<section class="card b2b-opps">
+  <div class="row-between">
+    <div>
+      <h2>{% trans "B2B opportunities" %}</h2>
+      <p class="muted">{% trans "From the LCs' financial tools. A B2B slot is a paid OP Fee Revenues row; EXPA slots nobody paid for don't count. Live means on EXPA with a live slot." %}</p>
+    </div>
+    <a class="btn btn-secondary btn-sm" href="{% url 'b2b:slots' %}?desk={{ desk }}&amp;peak={{ analysis.query.peak }}&amp;product={{ analysis.query.product }}">{% trans "Open the list" %}</a>
+  </div>
+  <div class="dash-kpis">
+    <a class="metric-tile b2b-opps-tile" href="{% url 'b2b:slots' %}?desk={{ desk }}&amp;peak={{ analysis.query.peak }}&amp;product={{ analysis.query.product }}">
+      <p class="metric-label">{% trans "Paid B2B slots" %}</p>
+      <p class="metric-value">{{ b2b_summary.paid }}</p>
+      <p class="muted">{% trans "OP Fee Revenues rows" %}</p>
+    </a>
+    <a class="metric-tile b2b-opps-tile" href="{% url 'b2b:slots' %}?desk={{ desk }}&amp;peak={{ analysis.query.peak }}&amp;product={{ analysis.query.product }}">
+      <p class="metric-label">{% trans "Opportunities" %}</p>
+      <p class="metric-value">{{ b2b_summary.total }}</p>
+      <p class="muted">{% trans "live and not live" %}</p>
+    </a>
+    <a class="metric-tile b2b-opps-tile" href="{% url 'b2b:slots' %}?desk={{ desk }}&amp;status=live&amp;peak={{ analysis.query.peak }}&amp;product={{ analysis.query.product }}">
+      <p class="metric-label">{% trans "Live" %}</p>
+      <p class="metric-value">{{ b2b_summary.live }}</p>
+      <p class="muted">{{ b2b_summary.available }} {% trans "openings available" %}</p>
+    </a>
+    <a class="metric-tile b2b-opps-tile" href="{% url 'b2b:slots' %}?desk={{ desk }}&amp;status=not_live&amp;peak={{ analysis.query.peak }}&amp;product={{ analysis.query.product }}">
+      <p class="metric-label">{% trans "Not live" %}</p>
+      <p class="metric-value">{{ b2b_summary.not_live }}</p>
+      <p class="muted">{{ b2b_summary.not_on_expa }} {% trans "not on EXPA" %}</p>
+    </a>
+  </div>
+  <div class="dash-duo">
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>{% trans "Product" %}</th><th>{% trans "Paid slots" %}</th><th>{% trans "Opportunities" %}</th><th>{% trans "Live" %}</th><th>{% trans "Not live" %}</th></tr></thead>
+        <tbody>
+          {% for p in b2b_summary.products %}
+            <tr><td>{{ p.label }}</td><td><strong>{{ p.paid }}</strong></td><td>{{ p.total }}</td><td>{{ p.live }}</td><td>{{ p.not_live }}</td></tr>
+          {% endfor %}
+          {% for p in b2b_summary.peaks %}
+            <tr class="b2b-opps-peak"><td>{% if p.code == "26.1" %}{% trans "Summer" %} 26.1{% else %}{% trans "Winter" %} 26.2{% endif %}</td><td><strong>{{ p.paid }}</strong></td><td>{{ p.total }}</td><td>{{ p.live }}</td><td>{{ p.not_live }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>{% trans "LC" %}</th><th>{% trans "Paid slots" %}</th><th>{% trans "Opportunities" %}</th><th>{% trans "Live" %}</th><th>{% trans "Not live" %}</th><th>iGV</th><th>iGTa</th><th>iGTe</th></tr></thead>
+        <tbody>
+          {% for lc in b2b_summary.lcs %}
+            <tr><td>{{ lc.lc }}</td><td><strong>{{ lc.paid }}</strong></td><td>{{ lc.total }}</td><td>{{ lc.live }}</td><td>{{ lc.not_live }}</td><td>{{ lc.igv }}</td><td>{{ lc.igta }}</td><td>{{ lc.igte }}</td></tr>
+          {% empty %}
+            <tr><td colspan="8">{% trans "No B2B opportunities in the financial tools for this filter." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<h2 class="b2b-opps-sub">{% trans "EXPA capacity of these opportunities" %}</h2>
+<p class="muted">{% trans "What EXPA shows for them: live slots, openings and dates. For capacity only; B2B slots are the paid rows above." %}</p>
+{% endif %}
+
+<section class="card dash-callout">
+  <h3>{% trans "This cut" %}</h3>
+  <p>{{ analysis.insight }}</p>
+</section>
+
+<div class="dash-kpis">
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Slots" %}</p>
+    <p class="metric-value">{{ analysis.kpis.slots }}</p>
+    <p class="muted">{{ analysis.kpis.live }} {% trans "live" %}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Openings" %}</p>
+    <p class="metric-value">{{ analysis.kpis.openings }}</p>
+    <p class="muted">{% trans "Avg" %} {{ analysis.kpis.avg_size }} {% trans "per slot" %}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Available" %}</p>
+    <p class="metric-value">{{ analysis.kpis.available }}</p>
+    <p class="muted">{{ analysis.kpis.availability }} {% trans "still free" %}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Fill" %}</p>
+    <p class="metric-value">{{ analysis.kpis.fill }}</p>
+    <p class="muted">{{ analysis.kpis.taken }} {% trans "taken" %}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Applicants" %}</p>
+    <p class="metric-value">{{ analysis.kpis.applicants }}</p>
+    <p class="muted">{{ analysis.kpis.demand }} {% trans "per opening" %}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Coverage" %}</p>
+    <p class="metric-value">{{ analysis.kpis.lcs }}</p>
+    <p class="muted">{{ analysis.kpis.opportunities }} {% trans "opps" %} · {{ analysis.kpis.organisations }} {% trans "orgs" %}</p>
+  </div>
+</div>
+<div class="dash-kpis dash-kpis-sub">
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Current" %}</p>
+    <p class="metric-value">{{ analysis.kpis.current }}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Upcoming" %}</p>
+    <p class="metric-value">{{ analysis.kpis.upcoming }}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Past" %}</p>
+    <p class="metric-value">{{ analysis.kpis.past }}</p>
+  </div>
+</div>
+
+<div class="dash-duo">
+  <section class="card">
+    <h2>{% trans "Slots by product" %}</h2>
+    <p class="muted">{% trans "How the matched B2B board splits across iGV, iGTa and iGTe." %}</p>
+    <div class="chart-frame">
+      <canvas id="chart-b2b-products"></canvas>
+      <p class="chart-empty muted" hidden>{% trans "No product mix yet." %}</p>
+    </div>
+  </section>
+  <section class="card">
+    <h2>{% trans "Capacity taken vs available" %}</h2>
+    <p class="muted">{% trans "Openings already placed against openings still free." %}</p>
+    <div class="chart-frame">
+      <canvas id="chart-b2b-fill"></canvas>
+      <p class="chart-empty muted" hidden>{% trans "No capacity yet." %}</p>
+    </div>
+  </section>
+</div>
+
+<div class="dash-duo">
+  <section class="card">
+    <h2>{% trans "Demand vs openings" %}</h2>
+    <p class="muted">{% trans "Applicants sitting on each product against the openings raised." %}</p>
+    <div class="chart-frame">
+      <canvas id="chart-b2b-demand"></canvas>
+      <p class="chart-empty muted" hidden>{% trans "No demand yet." %}</p>
+    </div>
+  </section>
+  <section class="card">
+    <h2>{% trans "Openings by LC" %}</h2>
+    <p class="muted">{% trans "Largest host LCs in this cut. Available openings stacked beside total." %}</p>
+    <div class="chart-frame chart-frame-tall">
+      <canvas id="chart-b2b-lcs"></canvas>
+      <p class="chart-empty muted" hidden>{% trans "No LC mix yet." %}</p>
+    </div>
+  </section>
+</div>
+
+<section class="dash-section">
+  <h2 class="dash-section-title">{% trans "Starts by month" %}</h2>
+  <div class="chart-frame chart-frame-tall">
+    <canvas id="chart-b2b-months"></canvas>
+    <p class="chart-empty muted" hidden>{% trans "No start dates yet." %}</p>
+  </div>
+</section>
+
+<section class="dash-section">
+  <h2 class="dash-section-title">{% trans "LC × product" %}</h2>
+  <p class="muted">{% trans "Openings hosted by each LC across iGV, iGTa and iGTe." %}</p>
+  {% if analysis.heatmap.rows %}
+  <div class="table-wrap">
+    <table class="table table-dense dash-heat">
+      <thead>
+        <tr>
+          <th>{% trans "LC" %}</th>
+          {% for product in analysis.heatmap.products %}
+            <th>{{ product }}</th>
+          {% endfor %}
+          <th>{% trans "Total" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in analysis.heatmap.rows %}
+          <tr>
+            <td>{{ row.label }}</td>
+            {% for cell in row.cells %}
+              <td class="heat-{{ cell.heat }}">{{ cell.n }}</td>
+            {% endfor %}
+            <td>{{ row.total }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p class="muted">{% trans "No matched B2B slots in this cut." %}</p>
+  {% endif %}
+</section>
+
+<section class="dash-section">
+  <h2 class="dash-section-title">{% trans "Mix" %}</h2>
+  <div class="dash-split">
+    {% include "b2c/partials/mix_block.html" with title=_("Product") rows=analysis.products %}
+    {% include "b2c/partials/mix_block.html" with title=_("Local committee") rows=analysis.lcs %}
+    {% include "b2c/partials/mix_block.html" with title=_("Organisation") rows=analysis.orgs %}
+    {% include "b2c/partials/mix_block.html" with title=_("Timing") rows=analysis.windows %}
+    {% include "b2c/partials/mix_block.html" with title=_("Slot size") rows=analysis.sizes %}
+    {% include "b2c/partials/mix_block.html" with title=_("Demand") rows=analysis.demands %}
+    {% include "b2c/partials/mix_block.html" with title=_("Length") rows=analysis.weeks %}
+    {% include "b2c/partials/mix_block.html" with title=_("Duration") rows=analysis.durations %}
+    {% include "b2c/partials/mix_block.html" with title=_("Sub-product") rows=analysis.sub_products %}
+  </div>
+</section>
+
+<section class="dash-section">
+  <h2 class="dash-section-title">{% trans "Product performance" %}</h2>
+  {% if analysis.product_table %}
+  <div class="table-wrap">
+    <table class="table table-dense">
+      <thead>
+        <tr>
+          <th>{% trans "Product" %}</th>
+          <th>{% trans "Slots" %}</th>
+          <th>{% trans "Openings" %}</th>
+          <th>{% trans "Available" %}</th>
+          <th>{% trans "Taken" %}</th>
+          <th>{% trans "Fill" %}</th>
+          <th>{% trans "Applicants" %}</th>
+          <th>{% trans "Demand" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in analysis.product_table %}
+          <tr>
+            <td>{{ row.label }}</td>
+            <td>{{ row.slots }}</td>
+            <td>{{ row.openings }}</td>
+            <td>{{ row.available }}</td>
+            <td>{{ row.taken }}</td>
+            <td>{{ row.fill }}</td>
+            <td>{{ row.applicants }}</td>
+            <td>{{ row.demand }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p class="muted">{% trans "No matched B2B slots in this cut." %}</p>
+  {% endif %}
+</section>
+
+<section class="dash-section">
+  <h2 class="dash-section-title">{% trans "LC performance" %}</h2>
+  {% if analysis.lc_table %}
+  <div class="table-wrap">
+    <table class="table table-dense">
+      <thead>
+        <tr>
+          <th>{% trans "LC" %}</th>
+          <th>{% trans "Slots" %}</th>
+          <th>{% trans "Openings" %}</th>
+          <th>{% trans "Available" %}</th>
+          <th>{% trans "Taken" %}</th>
+          <th>{% trans "Fill" %}</th>
+          <th>{% trans "Applicants" %}</th>
+          <th>{% trans "Demand" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in analysis.lc_table %}
+          <tr>
+            <td>{{ row.label }}</td>
+            <td>{{ row.slots }}</td>
+            <td>{{ row.openings }}</td>
+            <td>{{ row.available }}</td>
+            <td>{{ row.taken }}</td>
+            <td>{{ row.fill }}</td>
+            <td>{{ row.applicants }}</td>
+            <td>{{ row.demand }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p class="muted">{% trans "No matched B2B slots in this cut." %}</p>
+  {% endif %}
+</section>
+
+<section class="dash-section">
+  <h2 class="dash-section-title">{% trans "Largest slots" %}</h2>
+  <p class="muted">{% trans "Top openings in this cut. Open EXPA for the opportunity." %}</p>
+  {% if analysis.rows %}
+  <div class="table-wrap">
+    <table class="table table-dense">
+      <thead>
+        <tr>
+          <th>{% trans "Opportunity" %}</th>
+          <th>{% trans "Organisation" %}</th>
+          <th>{% trans "LC" %}</th>
+          <th>{% trans "Product" %}</th>
+          <th>{% trans "Start" %}</th>
+          <th>{% trans "End" %}</th>
+          <th>{% trans "Openings" %}</th>
+          <th>{% trans "Available" %}</th>
+          <th>{% trans "Fill" %}</th>
+          <th>{% trans "Applicants" %}</th>
+          <th>{% trans "Timing" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in analysis.rows %}
+          <tr>
+            <td><a href="{{ row.url }}" target="_blank" rel="noopener noreferrer">{{ row.title }}</a></td>
+            <td>{{ row.organisation }}</td>
+            <td>{{ row.lc }}</td>
+            <td>{{ row.product }}</td>
+            <td>{{ row.start }}</td>
+            <td>{{ row.end }}</td>
+            <td>{{ row.openings }}</td>
+            <td>{{ row.available }}</td>
+            <td>{{ row.fill }}</td>
+            <td>{{ row.applicants }}</td>
+            <td>{{ row.window }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if analysis.row_count > analysis.rows|length %}
+    <p class="muted">{% trans "Showing the largest 40 slots in this filter." %}</p>
+  {% endif %}
+  {% else %}
+    <p class="muted">{% trans "No matched B2B slots in this cut." %}</p>
+  {% endif %}
+</section>
+
+{% if b2b_source or last_opens_sync %}
+  <p class="muted dash-sync">
+    {% if b2b_source %}
+      {% trans "Financial tools" %}: {{ b2b_source.in_tools }} {% trans "B2B opportunities" %} · {{ b2b_source.in_rouh }} {% trans "on EXPA in Rouh" %}
+    {% endif %}
+    {% if last_opens_sync %}
+      · {% trans "EXPA" %}: {{ last_opens_sync.status }}
+    {% endif %}
+  </p>
+{% endif %}

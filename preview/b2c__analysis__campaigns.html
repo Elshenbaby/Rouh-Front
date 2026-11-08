@@ -1,0 +1,568 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>Campaigns and representatives · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "mexZ13ztw0Pwd2nsLwQ09IJwQu7Su8wU37lV5DahsTE09GZDvyhWsXr1aDSnhVqX"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link is-active">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="mexZ13ztw0Pwd2nsLwQ09IJwQu7Su8wU37lV5DahsTE09GZDvyhWsXr1aDSnhVqX">
+      <input type="hidden" name="next" value="/b2c/analysis/campaigns/">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="mexZ13ztw0Pwd2nsLwQ09IJwQu7Su8wU37lV5DahsTE09GZDvyhWsXr1aDSnhVqX">
+      <input type="hidden" name="next" value="/b2c/analysis/campaigns/">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="mexZ13ztw0Pwd2nsLwQ09IJwQu7Su8wU37lV5DahsTE09GZDvyhWsXr1aDSnhVqX">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page">
+        
+        
+  
+
+<header class="page-header">
+  <p class="eyebrow">
+    
+      <a href="b2c.html">B2C analysis</a>
+    
+  </p>
+  <h1>Campaigns and representatives</h1>
+  <p class="lede">Conversion per campaign, and the people behind each one.</p>
+</header>
+
+
+
+  <nav class="tabs" aria-label="B2C lists">
+    <a class="tab is-active" href="b2c.html">Analysis</a>
+    <a class="tab" href="b2c__interviews.html">Interviews</a>
+    <a class="tab" href="b2c__accounts.html">Accounts</a>
+    <a class="tab" href="b2c__campus-access.html">Campuses</a>
+    <a class="tab" href="b2c__campaign-requests.html">Campaigns</a>
+  </nav>
+  
+
+
+
+<nav class="queue-tabs" aria-label="Analysis sections">
+  <a class="queue-tab" href="b2c.html">Overview</a>
+  
+    <a class="queue-tab" href="b2c__analysis__signups.html">Signups and sources</a>
+  
+    <a class="queue-tab is-active" href="b2c__analysis__campaigns.html">Campaigns and representatives</a>
+  
+    <a class="queue-tab" href="b2c__analysis__interviews.html">Customer interviews</a>
+  
+    <a class="queue-tab" href="b2c__analysis__ogx.html">OGX tracking</a>
+  
+</nav>
+
+
+<form method="get" class="filter-bar">
+  
+  <label class="field">
+    <span>Month</span>
+    <select name="month" onchange="this.form.submit()">
+      <option value="">Cycle to date</option>
+      
+        <option value="2026-08">Aug 2026 (6)</option>
+      
+        <option value="2026-09">Sep 2026 (4)</option>
+      
+        <option value="2026-10">Oct 2026 (15)</option>
+      
+        <option value="2026-11">Nov 2026 (3)</option>
+      
+    </select>
+  </label>
+  
+  
+</form>
+
+
+  <script id="b2c-dashboard-charts" type="application/json">{"campaigns": {"labels": ["Campus booth week", "Instagram push", "Summer campaign"], "su": [7, 7, 7], "app": [6, 6, 7], "acc": [5, 6, 6], "apd": [4, 5, 6]}}</script>
+
+  
+
+  <section class="card">
+    <h2>Signups per campaign</h2>
+    <p class="muted">Twelve biggest campaigns under the current filters.</p>
+    <div class="chart-frame chart-frame-tall">
+      <canvas id="chart-campaigns"></canvas>
+      <p class="chart-empty muted" hidden>No campaign data yet.</p>
+    </div>
+  </section>
+
+  
+<section class="card">
+  <h2>Campaign conversions</h2>
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Campaign conversions</th>
+          <th>First signup</th>
+          <th>SUs</th>
+          <th>APPs</th>
+          <th>ACC</th>
+          <th>APDs</th>
+          <th>%SU→APP</th>
+          <th>%APP→ACC</th>
+          <th>%ACC→APD</th>
+          <th>%SU→APD</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+          <tr>
+            <td>Campus booth week</td>
+            <td>2026-08-28</td>
+            <td>7</td>
+            <td>6</td>
+            <td>5</td>
+            <td>4</td>
+            <td>86%</td>
+            <td>83%</td>
+            <td>80%</td>
+            <td>57%</td>
+          </tr>
+        
+          <tr>
+            <td>Instagram push</td>
+            <td>2026-08-27</td>
+            <td>7</td>
+            <td>6</td>
+            <td>6</td>
+            <td>5</td>
+            <td>86%</td>
+            <td>100%</td>
+            <td>83%</td>
+            <td>71%</td>
+          </tr>
+        
+          <tr>
+            <td>Summer campaign</td>
+            <td>2026-08-25</td>
+            <td>7</td>
+            <td>7</td>
+            <td>6</td>
+            <td>6</td>
+            <td>100%</td>
+            <td>86%</td>
+            <td>100%</td>
+            <td>86%</td>
+          </tr>
+        
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+  <section class="dash-section">
+    <h2 class="dash-section-title">AIESEC representatives</h2>
+
+    <section class="card">
+      <h2>Top AIESEC representatives</h2>
+      <p class="muted">Most signups under the current filters.</p>
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Representative</th>
+              <th>SUs</th>
+              <th>APPs</th>
+              <th>ACC</th>
+              <th>APDs</th>
+              <th>%SU→APP</th>
+              <th>%APP→ACC</th>
+              <th>%SU→APD</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr><td colspan="8">No representatives yet.</td></tr>
+            
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Representatives per campaign</h2>
+      <form method="get" class="filter-bar">
+        <label class="field">
+          <span>Campaign</span>
+          <select name="campaign" onchange="this.form.submit()">
+            <option value="">All campaigns (top 5 each)</option>
+            
+              <option value="Campus booth week">Campus booth week</option>
+            
+              <option value="Instagram push">Instagram push</option>
+            
+              <option value="Summer campaign">Summer campaign</option>
+            
+          </select>
+        </label>
+        
+      </form>
+
+      
+        <p class="muted">Pick a campaign to see every representative on it. Otherwise, the top five of each.</p>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Campaign</th>
+                <th>Representative</th>
+                <th>SUs</th>
+                <th>APPs</th>
+                <th>ACC</th>
+                <th>APDs</th>
+                <th>%SU→APP</th>
+                <th>%SU→APD</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+                <tr><td colspan="8">No campaign representatives yet.</td></tr>
+              
+            </tbody>
+          </table>
+        </div>
+      
+    </section>
+
+    
+<section class="card">
+  <h2>All representatives</h2>
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>All representatives</th>
+          
+          <th>SUs</th>
+          <th>APPs</th>
+          <th>ACC</th>
+          <th>APDs</th>
+          <th>%SU→APP</th>
+          <th>%APP→ACC</th>
+          <th>%ACC→APD</th>
+          <th>%SU→APD</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+          <tr><td colspan="8">No rows yet.</td></tr>
+        
+      </tbody>
+    </table>
+  </div>
+</section>
+
+  </section>
+
+      </main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  <script src="../static/js/b2c-dashboard.js"></script>
+
+</body>
+</html>

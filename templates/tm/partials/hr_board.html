@@ -1,0 +1,63 @@
+{% load i18n %}
+<div id="tm-hr-board" class="tm-hr">
+  <p class="tm-hr-hint muted">{% if can_change_hr %}{% trans "Drag a person into another column. Dismissal still asks for a reason." %}{% else %}{% trans "Who sits on each HR step right now." %}{% endif %}</p>
+  <section
+    class="tm-board"
+    {% if can_change_hr %}
+      data-kanban
+      data-kanban-url="{% url 'tm:hr_move' %}"
+      data-kanban-target="#tm-hr-board"
+      data-kanban-swap="outerHTML show:none focus-scroll:false"
+    {% endif %}
+  >
+    {% for column in board.columns %}
+      <article class="tm-board-col tm-board-col-{{ column.step.colour }}">
+        <header class="tm-board-col-head">
+          <span class="badge badge-{{ column.step.colour }}">{{ column.step.name }}</span>
+          <span class="tm-board-count">{{ column.cards|length }}</span>
+        </header>
+        <ul
+          class="tm-board-list"
+          data-kanban-col
+          data-step="{{ column.step.pk }}"
+          data-ends="{% if column.step.ends_membership %}1{% else %}0{% endif %}"
+        >
+          {% for card in column.cards %}
+            <li
+              class="tm-hr-card"
+              {% if can_change_hr %}draggable="true"{% endif %}
+              data-kanban-card
+              data-member="{{ card.member.pk }}"
+              data-edit-url="{% url 'tm:hr_change' card.member.pk %}"
+            >
+              <a class="tm-hr-card-name" href="{% url 'tm:member' card.member.pk %}">{{ card.member.full_name }}</a>
+              <span class="tm-hr-card-fn">{{ card.position.get_function_display }}</span>
+              {% if can_change_hr %}
+                <a class="tm-hr-card-edit" href="{% url 'tm:hr_change' card.member.pk %}">{% trans "Edit" %}</a>
+              {% endif %}
+            </li>
+          {% empty %}
+            <li class="tm-board-empty muted">{% trans "Drop people here" %}</li>
+          {% endfor %}
+        </ul>
+      </article>
+    {% endfor %}
+  </section>
+
+  {% if board.unassigned %}
+    <section class="card tm-hr-unassigned">
+      <h2>{% trans "No HR step yet" %}</h2>
+      <ul class="tm-hr-unassigned-list">
+        {% for card in board.unassigned %}
+          <li>
+            <a href="{% url 'tm:member' card.member.pk %}">{{ card.member.full_name }}</a>
+            <span class="muted">{{ card.position.get_function_display }}</span>
+            {% if can_change_hr %}
+              <a href="{% url 'tm:hr_change' card.member.pk %}">{% trans "Set status" %}</a>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+</div>

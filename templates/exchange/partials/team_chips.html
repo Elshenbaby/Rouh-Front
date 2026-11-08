@@ -1,0 +1,16 @@
+{% load i18n %}
+{% if assign.show_team_chips and list_stage != 'teams' %}
+  <nav class="team-chips" aria-label="{% trans 'Teams' %}">
+    {% for team in assign.teams %}
+      <a class="team-chip{% if assign.selected_team.pk == team.pk %} is-active{% endif %}" href="{{ list_url }}?queue=team&amp;team={{ team.pk }}{% if desk_spec and desk_spec.is_b2b %}&amp;desk={{ desk }}{% endif %}">{{ team.name }}</a>
+    {% endfor %}
+  </nav>
+{% endif %}
+{% if assign.show_member_chips and list_stage != 'teams' %}
+  <nav class="team-chips" aria-label="{% trans 'People on this team' %}">
+    <a class="team-chip{% if not assign.selected_member %} is-active{% endif %}" href="{{ list_url }}?queue=team&amp;team={{ assign.selected_team.pk }}{% if desk_spec and desk_spec.is_b2b %}&amp;desk={{ desk }}{% endif %}">{% trans "Everyone" %}</a>
+    {% for item in assign.member_chips %}
+      <a class="team-chip{% if assign.selected_member.pk == item.member.pk %} is-active{% endif %}" href="{{ list_url }}?queue=team&amp;team={{ assign.selected_team.pk }}&amp;who={{ item.member.pk }}{% if desk_spec and desk_spec.is_b2b %}&amp;desk={{ desk }}{% endif %}">{{ item.member.full_name }}{% if item.role %} · {{ item.role }}{% endif %}</a>
+    {% endfor %}
+  </nav>
+{% endif %}

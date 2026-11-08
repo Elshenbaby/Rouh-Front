@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow">
+      {% if desk_spec %}
+        <a href="{% url 'exchange:desk_signups' desk_spec.code %}">{{ desk_spec.label }} {% if desk_spec.is_icx %}{% trans "applications" %}{% else %}{% trans "signups" %}{% endif %}</a>
+      {% else %}
+        <a href="{% url 'exchange:ogx_list' %}">{% trans "OGX signups" %}</a>
+      {% endif %}
+    </p>
+    <h1>{{ person.full_name }}</h1>
+    <p class="lede">
+      {% if person.is_icx %}
+        {{ person.sending_lc|default:_("Unmapped LC") }}{% if person.sending_mc %} · {{ person.sending_mc }}{% endif %}
+      {% else %}
+        {{ person.lc_display_name|default:_("Unmapped LC") }}
+      {% endif %}
+      · {% if person.process_status == "back_to_process" %}<span class="badge badge-back_to_process">{% trans "Back to process" %}</span>{% else %}{{ person.sheet_status }}{% endif %}
+      {% if person.product %} · {{ person.product.display }}{% endif %}
+    </p>
+  </header>
+
+  {% include "exchange/partials/person_tabs.html" %}
+
+  <div class="detail-grid">
+    <section class="card">
+      <h2>{% if person.is_icx %}{% trans "Open" %}{% else %}{% trans "Signup" %}{% endif %}</h2>
+      <p class="muted">{% if person.is_icx %}{% trans "From EXPA. Sync owns these cells." %}{% else %}{% trans "From Alpha / EXPA. Sync owns these cells." %}{% endif %}</p>
+      <dl class="meta">
+        <div><dt>{% trans "EP ID" %}</dt><dd>{% if person.expa_id %}{% include "exchange/partials/expa_person_link.html" with expa_id=person.expa_id show_id=True only %}{% else %}—{% endif %}</dd></div>
+        <div><dt>{% trans "Phone" %}</dt><dd>{{ person.phone|default:"—" }}</dd></div>
+        <div><dt>{% trans "Email" %}</dt><dd>{{ person.email|default:"—" }}</dd></div>
+        <div><dt>{% trans "Person status" %}</dt><dd>{{ person.person_status_display }}</dd></div>
+        {% if person.is_icx %}
+          <div><dt>{% trans "Home LC" %}</dt><dd>{{ person.sending_lc|default:"—" }}</dd></div>
+          <div><dt>{% trans "Home MC" %}</dt><dd>{{ person.sending_mc|default:"—" }}</dd></div>
+          <div><dt>{% trans "Host LC" %}</dt><dd>{{ person.lc_display_name|default:"—" }}</dd></div>
+          {% if latest_application %}
+            <div><dt>{% trans "Opportunity" %}</dt><dd>{{ latest_application.opportunity_title|default:"—" }}</dd></div>
+            <div><dt>{% trans "OP ID" %}</dt><dd>{{ latest_application.expa_opportunity_id|default:"—" }}</dd></div>
+            <div>
+              <dt>{% trans "CV" %}</dt>
+              <dd>
+                {% if latest_application.cv_url %}
+                  <a href="{{ latest_application.cv_url }}" rel="noopener noreferrer" target="_blank">{% trans "Open CV" %}</a>
+                {% else %}
+                  —
+                {% endif %}
+              </dd>
+            </div>
+          {% endif %}
+          <div><dt>{% trans "Signed up" %}</dt><dd>{{ person.signed_up_at|date:"Y-m-d H:i"|default:"—" }}</dd></div>
+          <div><dt>{% trans "Applied" %}</dt><dd>{{ person.applied_at|date:"Y-m-d H:i"|default:"—" }}</dd></div>
+        {% else %}
+          <div><dt>{% trans "Gender" %}</dt><dd>{{ person.gender|default:"—" }}</dd></div>
+          <div><dt>{% trans "Date of birth" %}</dt><dd>{{ person.dob|date:"Y-m-d"|default:"—" }}</dd></div>
+          <div><dt>{% trans "Campus" %}</dt><dd>{{ person.campus_name|default:"—" }}</dd></div>
+          <div><dt>{% trans "LC" %}</dt><dd>{{ person.lc_display_name|default:"—" }}</dd></div>
+          <div><dt>{% trans "Campaign" %}</dt><dd>{{ person.campaign_title|default:"—" }}</dd></div>
+          <div><dt>{% trans "Representative" %}</dt><dd>{{ person.representative|default:"—" }}</dd></div>
+          <div><dt>{% trans "Signed up" %}</dt><dd>{{ person.signed_up_at|date:"Y-m-d H:i"|default:"—" }}</dd></div>
+        {% endif %}
+      </dl>
+      {% include "exchange/partials/signup_log.html" %}
+    </section>
+    <aside class="card">
+      <h2>{% trans "MM1 work" %}</h2>
+      <p class="muted">{% trans "Status saves as soon as you change it. Comments go in the log." %}</p>
+      <form
+        method="post"
+        class="work-form"
+        hx-post="{% url 'exchange:person_detail' person.pk %}"
+        hx-trigger="change"
+        hx-target="#signup-log"
+        hx-swap="outerHTML"
+      >
+        {% csrf_token %}
+        <input type="hidden" name="intent" value="status">
+        <label class="field">
+          <span>{% trans "EP Manager" %}</span>
+          {{ form.assigned_to }}
+          <span class="muted">{% trans "LCP and VP can give this EP to anyone on the desk. Team leaders only to their members." %}</span>
+        </label>
+        <label class="field">
+          <span>{% trans "Contact status" %}</span>
+          {{ form.contact_status }}
+        </label>
+        {% if person.is_icx %}
+          <label class="field">
+            <span>{% trans "Interviewed" %}</span>
+            {{ form.interviewed }}
+          </label>
+          <label class="field">
+            <span>{% trans "Expectations mail" %}</span>
+            {{ form.expectations_mail }}
+          </label>
+        {% else %}
+          <label class="field">
+            <span>{% trans "Interested" %}</span>
+            {{ form.interested }}
+          </label>
+          <label class="field">
+            <span>{% trans "Country" %}</span>
+            {{ form.preferred_country }}
+          </label>
+        {% endif %}
+        <label class="field">
+          <span>{% trans "Status" %}</span>
+          {{ form.process_status }}
+        </label>
+        <label class="field">
+          <span>{% trans "Out of process" %}</span>
+          {{ form.out_of_process_reason }}
+        </label>
+        <p id="work-meta" class="muted">
+          {% trans "Assigned" %}: {{ person.assigned_at|date:"Y-m-d H:i"|default:"—" }}
+          · {% trans "Contacted" %}: {{ person.contacted_at|date:"Y-m-d H:i"|default:"—" }}
+          {% if person.is_icx %}
+            · {% trans "Interviewed" %}: {{ person.interviewed_at|date:"Y-m-d H:i"|default:"—" }}
+          {% endif %}
+        </p>
+        {% if form.errors %}
+          <p class="alert alert-danger">{{ form.errors }}</p>
+        {% endif %}
+      </form>
+      <form
+        method="post"
+        class="comment-compose"
+        hx-post="{% url 'exchange:person_detail' person.pk %}"
+        hx-target="#signup-log"
+        hx-swap="outerHTML"
+        hx-on::after-request="if (event.detail.successful) this.reset()"
+      >
+        {% csrf_token %}
+        <input type="hidden" name="intent" value="comment">
+        <label class="field">
+          <span>{% trans "Comment" %}</span>
+          <textarea name="comment" rows="4" placeholder="{% trans 'Write a comment' %}"></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary btn-md">{% trans "Add comment" %}</button>
+      </form>
+    </aside>
+  </div>
+{% endblock %}

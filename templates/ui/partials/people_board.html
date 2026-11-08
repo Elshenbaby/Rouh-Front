@@ -1,0 +1,66 @@
+{% load i18n %}
+{% for group in board.groups %}
+  <section class="board-group">
+    {% if board.groups|length > 1 or group.label != "Leadership" %}
+      <header class="board-group-head">
+        <h3>{{ group.label }}</h3>
+        <p class="board-group-meta">
+          {% if group.lead %}{% trans "Led by" %} {{ group.lead.full_name }} · {% endif %}
+          {% blocktrans count n=group.headcount %}{{ n }} person{% plural %}{{ n }} people{% endblocktrans %}
+          · {{ group.open }} {% trans "open" %}
+          · {{ group.actions }} {% trans "actions" %}
+          {% if group.mag_display != "—" %}· %MAG {{ group.mag_display }}{% endif %}
+        </p>
+      </header>
+    {% endif %}
+    <div class="table-wrap">
+      <table class="table board-table">
+        <thead>
+          <tr>
+            <th>{% trans "Person" %}</th>
+            <th class="num" title="{% trans 'Assigned work that is still open' %}">{% trans "Open" %}</th>
+            <th class="num" title="{% trans 'Assignments they made' %}">{% trans "Assigned" %}</th>
+            <th class="num" title="{% trans 'Status updates and comments' %}">{% trans "Updates" %}</th>
+            <th>{% trans "KPIs — achieved / planned" %}</th>
+            <th class="num">%MAG</th>
+            <th>{% trans "Last active" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in group.rows %}
+            <tr class="{% if row.is_self %}is-self{% endif %}{% if who and row.member.pk == who %} is-focus{% endif %}">
+              <td>
+                {% if link_people %}
+                  <a class="board-person" href="?{% if desk %}desk={{ desk }}&{% endif %}period={{ board.period.key }}&who={{ row.member.pk }}">{{ row.member.full_name }}</a>
+                {% else %}
+                  <span class="board-person">{{ row.member.full_name }}</span>
+                {% endif %}
+                <span class="role-tag role-{{ row.position.role.code }}">{{ row.role }}</span>
+                {% if show_function %}<span class="board-sub">{{ row.function }}{% if row.team %} · {{ row.team.name }}{% endif %}</span>{% endif %}
+              </td>
+              <td class="num{% if not row.open %} is-zero{% endif %}">{{ row.open }}</td>
+              <td class="num{% if not row.actions.assigned %} is-zero{% endif %}">{{ row.actions.assigned }}</td>
+              <td class="num{% if not row.actions.updated and not row.actions.comments %} is-zero{% endif %}">{{ row.actions.updated|add:row.actions.comments }}</td>
+              <td>
+                {% if row.metrics %}
+                  <ul class="kpi-chips">
+                    {% for metric in row.metrics %}
+                      <li class="kpi-chip{% if metric.planned and metric.mag >= 100 %} is-hit{% elif metric.planned %} is-planned{% elif not metric.achieved %} is-zero{% endif %}" title="{{ metric.kpi.name }}">
+                        <span class="kpi-chip-name">{{ metric.kpi.name }}</span>
+                        <span class="kpi-chip-value">{{ metric.achieved_display }}{% if metric.planned %}<span class="kpi-chip-plan"> / {{ metric.planned_display }}</span>{% endif %}</span>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% else %}
+                  <span class="muted">{% trans "No KPIs for this function" %}</span>
+                {% endif %}
+              </td>
+              <td class="num">{{ row.mag_display }}</td>
+              <td class="board-when">{% if row.last_active %}{{ row.last_active|timesince }} {% trans "ago" %}{% else %}<span class="muted">{% trans "Not yet" %}</span>{% endif %}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endfor %}

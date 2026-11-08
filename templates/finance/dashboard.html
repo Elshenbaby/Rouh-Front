@@ -1,0 +1,425 @@
+{% extends "base.html" %}
+{% load i18n humanize %}
+
+{% block content %}
+<div class="od-shell">
+  <header class="page-header">
+    <p class="eyebrow">{% trans "Finance · Products Sustainability" %}</p>
+    <h1>{% if is_mc %}{% trans "National finance" %}{% else %}{% blocktrans with lc=entity.short_name %}{{ lc }} finance{% endblocktrans %}{% endif %}</h1>
+    <p class="od-meta">
+      {% if finance_term %}<span>{{ finance_term.code }} · {{ finance_term.label }}</span>{% endif %}
+      {% if is_mc %}<span>{% trans "All LCs" %}</span>{% elif entity %}<span>{{ entity.short_name }}</span>{% endif %}
+      {% if focus_month %}<span>{{ focus_month|date:"M Y" }}</span>{% elif show_all_months %}<span>{% trans "Aug–Jul" %}</span>{% endif %}
+    </p>
+    <p class="lede">{% trans "Official numbers from the Products Sustainability tools only — coverage, product P&L, monthly APDs, and GFB actuals." %}</p>
+  </header>
+
+  {% if tool_options or lc_options %}
+  <form method="get" class="filter-bar is-wide" aria-label="{% trans 'Sustainability filters' %}">
+    {% if lc_options %}
+    <label class="field">
+      <span>{% trans "LC" %}</span>
+      <select name="lc" onchange="this.form.submit()">
+        {% for opt in lc_options %}
+        <option value="{{ opt.id }}"{% if opt.selected %} selected{% endif %}>{{ opt.label }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    {% endif %}
+    {% if tool_options %}
+    <label class="field">
+      <span>{% trans "Sustainability tool" %}</span>
+      <select name="tool" onchange="this.form.submit()">
+        {% for opt in tool_options %}
+        <option value="{{ opt.code }}"{% if opt.selected %} selected{% endif %}>
+          {{ opt.code }} · {{ opt.label }}{% if not opt.has_data %} — {% trans "no data" %}{% endif %}
+        </option>
+        {% endfor %}
+      </select>
+    </label>
+    {% endif %}
+    {% if month_options %}
+    <label class="field">
+      <span>{% trans "Month" %}</span>
+      <select name="month" onchange="this.form.submit()">
+        <option value="all"{% if not focus_month %} selected{% endif %}>{% trans "All months (Aug–Jul)" %}</option>
+        {% for m in month_options %}
+        <option value="{{ m.value }}"{% if m.selected %} selected{% endif %}>{{ m.label }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    {% endif %}
+  </form>
+  {% endif %}
+
+  {% if not finance_term %}
+  <section class="empty">
+    <h2>{% trans "No finance year for this term" %}</h2>
+    <p>{% trans "Pick a sustainability tool above, or switch the top-bar term." %}</p>
+  </section>
+  {% elif not snapshots and not products and not gfb_rows and not national and not product_month_board.achieved_rows %}
+  <section class="empty">
+    <h2>{% trans "No sustainability data yet" %}</h2>
+    <p>
+      {% blocktrans with code=finance_term.code %}Nothing loaded for {{ code }} in this LC yet. Try another sustainability tool above — older years may already be imported.{% endblocktrans %}
+    </p>
+  </section>
+  {% else %}
+
+  {% if national %}
+  <section class="od-pulse" aria-label="{% trans 'National sustainability' %}">
+    <div class="od-pulse-main">
+      <p class="od-score-label">{% trans "LC sustainability" %}</p>
+      <p class="od-score-value">{% if national.lc_sustainability != None %}{{ national.lc_sustainability|floatformat:0|intcomma }}{% else %}—{% endif %}</p>
+      <p class="sub">{% trans "EGP · Entity total · year" %}</p>
+    </div>
+    <div class="od-pulse-split">
+      <p class="od-score-label">{% trans "Coverage" %}</p>
+      <p class="od-score-value">{% if national.coverage_pct != None %}{% widthratio national.coverage_pct 1 100 %}%{% else %}—{% endif %}</p>
+      <p class="od-score-label">{% trans "Core performance" %}</p>
+      <p class="od-score-value">{% if national.core_performance_pct != None %}{% widthratio national.core_performance_pct 1 100 %}%{% else %}—{% endif %}</p>
+    </div>
+    <div class="od-kpis od-pulse-kpis">
+      <div class="od-kpi"><strong>{% if national.indirect_pool != None %}{{ national.indirect_pool|floatformat:0|intcomma }}{% else %}—{% endif %}</strong><span>{% trans "Indirect pool" %}</span></div>
+      <div class="od-kpi"><strong>{% if national.other_revenue != None %}{{ national.other_revenue|floatformat:0|intcomma }}{% else %}—{% endif %}</strong><span>{% trans "Other revenue" %}</span></div>
+      <div class="od-kpi"><strong>{% if national.approvals != None %}{{ national.approvals|intcomma }}{% else %}—{% endif %}</strong><span>{% trans "APDs" %}</span></div>
+      <div class="od-kpi"><strong>{% if national.level %}L{{ national.level }}{% else %}—{% endif %}</strong><span>{% trans "Level" %}</span></div>
+    </div>
+  </section>
+  {% elif entity and snapshots %}
+  {% with snap=snapshots.0 %}
+  <section class="od-pulse" aria-label="{% trans 'LC sustainability' %}">
+    <div class="od-pulse-main">
+      <p class="od-score-label">{% trans "LC sustainability" %}</p>
+      <p class="od-score-value">{% if snap.lc_sustainability != None %}{{ snap.lc_sustainability|floatformat:0|intcomma }}{% else %}—{% endif %}</p>
+      <p class="sub">{% trans "EGP · year total" %}</p>
+    </div>
+    <div class="od-pulse-split">
+      <p class="od-score-label">{% trans "Coverage" %}</p>
+      <p class="od-score-value">{% if snap.coverage_pct != None %}{% widthratio snap.coverage_pct 1 100 %}%{% else %}—{% endif %}</p>
+      <p class="od-score-label">{% trans "Profit / EP" %}</p>
+      <p class="od-score-value">{% if snap.profit_per_ep != None %}{{ snap.profit_per_ep|floatformat:0|intcomma }}{% else %}—{% endif %}</p>
+    </div>
+    <div class="od-kpis od-pulse-kpis">
+      <div class="od-kpi"><strong>{% if snap.indirect_pool != None %}{{ snap.indirect_pool|floatformat:0|intcomma }}{% else %}—{% endif %}</strong><span>{% trans "Indirect pool" %}</span></div>
+      <div class="od-kpi"><strong>{% if snap.other_revenue != None %}{{ snap.other_revenue|floatformat:0|intcomma }}{% else %}—{% endif %}</strong><span>{% trans "Other revenue" %}</span></div>
+      <div class="od-kpi"><strong>{% if snap.approvals != None %}{{ snap.approvals|intcomma }}{% else %}—{% endif %}</strong><span>{% trans "APDs" %}</span></div>
+      <div class="od-kpi"><strong>{% if snap.level %}L{{ snap.level }}{% else %}—{% endif %}</strong><span>{% trans "Level" %}</span></div>
+    </div>
+  </section>
+  {% endwith %}
+  {% endif %}
+
+  {% if products %}
+  <section class="od-section">
+    <div class="od-section-head">
+      <h2>{% trans "By product" %}</h2>
+      <p>{% trans "Year revenue · cost · profitability" %}</p>
+    </div>
+    <div class="od-pillars">
+      {% for p in products %}
+      <article class="od-pillar">
+        <div class="od-pillar-top">
+          <h4>{{ p.get_product_display }}</h4>
+          <p class="od-pillar-score">{% if p.level %}L{{ p.level }}{% else %}—{% endif %}</p>
+        </div>
+        <ul class="od-metrics">
+          <li><div><strong>{% trans "APDs" %}</strong></div><div class="vals">{{ p.approvals|default:"—" }}</div></li>
+          <li><div><strong>{% trans "Revenue" %}</strong></div><div class="vals">{% if p.revenue != None %}{{ p.revenue|floatformat:0|intcomma }}{% else %}—{% endif %}</div></li>
+          <li><div><strong>{% trans "Direct cost" %}</strong></div><div class="vals">{% if p.direct_cost != None %}{{ p.direct_cost|floatformat:0|intcomma }}{% else %}—{% endif %}</div></li>
+          <li><div><strong>{% trans "Profitability" %}</strong></div><div class="vals">{% if p.profitability != None %}{{ p.profitability|floatformat:0|intcomma }}{% else %}—{% endif %}</div></li>
+          <li><div><strong>{% trans "Profit / EP" %}</strong></div><div class="vals">{% if p.profit_per_ep != None %}{{ p.profit_per_ep|floatformat:0|intcomma }}{% else %}—{% endif %}</div></li>
+        </ul>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if product_month_board.achieved_rows or product_month_board.pva_summary or product_month_board.goal_rows or product_month_board.icx_slot_rows or product_month_board.b2b_slot_rows %}
+  <section class="od-section fin-month-board">
+    <div class="od-section-head">
+      <h2>{% trans "By product per month" %}</h2>
+      <p>
+        {% trans "All figures from Products Sustainability · APDs, Opens (slots), and budget goals" %}
+        {% if focus_month %} · {{ focus_month|date:"M Y" }}{% else %} · {% trans "Aug → Jul" %}{% endif %}
+      </p>
+    </div>
+
+    {% if product_month_board.icx_slot_rows %}
+    <div class="fin-month-block">
+      <div class="fin-month-block-head">
+        <h3>{% trans "ICX slots" %}</h3>
+        <p>{% trans "Monthly Opens from Productivity (Opens) · iGV / iGTa / iGTe" %}</p>
+      </div>
+      <div class="table-wrap od-board-wrap fin-month-wrap">
+        <table class="table od-board-table table-dense fin-month-table">
+          <thead>
+            <tr>
+              <th scope="col">{% trans "Product" %}</th>
+              {% for m in product_month_board.months %}<th class="num" scope="col">{{ m|date:"M" }}</th>{% endfor %}
+              <th class="num fin-total" scope="col">{% trans "Total" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in product_month_board.icx_slot_rows %}
+            <tr>
+              <th scope="row">{{ row.label }}</th>
+              {% for v in row.values %}
+              <td class="num{% if v is None or not v %} is-zero{% endif %}">{% if v is not None %}{{ v|intcomma }}{% else %}—{% endif %}</td>
+              {% endfor %}
+              <td class="num fin-total"><strong>{{ row.total|intcomma }}</strong></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if product_month_board.b2b_slot_rows %}
+    <div class="fin-month-block">
+      <div class="fin-month-block-head">
+        <h3>{% trans "B2B slots" %}</h3>
+        <p>{% trans "Monthly Opens from Productivity (Opens) · B2B-iGV / B2B-iGTa / B2B-iGTe" %}</p>
+      </div>
+      <div class="table-wrap od-board-wrap fin-month-wrap">
+        <table class="table od-board-table table-dense fin-month-table">
+          <thead>
+            <tr>
+              <th scope="col">{% trans "Product" %}</th>
+              {% for m in product_month_board.months %}<th class="num" scope="col">{{ m|date:"M" }}</th>{% endfor %}
+              <th class="num fin-total" scope="col">{% trans "Total" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in product_month_board.b2b_slot_rows %}
+            <tr>
+              <th scope="row">{{ row.label }}</th>
+              {% for v in row.values %}
+              <td class="num{% if v is None or not v %} is-zero{% endif %}">{% if v is not None %}{{ v|intcomma }}{% else %}—{% endif %}</td>
+              {% endfor %}
+              <td class="num fin-total"><strong>{{ row.total|intcomma }}</strong></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if product_month_board.achieved_rows %}
+    <div class="fin-month-block">
+      <div class="fin-month-block-head">
+        <h3>{% trans "Exchange achieved" %}</h3>
+        <p>{% trans "Monthly APDs from Productivity (APDs) in the Products Sustainability tools" %}</p>
+      </div>
+      <div class="table-wrap od-board-wrap fin-month-wrap">
+        <table class="table od-board-table table-dense fin-month-table">
+          <thead>
+            <tr>
+              <th scope="col">{% trans "Product" %}</th>
+              {% for m in product_month_board.months %}<th class="num" scope="col">{{ m|date:"M" }}</th>{% endfor %}
+              <th class="num fin-total" scope="col">{% trans "Total" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in product_month_board.achieved_rows %}
+            <tr>
+              <th scope="row">{{ row.label }}</th>
+              {% for v in row.values %}
+              <td class="num{% if v is None or not v %} is-zero{% endif %}">{% if v is not None %}{{ v|intcomma }}{% else %}—{% endif %}</td>
+              {% endfor %}
+              <td class="num fin-total"><strong>{{ row.total|intcomma }}</strong></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if product_month_board.pva_summary %}
+    <div class="fin-month-block">
+      <div class="fin-month-block-head">
+        <h3>{% trans "Planned vs Achieved (PvA)" %}</h3>
+        <p>{% trans "Budget / Exchange Goals (planned) vs Productivity APDs (achieved)" %}</p>
+      </div>
+      <div class="table-wrap od-board-wrap fin-month-wrap">
+        <table class="table od-board-table table-dense fin-month-table">
+          <thead>
+            <tr>
+              <th scope="col">{% trans "Product" %}</th>
+              <th class="num" scope="col">{% trans "Planned" %}</th>
+              <th class="num" scope="col">{% trans "Achieved" %}</th>
+              <th class="num" scope="col">{% trans "Diff" %}</th>
+              <th class="num fin-total" scope="col">{% trans "%" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in product_month_board.pva_summary %}
+            <tr>
+              <th scope="row">{{ row.label }}</th>
+              <td class="num{% if not row.planned %} is-zero{% endif %}">{{ row.planned|intcomma }}</td>
+              <td class="num{% if not row.achieved %} is-zero{% endif %}">{{ row.achieved|intcomma }}</td>
+              <td class="num{% if row.diff > 0 %} is-pos{% elif row.diff < 0 %} is-neg{% else %} is-zero{% endif %}">{% if row.diff > 0 %}+{% endif %}{{ row.diff|intcomma }}</td>
+              <td class="num fin-total">{% if row.pct != None %}{{ row.pct }}%{% else %}—{% endif %}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if product_month_board.pva_month_pct %}
+    <div class="fin-month-block">
+      <div class="fin-month-block-head">
+        <h3>{% trans "PvA by month" %}</h3>
+        <p>{% trans "Achievement % per month · Achieved ÷ Planned from the budget" %}</p>
+      </div>
+      <div class="table-wrap od-board-wrap fin-month-wrap">
+        <table class="table od-board-table table-dense fin-month-table">
+          <thead>
+            <tr>
+              <th scope="col">{% trans "Product" %}</th>
+              {% for m in product_month_board.months %}<th class="num" scope="col">{{ m|date:"M" }}</th>{% endfor %}
+              <th class="num fin-total" scope="col">{% trans "Year" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in product_month_board.pva_month_pct %}
+            <tr>
+              <th scope="row">{{ row.label }}</th>
+              {% for v in row.values %}
+              <td class="num{% if v is None %} is-zero{% elif v < 100 %} is-neg{% else %} is-pos{% endif %}">{% if v is not None %}{{ v }}%{% else %}—{% endif %}</td>
+              {% endfor %}
+              <td class="num fin-total">{% if row.total_pct is not None %}{{ row.total_pct }}%{% else %}—{% endif %}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if product_month_board.goal_rows %}
+    <div class="fin-month-block">
+      <div class="fin-month-block-head">
+        <h3>{% trans "Planned (budget)" %}</h3>
+        <p>{% trans "Monthly APD targets from Entity total budgeted / Exchange Goals" %}</p>
+      </div>
+      <div class="table-wrap od-board-wrap fin-month-wrap">
+        <table class="table od-board-table table-dense fin-month-table">
+          <thead>
+            <tr>
+              <th scope="col">{% trans "Product" %}</th>
+              {% for m in product_month_board.months %}<th class="num" scope="col">{{ m|date:"M" }}</th>{% endfor %}
+              <th class="num fin-total" scope="col">{% trans "Total" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in product_month_board.goal_rows %}
+            <tr>
+              <th scope="row">{{ row.label }}</th>
+              {% for v in row.values %}
+              <td class="num{% if v is None or not v %} is-zero{% endif %}">{% if v is not None %}{{ v|intcomma }}{% else %}—{% endif %}</td>
+              {% endfor %}
+              <td class="num fin-total"><strong>{{ row.total|intcomma }}</strong></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  {% if gfb_rows %}
+  <section class="od-board od-section">
+    <div class="od-section-head">
+      <h2>{% trans "GFB monthly actuals" %}</h2>
+      <p>
+        {% if focus_entity %}{{ focus_entity.short_name }} · {% endif %}
+        {% if not entity and focus_entity %}{% trans "the top LC by sustainability — pick an LC above for another" %} · {% endif %}
+        {% if focus_month %}{{ focus_month|date:"M Y" }}{% else %}{% trans "Aug → Jul" %}{% endif %}
+        · {% trans "EGP" %}
+      </p>
+    </div>
+    <div class="table-wrap od-board-wrap">
+      <table class="table od-board-table table-dense">
+        <thead>
+          <tr>
+            <th>{% trans "GFB code" %}</th>
+            <th>{% trans "Account" %}</th>
+            {% for m in months %}<th class="num">{{ m|date:"M" }}</th>{% endfor %}
+            <th class="num">{% if focus_month %}{% trans "Month" %}{% else %}{% trans "Year" %}{% endif %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in gfb_rows %}
+          <tr>
+            <td><strong>{{ row.code }}</strong></td>
+            <td>{{ row.name|truncatechars:42 }}</td>
+            {% for amt in row.month_values %}
+            <td class="num">{% if amt != None %}{{ amt|floatformat:0|intcomma }}{% else %}—{% endif %}</td>
+            {% endfor %}
+            <td class="num"><strong>{{ row.row_total|floatformat:0|intcomma }}</strong></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        {% if month_totals %}
+        <tfoot>
+          <tr>
+            <th colspan="2">{% trans "Column total" %}</th>
+            {% for tot in month_totals %}
+            <th class="num">{{ tot|floatformat:0|intcomma }}</th>
+            {% endfor %}
+            <th class="num"></th>
+          </tr>
+        </tfoot>
+        {% endif %}
+      </table>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if is_mc and snapshots %}
+  <section class="od-board od-section">
+    <div class="od-section-head">
+      <h2>{% trans "LC board" %}</h2>
+      <p>{% trans "Year sustainability totals" %}</p>
+    </div>
+    <div class="table-wrap od-board-wrap">
+      <table class="table od-board-table">
+        <thead>
+          <tr>
+            <th>{% trans "LC" %}</th>
+            <th>{% trans "Level" %}</th>
+            <th class="num">{% trans "Coverage" %}</th>
+            <th class="num">{% trans "Sustainability" %}</th>
+            <th class="num">{% trans "Profit / EP" %}</th>
+            <th class="num">{% trans "APDs" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for snap in snapshots %}
+          <tr>
+            <td><strong>{{ snap.entity.short_name }}</strong></td>
+            <td>{% if snap.level %}L{{ snap.level }}{% else %}—{% endif %}</td>
+            <td class="num">{% if snap.coverage_pct != None %}{% widthratio snap.coverage_pct 1 100 %}%{% else %}—{% endif %}</td>
+            <td class="num">{% if snap.lc_sustainability != None %}{{ snap.lc_sustainability|floatformat:0|intcomma }}{% else %}—{% endif %}</td>
+            <td class="num">{% if snap.profit_per_ep != None %}{{ snap.profit_per_ep|floatformat:0|intcomma }}{% else %}—{% endif %}</td>
+            <td class="num">{% if snap.approvals != None %}{{ snap.approvals|intcomma }}{% else %}—{% endif %}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  {% endif %}
+
+  {% endif %}
+</div>
+{% endblock %}

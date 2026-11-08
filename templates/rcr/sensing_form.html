@@ -1,0 +1,67 @@
+{% load i18n static %}<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% include "partials/favicon.html" %}
+  <title>{{ form.title }} · AIESEC in Egypt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+<body class="rcr-public">
+  <main class="rcr-public-main">
+    <header class="page-header">
+      <p class="eyebrow">AIESEC in Egypt · {{ cycle.name }}</p>
+      <h1>{{ form.title }}</h1>
+      {% if form.intro %}<p class="lede">{{ form.intro }}</p>{% endif %}
+    </header>
+
+    {% if done %}
+      <section class="ops-panel rcr-thanks">
+        <h2>Thank you</h2>
+        <p>Your answers are in. Your LCVP TM uses them to plan the next peak with you. You can open this link again to change them.</p>
+      </section>
+    {% elif not form.is_open %}
+      <section class="ops-panel"><h2>This form is closed</h2><p>Ask your LCVP TM if you still need to answer.</p></section>
+    {% else %}
+      <form method="post" class="rcr-iv">
+        {% csrf_token %}
+        {% if errors %}<div class="alert alert-error" role="alert"><ul>{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul></div>{% endif %}
+        <section class="ops-panel">
+          <label class="field"><span>Your LC <span class="rcr-req">*</span></span>
+            <select id="sf-lc" name="lc" required>
+              <option value="">Pick your LC</option>
+              {% for lc in lcs %}<option value="{{ lc.pk }}"{% if picked_lc == lc.pk|stringformat:"s" %} selected{% endif %}>{{ lc.name }}</option>{% endfor %}
+            </select>
+          </label>
+        </section>
+        {% for section in sections %}
+          <section class="ops-panel rcr-iv-section">
+            {% if section.name %}<header class="ops-panel-head"><h2>{{ section.name }}</h2></header>{% endif %}
+            {% for item in section.questions %}{% with q=item.q %}
+              <fieldset class="rcr-q">
+                <legend>{{ q.text }}{% if q.required %} <span class="rcr-req" aria-label="required">*</span>{% endif %}</legend>
+                {% if q.help %}<p class="muted">{{ q.help }}</p>{% endif %}
+                {% if q.kind == "score" %}
+                  <div class="rcr-scale">{% for n in "012345" %}<label><input type="radio" name="q_{{ q.pk }}" value="{{ n }}"{% if n in item.values %} checked{% endif %}><span>{{ n }}</span></label>{% endfor %}</div>
+                {% elif q.kind == "choice" %}
+                  <div class="rcr-options">{% for choice in q.choices %}<label><input type="radio" name="q_{{ q.pk }}" value="{{ choice }}"{% if choice in item.values %} checked{% endif %}{% if q.required %} required{% endif %}> {{ choice }}</label>{% endfor %}</div>
+                {% elif q.kind == "multi" %}
+                  <div class="rcr-options">{% for choice in q.choices %}<label><input type="checkbox" name="q_{{ q.pk }}" value="{{ choice }}"{% if choice in item.values %} checked{% endif %}> {{ choice }}</label>{% endfor %}</div>
+                {% elif q.kind == "long" %}
+                  <textarea name="q_{{ q.pk }}" rows="3" aria-label="{{ q.text|truncatechars:60 }}"{% if q.required %} required{% endif %}>{{ item.values.0|default:"" }}</textarea>
+                {% else %}
+                  <input name="q_{{ q.pk }}" type="{% if q.kind == 'number' %}number{% elif q.kind == 'date' %}date{% elif q.kind == 'email' %}email{% else %}text{% endif %}" value="{{ item.values.0|default:'' }}" aria-label="{{ q.text|truncatechars:60 }}"{% if q.required %} required{% endif %}>
+                {% endif %}
+              </fieldset>
+            {% endwith %}{% endfor %}
+          </section>
+        {% endfor %}
+        <button class="btn btn-primary btn-lg" type="submit">Send my answers</button>
+      </form>
+    {% endif %}
+  </main>
+</body>
+</html>

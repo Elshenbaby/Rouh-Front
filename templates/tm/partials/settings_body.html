@@ -1,0 +1,156 @@
+{% load i18n %}
+<div id="tm-settings">
+  <section class="card">
+    <h2>{% trans "HR track" %}</h2>
+    <p class="muted">{% trans "Drag a step to reorder. Used steps can only be archived. New steps appear in every status dropdown immediately." %}</p>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="tm-drag-col"></th>
+            <th>{% trans "Step" %}</th>
+            <th>{% trans "Colour" %}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody
+          data-sortable
+          data-sortable-url="{% url 'tm:settings' %}"
+          data-sortable-target="#tm-settings"
+          data-sortable-swap="outerHTML show:none focus-scroll:false"
+        >
+          {% for step in steps %}
+            <tr draggable="true" data-id="{{ step.pk }}">
+              <td class="tm-drag-col"><span class="tm-drag-handle" aria-hidden="true">⋮⋮</span></td>
+              <td>
+                <span class="badge badge-{{ step.colour }}">{{ step.name }}</span>
+                {% if step.is_default %} · {% trans "default" %}{% endif %}
+                {% if step.ends_membership %} · {% trans "ends membership" %}{% endif %}
+              </td>
+              <td>{{ step.get_colour_display }}</td>
+              <td>
+                <form
+                  method="post"
+                  class="tm-inline"
+                  hx-post="{% url 'tm:settings' %}"
+                  hx-target="#tm-settings"
+                  hx-swap="outerHTML show:none focus-scroll:false"
+                >
+                  {% csrf_token %}
+                  <input type="hidden" name="intent" value="archive">
+                  <input type="hidden" name="step" value="{{ step.pk }}">
+                  <button class="btn btn-sm" type="submit">{% trans "Archive" %}</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <form
+      method="post"
+      class="work-form"
+      hx-post="{% url 'tm:settings' %}"
+      hx-target="#tm-settings"
+      hx-swap="outerHTML show:none focus-scroll:false"
+    >
+      {% csrf_token %}
+      <input type="hidden" name="intent" value="step">
+      {% for field in step_form %}
+        <label class="field">
+          <span>{{ field.label }}</span>
+          {{ field }}
+        </label>
+      {% endfor %}
+      <button class="btn btn-primary" type="submit">{% trans "Add step" %}</button>
+    </form>
+  </section>
+
+  <section class="card" style="margin-top: var(--space-4);">
+    <h2>{% trans "Function KPIs" %}</h2>
+    <p class="muted">{% trans "Tick a desk metric to measure it automatically. Add a name to track something the desks do not count." %}</p>
+    {% for group in filters.kpi_groups %}
+      <div class="tm-kpi-form">
+        <h3>{{ group.label }}</h3>
+        <form
+          method="post"
+          hx-post="{% url 'tm:settings' %}"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+          hx-trigger="change, submit"
+        >
+          {% csrf_token %}
+          <input type="hidden" name="intent" value="kpis">
+          <input type="hidden" name="function" value="{{ group.function }}">
+          {% if group.kpis %}
+            <div class="tm-kpi-list">
+              {% for item in group.kpis %}
+                <label>
+                  <input type="checkbox" name="kpi" value="{{ item.kpi.pk }}"{% if item.selected %} checked{% endif %}>
+                  {{ item.kpi.name }}
+                  <span class="muted">{{ item.kpi.get_source_display }}</span>
+                </label>
+              {% endfor %}
+            </div>
+            <button class="btn" type="submit">{% trans "Save KPIs" %}</button>
+          {% else %}
+            <p class="muted">{% trans "No KPIs on this function yet. Add one below." %}</p>
+          {% endif %}
+        </form>
+        <form
+          method="post"
+          class="tm-kpi-add"
+          hx-post="{% url 'tm:settings' %}"
+          hx-target="#tm-settings"
+          hx-swap="outerHTML show:none focus-scroll:false"
+        >
+          {% csrf_token %}
+          <input type="hidden" name="intent" value="add_kpi">
+          <input type="hidden" name="function" value="{{ group.function }}">
+          <label class="field">
+            <span>{% trans "KPI name" %}</span>
+            <input type="text" name="name" maxlength="80" placeholder="{% trans 'e.g. Weekly 1-1s' %}" required>
+          </label>
+          <label class="field">
+            <span>{% trans "Unit" %}</span>
+            <input type="text" name="unit" maxlength="20" value="units" required>
+          </label>
+          <button class="btn btn-primary" type="submit">{% trans "Add KPI" %}</button>
+        </form>
+      </div>
+    {% endfor %}
+  </section>
+
+  <section class="card" style="margin-top: var(--space-4);">
+    <h2>{% trans "Needs-attention thresholds" %}</h2>
+    <form
+      method="post"
+      class="work-form"
+      hx-post="{% url 'tm:settings' %}"
+      hx-target="#tm-settings"
+      hx-swap="outerHTML show:none focus-scroll:false"
+    >
+      {% csrf_token %}
+      <input type="hidden" name="intent" value="thresholds">
+      {% for field in threshold_form %}
+        <label class="field">
+          <span>{{ field.label }}</span>
+          {{ field }}
+        </label>
+      {% endfor %}
+      <button class="btn btn-primary" type="submit">{% trans "Save thresholds" %}</button>
+    </form>
+  </section>
+
+  <section class="card" style="margin-top: var(--space-4);">
+    <h2>{% trans "Exit reasons" %}</h2>
+    <p class="muted">{% trans "Managed nationally. Flags drive retention: leaver vs void." %}</p>
+    <ul class="plain-list">
+      {% for option in filters.exit_reasons %}
+        <li>{{ option.label }}</li>
+      {% empty %}
+        <li>{% trans "No exit reasons seeded yet." %}</li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>

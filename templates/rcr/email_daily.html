@@ -1,0 +1,40 @@
+{% extends "account/email/rouh_base.html" %}
+{% load mc_format %}
+{% block title %}Daily RCR KPI report · {{ today|date:"j M Y" }}{% endblock %}
+{% block preheader %}{{ totals.new|count }} new leads, {{ totals.f2f_done|count }} F2F interviews and {{ totals.attended|count }} recruited across Egypt so far.{% endblock %}
+{% block eyebrow %}{{ cycle.name }} · {{ today|date:"l j F" }}{% endblock %}
+{% block heading %}Daily RCR KPI report{% endblock %}
+{% block body %}
+  <p style="margin:0 0 16px;">Every LC's recruitment funnel at the end of today. The small number under each one is what moved since yesterday's report. "Waiting" is who waits on the LC's next action (their Today page); "Stuck" is who has waited longer than their step should take.</p>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 22px;border:1px solid #ebebeb;font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:12px;">
+    <tr style="background:#000000;color:#ffffff;">
+      <td style="padding:8px 10px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;">LC</td>
+      {% for code, label in labels %}<td align="right" style="padding:8px 6px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;">{{ label }}</td>{% endfor %}
+      <td align="right" style="padding:8px 6px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;">Waiting</td>
+      <td align="right" style="padding:8px 6px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;color:#ffb59f;">Stuck</td>
+    </tr>
+    {% for row in rows %}
+    <tr>
+      <td style="padding:7px 10px;border-top:1px solid #ebebeb;color:#000000;font-weight:600;">{{ row.name }}</td>
+      {% for code, label in labels %}{% with v=row.values|get_item:code d=row.delta|get_item:code %}
+      <td align="right" style="padding:7px 6px;border-top:1px solid #ebebeb;color:#000000;">{{ v|count }}{% if d %}<br><span style="color:#004f32;font-size:11px;">+{{ d }}</span>{% endif %}</td>
+      {% endwith %}{% endfor %}
+      <td align="right" style="padding:7px 6px;border-top:1px solid #ebebeb;color:#000000;">{{ row.waiting }}</td>
+      <td align="right" style="padding:7px 6px;border-top:1px solid #ebebeb;color:{% if row.stuck %}#c13206{% else %}#727272{% endif %};font-weight:600;">{{ row.stuck }}</td>
+    </tr>
+    {% endfor %}
+    <tr style="background:#f6f6f6;">
+      <td style="padding:8px 10px;border-top:1px solid #000000;font-weight:700;color:#000000;">Egypt</td>
+      {% for code, label in labels %}<td align="right" style="padding:8px 6px;border-top:1px solid #000000;font-weight:700;color:#000000;">{{ totals|get_item:code|count }}</td>{% endfor %}
+      <td align="right" style="padding:8px 6px;border-top:1px solid #000000;font-weight:700;color:#000000;">{{ totals.waiting|count }}</td>
+      <td align="right" style="padding:8px 6px;border-top:1px solid #000000;font-weight:700;color:#c13206;">{{ totals.stuck|count }}</td>
+    </tr>
+  </table>
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px;">
+    <tr><td style="background:#d84d2b;"><a href="{{ link }}" style="display:inline-block;padding:14px 26px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#ffffff;text-decoration:none;">Open the RCR master tool</a></td></tr>
+  </table>
+{% endblock %}
+{% block fineprint %}
+  <p style="margin:0 0 8px;">Sent every evening to the recruitment report list set in Rouh (MC data › Recruitment › Cycle &amp; timeline).</p>
+  <p style="margin:0;">Button not working? Paste this into your browser:<br><a href="{{ link }}" style="color:#d84d2b;word-break:break-all;">{{ link }}</a></p>
+{% endblock %}

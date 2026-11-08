@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'tm:structure' %}">{% trans "Structure" %}</a></p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+  {% include "tm/partials/tabs.html" %}
+  <section class="card">
+    <p>
+      {{ position.member.full_name }} · {{ position.get_function_display }} · {{ position.role.name }}
+      {% if position.team %} · {{ position.team.name }}{% endif %}
+    </p>
+    {% if open_items %}
+      <h2>{% trans "Still open on other desks" %}</h2>
+      <ul class="plain-list">
+        {% for item in open_items %}
+          <li>{{ item.desk }} · {{ item.label }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <form method="post" class="work-form">
+      {% csrf_token %}
+      {% for field in form %}
+        <label class="field">
+          <span>{{ field.label }}</span>
+          {{ field }}
+          {{ field.errors }}
+        </label>
+      {% endfor %}
+      <p class="muted">{% trans "Added by mistake voids the row. Resigned and dismissed count as leavers in the exit month." %}</p>
+      <div class="form-actions">
+        <button class="btn btn-danger" type="submit">{% trans "Remove from structure" %}</button>
+        <a class="btn" href="{% url 'tm:structure' %}">{% trans "Cancel" %}</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}

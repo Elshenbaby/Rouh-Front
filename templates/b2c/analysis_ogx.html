@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+  {% include "b2c/partials/analysis_chrome.html" %}
+  {{ data.charts|json_script:"b2c-dashboard-charts" }}
+
+  <div class="dash-kpis">
+    <div class="metric-tile"><p class="metric-label">SUs</p><p class="metric-value">{{ ogx.overall.su }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Assigned" %}</p><p class="metric-value">{{ ogx.overall.assigned }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Contacted" %}</p><p class="metric-value">{{ ogx.overall.contacted }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Not contacted" %}</p><p class="metric-value">{{ ogx.overall.not_contacted }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Contact rate" %}</p><p class="metric-value">{{ ogx.overall.contact_rate_label }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Interviewed" %}</p><p class="metric-value">{{ ogx.overall.interviewed }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Interested" %}</p><p class="metric-value">{{ ogx.overall.interested }}</p></div>
+    <div class="metric-tile"><p class="metric-label">APPs</p><p class="metric-value">{{ ogx.overall.app }}</p></div>
+    <div class="metric-tile"><p class="metric-label">ACC</p><p class="metric-value">{{ ogx.overall.acc }}</p></div>
+    <div class="metric-tile"><p class="metric-label">APDs</p><p class="metric-value">{{ ogx.overall.apd }}</p></div>
+    <div class="metric-tile"><p class="metric-label">REs</p><p class="metric-value">{{ ogx.overall.realized }}</p></div>
+    <div class="metric-tile"><p class="metric-label">%SU→APD</p><p class="metric-value">{{ ogx.overall.su_to_apd }}</p></div>
+  </div>
+
+  <div class="dash-kpis dash-kpis-sub">
+    <div class="metric-tile"><p class="metric-label">{% trans "Unassigned" %}</p><p class="metric-value">{{ ogx.overall.unassigned }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Assigned rate" %}</p><p class="metric-value">{{ ogx.overall.assigned_rate_label }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Interview rate" %}</p><p class="metric-value">{{ ogx.overall.interview_rate_label }}</p></div>
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Days to contact" %}</p>
+      <p class="metric-value">{{ ogx.overall.avg_days_to_contact|default:"—" }}</p>
+      <p class="muted">{% trans "Average, signup to first contact" %}</p>
+    </div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Out of process" %}</p><p class="metric-value">{{ ogx.overall.oop }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Parents approval" %}</p><p class="metric-value">{{ ogx.overall.parents }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Applications" %}</p><p class="metric-value">{{ ogx.overall.applications }}</p></div>
+    <div class="metric-tile"><p class="metric-label">%SU→RE</p><p class="metric-value">{{ ogx.overall.su_to_re }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Contacted→APP" %}</p><p class="metric-value">{{ ogx.overall.contacted_to_app }}</p></div>
+  </div>
+
+  <section class="dash-section">
+    <h2 class="dash-section-title">{% trans "Conversion ladder" %}</h2>
+    <section class="card">
+      <h2>{% trans "Step by step" %}</h2>
+      <ul class="dash-funnel">
+        {% for step in ogx.ladder %}
+          <li>
+            <div class="dash-mix-meta">
+              <span>{{ step.label }}{% if step.note %} · <span class="muted">{{ step.note }}</span>{% endif %}</span>
+              <span>{{ step.n }} / {{ step.d }} · {{ step.rate_label }}</span>
+            </div>
+            <div class="dash-track" aria-hidden="true"><span style="width: {{ step.width }}%"></span></div>
+          </li>
+        {% empty %}
+          <li class="muted">{% trans "No signups yet." %}</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    {% include "b2c/partials/contact_table.html" with title=_("Does contacting help?") header=_("Group") rows=ogx.contact_effect blurb=_("The same funnel for people OGX reached and people it never reached.") %}
+  </section>
+
+  <section class="dash-section">
+    <h2 class="dash-section-title">{% trans "Contacting" %}</h2>
+    <div class="dash-duo">
+      <section class="card">
+        <h2>{% trans "OGX contact rate per campaign" %}</h2>
+        <p class="muted">{% trans "Top 12 campaigns by signups. The filled share is the contact rate." %}</p>
+        <div class="chart-frame chart-frame-tall">
+          <canvas id="chart-ogx-campaign-contact"></canvas>
+          <p class="chart-empty muted" hidden>{% trans "No campaign signups yet." %}</p>
+        </div>
+      </section>
+      <section class="card">
+        <h2>{% trans "Contact rate by month" %}</h2>
+        <p class="muted">{% trans "Signups as bars, contact rate as the line." %}</p>
+        <div class="chart-frame chart-frame-tall">
+          <canvas id="chart-ogx-monthly-contact"></canvas>
+          <p class="chart-empty muted" hidden>{% trans "No monthly signups yet." %}</p>
+        </div>
+      </section>
+    </div>
+
+    <div class="dash-split">
+      {% include "b2c/partials/mix_block.html" with title=_("Contact status") rows=ogx.contact_mix %}
+      {% include "b2c/partials/mix_block.html" with title=_("Process status") rows=ogx.process_mix %}
+      {% include "b2c/partials/mix_block.html" with title=_("Out of process reasons") rows=ogx.oop_mix %}
+      {% include "b2c/partials/mix_block.html" with title=_("Interested") rows=ogx.interest_mix %}
+      {% include "b2c/partials/mix_block.html" with title=_("OGX interviewed") rows=ogx.interviewed_mix %}
+    </div>
+  </section>
+
+  <section class="dash-section">
+    <h2 class="dash-section-title">{% trans "Contact and conversion by cut" %}</h2>
+    <p class="muted">{% trans "Each table is the same funnel: ownership, contacting, interviews, conversion and drop-off." %}</p>
+    {% include "b2c/partials/contact_table.html" with title=_("Per campaign") header=_("Campaign") rows=ogx.campaigns.rows blurb=ogx.campaigns.note %}
+    {% include "b2c/partials/contact_table.html" with title=_("Per product") header=_("Product") rows=ogx.products.rows blurb=ogx.products.note %}
+    {% include "b2c/partials/contact_table.html" with title=_("Per campus") header=_("Campus") rows=ogx.campuses.rows blurb=ogx.campuses.note %}
+    {% include "b2c/partials/contact_table.html" with title=_("Per AIESEC representative") header=_("Representative") rows=ogx.representatives.rows blurb=ogx.representatives.note %}
+    {% include "b2c/partials/contact_table.html" with title=_("Per assigned member") header=_("Member") rows=ogx.assignees.rows blurb=ogx.assignees.note %}
+    {% include "b2c/partials/contact_table.html" with title=_("Per month") header=_("Month") rows=ogx.by_month.rows blurb=ogx.by_month.note %}
+    {% include "b2c/partials/contact_table.html" with title=_("Per gender") header=_("Gender") rows=ogx.genders.rows blurb=ogx.genders.note %}
+    {% include "b2c/partials/contact_table.html" with title=_("Per referral") header=_("Referral") rows=ogx.referrals.rows blurb=ogx.referrals.note %}
+    {% include "b2c/partials/contact_table.html" with title=_("Per preferred country") header=_("Country") rows=ogx.countries.rows blurb=ogx.countries.note %}
+    {% include "b2c/partials/contact_table.html" with title=_("AIESECer vs not") header=_("Group") rows=ogx.aiesecer.rows blurb=ogx.aiesecer.note %}
+  </section>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  <script src="{% static 'js/b2c-dashboard.js' %}"></script>
+{% endblock %}

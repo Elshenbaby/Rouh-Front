@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load i18n mc_format %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'ui:desk' 'bd' %}">{{ desk_spec.label }}</a></p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+  {% include "b2b/partials/tabs.html" %}
+
+  <nav class="queue-tabs" aria-label="{% trans 'Period' %}">
+    <a class="queue-tab{% if scope == 'wp' %} is-active{% endif %}" href="?desk=bd">{% blocktrans with day=ranking_from|date:"j M Y" %}WP 26.27 · from {{ day }}{% endblocktrans %}</a>
+    <a class="queue-tab{% if scope == 'all' %} is-active{% endif %}" href="?desk=bd&amp;p=all">{% trans "Every approved cash-in" %}</a>
+  </nav>
+
+  {% with top=data.rows|slice:":3" %}
+  {% if top.0.total %}
+    <section class="rk-podium" aria-label="{% trans 'Top three LCs' %}">
+      {% for row in top %}{% if row.total %}
+        <article class="rk-step is-{{ forloop.counter }}">
+          <p class="rk-place">{{ forloop.counter }}</p>
+          <p class="rk-name">{{ row.lc.name }}</p>
+          <p class="rk-amount">{{ row.total|floatformat:"0g" }} <span>EGP</span></p>
+          <p class="rk-split">{% trans "National" %} {{ row.national|floatformat:"0g" }} · {% trans "Local" %} {{ row.local|floatformat:"0g" }}</p>
+        </article>
+      {% endif %}{% endfor %}
+    </section>
+  {% endif %}
+  {% endwith %}
+
+  <div class="metric-row">
+    <div class="metric-tile"><p class="metric-label">{% trans "Total (EGP)" %}</p><p class="metric-value">{{ data.total|floatformat:"0g" }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "National" %}</p><p class="metric-value">{{ data.national|floatformat:"0g" }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Local" %}</p><p class="metric-value">{{ data.local|floatformat:"0g" }}</p></div>
+    <div class="metric-tile"><p class="metric-label">{% trans "Waiting for approval" %}</p><p class="metric-value">{{ data.pending|floatformat:"0g" }}</p><p class="muted">{% blocktrans count n=data.pending_count %}{{ n }} cash-in, not counted yet{% plural %}{{ n }} cash-ins, not counted yet{% endblocktrans %}</p></div>
+  </div>
+
+  <h2 class="section-title">{% trans "Podium per event" %}</h2>
+  <div class="cashin-podiums">
+    {% for p in data.podiums %}
+      <article class="card cashin-podium{% if not p.places %} is-empty{% endif %}">
+        <h3>{{ p.event.label }}</h3>
+        {% for place in p.places %}
+          <p><span class="cashin-place">{{ forloop.counter }}</span> {{ place.lcs|join:", " }} <b>{{ place.amount|floatformat:"0g" }}</b></p>
+        {% empty %}
+          <p class="muted">{% trans "No approved cash-in yet." %}</p>
+        {% endfor %}
+      </article>
+    {% endfor %}
+  </div>
+
+  <h2 class="section-title">{% trans "Every LC" %}</h2>
+  <div class="table-wrap">
+    <table class="table cashin-ranking">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>{% trans "LC" %}</th>
+          {% for e in events %}<th class="q-num">{{ e.label }}</th>{% endfor %}
+          <th class="q-num">{% trans "National" %}</th>
+          <th class="q-num">{% trans "Local" %}</th>
+          <th class="q-num">{% trans "Total" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in data.rows %}
+          <tr class="{% if not row.total %}muted{% elif row.rank <= 3 %}rk-top rk-top-{{ row.rank }}{% endif %}">
+            <td>{% if row.rank %}<span class="bd-rank{% if row.rank == 1 %} is-first{% endif %}">{{ row.rank }}</span>{% else %}—{% endif %}</td>
+            <th scope="row">{{ row.lc.name }}</th>
+            {% for e in events %}{% with v=row.per|get_item:e.code %}<td class="q-num">{% if v %}{{ v|floatformat:"0g" }}{% else %}<span class="muted">0</span>{% endif %}</td>{% endwith %}{% endfor %}
+            <td class="q-num">{{ row.national|floatformat:"0g" }}</td>
+            <td class="q-num">{{ row.local|floatformat:"0g" }}</td>
+            <td class="q-num"><b>{{ row.total|floatformat:"0g" }}</b></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td></td>
+          <th scope="row">{% trans "Total per event" %}</th>
+          {% for e in events %}<td class="q-num">{{ data.totals|get_item:e.code|floatformat:"0g" }}</td>{% endfor %}
+          <td class="q-num">{{ data.national|floatformat:"0g" }}</td>
+          <td class="q-num">{{ data.local|floatformat:"0g" }}</td>
+          <td class="q-num"><b>{{ data.total|floatformat:"0g" }}</b></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <p class="ops-note">{% trans "Counts cash-ins the MCVP BD approved, by collection date. Pending and rejected ones never count." %}</p>
+{% endblock %}

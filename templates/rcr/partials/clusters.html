@@ -1,0 +1,11 @@
+{% load mc_format %}
+<ul class="rcr-clusters">
+  {% for c in clusters.rows %}
+    <li>
+      <b class="rcr-cluster is-{{ c.code|lower }}">{{ c.code }}</b>
+      <span class="rcr-bar" role="img" aria-label="{{ c.share|pct0 }} against a {{ c.target|pct0 }} target"><i style="width: {% if c.share %}{% widthratio c.count clusters.total 100 %}{% else %}0{% endif %}%"></i><em style="left: {% widthratio c.target 1 100 %}%"></em></span>
+      <strong>{{ c.count|count }}</strong>
+      <small>{{ c.share|pct0 }} · target {{ c.target|pct0 }}</small>
+    </li>
+  {% endfor %}
+</ul>

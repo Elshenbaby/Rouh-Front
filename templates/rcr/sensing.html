@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load mc_format %}
+
+{% block content %}
+  {% include "rcr/_chrome.html" %}
+
+  <section class="rcr-strip" aria-label="Sensing">
+    <div><span>Answered</span><strong>{{ responses|length|count }}</strong></div>
+    <div><span>Not yet</span><strong>{{ missing|length|count }}</strong></div>
+    {% for row in insights.intents %}<div><span>{{ row.label }}</span><strong>{{ row.count|count }}</strong></div>{% endfor %}
+  </section>
+  <p class="rcr-share">Send your members this link: <a href="{{ sensing_url }}" target="_blank" rel="noopener">{{ sensing_url }}</a> <button class="btn btn-ghost btn-sm" type="button" onclick="navigator.clipboard.writeText('{{ sensing_url }}'); this.textContent='Copied'">Copy</button></p>
+
+  <div class="rcr-two">
+    <section class="ops-panel">
+      <header class="ops-panel-head rcr-head-row"><div><h2>Sensing answers</h2><p>What each member said about next peak. Capacity planning counts these.</p></div>
+        <nav class="ops-time-presets"><a class="ops-chip{% if not intent %} is-active{% endif %}" href="?">All</a>{% for row in insights.intents %}<a class="ops-chip{% if intent == row.code %} is-active{% endif %}" href="?intent={{ row.code }}">{{ row.label }}</a>{% endfor %}</nav>
+      </header>
+      <div class="table-wrap">
+        <table class="table ops-compact">
+          <thead><tr><th>Member</th><th>Position</th><th>Function</th><th>Next peak</th><th>Next position</th><th>1st / 2nd choice</th><th class="q-num">Engagement</th><th>Answered</th></tr></thead>
+          <tbody>
+            {% for r in responses %}
+              <tr>
+                <th scope="row">{{ r.full_name|default:r.email }}<small class="muted"> {{ r.email }}</small></th>
+                <td>{{ r.position }}</td><td>{{ labels|get_item:r.function|default:"—" }}</td>
+                <td><span class="rcr-intent is-{{ r.intent|default:'unknown' }}">{{ intent_labels|get_item:r.intent|default:"—" }}</span></td>
+                <td>{{ r.next_position|default:"—" }}</td>
+                <td>{{ labels|get_item:r.preference_1|default:"—" }}{% if r.preference_2 %} / {{ labels|get_item:r.preference_2 }}{% endif %}</td>
+                <td class="q-num">{{ r.engagement|default:"—" }}</td>
+                <td>{{ r.submitted_at|date:"j M" }}{% if r.imported %} <small class="muted">imported</small>{% endif %}</td>
+              </tr>
+            {% empty %}
+              <tr><td colspan="8">No answers yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="ops-panel">
+      <header class="ops-panel-head"><h2>Not answered yet</h2><p>Active members of {{ entity.short_name }} in Rouh with no answer from their email.</p></header>
+      <ul class="rcr-chips">{% for m in missing %}<li>{{ m.full_name }}</li>{% empty %}<li class="muted">Everyone answered.</li>{% endfor %}</ul>
+    </section>
+  </div>
+{% endblock %}

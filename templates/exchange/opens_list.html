@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow">
+      {% if desk_spec %}
+        <a href="{% url 'ui:desk' desk_spec.code %}">{{ desk_spec.label }}</a>
+        · {{ list_label|default:_("Slots") }}
+      {% endif %}
+    </p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+
+  {% if desk_spec.is_b2b %}
+    {% include "b2b/partials/tabs.html" %}
+  {% else %}
+    {% include "exchange/partials/desk_stage_tabs.html" %}
+  {% endif %}
+
+  <div class="metric-row">
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Live slots" %}</p>
+      <p class="metric-value">{{ live_count|default:page.paginator.count }}</p>
+    </div>
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Openings" %}</p>
+      <p class="metric-value">{{ openings_count|default:0 }}</p>
+    </div>
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Available" %}</p>
+      <p class="metric-value">{{ available_count|default:0 }}</p>
+    </div>
+    {% if last_sync %}
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Last EXPA pull" %}</p>
+      <p class="metric-value">{{ last_sync.status }}</p>
+      <p class="muted">
+        {% if last_sync.error and "organisation_type" not in last_sync.error and "MeasureOfImpact" not in last_sync.error %}
+          {{ last_sync.error }}
+        {% else %}
+          {{ last_sync.records_read }} {% trans "read" %} · {{ last_sync.records_upserted }} {% trans "saved" %}
+        {% endif %}
+      </p>
+    </div>
+    {% endif %}
+    {% if can_pull_expa and pull_url %}
+    <form method="post" action="{{ pull_url }}">
+      {% csrf_token %}
+      {% if desk_spec.is_b2b %}
+        <input type="hidden" name="desk" value="{{ desk }}">
+      {% endif %}
+      <button class="btn" type="submit">{% trans "Pull from EXPA" %}</button>
+    </form>
+    {% endif %}
+  </div>
+
+  <form method="get" class="filter-bar is-wide" hx-get="{{ list_url }}" hx-target="#opens-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
+    {% if desk_spec.is_b2b %}
+      <input type="hidden" name="desk" value="{{ desk }}">
+    {% endif %}
+    <label class="field">
+      <span class="sr-only">{% trans "Search" %}</span>
+      <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Opportunity, organisation or LC' %}">
+    </label>
+    <label class="field">
+      <span class="sr-only">{% trans "Status" %}</span>
+      <select name="status">
+        {% for value, label in statuses %}
+          <option value="{{ value }}"{% if status == value %} selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    {% if products %}
+    <label class="field">
+      <span class="sr-only">{% trans "Product" %}</span>
+      <select name="product">
+        {% for value, label in products %}
+          <option value="{{ value }}"{% if product == value %} selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    {% endif %}
+  </form>
+
+  <div id="opens-table">
+    {% include "exchange/partials/slots_table.html" %}
+  </div>
+{% endblock %}

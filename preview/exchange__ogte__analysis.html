@@ -1,0 +1,565 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>oGTe analysis · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "y4I3dZvFTLsLmkAn7DRXjOuyxMXwjU51fXwZhz6tPEhfiYcyRFiTC3c3RVI16HZ4"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link is-active">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="y4I3dZvFTLsLmkAn7DRXjOuyxMXwjU51fXwZhz6tPEhfiYcyRFiTC3c3RVI16HZ4">
+      <input type="hidden" name="next" value="/exchange/ogte/analysis/">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="y4I3dZvFTLsLmkAn7DRXjOuyxMXwjU51fXwZhz6tPEhfiYcyRFiTC3c3RVI16HZ4">
+      <input type="hidden" name="next" value="/exchange/ogte/analysis/">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="y4I3dZvFTLsLmkAn7DRXjOuyxMXwjU51fXwZhz6tPEhfiYcyRFiTC3c3RVI16HZ4">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page">
+        
+        
+  <header class="page-header">
+    <p class="eyebrow"><a href="desks__ogte.html">oGTe</a></p>
+    <h1>oGTe analysis</h1>
+    <p class="lede">CU · 26.2 · Aug – Jan <span class="muted">(1 Aug – 31 Jan 2027)</span>. Every step counted on the day it happened, straight from EXPA.</p>
+    <details class="how-counted">
+      <summary>How it's counted</summary>
+      <ul>
+        <li><b>The funnel, the LC table and the trend are EXPA's analytics</b> for exactly the days picked, the same numbers LCs see in EXPA. Any days work, including past years.</li>
+        <li><b>Each step is counted on the day it happened</b>, whoever it happened to: approved = applications approved in these days, even if the person signed up years ago. That's why it can differ from Pipeline & team, which follows the people who signed up in these days.</li>
+        <li><b>Signups</b> (oGX) are people who registered in EXPA; <b>opens</b> (iCX) are opportunities opened. <b>Applicants</b> counts each person once; <b>applications</b> counts every application.</li>
+        <li><b>Approved</b> leaves out approvals that were broken (EXPA removes the approval date). Broken approvals are shown on their own.</li>
+        <li><b>Finished</b> is experiences that ended in these days; <b>completed</b> is those whose EP also finished the closing steps. Both are dated by the experience's end.</li>
+        <li><b>Breakdowns</b> (countries, partner LCs, projects, members, campaigns) and step times aren't in EXPA's analytics, so they come from Rouh's own records, from 1 Feb 2026. The line above them says how much of EXPA's number they hold.</li>
+        <li><b>Days</b> are EXPA's days (UTC), so a late-night approval in Cairo can fall on the next day, as in EXPA.</li>
+      </ul>
+    </details>
+  </header>
+
+  <nav class="pf-views" aria-label="Analysis views">
+    <a class="is-active" href="exchange__ogte__analysis.html">Performance<small>What happened in these days, as EXPA counts it</small></a>
+    <a href="exchange__ogte__analysis__view-pipeline.html">Pipeline & team<small>How far the people who signed up got, by member and team</small></a>
+  </nav>
+
+  <section class="pf-filters" aria-label="Filters">
+    <div class="pf-filter-row">
+      <span class="pf-filter-label">Days</span>
+      <div class="pf-chips">
+        
+          <a class="pf-chip" href="#not-in-preview">November</a>
+        
+          <a class="pf-chip" href="#not-in-preview">October</a>
+        
+          <a class="pf-chip" href="#not-in-preview">Last 30 days</a>
+        
+          <a class="pf-chip" href="#not-in-preview">26.1 · Feb – Jul</a>
+        
+          <a class="pf-chip is-active" href="#not-in-preview">26.2 · Aug – Jan</a>
+        
+          <a class="pf-chip" href="#not-in-preview">LC term 26 · Feb – Jan</a>
+        
+          <a class="pf-chip" href="#not-in-preview">LC term 25</a>
+        
+          <a class="pf-chip" href="#not-in-preview">Last 12 months</a>
+        
+      </div>
+      <form method="get" class="pf-custom">
+        <input type="hidden" name="stage" value="approved">
+        
+        <label><span class="sr-only">From</span><input type="date" name="from" value="2026-08-01"></label>
+        <span aria-hidden="true">→</span>
+        <label><span class="sr-only">To</span><input type="date" name="to" value="2027-01-31"></label>
+        <button class="btn btn-secondary btn-sm" type="submit">Apply</button>
+      </form>
+    </div>
+    <div class="pf-filter-row">
+      <span class="pf-filter-label">Stage</span>
+      <div class="pf-chips">
+        
+          <a class="pf-chip" href="#not-in-preview" title="People who signed up in EXPA">Signups</a>
+        
+          <a class="pf-chip" href="#not-in-preview" title="Applications sent in these days">Applications</a>
+        
+          <a class="pf-chip" href="#not-in-preview" title="People behind those applications (each once)">Applicants</a>
+        
+          <a class="pf-chip" href="#not-in-preview" title="Applications accepted (matched) in these days">Accepted</a>
+        
+          <a class="pf-chip is-active" href="#not-in-preview" title="Applications approved in these days">Approved</a>
+        
+          <a class="pf-chip" href="#not-in-preview" title="Experiences that started in these days">Realized</a>
+        
+          <a class="pf-chip" href="#not-in-preview" title="Experiences that ended in these days">Finished</a>
+        
+          <a class="pf-chip" href="#not-in-preview" title="Experiences completed in these days">Completed</a>
+        
+      </div>
+      
+    </div>
+  </section>
+
+  
+
+  <section class="pf-funnel" aria-label="Funnel">
+    
+      <a class="pf-step" href="#not-in-preview" title="People who signed up in EXPA">
+        <span class="pf-step-label">Signups</span>
+        <b class="pf-step-n">0</b>
+        
+        <span class="pf-deltas">
+          <span class="pf-delta " title="vs the previous period">= 0</span>
+          <span class="pf-delta is-ly " title="vs the same days last year">LY = 0</span>
+        </span>
+      </a>
+    
+      <a class="pf-step" href="#not-in-preview" title="Applications sent in these days">
+        <span class="pf-step-label">Applications</span>
+        <b class="pf-step-n">0</b>
+        <span class="pf-step-sub">from 0 people</span>
+        <span class="pf-deltas">
+          <span class="pf-delta " title="vs the previous period">= 0</span>
+          <span class="pf-delta is-ly " title="vs the same days last year">LY = 0</span>
+        </span>
+      </a>
+    
+      <a class="pf-step" href="#not-in-preview" title="Applications accepted (matched) in these days">
+        <span class="pf-step-label">Accepted</span>
+        <b class="pf-step-n">0</b>
+        
+        <span class="pf-deltas">
+          <span class="pf-delta " title="vs the previous period">= 0</span>
+          <span class="pf-delta is-ly " title="vs the same days last year">LY = 0</span>
+        </span>
+      </a>
+    
+      <a class="pf-step is-active" href="#not-in-preview" title="Applications approved in these days">
+        <span class="pf-step-label">Approved</span>
+        <b class="pf-step-n">0</b>
+        
+        <span class="pf-deltas">
+          <span class="pf-delta " title="vs the previous period">= 0</span>
+          <span class="pf-delta is-ly " title="vs the same days last year">LY = 0</span>
+        </span>
+      </a>
+    
+      <a class="pf-step" href="#not-in-preview" title="Experiences that started in these days">
+        <span class="pf-step-label">Realized</span>
+        <b class="pf-step-n">0</b>
+        
+        <span class="pf-deltas">
+          <span class="pf-delta " title="vs the previous period">= 0</span>
+          <span class="pf-delta is-ly " title="vs the same days last year">LY = 0</span>
+        </span>
+      </a>
+    
+      <a class="pf-step" href="#not-in-preview" title="Experiences that ended in these days">
+        <span class="pf-step-label">Finished</span>
+        <b class="pf-step-n">0</b>
+        
+        <span class="pf-deltas">
+          <span class="pf-delta " title="vs the previous period">= 0</span>
+          <span class="pf-delta is-ly " title="vs the same days last year">LY = 0</span>
+        </span>
+      </a>
+    
+      <a class="pf-step" href="#not-in-preview" title="Experiences completed in these days">
+        <span class="pf-step-label">Completed</span>
+        <b class="pf-step-n">0</b>
+        
+        <span class="pf-deltas">
+          <span class="pf-delta " title="vs the previous period">= 0</span>
+          <span class="pf-delta is-ly " title="vs the same days last year">LY = 0</span>
+        </span>
+      </a>
+    
+  </section>
+  <section class="pf-rates" aria-label="Step to step">
+    
+      <div class="pf-rate"><span>Applications → Accepted</span><b>—</b></div>
+    
+      <div class="pf-rate"><span>Accepted → Approved</span><b>—</b></div>
+    
+      <div class="pf-rate"><span>Approved → Realized</span><b>—</b></div>
+    
+    
+  </section>
+  <p class="pf-legend">So far: up to 8 Nov. ▲▼ against the same number of days before (23 Apr 2026 – 31 Jul 2026); LY against 1 Aug 2025 – 8 Nov 2025. Step-to-step rates compare these days' numbers.</p>
+
+  <section class="pf-grid">
+    <article class="pf-panel pf-span-2">
+      <header>
+        <h2>Approved month by month</h2>
+        <div class="pf-chips is-small" data-pf-trend-picks>
+          <button type="button" class="pf-chip" data-stage="open">Signups</button><button type="button" class="pf-chip" data-stage="applications">Applications</button><button type="button" class="pf-chip" data-stage="applicants">Applicants</button><button type="button" class="pf-chip" data-stage="accepted">Accepted</button><button type="button" class="pf-chip is-active" data-stage="approved">Approved</button><button type="button" class="pf-chip" data-stage="realized">Realized</button><button type="button" class="pf-chip" data-stage="finished">Finished</button><button type="button" class="pf-chip" data-stage="completed">Completed</button>
+        </div>
+      </header>
+      <div class="pf-chart" data-pf-chart="trend"></div>
+    </article>
+    <article class="pf-panel">
+      <header><h2>How long it takes</h2><p>Median days, for applications approved in these days.</p></header>
+      <ul class="pf-times">
+        <li><span>Applied → accepted</span><b>—</b></li><li><span>Accepted → approved</span><b>—</b></li><li><span>Applied → approved</span><b>—</b></li>
+      </ul>
+      <header class="pf-sub-head"><h2>Waiting right now</h2><p>Whatever the days chosen.</p></header>
+      <ul class="pf-times is-health">
+        <li class=""><span>Accepted 14+ days ago, still not approved</span><b>0</b></li><li class=""><span>Approved, start date passed, not realized</span><b>0</b></li><li class=""><span>Approved by home, waiting for the host</span><b>0</b></li>
+      </ul>
+    </article>
+  </section>
+
+  
+
+  <section class="pf-panel">
+    <header>
+      <h2>Breakdown · approved</h2>
+      
+      
+    </header>
+    
+      <div class="pf-breakdowns">
+        
+          <div class="pf-break">
+            <h3>Partner countries</h3>
+            
+              <p class="muted">Nothing in these days.</p>
+            
+          </div>
+        
+          <div class="pf-break">
+            <h3>Partner LCs</h3>
+            
+              <p class="muted">Nothing in these days.</p>
+            
+          </div>
+        
+          <div class="pf-break">
+            <h3>Projects</h3>
+            
+              <p class="muted">Nothing in these days.</p>
+            
+          </div>
+        
+          <div class="pf-break">
+            <h3>Members (owner in Rouh)</h3>
+            
+              <p class="muted">Nothing in these days.</p>
+            
+          </div>
+        
+          <div class="pf-break">
+            <h3>Duration</h3>
+            
+              <p class="muted">Nothing in these days.</p>
+            
+          </div>
+        
+      </div>
+    
+  </section>
+  
+
+  <script id="pf-data" type="application/json">{"labels": ["Aug 26", "Sep 26", "Oct 26", "Nov 26"], "series": {"open": [0, 0, 0, 0], "applications": [0, 0, 0, 0], "accepted": [0, 0, 0, 0], "approved": [0, 0, 0, 0], "realized": [0, 0, 0, 0], "finished": [0, 0, 0, 0], "completed": [0, 0, 0, 0], "applicants": [0, 0, 0, 0]}, "stage": "approved", "stage_label": "Approved"}</script>
+
+      </main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js" defer></script>
+  <script src="../static/js/performance.js?v=2" defer></script>
+
+</body>
+</html>

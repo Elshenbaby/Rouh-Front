@@ -1,0 +1,47 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% include "partials/favicon.html" %}
+  <title>{{ title }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+<body class="rcr-public">
+  <main class="rcr-public-main">
+    <header class="page-header">
+      <p class="eyebrow">AIESEC in {{ lead.entity.short_name }} · {{ lead.cycle.name }}</p>
+      <h1>Hi {{ lead.first_name }}, pick your interview time</h1>
+      <p class="lede">Your face-to-face interview takes about 45 minutes. Choose the time that suits you; you can change it here until the day.</p>
+    </header>
+
+    {% if done %}
+      <section class="ops-panel rcr-thanks"><h2>You're booked</h2><p><b>{{ current.day|date:"l j F" }} at {{ current.starts_at|time:"H:i" }}</b>{% if current.place %}, {{ current.place }}{% endif %}. See you there!{% if lead.recruiter %} {{ lead.recruiter.full_name }} will message you the day before.{% endif %}</p></section>
+    {% elif current %}
+      <section class="ops-panel rcr-thanks"><h2>Your interview</h2><p><b>{{ current.day|date:"l j F" }} at {{ current.starts_at|time:"H:i" }}</b>{% if current.place %}, {{ current.place }}{% endif %}. Need another time? Pick it below.</p></section>
+    {% endif %}
+
+    {% if not open_stage %}
+      <section class="ops-panel"><h2>This link is closed</h2><p>Message your AIESEC recruiter{% if lead.recruiter %}, {{ lead.recruiter.full_name }},{% endif %} if you need anything.</p></section>
+    {% elif days %}
+      {% if error %}<p class="alert alert-error" role="alert">{{ error }}</p>{% endif %}
+      <form method="post" class="rcr-book">
+        {% csrf_token %}
+        {% for day, times in days %}
+          <section class="rcr-book-day">
+            <h2>{{ day|date:"l j F" }}</h2>
+            <div class="rcr-slot-picks is-big">
+              {% for time, slot in times.items %}<button type="submit" name="slot" value="{{ slot.pk }}"><b>{{ time|time:"H:i" }}</b>{{ slot.place|default:"" }}</button>{% endfor %}
+            </div>
+          </section>
+        {% endfor %}
+      </form>
+    {% else %}
+      <section class="ops-panel"><h2>No free times yet</h2><p>New interview times are added every few days. Open this link again soon, or message your recruiter.</p></section>
+    {% endif %}
+  </main>
+</body>
+</html>

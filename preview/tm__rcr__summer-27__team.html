@@ -1,0 +1,547 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>RCR Summer 27 · CU · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "sWMrMQMOeU6WopvYjm9nXvQPwrX8xYCP9PAnQqnCaNVqk3793oAjgKykQAIDkLwS"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link is-active">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="sWMrMQMOeU6WopvYjm9nXvQPwrX8xYCP9PAnQqnCaNVqk3793oAjgKykQAIDkLwS">
+      <input type="hidden" name="next" value="/tm/rcr/summer-27/team/">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="sWMrMQMOeU6WopvYjm9nXvQPwrX8xYCP9PAnQqnCaNVqk3793oAjgKykQAIDkLwS">
+      <input type="hidden" name="next" value="/tm/rcr/summer-27/team/">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="sWMrMQMOeU6WopvYjm9nXvQPwrX8xYCP9PAnQqnCaNVqk3793oAjgKykQAIDkLwS">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page">
+        
+        
+  
+<header class="page-header rcr-header">
+  <p class="eyebrow"><a href="desks__tm.html">Talent</a> · RCR · CU</p>
+  <h1>RCR Summer 27 <span class="rcr-lc">CU</span></h1>
+</header>
+
+
+<nav class="tabs tm-tabs" aria-label="Talent">
+  <a class="tab" href="tm.html">Overview</a>
+  <a class="tab" href="tm__structure.html">Structure</a>
+  <a class="tab" href="tm__performance.html">Performance</a>
+  <a class="tab" href="tm__planning.html">Planning</a>
+  <a class="tab" href="tm__attendance.html">Attendance</a>
+  <a class="tab" href="tm__hr.html">HR Status</a>
+  <a class="tab is-active" href="tm__rcr.html">RCR</a>
+  <a class="tab" href="tm__nes.html">NES</a>
+  <a class="tab" href="tm__settings.html">Settings</a>
+</nav>
+
+
+
+
+
+
+<nav class="rcr-journey" aria-label="The recruitment journey">
+  <a class="rcr-today-btn" href="tm__rcr__summer-27.html"><b>Today</b><small>what waits on you</small></a>
+  <ol class="rcr-phases">
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__new-leads.html" title="Call every lead, run the phone interview, accept or reject.">
+          <span class="rcr-phase-n">1</span>
+          <span class="rcr-phase-text"><b>Leads &amp; calls</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__scheduling.html" title="Book a slot (or send them their booking link), confirm the day before, fill the form.">
+          <span class="rcr-phase-n">2</span>
+          <span class="rcr-phase-text"><b>Interviews</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__gds.html" title="Seat the accepted ones in a GD, run it, score it.">
+          <span class="rcr-phase-n">3</span>
+          <span class="rcr-phase-text"><b>Group discussions</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__conference.html" title="Collect the payment and get them to the conference.">
+          <span class="rcr-phase-n">4</span>
+          <span class="rcr-phase-text"><b>Conference</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+  </ol>
+</nav>
+<div class="rcr-subnav">
+  <nav class="rcr-phase-tabs" aria-label="This phase">
+    
+  </nav>
+  <nav class="rcr-tools" aria-label="Tools">
+    <a class="" href="tm__rcr__summer-27__insights.html">Insights</a><a class="" href="tm__rcr__summer-27__planning.html">Capacity plan</a><a class="" href="tm__rcr__summer-27__sensing.html">Sensing</a><a class="is-active" href="tm__rcr__summer-27__team.html">Team &amp; shifts</a><a class="" href="tm__rcr__summer-27__timeline.html">Timeline</a><a class="" href="tm__rcr__summer-27__easy-answers.html">Easy answers</a>
+  </nav>
+</div>
+
+
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>RcR team <small class="rcr-count">0</small></h2><p>The people working this cycle's leads, interviews and GDs for CU. They open this RCR tool. Change someone's row and press Save.</p></header>
+    
+      <p class="muted">No RcR team yet. Add CU's members below.</p>
+    
+
+    
+      <details class="rcr-edit rcr-add-team" open>
+        <summary>Add members to the team</summary>
+        <form method="post" class="rcr-form">
+          <input type="hidden" name="csrfmiddlewaretoken" value="sWMrMQMOeU6WopvYjm9nXvQPwrX8xYCP9PAnQqnCaNVqk3793oAjgKykQAIDkLwS"><input type="hidden" name="action" value="add"><input type="hidden" name="week" value="2026-11-02">
+          <label class="rcr-search"><span class="sr-only">Find a member</span><input type="search" data-filter="team-members" placeholder="Find a member…"></label>
+          <ul class="rcr-ticklist is-columns" id="team-members"><li data-card><label><input type="checkbox" name="member" value="b266592c-e6ab-48b0-a842-89a8cfa2ce47"><span><b>Adam Nabil</b></span></label></li><li data-card><label><input type="checkbox" name="member" value="7768b1f7-106f-4159-9848-1cc6c5eb6c0e"><span><b>Hana Fathy</b></span></label></li><li data-card><label><input type="checkbox" name="member" value="97f540de-ae65-4ba3-a68f-508c68423eac"><span><b>Karim Magdy</b></span></label></li><li data-card><label><input type="checkbox" name="member" value="1524b683-623f-47ad-a205-306dfa4868b0"><span><b>LCP CU</b></span></label></li><li data-card><label><input type="checkbox" name="member" value="8ffbae43-3935-411b-8cb4-1d3e1216351a"><span><b>LCVP TM CU</b></span></label></li><li data-card><label><input type="checkbox" name="member" value="279f0095-8759-42bc-9698-e2bb691b4792"><span><b>LCVP oGV CU</b></span></label></li><li data-card><label><input type="checkbox" name="member" value="2fcf9e78-1d81-465d-9982-0e76445e74c7"><span><b>Laila Sherif</b></span></label></li><li data-card><label><input type="checkbox" name="member" value="8851aec2-0eb1-489c-b718-236f54054e16"><span><b>Mariam Ezzat</b></span></label></li><li data-card><label><input type="checkbox" name="member" value="0e08ff71-fe1a-4095-a16c-12a3a5862435"><span><b>Nour Adel</b></span></label></li><li data-card><label><input type="checkbox" name="member" value="802daf3c-76d3-41fc-a843-88cba8db0e54"><span><b>Omar Wagdy</b></span></label></li><li data-card><label><input type="checkbox" name="member" value="9e231132-570e-4436-ad42-f4b87b603b39"><span><b>Salma Hamdy</b></span></label></li><li data-card><label><input type="checkbox" name="member" value="c902ce7f-05c4-43a5-b6dc-cb46f4d4cad8"><span><b>Sara CU</b></span></label></li><li data-card><label><input type="checkbox" name="member" value="6e16a3e6-2247-4f57-a0ee-2c577787bda1"><span><b>Youssef Samir</b></span></label></li><li data-card><label><input type="checkbox" name="member" value="91298dc5-c466-444a-97a6-7dfbc73f0ae5"><span><b>Ziad Galal</b></span></label></li></ul>
+          <div class="rcr-seat-bar">
+            <label class="field"><span>As</span><select id="team-role" name="role"><option value="lcvp">LCVP</option><option value="director">Director</option><option value="tl">Team Leader</option><option value="oc">OC</option><option value="teamster">Teamster</option></select></label>
+            <button class="btn btn-primary btn-sm" type="submit">Add the ticked</button>
+          </div>
+        </form>
+      </details>
+    
+  </section>
+
+  <section class="ops-panel" id="shifts">
+    <header class="ops-panel-head rcr-head-row">
+      <div><h2>Shifts</h2><p>Week of 2 November. Who is on the booth or interview shift each day; tick ✓ when they show up.</p></div>
+      <nav class="ops-time-presets"><a class="ops-chip" href="#not-in-preview" aria-label="Week before">←</a><a class="ops-chip" href="#not-in-preview">This week</a><a class="ops-chip" href="#not-in-preview" aria-label="Week after">→</a></nav>
+    </header>
+    
+      <form method="post" class="rcr-seat-bar rcr-shift-form">
+        <input type="hidden" name="csrfmiddlewaretoken" value="sWMrMQMOeU6WopvYjm9nXvQPwrX8xYCP9PAnQqnCaNVqk3793oAjgKykQAIDkLwS"><input type="hidden" name="action" value="shift"><input type="hidden" name="week" value="2026-11-02">
+        <label class="field"><span>Who</span><select id="sh-member" name="member" required><option value="">Pick someone…</option><option value="b266592c-e6ab-48b0-a842-89a8cfa2ce47">Adam Nabil</option><option value="7768b1f7-106f-4159-9848-1cc6c5eb6c0e">Hana Fathy</option><option value="97f540de-ae65-4ba3-a68f-508c68423eac">Karim Magdy</option><option value="1524b683-623f-47ad-a205-306dfa4868b0">LCP CU</option><option value="8ffbae43-3935-411b-8cb4-1d3e1216351a">LCVP TM CU</option><option value="279f0095-8759-42bc-9698-e2bb691b4792">LCVP oGV CU</option><option value="2fcf9e78-1d81-465d-9982-0e76445e74c7">Laila Sherif</option><option value="8851aec2-0eb1-489c-b718-236f54054e16">Mariam Ezzat</option><option value="0e08ff71-fe1a-4095-a16c-12a3a5862435">Nour Adel</option><option value="802daf3c-76d3-41fc-a843-88cba8db0e54">Omar Wagdy</option><option value="9e231132-570e-4436-ad42-f4b87b603b39">Salma Hamdy</option><option value="c902ce7f-05c4-43a5-b6dc-cb46f4d4cad8">Sara CU</option><option value="6e16a3e6-2247-4f57-a0ee-2c577787bda1">Youssef Samir</option><option value="91298dc5-c466-444a-97a6-7dfbc73f0ae5">Ziad Galal</option></select></label>
+        <label class="field"><span>Day</span><select id="sh-day" name="day"><option value="2026-11-02">Mon 2 Nov</option><option value="2026-11-03">Tue 3 Nov</option><option value="2026-11-04">Wed 4 Nov</option><option value="2026-11-05">Thu 5 Nov</option><option value="2026-11-06">Fri 6 Nov</option><option value="2026-11-07">Sat 7 Nov</option><option value="2026-11-08">Sun 8 Nov</option></select></label>
+        <label class="field"><span>Shift</span><select id="sh-shift" name="shift"><option value="morning">Morning shift</option><option value="night">Night shift</option></select></label>
+        <button class="btn btn-primary btn-sm" type="submit">Put on the shift</button>
+      </form>
+    
+    <div class="table-wrap">
+      <table class="table rcr-shift-table">
+        <thead><tr><th scope="col" aria-label="Shift"></th><th scope="col">Mon <span class="muted">2 Nov</span></th><th scope="col">Tue <span class="muted">3 Nov</span></th><th scope="col">Wed <span class="muted">4 Nov</span></th><th scope="col">Thu <span class="muted">5 Nov</span></th><th scope="col">Fri <span class="muted">6 Nov</span></th><th scope="col">Sat <span class="muted">7 Nov</span></th><th scope="col">Sun <span class="muted">8 Nov</span></th></tr></thead>
+        <tbody>
+          
+            <tr>
+              <th scope="row">Morning shift</th>
+              
+                <td>
+                  <ul class="rcr-shift-list">
+                    
+                  </ul>
+                </td>
+              
+                <td>
+                  <ul class="rcr-shift-list">
+                    
+                  </ul>
+                </td>
+              
+                <td>
+                  <ul class="rcr-shift-list">
+                    
+                  </ul>
+                </td>
+              
+                <td>
+                  <ul class="rcr-shift-list">
+                    
+                  </ul>
+                </td>
+              
+                <td>
+                  <ul class="rcr-shift-list">
+                    
+                  </ul>
+                </td>
+              
+                <td>
+                  <ul class="rcr-shift-list">
+                    
+                  </ul>
+                </td>
+              
+                <td>
+                  <ul class="rcr-shift-list">
+                    
+                  </ul>
+                </td>
+              
+            </tr>
+          
+            <tr>
+              <th scope="row">Night shift</th>
+              
+                <td>
+                  <ul class="rcr-shift-list">
+                    
+                  </ul>
+                </td>
+              
+                <td>
+                  <ul class="rcr-shift-list">
+                    
+                  </ul>
+                </td>
+              
+                <td>
+                  <ul class="rcr-shift-list">
+                    
+                  </ul>
+                </td>
+              
+                <td>
+                  <ul class="rcr-shift-list">
+                    
+                  </ul>
+                </td>
+              
+                <td>
+                  <ul class="rcr-shift-list">
+                    
+                  </ul>
+                </td>
+              
+                <td>
+                  <ul class="rcr-shift-list">
+                    
+                  </ul>
+                </td>
+              
+                <td>
+                  <ul class="rcr-shift-list">
+                    
+                  </ul>
+                </td>
+              
+            </tr>
+          
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>What each recruiter has done</h2><p>From the leads they hold, the slots they confirmed and the interview forms they filled.</p></header>
+    <div class="table-wrap">
+      <table class="table ops-table ops-compact rcr-team">
+        <thead><tr><th>Name</th><th>Position</th><th class="q-num">Leads</th><th class="q-num">Contacted</th><th class="q-num">PC accepted</th><th class="q-num">Scheduled</th><th class="q-num">Day-before confirmations</th><th class="q-num">Interviews filled</th><th class="q-num">GD attended</th></tr></thead>
+        <tbody>
+          
+            <tr><td colspan="9">No RcR team yet.</td></tr>
+          
+          
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+      </main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+  <script src="../static/js/rcr-board.js?v=5" defer></script>
+
+</body>
+</html>

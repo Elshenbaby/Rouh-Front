@@ -1,0 +1,36 @@
+{% load i18n %}
+<section class="od-status" style="--od-c: {{ card.cluster_color }}; --od-cw: {{ card.cluster_color_weak }}">
+  <div class="od-status-main">
+    <p class="od-status-kicker">{% if mine %}{% trans "Your cluster" %}{% else %}{% trans "Cluster" %}{% endif %}</p>
+    <div class="od-status-title">
+      <span class="od-status-mark" aria-hidden="true">{{ card.cluster_emoji }}</span>
+      <h2>{{ card.cluster_label }}</h2>
+    </div>
+    <p class="od-status-tier">{% blocktrans with t=card.cluster_tier %}Tier {{ t }} · L-shape rule (weaker of OPI / OHI){% endblocktrans %}</p>
+    {% if card.playbook.path_next %}
+    <p class="od-status-next"><strong>{% trans "Next move" %}</strong> — {{ card.playbook.path_next }}</p>
+    {% endif %}
+    {% if card.focus %}
+    <div class="od-status-focus" aria-label="{% trans 'Priority products' %}">
+      {% for item in card.focus %}<span class="od-focus-tag">{{ item }}</span>{% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  <div class="od-status-scores">
+    <div class="od-score is-odi">
+      <p class="od-score-label">{% trans "ODI" %}</p>
+      <p class="od-score-value">{{ card.odi }}%</p>
+      <div class="od-track"><i style="width: {{ card.odi }}%"></i></div>
+    </div>
+    <div class="od-score">
+      <p class="od-score-label">{% trans "OPI · operations" %}</p>
+      <p class="od-score-value">{{ card.opi }}%</p>
+      <div class="od-track"><i style="width: {{ card.opi }}%"></i></div>
+    </div>
+    <div class="od-score">
+      <p class="od-score-label">{% trans "OHI · health" %}</p>
+      <p class="od-score-value">{{ card.ohi }}%</p>
+      <div class="od-track"><i style="width: {{ card.ohi }}%"></i></div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% load i18n static mc_format %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow">{% if desk_spec %}<a href="{% url 'ui:desk' desk_spec.code %}">{{ desk_spec.label }}</a>{% else %}{% trans "Exchange" %}{% endif %}</p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ scope_label }} · {{ d.range.label }}{% if d.range.key != "custom" %} <span class="muted">({{ d.range.first|date:"j M" }} – {{ d.range.last|date:"j M Y" }})</span>{% endif %}. {% trans "Every step counted on the day it happened, straight from EXPA." %}</p>
+    <details class="how-counted">
+      <summary>{% trans "How it's counted" %}</summary>
+      <ul>
+        <li>{% blocktrans %}<b>The funnel, the LC table and the trend are EXPA's analytics</b> for exactly the days picked, the same numbers LCs see in EXPA. Any days work, including past years.{% endblocktrans %}</li>
+        <li>{% blocktrans %}<b>Each step is counted on the day it happened</b>, whoever it happened to: approved = applications approved in these days, even if the person signed up years ago. That's why it can differ from Pipeline & team, which follows the people who signed up in these days.{% endblocktrans %}</li>
+        <li>{% blocktrans %}<b>Signups</b> (oGX) are people who registered in EXPA; <b>opens</b> (iCX) are opportunities opened. <b>Applicants</b> counts each person once; <b>applications</b> counts every application.{% endblocktrans %}</li>
+        <li>{% blocktrans %}<b>Approved</b> leaves out approvals that were broken (EXPA removes the approval date). Broken approvals are shown on their own.{% endblocktrans %}</li>
+        <li>{% blocktrans %}<b>Finished</b> is experiences that ended in these days; <b>completed</b> is those whose EP also finished the closing steps. Both are dated by the experience's end.{% endblocktrans %}</li>
+        <li>{% blocktrans with day=rouh_from|date:"j M Y" %}<b>Breakdowns</b> (countries, partner LCs, projects, members, campaigns) and step times aren't in EXPA's analytics, so they come from Rouh's own records, from {{ day }}. The line above them says how much of EXPA's number they hold.{% endblocktrans %}</li>
+        <li>{% blocktrans %}<b>Days</b> are EXPA's days (UTC), so a late-night approval in Cairo can fall on the next day, as in EXPA.{% endblocktrans %}</li>
+      </ul>
+    </details>
+  </header>
+
+  <nav class="pf-views" aria-label="{% trans 'Analysis views' %}">
+    <a class="is-active" href="{{ analysis_url }}">{% trans "Performance" %}<small>{% trans "What happened in these days, as EXPA counts it" %}</small></a>
+    <a href="{{ analysis_url }}?view=pipeline">{% trans "Pipeline & team" %}<small>{% trans "How far the people who signed up got, by member and team" %}</small></a>
+  </nav>
+
+  <section class="pf-filters" aria-label="{% trans 'Filters' %}">
+    <div class="pf-filter-row">
+      <span class="pf-filter-label">{% trans "Days" %}</span>
+      <div class="pf-chips">
+        {% for p in presets %}
+          <a class="pf-chip{% if d.range.key == p.key %} is-active{% endif %}" href="?p={{ p.key }}&amp;stage={{ d.stage.code }}{% if keep.lc %}&amp;lc={{ keep.lc }}{% endif %}">{{ p.label }}</a>
+        {% endfor %}
+      </div>
+      <form method="get" class="pf-custom">
+        <input type="hidden" name="stage" value="{{ d.stage.code }}">
+        {% if keep.lc %}<input type="hidden" name="lc" value="{{ keep.lc }}">{% endif %}
+        <label><span class="sr-only">{% trans "From" %}</span><input type="date" name="from" value="{{ d.range.first|date:'Y-m-d' }}"></label>
+        <span aria-hidden="true">→</span>
+        <label><span class="sr-only">{% trans "To" %}</span><input type="date" name="to" value="{{ d.range.last|date:'Y-m-d' }}"></label>
+        <button class="btn btn-secondary btn-sm" type="submit">{% trans "Apply" %}</button>
+      </form>
+    </div>
+    <div class="pf-filter-row">
+      <span class="pf-filter-label">{% trans "Stage" %}</span>
+      <div class="pf-chips">
+        {% for s in d.stages %}
+          <a class="pf-chip{% if d.stage.code == s.code %} is-active{% endif %}" href="?{% for k, v in keep.items %}{{ k }}={{ v }}&amp;{% endfor %}stage={{ s.code }}" title="{{ s.help }}">{{ s.label }}</a>
+        {% endfor %}
+      </div>
+      {% if national %}
+        <form method="get" class="pf-lc">
+          {% for k, v in keep.items %}{% if k != "lc" %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endif %}{% endfor %}
+          <input type="hidden" name="stage" value="{{ d.stage.code }}">
+          <label><span class="sr-only">{% trans "LC" %}</span>
+            <select name="lc" onchange="this.form.submit()">
+              <option value="">{% trans "Every LC" %}</option>
+              {% for slug, name in lc_choices %}<option value="{{ slug }}"{% if entity and entity.slug == slug %} selected{% endif %}>{{ name }}</option>{% endfor %}
+            </select>
+          </label>
+        </form>
+      {% endif %}
+    </div>
+  </section>
+
+  {% if not d.ready %}
+    <div class="pf-empty"><p>{% trans "EXPA didn't answer for these days. Refresh in a minute." %}</p></div>
+  {% else %}
+
+  <section class="pf-funnel" aria-label="{% trans 'Funnel' %}">
+    {% for f in d.funnel %}
+      <a class="pf-step{% if f.active %} is-active{% endif %}" href="?{% for k, v in keep.items %}{{ k }}={{ v }}&amp;{% endfor %}stage={{ f.stage.code }}" title="{{ f.stage.help }}">
+        <span class="pf-step-label">{{ f.stage.label }}</span>
+        <b class="pf-step-n">{{ f.n|count }}</b>
+        {% if f.people is not None %}<span class="pf-step-sub">{% blocktrans with n=f.people|count %}from {{ n }} people{% endblocktrans %}</span>{% endif %}
+        <span class="pf-deltas">
+          {% if f.vs_prev %}<span class="pf-delta {% if f.vs_prev.diff > 0 %}is-up{% elif f.vs_prev.diff < 0 %}is-down{% endif %}" title="{% trans 'vs the previous period' %}">{% if f.vs_prev.diff > 0 %}▲{% elif f.vs_prev.diff < 0 %}▼{% else %}={% endif %} {% if f.vs_prev.pct is not None %}{{ f.vs_prev.pct|pct0|cut:"-" }}{% else %}{{ f.vs_prev.diff }}{% endif %}</span>{% endif %}
+          {% if f.vs_ly %}<span class="pf-delta is-ly {% if f.vs_ly.diff > 0 %}is-up{% elif f.vs_ly.diff < 0 %}is-down{% endif %}" title="{% trans 'vs the same days last year' %}">LY {% if f.vs_ly.diff > 0 %}▲{% elif f.vs_ly.diff < 0 %}▼{% else %}={% endif %} {% if f.vs_ly.pct is not None %}{{ f.vs_ly.pct|pct0|cut:"-" }}{% else %}{{ f.vs_ly.diff }}{% endif %}</span>{% endif %}
+        </span>
+      </a>
+    {% endfor %}
+  </section>
+  <section class="pf-rates" aria-label="{% trans 'Step to step' %}">
+    {% for c in d.conversions %}
+      <div class="pf-rate"><span>{{ c.from }} → {{ c.to }}</span><b>{% if c.pct is None %}—{% else %}{{ c.pct|pct0 }}{% endif %}</b></div>
+    {% endfor %}
+    {% if d.broken %}<div class="pf-rate is-warn"><span>{% trans "Approvals broken" %}</span><b>{{ d.broken }}</b></div>{% endif %}
+  </section>
+  <p class="pf-legend">{% if d.so_far.last != d.range.last %}{% blocktrans with upto=d.so_far.last|date:"j M" %}So far: up to {{ upto }}. {% endblocktrans %}{% endif %}{% blocktrans with prev_first=d.previous.first|date:"j M Y" prev_last=d.previous.last|date:"j M Y" ly_first=d.last_year.first|date:"j M Y" ly_last=d.last_year.last|date:"j M Y" %}▲▼ against the same number of days before ({{ prev_first }} – {{ prev_last }}); LY against {{ ly_first }} – {{ ly_last }}. Step-to-step rates compare these days' numbers.{% endblocktrans %}</p>
+
+  <section class="pf-grid">
+    <article class="pf-panel pf-span-2">
+      <header>
+        <h2>{{ d.trend.stage_label }} {% if d.range.days <= 62 %}{% trans "week by week" %}{% else %}{% trans "month by month" %}{% endif %}</h2>
+        <div class="pf-chips is-small" data-pf-trend-picks>
+          {% for s in d.stages %}<button type="button" class="pf-chip{% if s.code == d.stage.code %} is-active{% endif %}" data-stage="{{ s.code }}">{{ s.label }}</button>{% endfor %}
+        </div>
+      </header>
+      <div class="pf-chart" data-pf-chart="trend"></div>
+    </article>
+    <article class="pf-panel">
+      <header><h2>{% trans "How long it takes" %}</h2><p>{% trans "Median days, for applications approved in these days." %}</p></header>
+      <ul class="pf-times">
+        {% for t in d.times %}<li><span>{{ t.label }}</span><b>{{ t.text }}</b></li>{% endfor %}
+      </ul>
+      <header class="pf-sub-head"><h2>{% trans "Waiting right now" %}</h2><p>{% trans "Whatever the days chosen." %}</p></header>
+      <ul class="pf-times is-health">
+        {% for h in d.health %}<li class="{% if h.n %}is-warn{% endif %}"><span>{{ h.label }}</span><b>{{ h.n }}</b></li>{% endfor %}
+      </ul>
+    </article>
+  </section>
+
+  {% if d.lcs %}
+    <section class="pf-panel">
+      <header><h2>{% trans "Every LC" %} · {{ d.stage.label|lower }}</h2><p>{% trans "Sorted by the chosen stage. Open an LC to see its own analysis." %}</p></header>
+      <div class="table-wrap">
+        <table class="table pf-lcs">
+          <thead>
+            <tr>
+              <th>{% trans "LC" %}</th>
+              <th class="pf-bar-col">{{ d.stage.label }}</th>
+              {% for s in d.stages %}{% if s.code != "applicants" %}<th class="q-num{% if s.code == d.stage.code %} is-stage{% endif %}">{{ s.label }}</th>{% endif %}{% endfor %}
+              <th class="q-num">{% trans "APL → APD" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in d.lcs %}
+              <tr>
+                <th scope="row"><a href="?{% for k, v in keep.items %}{% if k != 'lc' %}{{ k }}={{ v }}&amp;{% endif %}{% endfor %}stage={{ d.stage.code }}&amp;lc={{ row.slug }}">{{ row.name }}</a></th>
+                <td class="pf-bar-col">
+                  <span class="pf-bar"><i style="width: {{ row.width }}%"></i></span>
+                  {% if row.delta %}<small class="pf-delta {% if row.delta.diff > 0 %}is-up{% elif row.delta.diff < 0 %}is-down{% endif %}">{% if row.delta.diff > 0 %}+{% endif %}{{ row.delta.diff }}</small>{% endif %}
+                </td>
+                {% for s in d.stages %}{% if s.code != "applicants" %}<td class="q-num{% if s.code == d.stage.code %} is-stage{% endif %}">{{ row.v|get_item:s.code|default:0 }}</td>{% endif %}{% endfor %}
+                <td class="q-num">{% if row.rate is None %}—{% else %}{{ row.rate|pct0 }}{% endif %}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  {% endif %}
+
+  <section class="pf-panel">
+    <header>
+      <h2>{% trans "Breakdown" %} · {{ d.stage.label|lower }}</h2>
+      {% if d.coverage is not None %}
+        <p class="pf-coverage {% if d.coverage >= 0.9 %}is-good{% elif d.coverage >= 0.6 %}is-mid{% else %}is-low{% endif %}">
+          {% blocktrans with rouh=d.rouh_n expa=d.expa_n pct=d.coverage|pct0 %}From Rouh's records: {{ rouh }} of EXPA's {{ expa }} ({{ pct }}). EXPA's number above is the one that counts.{% endblocktrans %}
+        </p>
+      {% elif d.note %}<p>{{ d.note }}</p>{% endif %}
+      {% if d.rouh_from %}<p class="data-limit">{% blocktrans with day=d.rouh_from|date:"j M Y" %}The breakdowns and step times come from Rouh's own records, which start on {{ day }}: days before that aren't in them. The numbers at the top are EXPA's and cover every day you picked.{% endblocktrans %}</p>{% endif %}
+    </header>
+    {% if d.breakdowns %}
+      <div class="pf-breakdowns">
+        {% for b in d.breakdowns %}
+          <div class="pf-break">
+            <h3>{{ b.title }}</h3>
+            {% if b.rows %}
+              <ul>
+                {% for row in b.rows %}
+                  <li><span class="pf-break-label" title="{{ row.label }}">{{ row.label }}</span><span class="pf-bar"><i style="width: {{ row.width }}%"></i></span><b>{{ row.n }}</b></li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <p class="muted">{% trans "Nothing in these days." %}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  {{ d.trend|json_script:"pf-data" }}
+{% endblock %}
+
+{% block extra_js %}
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js" defer></script>
+  <script src="{% static 'js/performance.js' %}?v=2" defer></script>
+{% endblock %}

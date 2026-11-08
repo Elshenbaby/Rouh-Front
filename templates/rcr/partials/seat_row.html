@@ -1,0 +1,31 @@
+<tr id="seat-{{ seat.pk }}" class="rcr-seat is-{{ column }}">
+  <th scope="row">
+    <a href="{% url 'rcr:lead' cycle.slug seat.lead_id %}">{{ seat.lead.full_name }}</a>
+    {% if seat.lead.phone %}<small class="muted">{{ seat.lead.phone }}</small>{% endif %}
+  </th>
+  <td colspan="{{ criteria|length|add:5 }}" class="rcr-seat-cell">
+    <form method="post" action="{% url 'rcr:gd' cycle.slug gd.pk %}" class="rcr-seat-line" hx-post="{% url 'rcr:gd' cycle.slug gd.pk %}" hx-trigger="change" hx-target="closest tr" hx-swap="outerHTML">
+      {% csrf_token %}<input type="hidden" name="action" value="seat"><input type="hidden" name="seat" value="{{ seat.pk }}">
+      <label class="rcr-seat-field is-result"><span>Result</span>
+        <select name="result" aria-label="What happened for {{ seat.lead.full_name }}">{% for code, label in results %}<option value="{{ code }}"{% if code == column %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+      </label>
+      <label class="rcr-seat-field"><span>Day before</span>
+        <select name="confirmation" aria-label="Day-before answer"><option value="">Not asked</option>{% for code, label in confirmations %}<option value="{{ code }}"{% if code == seat.confirmation %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+      </label>
+      <label class="rcr-seat-field is-tiny"><span>Group</span><input name="group_number" value="{{ seat.group_number }}" aria-label="Group number" placeholder="#"></label>
+      <fieldset class="rcr-seat-scores"><legend>Scores (1–5)</legend>
+        {% for code, label, value in criteria %}<label title="{{ label }}"><span>{{ label }}</span><select name="score_{{ code }}" aria-label="{{ label }}"><option value="">–</option>{% for n in "12345" %}<option{% if value|stringformat:"s" == n %} selected{% endif %}>{{ n }}</option>{% endfor %}</select></label>{% endfor %}
+      </fieldset>
+      <p class="rcr-seat-avg"><span>Average</span><b>{{ seat.score|default:"—" }}</b></p>
+      <label class="rcr-seat-field is-note"><span>Note</span><input name="comment" value="{{ seat.comment }}" aria-label="Note"></label>
+      <div class="rcr-seat-actions">
+        <noscript><button class="btn btn-secondary btn-sm" type="submit">Save</button></noscript>
+        <span class="rcr-saved" aria-live="polite">{% if saved %}Saved ✓{% endif %}</span>
+      </div>
+    </form>
+    <form method="post" action="{% url 'rcr:gd' cycle.slug gd.pk %}" class="rcr-seat-remove" onsubmit="return confirm('Take {{ seat.lead.full_name|escapejs }} out of {{ gd.name|escapejs }}?')">
+      {% csrf_token %}<input type="hidden" name="action" value="remove_seat"><input type="hidden" name="seat" value="{{ seat.pk }}">
+      <button class="btn-link" type="submit">Take out of the GD</button>
+    </form>
+  </td>
+</tr>

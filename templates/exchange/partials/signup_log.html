@@ -1,0 +1,25 @@
+{% load i18n %}
+<div id="{{ log_id|default:'signup-log' }}" class="signup-log">
+  <h3>{% trans "Log" %}</h3>
+  <p class="muted">{% trans "Status changes and comments stay here with date and author. Sync never writes this." %}</p>
+  <ul class="comment-list">
+    {% for comment in comments %}
+      <li class="comment">
+        <p class="comment-meta">
+          <span class="badge badge-{{ comment.kind }}">{{ comment.get_kind_display }}</span>
+          {{ comment.author.full_name|default:_("Unknown") }}
+          · {{ comment.created_at|date:"Y-m-d H:i" }}
+        </p>
+        <p>{{ comment.body|linebreaksbr }}</p>
+      </li>
+    {% empty %}
+      <li class="muted">{% trans "No log yet." %}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% if hx_oob %}
+  <p id="work-meta" class="muted" hx-swap-oob="true">
+    {% trans "Assigned" %}: {{ person.assigned_at|date:"Y-m-d H:i"|default:"—" }}
+    · {% trans "Contacted" %}: {{ person.contacted_at|date:"Y-m-d H:i"|default:"—" }}
+  </p>
+{% endif %}

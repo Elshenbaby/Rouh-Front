@@ -1,0 +1,17 @@
+{% load i18n %}
+<nav class="tabs" aria-label="{% trans 'Raising products' %}">
+  {% for item in raising_desks %}
+    <a class="tab{% if item.code == desk %} is-active{% endif %}" href="{% url 'raising:desk' item.code %}{% if queue_query %}?{{ queue_query }}{% endif %}">{{ item.label }}</a>
+  {% endfor %}
+</nav>
+<nav class="queue-tabs" aria-label="{% trans 'Queues' %}">
+  {% if assign.show_overall %}
+    <a class="queue-tab{% if assign.queue == 'all' %} is-active{% endif %}" href="{{ list_url }}?queue=all">{% trans "Overall" %}</a>
+  {% endif %}
+  {% if assign.is_team_lead and assign.team %}
+    <a class="queue-tab{% if assign.queue == 'team' %} is-active{% endif %}" href="{{ list_url }}?queue=team&amp;team={{ assign.team.pk }}">{% trans "My team" %}</a>
+  {% endif %}
+  <a class="queue-tab{% if assign.queue == 'mine' %} is-active{% endif %}" href="{{ list_url }}?queue=mine">{% trans "My work" %}</a>
+  <a class="queue-tab{% if assign.queue == 'unassigned' %} is-active{% endif %}" href="{{ list_url }}?queue=unassigned">{% trans "Unassigned" %}</a>
+</nav>
+{% include "exchange/partials/team_chips.html" %}

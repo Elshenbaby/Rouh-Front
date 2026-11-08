@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% load mc_format %}
+
+{% block content %}
+  {% include "rcr/_chrome.html" %}
+
+  <nav class="ops-jump" aria-label="On this page">
+    <a href="#insights">LC insights</a><a href="#state">Current & desired state</a><a href="#numbers">Numerical planning</a><a href="#weekly">Weekly goals</a><a href="#clusters">Clusters</a><a href="#functions">Functions</a>
+  </nav>
+
+  <section class="rcr-strip" aria-label="Sensing">
+    <div><span>Sensing answers</span><strong>{{ state.responses|count }}</strong></div>
+    <div><span>Active members in Rouh</span><strong>{{ state.rouh_members|count }}</strong></div>
+    <div><span>Coverage</span><strong>{{ state.coverage|pct0 }}</strong></div>
+    <div><span>Continuing</span><strong>{{ state.totals.continuing|count }}</strong></div>
+    <div><span>To recruit (by the gaps)</span><strong>{{ state.suggested|count }}</strong></div>
+  </section>
+  <p class="rcr-share">Sensing form link for your members: <a href="{{ sensing_url }}" target="_blank" rel="noopener">{{ sensing_url }}</a> <button class="btn btn-ghost btn-sm" type="button" onclick="navigator.clipboard.writeText('{{ sensing_url }}'); this.textContent='Copied'">Copy</button> · <a href="{% url 'rcr:sensing' cycle.slug %}">See who answered</a></p>
+
+  <section class="ops-panel" id="insights">
+    <header class="ops-panel-head"><h2>LC insights</h2><p>Your membership from the sensing form ({{ insights.total }} answers).{% if insights.engagement %} Average engagement: <strong>{{ insights.engagement }}</strong> / 10.{% endif %}</p></header>
+    {% if insights.total %}
+      <div class="rcr-intents" role="img" aria-label="Who intends to stay">
+        {% for row in insights.intents %}{% if row.count %}<i class="is-{{ row.code }}" style="flex: {{ row.count }} 1 0" title="{{ row.label }}: {{ row.count }}"></i>{% endif %}{% endfor %}
+      </div>
+      <ul class="mkt-legend">{% for row in insights.intents %}<li><span class="mkt-swatch rcr-intent-{{ row.code }}"></span>{{ row.label }} · {{ row.count }} ({{ row.share|pct0 }})</li>{% endfor %}</ul>
+      <div class="rcr-insights">
+        {% include "rcr/partials/tally.html" with title="Next position" rows=insights.positions %}
+        {% include "rcr/partials/tally.html" with title="Hours a week" rows=insights.hours %}
+        {% include "rcr/partials/tally.html" with title="What would make them leave" rows=insights.leave_risks %}
+        {% include "rcr/partials/tally.html" with title="Skills" rows=insights.skills %}
+        {% include "rcr/partials/tally.html" with title="Age" rows=insights.ages %}
+        {% include "rcr/partials/tally.html" with title="Academic year" rows=insights.years %}
+        {% include "rcr/partials/tally.html" with title="Faculty" rows=insights.faculties %}
+        {% include "rcr/partials/tally.html" with title="Why people leave" rows=insights.exit_reasons %}
+      </div>
+    {% else %}
+      <p class="ops-empty">No sensing answers yet. Send your members the link above; the insights and the current state fill in as they answer.</p>
+    {% endif %}
+  </section>
+
+  {{ plan_state|json_script:"rcr-plan-state" }}
+  <form method="post" class="rcr-plan" x-data="rcrPlan()">
+    {% csrf_token %}
+    <input type="hidden" name="anchor" value="numbers">
+    <fieldset {% if not edit %}disabled{% endif %} class="rcr-plain">
+
+    <section class="ops-panel" id="state">
+      <header class="ops-panel-head"><h2>Current & desired state</h2><p>Per function, from the sensing form: who continues next peak and who wants to lead. Type the ideal headcount for each function; the gap is who you need to recruit.</p></header>
+      <div class="table-wrap">
+        <table class="table ops-table ops-compact rcr-state">
+          <thead>
+            <tr><th>Function</th><th class="q-num">In Rouh</th><th class="q-num">Answered</th><th class="q-num">Definitely</th><th class="q-num">Probably</th><th class="q-num">Not sure</th><th class="q-num">Leaving</th><th class="q-num">Apply for TL</th><th class="q-num">Return as member</th><th class="q-num">Return as TL</th><th class="q-num">Continuing</th><th>Risk</th><th class="q-num is-sum">Ideal</th><th class="q-num is-sum">To recruit</th><th class="q-num">1st choice of</th></tr>
+          </thead>
+          <tbody>
+            {% for row in state.rows %}
+              <tr>
+                <th scope="row">{{ row.label }}</th>
+                <td class="q-num">{{ row.rouh }}</td><td class="q-num">{{ row.answered }}</td><td class="q-num">{{ row.definitely }}</td><td class="q-num">{{ row.probably }}</td><td class="q-num">{{ row.unsure }}</td><td class="q-num">{{ row.leaving }}</td>
+                <td class="q-num">{{ row.apply_tl }}</td><td class="q-num">{{ row.return_member }}</td><td class="q-num">{{ row.return_tl }}</td>
+                <td class="q-num"><strong>{{ row.continuing }}</strong> <small class="muted">{{ row.continuing_pct|pct0 }}</small></td>
+                <td>{% if row.risk %}<span class="rcr-risk is-{{ row.risk }}">{{ row.risk|capfirst }}</span>{% else %}<span class="muted">—</span>{% endif %}</td>
+                <td class="q-num is-sum"><input type="number" min="0" name="desired_{{ row.code }}" value="{{ row.desired }}" x-model.number="s.desired.{{ row.code }}" aria-label="Ideal {{ row.label }} headcount" class="rcr-num"></td>
+                <td class="q-num is-sum"><strong x-text="gap('{{ row.code }}')">{{ row.gap }}</strong></td>
+                <td class="q-num">{{ row.wants }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr><th scope="row">Total</th><td class="q-num">{{ state.totals.rouh }}</td><td class="q-num">{{ state.totals.answered }}</td><td class="q-num">{{ state.totals.definitely }}</td><td class="q-num">{{ state.totals.probably }}</td><td class="q-num">{{ state.totals.unsure }}</td><td class="q-num">{{ state.totals.leaving }}</td><td class="q-num">{{ state.totals.apply_tl }}</td><td class="q-num">{{ state.totals.return_member }}</td><td class="q-num">{{ state.totals.return_tl }}</td><td class="q-num"><strong>{{ state.totals.continuing }}</strong> <small class="muted">{{ state.totals.continuing_pct|pct0 }}</small></td><td></td><td class="q-num is-sum"><strong x-text="sum(s.desired)">{{ state.totals.desired }}</strong></td><td class="q-num is-sum"><strong x-text="gaps()">{{ state.totals.gap }}</strong></td><td class="q-num">{{ state.totals.wants }}</td></tr>
+          </tfoot>
+        </table>
+      </div>
+      <label class="field-check"><input type="checkbox" name="all_sensed"{% if plan.all_sensed %} checked{% endif %}> <span>Every member filled the sensing form: this is our LC's current state</span></label>
+    </section>
+
+    <section class="ops-panel" id="numbers">
+      <header class="ops-panel-head"><h2>Numerical planning</h2><p>How many new members you need this cycle (REC), and the conversions you expect. The goals work back from REC: ACC = REC ÷ ACC→REC, APP = ACC ÷ APP→ACC, LEAD = APP ÷ LEAD→APP. Max membership for start-ups is 30, for expansions 50; any change goes through the MCVP TM.</p></header>
+      <div class="rcr-numbers">
+        <label class="field"><span>New members needed (REC)</span><input id="p-needed" type="number" min="0" name="members_needed" value="{{ plan.members_needed }}" x-model.number="s.needed"><small class="muted">The gaps above suggest <b x-text="gaps()">{{ state.suggested }}</b>. <button type="button" class="btn-link" @click="s.needed = gaps()">Use it</button></small></label>
+        <label class="field"><span>LEAD → APP %</span><input id="p-la" type="number" min="1" max="100" step="0.01" name="lead_app" value="{{ plan.lead_app|raw }}" x-model.number="s.la"></label>
+        <label class="field"><span>APP → ACC %</span><input id="p-aa" type="number" min="1" max="100" step="0.01" name="app_acc" value="{{ plan.app_acc|raw }}" x-model.number="s.aa"></label>
+        <label class="field"><span>ACC → REC %</span><input id="p-ar" type="number" min="1" max="100" step="0.01" name="acc_rec" value="{{ plan.acc_rec|raw }}" x-model.number="s.ar"></label>
+      </div>
+      <div class="ops-share-grid rcr-goals">
+        <div class="ops-share"><span class="ops-share-label">Lead goal</span><strong x-text="goal('lead')">{{ goals.lead|count }}</strong><span class="ops-share-meta">sign-ups to reach</span></div>
+        <div class="ops-share"><span class="ops-share-label">APP goal</span><strong x-text="goal('app')">{{ goals.app|count }}</strong><span class="ops-share-meta">F2F interviews</span></div>
+        <div class="ops-share"><span class="ops-share-label">ACC goal</span><strong x-text="goal('acc')">{{ goals.acc|count }}</strong><span class="ops-share-meta">accepted</span></div>
+        <div class="ops-share"><span class="ops-share-label">REC goal</span><strong x-text="goal('rec')">{{ goals.rec|count }}</strong><span class="ops-share-meta">at the conference</span></div>
+      </div>
+      <div class="rcr-funnel-viz" aria-hidden="true">
+        <i style="--w: 100%"><span>LEAD</span></i>
+        <i :style="'--w:' + pctOf('app') + '%'"><span>APP</span></i>
+        <i :style="'--w:' + pctOf('acc') + '%'"><span>ACC</span></i>
+        <i :style="'--w:' + pctOf('rec') + '%'"><span>REC</span></i>
+      </div>
+    </section>
+
+    <section class="ops-panel" id="weekly">
+      <header class="ops-panel-head"><h2>Weekly KPI goals</h2><p>The share of the goals each week should bring. Week 0 is the trial week.{% if not cycle.starts_on %} The MC hasn't set the recruitment dates yet, so the weeks have no dates.{% endif %}</p></header>
+      <div class="table-wrap">
+        <table class="table ops-compact">
+          <thead><tr><th>Week</th><th>Days</th><th class="q-num">Share %</th><th class="q-num">LEAD</th><th class="q-num">APP</th><th class="q-num">ACC</th><th class="q-num">REC</th></tr></thead>
+          <tbody>
+            {% for w in weeks %}
+              <tr><th scope="row">Week {{ w.week }}{% if w.week == "0" %} <small class="muted">trial</small>{% endif %}</th><td>{% if w.range %}{{ w.range.start|date:"j M" }} – {{ w.range.end|date:"j M" }}{% else %}<span class="muted">—</span>{% endif %}</td>
+                <td class="q-num"><span class="rcr-week-bar"><i :style="'width:' + (s.weeks['{{ w.week }}'] || 0) * 2.5 + '%'"></i></span><input type="number" min="0" max="100" step="0.5" name="week_{{ w.week }}" value="{{ w.share|raw }}" x-model.number="s.weeks['{{ w.week }}']" class="rcr-num" aria-label="Share of week {{ w.week }}"></td>
+                <td class="q-num" x-text="weekGoal('{{ w.week }}', 'lead')">{{ w.lead }}</td><td class="q-num" x-text="weekGoal('{{ w.week }}', 'app')">{{ w.app }}</td><td class="q-num" x-text="weekGoal('{{ w.week }}', 'acc')">{{ w.acc }}</td><td class="q-num" x-text="weekGoal('{{ w.week }}', 'rec')">{{ w.rec }}</td></tr>
+            {% endfor %}
+          </tbody>
+          <tfoot><tr><th scope="row">Total</th><td></td><td class="q-num"><span class="rcr-sum" :class="sumClass(sum(s.weeks))" x-text="sum(s.weeks) + '%'"></span></td><td colspan="4"></td></tr></tfoot>
+        </table>
+      </div>
+    </section>
+
+    <div class="rcr-two">
+      <section class="ops-panel" id="clusters">
+        <header class="ops-panel-head"><h2>Clusters to recruit</h2><p>The mix of new members by cluster (the MC's targets are filled in).</p></header>
+        <table class="table ops-compact">
+          <thead><tr><th>Cluster</th><th class="q-num">Target %</th><th class="q-num">Members</th><th>Decision</th></tr></thead>
+          <tbody>
+            {% for row in cluster_rows %}
+              <tr><th scope="row"><b class="rcr-cluster is-{{ row.code|lower }}" title="{{ journeys|get_item:row.code }}">{{ row.code }}</b></th><td class="q-num"><input type="number" min="0" max="100" step="0.5" name="cluster_{{ row.code }}" value="{{ row.share|raw }}" x-model.number="s.clusters.{{ row.code }}" class="rcr-num" aria-label="Cluster {{ row.code }} share"></td><td class="q-num"><b x-text="Math.round((s.needed || 0) * (s.clusters.{{ row.code }} || 0) / 100)">{{ row.members }}</b></td><td>{{ row.decision }}</td></tr>
+            {% endfor %}
+          </tbody>
+          <tfoot><tr><th scope="row">Total</th><td class="q-num"><span class="rcr-sum" :class="sumClass(sum(s.clusters))" x-text="sum(s.clusters) + '%'"></span></td><td class="q-num"><b x-text="s.needed || 0"></b></td><td></td></tr></tfoot>
+        </table>
+      </section>
+      <section class="ops-panel" id="functions">
+        <header class="ops-panel-head"><h2>Functions</h2><p>How many of the new members each function takes. The gap from the state above is beside it.</p></header>
+        <table class="table ops-compact">
+          <thead><tr><th>Function</th><th class="q-num">Gap</th><th class="q-num">New members</th></tr></thead>
+          <tbody>
+            {% for row in function_rows %}
+              <tr><th scope="row">{{ row.label }}</th><td class="q-num muted">{{ row.gap }}</td><td class="q-num"><input type="number" min="0" name="function_{{ row.code }}" value="{{ row.planned }}" x-model.number="s.functions.{{ row.code }}" class="rcr-num" aria-label="New {{ row.label }} members"></td></tr>
+            {% endfor %}
+          </tbody>
+          <tfoot><tr><th scope="row">Total</th><td class="q-num muted" x-text="gaps()"></td><td class="q-num"><span class="rcr-sum" :class="sum(s.functions) === (s.needed || 0) ? 'is-ok' : 'is-off'" x-text="sum(s.functions) + ' / ' + (s.needed || 0)"></span></td></tr></tfoot>
+        </table>
+      </section>
+    </div>
+
+    <section class="ops-panel">
+      <ul class="rcr-checks" x-show="problems().length"><template x-for="note in problems()"><li x-text="note"></li></template></ul>
+      <p class="rcr-ok" x-show="s.needed && !problems().length">The plan adds up.</p>
+      <label class="field"><span>Notes for the MCVP TM</span><textarea id="p-notes" name="notes" rows="3">{{ plan.notes }}</textarea></label>
+      {% if edit %}<button class="btn btn-primary btn-md" type="submit">Save the plan</button>{% else %}<p class="muted">Your LCVP TM edits the plan.</p>{% endif %}
+      {% if plan.updated_by_member %}<p class="muted">Last saved by {{ plan.updated_by_member.full_name }}, {{ plan.updated_at|date:"j M, H:i" }}.</p>{% endif %}
+    </section>
+    </fieldset>
+  </form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function rcrPlan() {
+    const start = JSON.parse(document.getElementById("rcr-plan-state").textContent);
+    return {
+      s: start,
+      sum(map) { return Math.round(Object.values(map || {}).reduce((a, b) => a + (Number(b) || 0), 0) * 10) / 10; },
+      gap(code) { return Math.max((Number(this.s.desired[code]) || 0) - (Number(this.s.continuing[code]) || 0), 0); },
+      gaps() { return Object.keys(this.s.desired).reduce((a, code) => a + this.gap(code), 0); },
+      back(value, pct) { return pct ? Math.ceil(value * 100 / pct) : 0; },
+      goal(kind) {
+        const rec = Number(this.s.needed) || 0;
+        const acc = this.back(rec, this.s.ar), app = this.back(acc, this.s.aa), lead = this.back(app, this.s.la);
+        return { rec, acc, app, lead }[kind];
+      },
+      pctOf(kind) { const lead = this.goal("lead"); return lead ? Math.max(6, Math.round(this.goal(kind) / lead * 100)) : 6; },
+      weekGoal(week, kind) { const share = Number(this.s.weeks[week]) || 0; return share ? Math.ceil(this.goal(kind) * share / 100) : 0; },
+      sumClass(total) { return Math.abs(total - 100) <= 0.5 ? "is-ok" : "is-off"; },
+      problems() {
+        const out = [];
+        if (!this.s.needed) return out;
+        const c = this.sum(this.s.clusters), w = this.sum(this.s.weeks), f = this.sum(this.s.functions);
+        if (Math.abs(c - 100) > 0.5) out.push(`The clusters add up to ${c}%, not 100%.`);
+        if (Math.abs(w - 100) > 0.5) out.push(`The weekly split adds up to ${w}%, not 100%.`);
+        if (f !== Number(this.s.needed)) out.push(`The functions plan ${f} new members, ${f < this.s.needed ? "below" : "above"} the ${this.s.needed} needed.`);
+        return out;
+      },
+    };
+  }
+</script>
+{% endblock %}

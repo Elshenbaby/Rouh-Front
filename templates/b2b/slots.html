@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'ui:desk' desk_spec.code %}">{{ desk_spec.label }}</a> · {% trans "Slots" %}</p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+
+  {% include "b2b/partials/tabs.html" %}
+
+  <form method="get" class="filter-bar is-wide" hx-get="{% url 'b2b:slots' %}" hx-target="#b2b-board" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
+    <input type="hidden" name="desk" value="{{ desk }}">
+    <label class="field">
+      <span class="sr-only">{% trans "Search" %}</span>
+      <input type="search" id="b2b-q" name="q" value="{{ q }}" placeholder="{% trans 'Opp ID, opportunity, organisation or LC' %}">
+    </label>
+    <label class="field">
+      <span class="sr-only">{% trans "Peak" %}</span>
+      <select id="b2b-peak" name="peak">
+        {% for value, label in peaks %}<option value="{{ value }}"{% if peak == value %} selected{% endif %}>{{ label }}</option>{% endfor %}
+      </select>
+    </label>
+    <label class="field">
+      <span class="sr-only">{% trans "Live or not" %}</span>
+      <select id="b2b-status" name="status">
+        {% for value, label in statuses %}<option value="{{ value }}"{% if status == value %} selected{% endif %}>{{ label }}</option>{% endfor %}
+      </select>
+    </label>
+    <label class="field">
+      <span class="sr-only">{% trans "Product" %}</span>
+      <select id="b2b-product" name="product">
+        {% for value, label in products %}<option value="{{ value }}"{% if product == value %} selected{% endif %}>{{ label }}</option>{% endfor %}
+      </select>
+    </label>
+    <label class="field">
+      <span class="sr-only">{% trans "Accommodation" %}</span>
+      <select id="b2b-accommodation" name="accommodation">
+        {% for value, label in accommodations %}<option value="{{ value }}"{% if accommodation == value %} selected{% endif %}>{{ label }}</option>{% endfor %}
+      </select>
+    </label>
+  </form>
+
+  <div id="b2b-board">
+    {% include "b2b/partials/slots_board.html" %}
+  </div>
+
+  <p class="muted dash-sync">
+    {% if b2b_source %}{% trans "Financial tools pulled" %} {{ b2b_source.pulled_at|timesince }} {% trans "ago" %}{% endif %}
+    {% if last_sync %} · {% trans "EXPA" %}: {{ last_sync.status }}{% endif %}
+  </p>
+  {% if can_pull_expa and pull_url %}
+    <form method="post" action="{{ pull_url }}">
+      {% csrf_token %}
+      <input type="hidden" name="desk" value="{{ desk }}">
+      <button class="btn btn-secondary btn-sm" type="submit">{% trans "Pull from EXPA" %}</button>
+    </form>
+  {% endif %}
+{% endblock %}

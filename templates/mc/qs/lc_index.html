@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load mc_format %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow">Finance</p>
+    <h1>Qs</h1>
+    <p class="lede">Your LC's quarterly fees from the MC: the statement, the full report for every LC, and how to pay. Shared with each LC's LCP and LCVP Finance.</p>
+  </header>
+  {% if quarters %}
+    <p class="lq-live"><span class="lq-live-dot" aria-hidden="true"></span><b>Live</b> · amounts in EGP follow the dollar rate through the sustainability sheet.</p>
+    <ul class="lq-list">
+      {% for q in quarters %}
+        <li class="lq-row">
+          <a class="lq-card" href="{% url 'lcqs:quarter' q.quarter.pk %}">
+            <span class="lq-label">{{ q.quarter.label }}</span>
+            <span class="lq-period">{{ q.quarter.start_date|date:"j M" }} – {{ q.quarter.end_date|date:"j M Y" }} · released {{ q.release.released_at|date:"j M Y" }}</span>
+            <span class="lq-fees">
+              {% if q.mine %}
+                {% for row in q.mine %}<span class="lq-fee"><small>{{ row.name }}</small>EGP {{ row.total|money }}</span>{% endfor %}
+              {% else %}
+                <span class="lq-fee"><small>All {{ q.count }} LCs</small>EGP {{ q.lcs_pay|money }}</span>
+              {% endif %}
+            </span>
+            <span class="lq-due{% if q.days_left is not None and q.days_left < 0 %} is-late{% elif q.days_left is not None and q.days_left <= 7 %} is-soon{% endif %}">
+              {% if q.deadline %}<small>Pay by</small>{{ q.deadline|date:"j M" }}<em>{% if q.days_left > 1 %}{{ q.days_left }} days left{% elif q.days_left == 1 %}tomorrow{% elif q.days_left == 0 %}today{% else %}{{ q.days_left|stringformat:"d"|cut:"-" }} days late{% endif %}</em>{% else %}<small>Pay by</small>to be set{% endif %}
+            </span>
+            <span class="lq-open">Open →</span>
+          </a>
+          <a class="lq-download" href="{% url 'lcqs:export' q.quarter.pk %}">Download the report (Excel)</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="cr-done"><p class="cr-done-title">No Qs yet</p><p>When the MC releases a quarter, it appears here and you get an email.</p></div>
+  {% endif %}
+{% endblock %}

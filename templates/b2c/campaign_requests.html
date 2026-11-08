@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header row-between">
+    <div>
+      <p class="eyebrow"><a href="{% url 'ui:desk' 'b2c' %}">{% trans "B2C" %}</a></p>
+      <h1>{{ title }}</h1>
+      <p class="lede">{{ lede }}</p>
+    </div>
+    {% if can_request %}
+      <a class="btn btn-primary" href="{% url 'b2c:campaign_request_new' %}">{% trans "Request a campaign" %}</a>
+    {% endif %}
+  </header>
+  {% include "b2c/partials/tabs.html" %}
+  <form method="get" class="filter-bar">
+    <label class="field">
+      <span>{% trans "Status" %}</span>
+      <select name="status" onchange="this.form.submit()">
+        <option value="">{% trans "All" %}</option>
+        <option value="requested"{% if status == "requested" %} selected{% endif %}>{% trans "Requested" %}</option>
+        <option value="approved"{% if status == "approved" %} selected{% endif %}>{% trans "Approved" %}</option>
+        <option value="rejected"{% if status == "rejected" %} selected{% endif %}>{% trans "Rejected" %}</option>
+      </select>
+    </label>
+  </form>
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>{% trans "Campaign" %}</th>
+          <th>{% trans "Type" %}</th>
+          {% if not current_entity %}<th>{% trans "LC" %}</th>{% endif %}
+          <th>{% trans "Campus" %}</th>
+          <th>{% trans "Date" %}</th>
+          <th>{% trans "Requested by" %}</th>
+          <th>{% trans "Status" %}</th>
+          <th>{% trans "Link" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for campaign in page %}
+          <tr class="is-link">
+            <td><a class="row-link" href="{% url 'b2c:campaign_request' campaign.pk %}">{{ campaign.name }}</a></td>
+            <td>{{ campaign.get_campaign_type_display }}</td>
+            {% if not current_entity %}<td>{{ campaign.lc_display_name|default:"—" }}</td>{% endif %}
+            <td>{{ campaign.campus_name|default:"—" }}</td>
+            <td>{{ campaign.date_display|default:"—" }}</td>
+            <td>{{ campaign.requested_by.full_name|default:"—" }}</td>
+            <td><span class="badge badge-{{ campaign.status_badge }}">{{ campaign.get_status_display }}</span></td>
+            <td>
+              {% if campaign.campaign_link %}
+                <a href="{{ campaign.campaign_link }}" rel="noopener noreferrer" target="_blank">{% trans "Open" %}</a>
+              {% else %}
+                —
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="{% if current_entity %}7{% else %}8{% endif %}">
+              {% trans "No campaign requests yet." %}
+              {% if can_request %}
+                <a href="{% url 'b2c:campaign_request_new' %}">{% trans "Request a campaign" %}</a>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if page.has_other_pages %}
+    <p class="muted">{% trans "Page" %} {{ page.number }} / {{ page.paginator.num_pages }}</p>
+  {% endif %}
+{% endblock %}

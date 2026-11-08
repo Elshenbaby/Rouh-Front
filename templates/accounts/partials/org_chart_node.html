@@ -1,0 +1,18 @@
+{% load i18n %}
+<div
+  class="chart-node {% if kind %}chart-{{ kind }}{% endif %} {% if person %}is-filled{% else %}is-empty{% endif %}"
+  data-slot="{{ slot }}"
+  data-assign-url="{{ assign_url }}"
+  data-previous="{% if person %}{{ person.pk }}{% endif %}"
+  {% if person %}draggable="true" data-member-id="{{ person.pk }}"{% endif %}
+>
+  <div class="chart-avatar">
+    {% if person %}
+      {% include "accounts/partials/org_avatar.html" with person=person %}
+    {% else %}
+      <span class="chart-initials">+</span>
+    {% endif %}
+  </div>
+  <p class="chart-role">{% if kind == "vp" %}VP {{ role }}{% else %}{{ role }}{% endif %}</p>
+  <p class="chart-name">{{ person.full_name|default:"—" }}</p>
+</div>

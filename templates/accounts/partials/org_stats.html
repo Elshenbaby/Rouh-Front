@@ -1,0 +1,28 @@
+{% load i18n %}
+<div id="org-stats" class="metric-row org-metrics"{% if oob %} hx-swap-oob="true"{% endif %}>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Placed" %}</p>
+    <p class="metric-value">{{ stats.filled }}</p>
+    <p class="metric-hint">{% trans "people on the tree" %}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Open seats" %}</p>
+    <p class="metric-value">{{ stats.open }}</p>
+    <p class="metric-hint">{% trans "nodes still empty" %}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Teams" %}</p>
+    <p class="metric-value">{{ stats.teams }}</p>
+    <p class="metric-hint">{% trans "across every function" %}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "VPs" %}</p>
+    <p class="metric-value">{{ stats.vps }}</p>
+    <p class="metric-hint">{% trans "functions with a VP" %}</p>
+  </div>
+  <div class="metric-tile">
+    <p class="metric-label">{% trans "Unplaced" %}</p>
+    <p class="metric-value">{{ stats.awaiting }}</p>
+    <p class="metric-hint">{% trans "of" %} {{ stats.roster }} {% trans "in the LC" %}</p>
+  </div>
+</div>

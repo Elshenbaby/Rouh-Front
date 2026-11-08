@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow">{% trans "Raising" %}</p>
+    <h1>{% trans "Raising" %}</h1>
+    <p class="lede">{% trans "Soluo accounts only. Contact them, visit, and raise slots. Applications and approvals live on the product desks." %}</p>
+  </header>
+
+  <section class="desk-grid">
+    {% for desk in desks %}
+      <a class="card desk-card" href="{% url 'raising:desk' desk.code %}">
+        <p class="eyebrow">{% trans "Raising" %}</p>
+        <h2>{{ desk.label }}</h2>
+        <p>{% trans "Soluo deals for this LC. Contact, visit, and raise slots." %}</p>
+      </a>
+    {% endfor %}
+  </section>
+{% endblock %}

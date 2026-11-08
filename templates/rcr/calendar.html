@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static mc_format %}
+
+{% block content %}
+  {% include "rcr/_chrome.html" %}
+
+  <section class="rcr-strip" aria-label="Interview slots">
+    <div><span>Slots</span><strong>{{ totals.slots|count }}</strong></div>
+    <div><span>Booked</span><strong>{{ totals.booked|count }}</strong></div>
+    <div><span>Confirmed the day before</span><strong>{{ totals.confirmed|count }}</strong></div>
+    <div><span>Interviewed</span><strong>{{ totals.done|count }}</strong></div>
+    <div><span>Waiting for a slot</span><strong>{{ ready_count|count }}</strong></div>
+  </section>
+
+  <header class="rcr-weekhead">
+    <nav class="rcr-cal-nav" aria-label="Weeks">
+      <a class="ops-chip" href="?week={{ prev_week|date:'Y-m-d' }}" aria-label="Week before">←</a>
+      <a class="ops-chip{% if week == this_week %} is-active{% endif %}" href="?">This week</a>
+      <a class="ops-chip" href="?week={{ next_week|date:'Y-m-d' }}" aria-label="Week after">→</a>
+      <h2>{{ week|date:"j M" }} – {{ week_end|date:"j M Y" }}</h2>
+    </nav>
+    <details class="rcr-add-slots">
+      <summary class="btn btn-primary btn-sm">Add interview slots</summary>
+      <form method="post" action="{% url 'rcr:slots_make' cycle.slug %}" class="rcr-form">
+        {% csrf_token %}
+        <p class="muted">A slot every few minutes from the start to the end, in each room.</p>
+        <div class="rcr-form-grid">
+          <label class="field"><span>Day</span><input id="s-day" type="date" name="day" value="{% if week >= this_week %}{{ week|date:'Y-m-d' }}{% endif %}" required></label>
+          <label class="field"><span>Shift</span><select id="s-shift" name="shift">{% for code, label in shifts %}<option value="{{ code }}">{{ label }}</option>{% endfor %}</select></label>
+          <label class="field"><span>From</span><input id="s-start" type="time" name="start" value="12:00" required></label>
+          <label class="field"><span>To</span><input id="s-end" type="time" name="end" value="17:00" required></label>
+          <label class="field"><span>Minutes each</span><input id="s-min" type="number" name="minutes" value="30" min="10" max="120"></label>
+          <label class="field"><span>Rooms</span><input id="s-rooms" type="number" name="rooms" value="3" min="1" max="10"></label>
+          <label class="field is-wide"><span>Place</span><input id="s-place" name="place" placeholder="Faculty of Commerce, building B"></label>
+        </div>
+        <button class="btn btn-primary btn-sm" type="submit">Add the slots</button>
+      </form>
+    </details>
+  </header>
+
+  <div class="rcr-sched">
+    <div class="rcr-sched-days">
+      {% for day in grid %}
+        <section class="ops-panel rcr-day" id="day-{{ day.day|date:'Y-m-d' }}">
+          <header class="rcr-day-head">
+            <div><h3>{{ day.day|date:"l j F" }}</h3><p class="muted">{{ day.booked }} of {{ day.count }} booked{% if day.done %} · {{ day.done }} interviewed{% endif %}{% if day.place %} · {{ day.place }}{% endif %}</p></div>
+            {% if day.free %}
+              <form method="post" action="{% url 'rcr:day_clear' cycle.slug %}" onsubmit="return confirm('Remove the {{ day.free }} free slot{{ day.free|pluralize }} on {{ day.day|date:'l j F' }}? Booked ones stay.')">
+                {% csrf_token %}<input type="hidden" name="day" value="{{ day.day|date:'Y-m-d' }}"><input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <button class="btn btn-ghost btn-sm" type="submit">Remove the free slots</button>
+              </form>
+            {% endif %}
+          </header>
+          <div class="table-wrap">
+            <table class="table rcr-grid-table">
+              <thead><tr><th scope="col">Time</th>{% for room in day.room_names %}<th scope="col">{{ room }}</th>{% endfor %}</tr></thead>
+              <tbody>
+                {% for row in day.rows %}
+                  <tr><th scope="row">{{ row.time|time:"H:i" }}</th>{% for slot in row.cells %}{% if slot %}{% include "rcr/partials/slot_cell.html" %}{% else %}<td class="muted">—</td>{% endif %}{% endfor %}</tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      {% empty %}
+        <div class="rcr-cal-empty">
+          <p><b>No interview slots this week.</b> Add a day of slots ("Add interview slots" above) and book people into them here.</p>
+          {% if later %}<a class="btn btn-secondary btn-sm" href="?week={{ later|date:'Y-m-d' }}">Next week with slots ({{ later|date:"j M" }})</a>{% endif %}
+          {% if earlier %}<a class="btn btn-ghost btn-sm" href="?week={{ earlier|date:'Y-m-d' }}">Last week with slots ({{ earlier|date:"j M" }})</a>{% endif %}
+        </div>
+      {% endfor %}
+      <p class="rcr-legend"><span class="rcr-key is-free"></span>Free: pick someone to book them <span class="rcr-key is-booked"></span>Booked <span class="rcr-key is-done"></span>Interviewed</p>
+    </div>
+
+    <aside class="ops-panel rcr-sched-side" aria-label="Waiting for a slot">
+      <header class="ops-panel-head"><h2>Waiting for a slot</h2><p>{{ ready_count }} passed the phone call. Book them from a free slot's dropdown, or open them to send their booking link.</p></header>
+      {% if ready %}
+        <label class="rcr-search"><span class="sr-only">Find a lead</span><input type="search" data-filter="cal-ready" placeholder="Find…"></label>
+        <ul class="rcr-waitlist" id="cal-ready">
+          {% for lead in ready %}
+            <li data-card><button type="button" hx-get="{% url 'rcr:lead_drawer' cycle.slug lead.pk %}" hx-target="#rcr-drawer-body">
+              <b>{{ lead.full_name }}</b><small>{{ lead.phone|default:"no phone" }}{% if lead.recruiter %} · {{ lead.recruiter.full_name }}{% endif %}</small>
+            </button></li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="muted">Nobody waiting. People arrive here when their phone call is accepted.</p>
+      {% endif %}
+    </aside>
+  </div>
+
+  {% include "rcr/partials/drawer_shell.html" %}
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/rcr-board.js' %}?v=5" defer></script>
+{% endblock %}

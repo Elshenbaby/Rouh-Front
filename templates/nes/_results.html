@@ -1,0 +1,83 @@
+{% load mc_format nes_tags %}
+{# One LC's (or Egypt's) answers to a round. Needs: summary; optional: egypt (to compare), people (show who answered). #}
+<section class="nes-kpis" aria-label="The round in numbers">
+  <article>
+    <span>Answered</span>
+    <b>{% if summary.members %}{{ summary.filled|count }}<small> of {{ summary.members|count }}</small>{% else %}{{ summary.count|count }}{% endif %}</b>
+    <p>{% if summary.participation is not None %}{{ summary.participation }}% of active members{% else %}No active members on record{% endif %}{% if egypt %} · Egypt {{ egypt.participation|default_if_none:"—" }}%{% endif %}{% if summary.outside %} · {{ summary.outside }} more answered who aren't on the member list in Rouh{% endif %}</p>
+  </article>
+  <article class="{% if summary.nes.nes is not None %}{% if summary.nes.nes >= 30 %}is-good{% elif summary.nes.nes < 0 %}is-bad{% else %}is-mid{% endif %}{% endif %}">
+    <span>NES</span>
+    <b>{% if summary.nes.nes is None %}—{% elif summary.nes.nes > 0 %}+{{ summary.nes.nes }}{% else %}{{ summary.nes.nes }}{% endif %}</b>
+    {% if summary.nes.n %}
+      <div class="nes-split" role="img" aria-label="{{ summary.nes.promoters }}% promoters, {{ summary.nes.passives }}% passives, {{ summary.nes.detractors }}% detractors">
+        <i class="is-pro" style="width: {{ summary.nes.promoters }}%"></i><i class="is-pas" style="width: {{ summary.nes.passives }}%"></i><i class="is-det" style="width: {{ summary.nes.detractors }}%"></i>
+      </div>
+      <p>{{ summary.nes.promoters }}% gave 9–10 · {{ summary.nes.detractors }}% gave 0–6{% if egypt and egypt.nes.nes is not None %} · Egypt {% if egypt.nes.nes > 0 %}+{% endif %}{{ egypt.nes.nes }}{% endif %}</p>
+    {% else %}<p>No answers yet</p>{% endif %}
+  </article>
+  <article>
+    <span>Engagement</span>
+    <b>{{ summary.engagement|default_if_none:"—" }}<small> / 10</small></b>
+    <p>The average of every 0–10 answer{% if egypt and egypt.engagement is not None %} · Egypt {{ egypt.engagement }}{% endif %}</p>
+  </article>
+</section>
+
+{% for section in summary.sections %}
+  <section class="ops-panel">
+    {% if section.name %}<header class="ops-panel-head"><h2>{{ section.name }}</h2></header>{% endif %}
+    <div class="nes-qs">
+      {% for item in section.questions %}
+        <article class="nes-q{% if item.kind == 'text' %} is-wide{% endif %}">
+          <h3>{{ item.text }}</h3>
+          {% if item.kind == "scale" %}
+            <p class="nes-big"><b>{{ item.average|default_if_none:"—" }}</b><small> / 10 · {{ item.n }} answer{{ item.n|pluralize }}</small>{% if item.egypt is not None %} <em class="{% if item.delta > 0 %}is-up{% elif item.delta < 0 %}is-down{% endif %}">Egypt {{ item.egypt }}{% if item.delta %} · {% if item.delta > 0 %}+{% endif %}{{ item.delta }}{% endif %}</em>{% endif %}</p>
+            <ol class="nes-hist" aria-label="How many gave each score">
+              {% for bar in item.bars %}<li title="{{ bar.n }} gave {{ bar.value }}"><i style="height: {{ bar.height }}%"></i><span>{{ bar.value }}</span></li>{% endfor %}
+            </ol>
+          {% elif item.kind == "choice" %}
+            <ul class="nes-bars">
+              {% for option in item.options %}<li><span>{{ option.label }}</span><i><b style="width: {{ option.pct }}%"></b></i><em>{{ option.pct }}% · {{ option.n }}</em></li>{% endfor %}
+            </ul>
+          {% elif item.kind == "number" %}
+            <p class="nes-big"><b>{{ item.average|default_if_none:"—" }}</b><small> on average · {{ item.n }} answer{{ item.n|pluralize }}{% if item.total is not None %} · {{ item.total }} in all{% endif %}</small>{% if item.egypt is not None %} <em>Egypt {{ item.egypt }}</em>{% endif %}</p>
+          {% else %}
+            {% if item.answers %}
+              <details{% if item.answers|length <= 4 %} open{% endif %}><summary>{{ item.answers|length }} answer{{ item.answers|length|pluralize }}</summary>
+                <ul class="nes-texts">{% for a in item.answers %}<li><p>{{ a.text|answer }}</p>{% if people %}<small>{{ a.who }}</small>{% endif %}</li>{% endfor %}</ul>
+              </details>
+            {% else %}<p class="muted">No answers yet.</p>{% endif %}
+          {% endif %}
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+{% endfor %}
+
+{% if people %}
+  <section class="ops-panel" id="people">
+    <header class="ops-panel-head"><h2>Who answered</h2><p>{{ summary.count }} answered{% if summary.missing %}, {{ summary.missing|length }} active member{{ summary.missing|length|pluralize }} haven't yet{% endif %}. Open someone to read all their answers.</p></header>
+    <div class="table-wrap">
+      <table class="table ops-table ops-compact">
+        <thead><tr><th>Name</th><th>Function</th><th class="q-num">NES score</th><th>Sent</th></tr></thead>
+        <tbody>
+          {% for r in summary.responses %}
+            <tr>
+              <th scope="row"><details class="nes-person"><summary>{{ r.full_name|default:r.email }}</summary>
+                <dl>{% for key, a in r.answers.items %}<dt>{{ a.q }}</dt><dd>{{ a.a|answer }}</dd>{% endfor %}</dl>
+              </details></th>
+              <td>{{ r.function|default:"—" }}</td>
+              <td class="q-num">{{ r.score|default_if_none:"—" }}</td>
+              <td>{{ r.submitted_at|date:"j M, H:i" }}</td>
+            </tr>
+          {% empty %}<tr><td colspan="4" class="muted">Nobody has answered yet.</td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if summary.missing %}
+      <details class="nes-missing"><summary>Haven't answered yet ({{ summary.missing|length }})</summary>
+        <ul>{% for m in summary.missing %}<li>{{ m.full_name }}{% if m.email %} <small class="muted">{{ m.email }}</small>{% endif %}</li>{% endfor %}</ul>
+      </details>
+    {% endif %}
+  </section>
+{% endif %}

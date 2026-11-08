@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'b2c:campus_access' %}">{% trans "Campus access" %}</a></p>
+    <h1>{{ campus.campus_name }}</h1>
+    <p class="lede">
+      {{ campus.home_entity.name }}
+      · <span class="badge badge-{{ campus.status_badge }}">{{ campus.get_status_display }}</span>
+      · {{ campus.completion_pct }}%
+    </p>
+  </header>
+  {% include "b2c/partials/tabs.html" %}
+  <form method="post" class="detail-grid">
+    {% csrf_token %}
+    <section class="card">
+      <h2>{% trans "Access" %}</h2>
+      <p class="muted">{% trans "Who owns this campus and where access stands." %}</p>
+      <div class="work-form is-split">
+        <label class="field"><span>{{ form.status.label }}</span>{{ form.status }}</label>
+        <label class="field"><span>{{ form.responsible_lead.label }}</span>{{ form.responsible_lead }}</label>
+        <label class="field is-wide"><span>{{ form.responsible_contact.label }}</span>{{ form.responsible_contact }}</label>
+        <label class="field is-wide"><span>{{ form.notes.label }}</span>{{ form.notes }}</label>
+      </div>
+    </section>
+    <section class="card">
+      <h2>{% trans "Checkpoints" %}</h2>
+      <p class="muted">{% trans "Tick each step as the campus moves. Completion updates on save." %}</p>
+      <div class="checkpoint-list">
+        <label class="check-row">{{ form.cp1_lead_contact }} <span>{{ form.cp1_lead_contact.label }}</span></label>
+        <label class="check-row">{{ form.cp2_proposal_submitted }} <span>{{ form.cp2_proposal_submitted.label }}</span></label>
+        <label class="check-row">{{ form.cp3_access_approval }} <span>{{ form.cp3_access_approval.label }}</span></label>
+        <label class="check-row">{{ form.cp4_first_campaign }} <span>{{ form.cp4_first_campaign.label }}</span></label>
+        <label class="check-row">{{ form.cp5_on_ground_booth }} <span>{{ form.cp5_on_ground_booth.label }}</span></label>
+        <label class="check-row">{{ form.cp6_post_activation_review }} <span>{{ form.cp6_post_activation_review.label }}</span></label>
+      </div>
+    </section>
+    <p class="form-actions">
+      <button class="btn btn-primary" type="submit">{% trans "Save campus" %}</button>
+      <a class="btn btn-ghost" href="{% url 'b2c:campus_access' %}">{% trans "Back to campuses" %}</a>
+    </p>
+  </form>
+{% endblock %}

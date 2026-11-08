@@ -1,0 +1,36 @@
+{% load i18n %}
+<div class="tree-node {% if leaf %}is-leaf{% else %}is-internal{% endif %}">
+  <span class="tree-dot {% if leaf %}leaf{% else %}internal{% endif %}" aria-hidden="true"></span>
+  <label class="tree-card">
+    <span class="tree-role">{% trans role %}</span>
+    <select
+      name="member"
+      hx-post="{% if assign_url %}{{ assign_url }}{% else %}{% url 'people:org_slot' branch.function %}{% endif %}"
+      hx-trigger="change"
+      hx-target="#org-board"
+      hx-swap="outerHTML show:none focus-scroll:false"
+      hx-vals='{"slot": "{{ slot }}", "previous": "{% if current %}{{ current.pk }}{% endif %}"}'
+    >
+      <option value="">---------</option>
+      {% for member in members %}
+        <option
+          value="{{ member.pk }}"
+          {% if current and current.pk == member.pk %}selected{% elif member.pk in taken_ids %}disabled{% endif %}
+        >{{ member.full_name }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  {% if remove_kind %}
+    <button
+      type="button"
+      class="tree-remove"
+      title="{% trans 'Remove this node' %}"
+      aria-label="{% blocktrans %}Remove this {{ role }} node{% endblocktrans %}"
+      hx-post="{% url 'people:org_node' branch.function %}"
+      hx-vals='{"kind": "{{ remove_kind }}", "action": "remove", "index": "{{ remove_index }}"{% if remove_team is not None %}, "team_index": "{{ remove_team }}"{% endif %}}'
+      hx-confirm="{% if current %}{% blocktrans with name=current.full_name %}Remove this {{ role }} node? {{ name }} leaves the seat.{% endblocktrans %}{% else %}{% blocktrans %}Remove this empty {{ role }} node?{% endblocktrans %}{% endif %}"
+      hx-target="#org-board"
+      hx-swap="outerHTML show:none focus-scroll:false"
+    >×</button>
+  {% endif %}
+</div>

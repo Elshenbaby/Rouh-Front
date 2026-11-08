@@ -1,0 +1,36 @@
+{% load i18n %}
+<div class="table-wrap">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{% trans "Name" %}</th>
+        <th>{% trans "Email" %}</th>
+        <th>{% trans "LC" %}</th>
+        <th>{% trans "Status" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for person in page %}
+        <tr>
+          <td><a href="{% url 'people:detail' person.pk %}">{{ person.full_name }}</a></td>
+          <td>{{ person.email }}</td>
+          <td>{{ person.home_entity.short_name }}</td>
+          <td><span class="badge badge-{{ person.status }}">{{ person.get_status_display }}</span></td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4">{% trans "No members in your visible LCs yet." %}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% if page.has_other_pages %}
+  <nav class="pager">
+    {% if page.has_previous %}
+      <a href="?q={{ q }}{% if desk %}&desk={{ desk }}{% endif %}&page={{ page.previous_page_number }}" hx-get="?q={{ q }}{% if desk %}&desk={{ desk }}{% endif %}&page={{ page.previous_page_number }}" hx-target="#directory-table">{% trans "Previous" %}</a>
+    {% endif %}
+    <span>{% blocktrans with n=page.number total=page.paginator.num_pages %}Page {{ n }} of {{ total }}{% endblocktrans %}</span>
+    {% if page.has_next %}
+      <a href="?q={{ q }}{% if desk %}&desk={{ desk }}{% endif %}&page={{ page.next_page_number }}" hx-get="?q={{ q }}{% if desk %}&desk={{ desk }}{% endif %}&page={{ page.next_page_number }}" hx-target="#directory-table">{% trans "Next" %}</a>
+    {% endif %}
+  </nav>
+{% endif %}

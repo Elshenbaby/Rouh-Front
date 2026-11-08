@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow">
+      {% if desk_spec %}
+        <a href="{% url 'ui:desk' desk_spec.code %}">{{ desk_spec.label }}</a>
+        · {% trans "Raising" %}
+      {% else %}
+        {% trans "Raising" %}
+      {% endif %}
+    </p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+
+  {% include "exchange/partials/desk_stage_tabs.html" %}
+
+  <div class="metric-row">
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Deals" %}</p>
+      <p class="metric-value">{{ page.paginator.count }}</p>
+    </div>
+    {% if last_sync %}
+    <div class="metric-tile">
+      <p class="metric-label">{% trans "Last Soluo pull" %}</p>
+      <p class="metric-value">{{ last_sync.status }}</p>
+      <p class="muted">
+        {% if last_sync.error %}
+          {{ last_sync.error }}
+        {% else %}
+          {{ last_sync.records_read }} {% trans "read" %} · {{ last_sync.records_upserted }} {% trans "saved" %}
+        {% endif %}
+      </p>
+    </div>
+    {% endif %}
+    {% if can_pull_soluo %}
+    <form method="post" action="{% url 'raising:pull' desk %}">
+      {% csrf_token %}
+      <button class="btn" type="submit">{% trans "Pull from Soluo" %}</button>
+    </form>
+    {% endif %}
+  </div>
+
+  <form method="get" class="filter-bar is-wide" hx-get="{{ list_url }}" hx-target="#raising-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
+    <input type="hidden" name="queue" value="{{ assign.queue }}">
+    {% if assign.selected_team %}<input type="hidden" name="team" value="{{ assign.selected_team.pk }}">{% endif %}
+    {% if assign.selected_member %}<input type="hidden" name="who" value="{{ assign.selected_member.pk }}">{% endif %}
+    <label class="field">
+      <span class="sr-only">{% trans "Search" %}</span>
+      <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Account, phone or industry' %}">
+    </label>
+    <label class="field">
+      <span class="sr-only">{% trans "Status" %}</span>
+      <select name="status">
+        <option value="">{% trans "All statuses" %}</option>
+        {% for value, label in statuses %}
+          <option value="{{ value }}"{% if status == value %} selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </label>
+  </form>
+
+  <div id="raising-table" x-data="{ selected: [] }">
+    {% include "exchange/partials/raising_table.html" %}
+  </div>
+{% endblock %}

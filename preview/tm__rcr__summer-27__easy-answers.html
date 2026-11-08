@@ -1,0 +1,470 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>RCR Summer 27 · CU · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "xLgyAsEMvgLciXIL64grgyKeIjIzs4rZeE4uE2fAr9AGeBkWQ6HnzNsJ2st4fRl2"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link is-active">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="xLgyAsEMvgLciXIL64grgyKeIjIzs4rZeE4uE2fAr9AGeBkWQ6HnzNsJ2st4fRl2">
+      <input type="hidden" name="next" value="/tm/rcr/summer-27/easy-answers/">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="xLgyAsEMvgLciXIL64grgyKeIjIzs4rZeE4uE2fAr9AGeBkWQ6HnzNsJ2st4fRl2">
+      <input type="hidden" name="next" value="/tm/rcr/summer-27/easy-answers/">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="xLgyAsEMvgLciXIL64grgyKeIjIzs4rZeE4uE2fAr9AGeBkWQ6HnzNsJ2st4fRl2">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page">
+        
+        
+  
+<header class="page-header rcr-header">
+  <p class="eyebrow"><a href="desks__tm.html">Talent</a> · RCR · CU</p>
+  <h1>RCR Summer 27 <span class="rcr-lc">CU</span></h1>
+</header>
+
+
+<nav class="tabs tm-tabs" aria-label="Talent">
+  <a class="tab" href="tm.html">Overview</a>
+  <a class="tab" href="tm__structure.html">Structure</a>
+  <a class="tab" href="tm__performance.html">Performance</a>
+  <a class="tab" href="tm__planning.html">Planning</a>
+  <a class="tab" href="tm__attendance.html">Attendance</a>
+  <a class="tab" href="tm__hr.html">HR Status</a>
+  <a class="tab is-active" href="tm__rcr.html">RCR</a>
+  <a class="tab" href="tm__nes.html">NES</a>
+  <a class="tab" href="tm__settings.html">Settings</a>
+</nav>
+
+
+
+
+
+
+<nav class="rcr-journey" aria-label="The recruitment journey">
+  <a class="rcr-today-btn" href="tm__rcr__summer-27.html"><b>Today</b><small>what waits on you</small></a>
+  <ol class="rcr-phases">
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__new-leads.html" title="Call every lead, run the phone interview, accept or reject.">
+          <span class="rcr-phase-n">1</span>
+          <span class="rcr-phase-text"><b>Leads &amp; calls</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__scheduling.html" title="Book a slot (or send them their booking link), confirm the day before, fill the form.">
+          <span class="rcr-phase-n">2</span>
+          <span class="rcr-phase-text"><b>Interviews</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__gds.html" title="Seat the accepted ones in a GD, run it, score it.">
+          <span class="rcr-phase-n">3</span>
+          <span class="rcr-phase-text"><b>Group discussions</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+      <li class="rcr-phase">
+        <a href="tm__rcr__summer-27__conference.html" title="Collect the payment and get them to the conference.">
+          <span class="rcr-phase-n">4</span>
+          <span class="rcr-phase-text"><b>Conference</b><small>0 in this phase</small></span>
+        </a>
+      </li>
+    
+  </ol>
+</nav>
+<div class="rcr-subnav">
+  <nav class="rcr-phase-tabs" aria-label="This phase">
+    
+  </nav>
+  <nav class="rcr-tools" aria-label="Tools">
+    <a class="" href="tm__rcr__summer-27__insights.html">Insights</a><a class="" href="tm__rcr__summer-27__planning.html">Capacity plan</a><a class="" href="tm__rcr__summer-27__sensing.html">Sensing</a><a class="" href="tm__rcr__summer-27__team.html">Team &amp; shifts</a><a class="" href="tm__rcr__summer-27__timeline.html">Timeline</a><a class="is-active" href="tm__rcr__summer-27__easy-answers.html">Easy answers</a>
+  </nav>
+</div>
+
+
+
+  <section class="ops-panel rcr-guide">
+    <header class="ops-panel-head"><h2>Easy answers</h2><p>The selection and interview guide for interviewers and recruiters. The MC keeps it up to date for this cycle.</p></header>
+    
+      <h3 class="rcr-sub">How to score</h3>
+      
+        <details class="rcr-guide-entry" open>
+          <summary>The 1–5 scale</summary>
+          <div class="rcr-guide-body"><p>1 — The candidate&#x27;s profile completely lacks the quality the organisation needs.<br>2 — The profile superficially shows the quality we look for.<br>3 — It superficially shows the quality, but with an attitude to improve.<br>4 — The profile fairly meets the expectations of the quality assessed.<br>5 — The profile fully meets the organisation&#x27;s expectations.<br>Use 0 when the candidate gave no answer.</p></div>
+        </details>
+      
+        <details class="rcr-guide-entry">
+          <summary>Why these values: Ownership, Growth Drive, Impact Orientation</summary>
+          <div class="rcr-guide-body"><p>The biggest issue is not attraction. It is the quality of accepted members, retention after acceptance and a sustainable leadership pipeline.<br>Ownership — members who take responsibility and finish what they start (ACC → REC, retention).<br>Growth Drive — members who seek challenges and leadership (TL and VP pipeline).<br>Impact Orientation — members who believe in AIESEC&#x27;s purpose (engagement, IXP, referrals).</p></div>
+        </details>
+      
+    
+      <h3 class="rcr-sub">Interview flow</h3>
+      
+        <details class="rcr-guide-entry">
+          <summary>Welcome and ice-break</summary>
+          <div class="rcr-guide-body"><p>&quot;Hello X! Welcome to your interview. My name is X, I&#x27;m an AIESECer in LC X and I&#x27;ll be your interviewer today. How was your day? How do you feel about the interview? Is it your first time being interviewed?&quot;<br>Watch posture and body language: how they describe their day shows what they prioritise.</p></div>
+        </details>
+      
+        <details class="rcr-guide-entry">
+          <summary>Explain the process</summary>
+          <div class="rcr-guide-body"><p>This is the second step of recruitment (after the form; the third if they attended the info session). It lasts about 45 minutes. Questions are in English and English answers are preferred, but they may answer in the language they express themselves best in, and can ask you to repeat any question.</p></div>
+        </details>
+      
+        <details class="rcr-guide-entry">
+          <summary>Getting to know them</summary>
+          <div class="rcr-guide-body"><p>Present yourself without your name, age or studies.<br>In 3 words, how do your friends usually describe you?<br>What role do you usually play in a team, or among your friends and family?<br>You&#x27;re a X student: how did you choose your major, and how does it fit your goals?<br>Ask about their weekly availability: morning, afternoon, evening.</p></div>
+        </details>
+      
+    
+      <h3 class="rcr-sub">Clusters</h3>
+      
+        <details class="rcr-guide-entry">
+          <summary>What each cluster means</summary>
+          <div class="rcr-guide-body"><p>K — Exceptional Member: future MCP, MCVP, LCP or national leader.<br>A — Leadership Pipeline Member: future LCVP, LCP or MC applicant.<br>B — Long-Term Core Member: Team Leader, Project Manager or future LCVP.<br>C — Functional Contributor: strong operational member inside one function.<br>D — Supportive Contributor: OC member, project contributor, event organiser.<br>E — Developmental Candidate: needs intensive support; retention risk.<br>F — Not an AIESEC Fit: rejected.<br>Cluster labels are internal. Never share them with applicants.</p></div>
+        </details>
+      
+    
+  </section>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2>The interview questions</h2><p>What the F2F interview form asks this cycle, by part.</p></header>
+    
+    
+      <h3 class="rcr-sub">Before we begin</h3>
+      <ol class="rcr-qlist"><li>Any questions before we begin? <small class="muted">(short answer)</small></li></ol>
+    
+      <h3 class="rcr-sub">Personality &amp; leadership</h3>
+      <ol class="rcr-qlist"><li>Tell me 3 things that are not in you.</li><li>What is the one thing that affects how you make decisions the most: logic, emotions, past experiences, or the people around you? Illustrate.</li><li>Define leadership from your own point of view.</li><li>Tell me about a time you were so supportive with someone that it ended up affecting you in a bad way.</li><li>What is the difference between a place that pushes you to grow and a place that just burns you out?</li></ol>
+    
+      <h3 class="rcr-sub">Global mindset</h3>
+      <ol class="rcr-qlist"><li>What do you think are the major global issues in the world right now?</li><li>A lot of young people see what&#x27;s wrong with the world but feel there&#x27;s nothing they can do. What is the first real step someone your age can take?</li></ol>
+    
+      <h3 class="rcr-sub">oGV</h3>
+      <ol class="rcr-qlist"><li>You have a lead (signup) who is interested in volunteering abroad but their parents are completely against it. What do you do, step by step?</li><li>You&#x27;ve been following up with someone for 2 weeks and they suddenly stop replying. What do you do?</li><li>Someone just got accepted to go on their volunteer experience abroad. Walk me through everything you&#x27;d tell them to prepare, from paperwork to what to expect when they land.</li><li>Convince me — I&#x27;m a student — why spending my summer in Sri Lanka teaching English and living in a shared flat makes sense for me.</li></ol>
+    
+      <h3 class="rcr-sub">oGT</h3>
+      <ol class="rcr-qlist"><li>You&#x27;re helping someone through a multi-step application: an English test, a task and an interview. They fail the first step. What do you do next?</li><li>How would you guide a candidate to improve their professional skills to compete for a global talent opportunity?</li></ol>
+    
+      <h3 class="rcr-sub">iGV</h3>
+      <ol class="rcr-qlist"><li>You have 30 seconds to convince someone from anywhere in the world to come volunteer in Egypt. Go.</li><li>An incoming volunteer faces accommodation problems on their first night in Egypt. How do you support them?</li><li>What is the greatest social issue in Egypt? Then: design a project international volunteers could run to help with it.</li></ol>
+    
+      <h3 class="rcr-sub">iGT</h3>
+      <ol class="rcr-qlist"><li>Tell me about a company you admire. Then: I&#x27;m the CEO — convince me to give you an internship.</li><li>How would you help someone integrate smoothly into a new professional work environment?</li><li>A foreign professional arrives for their project in Egypt and after 3 days says it&#x27;s nothing like what they were promised. What do you do?</li></ol>
+    
+      <h3 class="rcr-sub">B2C &amp; marketing</h3>
+      <ol class="rcr-qlist"><li>How would you position AIESEC differently to an engineering student, a business student and an arts student on the same campus?</li><li>You&#x27;re at an external event with 200 young people. No booth, no banner, just you. How do you walk out with at least 15 signups?</li><li>You call someone to check on their experience after a member reached out. They say the member was unprofessional, gave wrong information, and they&#x27;re no longer interested. What do you do?</li></ol>
+    
+      <h3 class="rcr-sub">B2B &amp; BD</h3>
+      <ol class="rcr-qlist"><li>You&#x27;ve been trying to reach someone at a company for 2 weeks and they haven&#x27;t replied to anything. What do you do?</li><li>A company that worked with us last conference had a bad experience with AIESEC. They agreed to meet you one more time. How do you run that meeting?</li><li>You&#x27;re convincing an Egyptian company to host an international intern. The HR manager asks: &quot;why would I hire someone who doesn&#x27;t know Egypt&#x27;s market?&quot; How do you respond?</li></ol>
+    
+      <h3 class="rcr-sub">Conference</h3>
+      <ol class="rcr-qlist"><li>The conference is 3 days with a sleepover. Can you attend? <small class="muted">(one choice)</small></li><li>The conference fees are between 1,500 and 2,000 EGP. Can you manage it? <small class="muted">(one choice)</small></li><li>One quick thing before you leave: did you receive the invitation email for this interview correctly? <small class="muted">(short answer)</small></li></ol>
+    
+  </section>
+
+      </main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+</body>
+</html>

@@ -1,0 +1,25 @@
+{% load rcr_tags %}<li class="rcr-card is-seat is-{{ column }}" data-card data-key="seat" data-id="{{ seat.pk }}" x-data="{ open: {% if open_panel %}true{% else %}false{% endif %} }">
+  <span class="rcr-card-top">
+    <b class="rcr-card-name">{{ seat.lead.full_name }}</b>
+    {% if seat.score %}<em class="rcr-score-badge" title="Average of the scores">{{ seat.score }}</em>{% endif %}
+    <button type="button" class="rcr-mini" @click.stop="open = !open" :aria-expanded="open" aria-label="Scores and notes for {{ seat.lead.full_name }}">{% if seat.scores %}Scores{% else %}Score{% endif %}</button>
+  </span>
+  <span class="rcr-card-foot">
+    {% if seat.group_number %}<em class="rcr-tag">Group {{ seat.group_number }}</em>{% endif %}
+    {% if seat.confirmation %}<em class="rcr-tag is-{{ seat.confirmation }}">{{ seat.get_confirmation_display }}</em>{% endif %}
+    {% if seat.attendance == "late" %}<em class="rcr-tag">Late</em>{% endif %}
+    {% if seat.lead.phone %}<span class="rcr-tag">{{ seat.lead.phone }}</span>{% endif %}
+  </span>
+  <form class="rcr-seat-edit" x-show="open" x-cloak hx-post="{% url 'rcr:seat_edit' cycle.slug seat.pk %}" hx-trigger="change" hx-target="closest [data-card]" hx-swap="outerHTML">
+    {% for code, label, value in criteria %}
+      <div class="rcr-crit"><span>{{ label }}</span>
+        <div class="rcr-scale is-small">{% for n in "12345" %}<label><input type="radio" name="score_{{ code }}" value="{{ n }}"{% if value|stringformat:"s" == n %} checked{% endif %}><span>{{ n }}</span></label>{% endfor %}</div>
+      </div>
+    {% endfor %}
+    <div class="rcr-seat-row">
+      <label>Group <input name="group_number" value="{{ seat.group_number }}" class="rcr-tiny"></label>
+      <label>Day before <select name="confirmation"><option value="">Not asked</option>{% for code, label in confirmations %}<option value="{{ code }}"{% if code == seat.confirmation %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+    </div>
+    <input name="comment" value="{{ seat.comment }}" placeholder="A note" aria-label="Note">
+  </form>
+</li>

@@ -1,0 +1,109 @@
+{% load i18n %}
+<article class="tree-function" id="branch-{{ branch.function }}">
+  <details {% if branch.open or focus == branch.function %}open{% endif %}>
+    <summary class="tree-summary">
+      <span class="tree-dot internal" aria-hidden="true"></span>
+      <span class="tree-summary-label">{{ branch.plan.get_function_display }}</span>
+      <span class="badge {% if branch.filled %}badge-success{% else %}badge-neutral{% endif %}">{{ branch.filled }}/{{ branch.seats }}</span>
+    </summary>
+    <ul class="tree-children">
+      <li>
+        {% include "accounts/partials/org_person_select.html" with slot="vp" current=branch.vp role="VP" leaf=False %}
+      </li>
+    </ul>
+    {% if org_error and org_error_function == branch.function %}<div class="alert alert-error org-error" role="alert">{{ org_error }}</div>{% endif %}
+    <div class="tree-add tree-add-function is-under-vp">
+      <button
+        type="button"
+        class="btn btn-secondary btn-sm"
+        hx-post="{% url 'people:org_node' branch.function %}"
+        hx-vals='{"kind": "coord"}'
+        hx-target="#org-board"
+        hx-swap="outerHTML show:none focus-scroll:false"
+      >{% trans "Add coordinator" %}</button>
+      <button
+        type="button"
+        class="btn btn-primary btn-sm"
+        hx-post="{% url 'people:org_node' branch.function %}"
+        hx-vals='{"kind": "team"}'
+        hx-target="#org-board"
+        hx-swap="outerHTML show:none focus-scroll:false"
+      >{% trans "Add team leader" %}</button>
+      <span class="muted tree-add-hint">{% trans "A team leader comes with their team: name it, then add its members." %}</span>
+    </div>
+    {% if branch.mms or branch.coords or branch.team_rows %}
+    <ul class="tree-mms">
+      {% for mm in branch.mms %}
+        <li class="tree-mm">
+          {% include "accounts/partials/org_person_select.html" with slot=mm.slot current=mm.member role="MM" leaf=True remove_kind="mm" remove_index=mm.index %}
+        </li>
+      {% endfor %}
+      {% for coord in branch.coords %}
+        <li class="tree-mm">
+          {% include "accounts/partials/org_person_select.html" with slot=coord.slot current=coord.member role="Coordinator" leaf=True remove_kind="coord" remove_index=coord.index %}
+        </li>
+      {% endfor %}
+      {% for row in branch.team_rows %}
+        <li class="tree-mm tree-team">
+          <div class="tree-mm-head">
+            <label class="team-name-field">
+              <span class="tree-team-label">{% trans "Team name" %}</span>
+              <input
+                type="text"
+                name="name"
+                value="{{ row.team.name }}"
+                maxlength="120"
+                placeholder="{% trans 'Name this team' %}"
+                {% if new_team_function == branch.function and forloop.last %}autofocus onfocus="this.select()"{% endif %}
+                hx-post="{% url 'people:org_team' branch.function %}"
+                hx-vals='{"team_index": "{{ row.index }}"}'
+                hx-trigger="change"
+                hx-target="#org-board"
+                hx-swap="outerHTML show:none focus-scroll:false"
+              >
+            </label>
+            {% if forloop.last %}
+              <button
+                type="button"
+                class="btn btn-ghost btn-sm"
+                hx-post="{% url 'people:org_node' branch.function %}"
+                hx-vals='{"kind": "team", "action": "remove"}'
+                hx-target="#org-board"
+                hx-swap="outerHTML show:none focus-scroll:false"
+              >{% trans "Remove team" %}</button>
+            {% endif %}
+          </div>
+          {% include "accounts/partials/org_person_select.html" with slot=row.tl_slot current=row.tl role="Team leader" leaf=False %}
+          <ul class="tree-children">
+            {% for seat in row.members %}
+              <li>
+                {% include "accounts/partials/org_person_select.html" with slot=seat.slot current=seat.member role="Member" leaf=True remove_kind="member" remove_index=seat.index remove_team=row.index %}
+              </li>
+            {% endfor %}
+          </ul>
+          <div class="tree-add">
+            <button
+              type="button"
+              class="btn btn-secondary btn-sm"
+              hx-post="{% url 'people:org_node' branch.function %}"
+              hx-vals='{"kind": "member", "team_index": "{{ row.index }}"}'
+              hx-target="#org-board"
+              hx-swap="outerHTML show:none focus-scroll:false"
+            >{% trans "Add member" %}</button>
+            {% if row.team.member_seats %}
+              <button
+                type="button"
+                class="btn btn-ghost btn-sm"
+                hx-post="{% url 'people:org_node' branch.function %}"
+                hx-vals='{"kind": "member", "action": "remove", "team_index": "{{ row.index }}"}'
+                hx-target="#org-board"
+                hx-swap="outerHTML show:none focus-scroll:false"
+              >{% trans "Remove member" %}</button>
+            {% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </details>
+</article>

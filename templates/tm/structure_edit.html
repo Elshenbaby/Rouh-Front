@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'tm:structure' %}">{% trans "Structure" %}</a></p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+  {% include "tm/partials/tabs.html" %}
+  <form method="post" class="work-form" x-data="{ role: '{{ form.role.value|default:'' }}', vpRoles: {{ form.vp_role_ids|safe }} }">
+    {% csrf_token %}
+    {% for field in form %}
+      {% if field.name == "also_functions" %}
+        <fieldset class="field vp-fns" x-show="vpRoles.includes(String(role))"{% if form.role.value|stringformat:"s" not in form.vp_role_ids %} x-cloak{% endif %}>
+          <legend>{{ field.label }}</legend>
+          <p class="muted">{{ field.help_text }}</p>
+          <div class="cfg-chips">
+            {% for choice in field %}
+              <label class="cfg-chip">{{ choice.tag }}<span>{{ choice.choice_label }}</span></label>
+            {% endfor %}
+          </div>
+          {{ field.errors }}
+        </fieldset>
+      {% elif field.name == "role" %}
+        <label class="field">
+          <span>{{ field.label }}</span>
+          <select name="{{ field.html_name }}" id="{{ field.id_for_label }}" x-model="role" required>
+            {% for value, label in field.field.choices %}<option value="{{ value }}"{% if value|stringformat:"s" == field.value|stringformat:"s" %} selected{% endif %}>{{ label }}</option>{% endfor %}
+          </select>
+          {{ field.errors }}
+        </label>
+      {% else %}
+        <label class="field">
+          <span>{{ field.label }}</span>
+          {{ field }}
+          {{ field.errors }}
+        </label>
+      {% endif %}
+    {% endfor %}
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
+      <a class="btn" href="{% url 'tm:structure' %}">{% trans "Cancel" %}</a>
+    </div>
+  </form>
+{% endblock %}

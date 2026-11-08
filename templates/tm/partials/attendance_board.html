@@ -1,0 +1,150 @@
+{% load i18n %}
+<div id="tm-attendance" class="tm-attendance">
+  {% if can_mark_attendance %}
+    <a class="tm-action-card" href="{% url 'tm:attendance_new' %}">
+      <span class="tm-action-card-kicker">{% trans "New" %}</span>
+      <strong class="tm-action-card-title">{% trans "Add a touchpoint" %}</strong>
+      <span class="tm-action-card-copy">{% trans "Open the form. Invite list is a snapshot of the structure." %}</span>
+    </a>
+  {% endif %}
+
+  {% with a=analysis %}
+  <section class="tm-section tm-att">
+    <header class="tm-section-head">
+      <h2>{% trans "Attendance analysis" %}</h2>
+      <p class="muted">{% trans "Mandatory touchpoints held this term. Attendance = (present + late) ÷ (invited − excused). Touchpoints nobody marked yet don't count." %}</p>
+    </header>
+    <div class="tm-att-kpis">
+      <div class="tm-att-kpi is-main">
+        <span>{% trans "Total attendance" %}</span>
+        <strong>{% if a.overall.pct is not None %}{{ a.overall.pct }}%{% else %}—{% endif %}</strong>
+        <em>{{ a.overall.present }} {% trans "present" %} · {{ a.overall.late }} {% trans "late" %} · {{ a.overall.excused }} {% trans "excused" %} · {{ a.overall.absent }} {% trans "absent" %}</em>
+      </div>
+      <div class="tm-att-kpi">
+        <span>{% trans "Touchpoints held" %}</span>
+        <strong>{{ a.overall.events }}</strong>
+        <em>{{ a.overall.invited }} {% trans "invitations" %}{% if a.unmarked %} · {{ a.unmarked }} {% trans "not marked yet" %}{% endif %}</em>
+      </div>
+      <div class="tm-att-kpi">
+        <span>{% trans "Best attended" %}</span>
+        <strong>{% if a.best %}{{ a.best.pct }}%{% else %}—{% endif %}</strong>
+        <em>{% if a.best %}{{ a.best.touchpoint.title }}{% endif %}</em>
+      </div>
+      <div class="tm-att-kpi">
+        <span>{% trans "Lowest" %}</span>
+        <strong>{% if a.worst %}{{ a.worst.pct }}%{% else %}—{% endif %}</strong>
+        <em>{% if a.worst %}{{ a.worst.touchpoint.title }}{% endif %}</em>
+      </div>
+    </div>
+
+    {% if a.trend %}
+      <h3 class="tm-att-sub">{% trans "Attendance per touchpoint" %}</h3>
+      <div class="tm-att-bars" role="list">
+        {% for e in a.trend %}
+          <a class="tm-att-bar" role="listitem" href="{% url 'tm:attendance_mark' e.touchpoint.pk %}" title="{{ e.touchpoint.title }} · {{ e.pct }}%">
+            <span class="tm-att-bar-fill {% if e.pct >= 80 %}is-good{% elif e.pct >= 60 %}is-near{% else %}is-low{% endif %}" style="height: {{ e.pct|default:0 }}%"></span>
+            <span class="tm-att-bar-value">{{ e.pct }}%</span>
+            <span class="tm-att-bar-label">{{ e.touchpoint.starts_at|date:"j M" }}</span>
+          </a>
+        {% endfor %}
+      </div>
+      <div class="table-wrap">
+        <table class="table tm-att-table">
+          <thead><tr><th>{% trans "Touchpoint" %}</th><th>{% trans "Kind" %}</th><th class="q-num">{% trans "Invited" %}</th><th class="q-num">{% trans "Present" %}</th><th class="q-num">{% trans "Late" %}</th><th class="q-num">{% trans "Excused" %}</th><th class="q-num">{% trans "Absent" %}</th><th class="q-num">{% trans "Attendance" %}</th></tr></thead>
+          <tbody>
+            {% for e in a.events %}
+              <tr>
+                <td><a href="{% url 'tm:attendance_mark' e.touchpoint.pk %}">{{ e.touchpoint.title }}</a><br><span class="muted">{{ e.touchpoint.starts_at|date:"j M Y, H:i" }}{% if not e.touchpoint.is_mandatory %} · {% trans "Optional" %}{% endif %}</span></td>
+                <td>{{ e.touchpoint.get_kind_display }}</td>
+                <td class="q-num">{{ e.invited }}</td><td class="q-num">{{ e.present }}</td><td class="q-num">{{ e.late }}</td><td class="q-num">{{ e.excused }}</td><td class="q-num">{{ e.absent }}</td>
+                <td class="q-num">{% if e.is_marked %}<strong>{{ e.pct|default_if_none:"—" }}{% if e.pct is not None %}%{% endif %}</strong>{% else %}<span class="muted">{% trans "Not marked" %}</span>{% endif %}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endif %}
+
+    <div class="tm-att-duo">
+      <div>
+        <h3 class="tm-att-sub">{% trans "By kind" %}</h3>
+        {% for k in a.kinds %}
+          <div class="tm-att-line"><span>{{ k.label }} <em>{{ k.events }}</em></span><span class="tm-att-track"><span class="tm-att-fill" style="width: {{ k.pct|default:0 }}%"></span></span><strong>{{ k.pct|default_if_none:"—" }}%</strong></div>
+        {% empty %}<p class="muted">{% trans "No marked touchpoints yet." %}</p>{% endfor %}
+      </div>
+      <div>
+        <h3 class="tm-att-sub">{% trans "By function" %}</h3>
+        {% for f in a.functions %}
+          <div class="tm-att-line"><span>{{ f.label }} <em>{{ f.invited }}</em></span><span class="tm-att-track"><span class="tm-att-fill" style="width: {{ f.pct|default:0 }}%"></span></span><strong>{{ f.pct|default_if_none:"—" }}%</strong></div>
+        {% empty %}<p class="muted">{% trans "No marked touchpoints yet." %}</p>{% endfor %}
+      </div>
+    </div>
+
+    <h3 class="tm-att-sub">{% trans "Follow up" %}</h3>
+    {% if a.follow %}
+      <div class="table-wrap">
+        <table class="table tm-att-table">
+          <thead><tr><th>{% trans "Member" %}</th><th class="q-num">{% trans "Invited" %}</th><th class="q-num">{% trans "Attendance" %}</th><th>{% trans "Why" %}</th></tr></thead>
+          <tbody>
+            {% for r in a.follow %}
+              <tr>
+                <td><a href="{% url 'tm:member' r.member.pk %}">{{ r.member.full_name }}</a></td>
+                <td class="q-num">{{ r.invited }}</td>
+                <td class="q-num">{{ r.pct|default_if_none:"—" }}{% if r.pct is not None %}%{% endif %}</td>
+                <td>{% if r.flag %}<span class="badge badge-danger">{{ r.streak }} {% trans "absences in a row" %}</span>{% else %}<span class="badge badge-warning">{% trans "Under 60%" %}</span>{% endif %}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="muted">{% blocktrans with n=a.streak_limit %}Nobody under 60% or with {{ n }} absences in a row.{% endblocktrans %}</p>
+    {% endif %}
+  </section>
+  {% endwith %}
+
+  <section class="tm-section">
+    <header class="tm-section-head">
+      <h2>{% trans "Upcoming" %}</h2>
+      <p class="muted">{% trans "Tap a row to mark who came." %}</p>
+    </header>
+    <div class="tm-touch-grid">
+      {% for item in upcoming %}
+        <a class="tm-touch-card" href="{% url 'tm:attendance_mark' item.pk %}">
+          <span class="tm-touch-when">{{ item.starts_at }}</span>
+          <strong class="tm-touch-title">{{ item.title }}</strong>
+          <span class="tm-touch-meta">
+            {{ item.get_kind_display }}
+            · {% if item.is_mandatory %}{% trans "Mandatory" %}{% else %}{% trans "Optional" %}{% endif %}
+          </span>
+        </a>
+      {% empty %}
+        <p class="tm-empty muted">{% trans "No upcoming touchpoints." %}</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="tm-section">
+    <header class="tm-section-head">
+      <h2>{% trans "Past" %}</h2>
+      <p class="muted">{% trans "Already held. Open one to review marks." %}</p>
+    </header>
+    <div class="tm-touch-grid">
+      {% for item in past %}
+        <a class="tm-touch-card is-past" href="{% url 'tm:attendance_mark' item.pk %}">
+          <span class="tm-touch-when">{{ item.starts_at }}
+            {% if item.stats.is_marked %}<span class="tm-att-badge {% if item.stats.pct >= 80 %}is-good{% elif item.stats.pct >= 60 %}is-near{% else %}is-low{% endif %}">{{ item.stats.pct }}%</span>
+            {% else %}<span class="tm-att-badge">{% trans "Not marked" %}</span>{% endif %}
+          </span>
+          <strong class="tm-touch-title">{{ item.title }}</strong>
+          <span class="tm-touch-meta">
+            {{ item.get_kind_display }}
+            · {% if item.is_mandatory %}{% trans "Mandatory" %}{% else %}{% trans "Optional" %}{% endif %}
+          </span>
+        </a>
+      {% empty %}
+        <p class="tm-empty muted">{% trans "No past touchpoints." %}</p>
+      {% endfor %}
+    </div>
+  </section>
+</div>

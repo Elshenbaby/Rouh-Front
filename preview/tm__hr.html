@@ -1,0 +1,640 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>HR status · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "04bcpNBn0JdgTgioSKjuusMvZyhdt5DFHXZ8tncbWC2KPUUzCMKqNHu0jH2IgSxI"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link is-active">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="04bcpNBn0JdgTgioSKjuusMvZyhdt5DFHXZ8tncbWC2KPUUzCMKqNHu0jH2IgSxI">
+      <input type="hidden" name="next" value="/tm/hr/">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="04bcpNBn0JdgTgioSKjuusMvZyhdt5DFHXZ8tncbWC2KPUUzCMKqNHu0jH2IgSxI">
+      <input type="hidden" name="next" value="/tm/hr/">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="04bcpNBn0JdgTgioSKjuusMvZyhdt5DFHXZ8tncbWC2KPUUzCMKqNHu0jH2IgSxI">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page">
+        
+        
+  <header class="page-header">
+    <p class="eyebrow"><a href="desks__tm.html">Talent</a> · CU</p>
+    <h1>HR status</h1>
+    <p class="lede">The LC HR booklet. Drag people between steps. Dismissal still asks you to confirm.</p>
+  </header>
+  
+
+<nav class="tabs tm-tabs" aria-label="Talent">
+  <a class="tab" href="tm.html">Overview</a>
+  <a class="tab" href="tm__structure.html">Structure</a>
+  <a class="tab" href="tm__performance.html">Performance</a>
+  <a class="tab" href="tm__planning.html">Planning</a>
+  <a class="tab" href="tm__attendance.html">Attendance</a>
+  <a class="tab is-active" href="tm__hr.html">HR Status</a>
+  <a class="tab" href="tm__rcr.html">RCR</a>
+  <a class="tab" href="tm__nes.html">NES</a>
+  <a class="tab" href="tm__settings.html">Settings</a>
+</nav>
+
+
+
+  
+<div id="tm-hr-board" class="tm-hr">
+  <p class="tm-hr-hint muted">Drag a person into another column. Dismissal still asks for a reason.</p>
+  <section
+    class="tm-board"
+    
+      data-kanban
+      data-kanban-url="/tm/hr/move/"
+      data-kanban-target="#tm-hr-board"
+      data-kanban-swap="outerHTML show:none focus-scroll:false"
+    
+  >
+    
+      <article class="tm-board-col tm-board-col-neutral">
+        <header class="tm-board-col-head">
+          <span class="badge badge-neutral">Good standing</span>
+          <span class="tm-board-count">14</span>
+        </header>
+        <ul
+          class="tm-board-list"
+          data-kanban-col
+          data-step="1361bad9-9d2d-4bd1-a5a4-ed4e25f39bb3"
+          data-ends="0"
+        >
+          
+            <li
+              class="tm-hr-card"
+              draggable="true"
+              data-kanban-card
+              data-member="b266592c-e6ab-48b0-a842-89a8cfa2ce47"
+              data-edit-url="/tm/hr/b266592c-e6ab-48b0-a842-89a8cfa2ce47/"
+            >
+              <a class="tm-hr-card-name" href="tm__members__b266592c-e6ab-48b0-a842-89a8cfa2ce47.html">Adam Nabil</a>
+              <span class="tm-hr-card-fn">Talent Management</span>
+              
+                <a class="tm-hr-card-edit" href="tm__hr__b266592c-e6ab-48b0-a842-89a8cfa2ce47.html">Edit</a>
+              
+            </li>
+          
+            <li
+              class="tm-hr-card"
+              draggable="true"
+              data-kanban-card
+              data-member="7768b1f7-106f-4159-9848-1cc6c5eb6c0e"
+              data-edit-url="/tm/hr/7768b1f7-106f-4159-9848-1cc6c5eb6c0e/"
+            >
+              <a class="tm-hr-card-name" href="tm__members__7768b1f7-106f-4159-9848-1cc6c5eb6c0e.html">Hana Fathy</a>
+              <span class="tm-hr-card-fn">iCX</span>
+              
+                <a class="tm-hr-card-edit" href="tm__hr__7768b1f7-106f-4159-9848-1cc6c5eb6c0e.html">Edit</a>
+              
+            </li>
+          
+            <li
+              class="tm-hr-card"
+              draggable="true"
+              data-kanban-card
+              data-member="97f540de-ae65-4ba3-a68f-508c68423eac"
+              data-edit-url="/tm/hr/97f540de-ae65-4ba3-a68f-508c68423eac/"
+            >
+              <a class="tm-hr-card-name" href="#not-in-preview">Karim Magdy</a>
+              <span class="tm-hr-card-fn">Talent Management</span>
+              
+                <a class="tm-hr-card-edit" href="#not-in-preview">Edit</a>
+              
+            </li>
+          
+            <li
+              class="tm-hr-card"
+              draggable="true"
+              data-kanban-card
+              data-member="2fcf9e78-1d81-465d-9982-0e76445e74c7"
+              data-edit-url="/tm/hr/2fcf9e78-1d81-465d-9982-0e76445e74c7/"
+            >
+              <a class="tm-hr-card-name" href="#not-in-preview">Laila Sherif</a>
+              <span class="tm-hr-card-fn">oGX</span>
+              
+                <a class="tm-hr-card-edit" href="#not-in-preview">Edit</a>
+              
+            </li>
+          
+            <li
+              class="tm-hr-card"
+              draggable="true"
+              data-kanban-card
+              data-member="1524b683-623f-47ad-a205-306dfa4868b0"
+              data-edit-url="/tm/hr/1524b683-623f-47ad-a205-306dfa4868b0/"
+            >
+              <a class="tm-hr-card-name" href="#not-in-preview">LCP CU</a>
+              <span class="tm-hr-card-fn">Presidency</span>
+              
+                <a class="tm-hr-card-edit" href="#not-in-preview">Edit</a>
+              
+            </li>
+          
+            <li
+              class="tm-hr-card"
+              draggable="true"
+              data-kanban-card
+              data-member="279f0095-8759-42bc-9698-e2bb691b4792"
+              data-edit-url="/tm/hr/279f0095-8759-42bc-9698-e2bb691b4792/"
+            >
+              <a class="tm-hr-card-name" href="#not-in-preview">LCVP oGV CU</a>
+              <span class="tm-hr-card-fn">oGV</span>
+              
+                <a class="tm-hr-card-edit" href="#not-in-preview">Edit</a>
+              
+            </li>
+          
+            <li
+              class="tm-hr-card"
+              draggable="true"
+              data-kanban-card
+              data-member="8ffbae43-3935-411b-8cb4-1d3e1216351a"
+              data-edit-url="/tm/hr/8ffbae43-3935-411b-8cb4-1d3e1216351a/"
+            >
+              <a class="tm-hr-card-name" href="#not-in-preview">LCVP TM CU</a>
+              <span class="tm-hr-card-fn">Talent Management</span>
+              
+                <a class="tm-hr-card-edit" href="#not-in-preview">Edit</a>
+              
+            </li>
+          
+            <li
+              class="tm-hr-card"
+              draggable="true"
+              data-kanban-card
+              data-member="8851aec2-0eb1-489c-b718-236f54054e16"
+              data-edit-url="/tm/hr/8851aec2-0eb1-489c-b718-236f54054e16/"
+            >
+              <a class="tm-hr-card-name" href="#not-in-preview">Mariam Ezzat</a>
+              <span class="tm-hr-card-fn">oGX</span>
+              
+                <a class="tm-hr-card-edit" href="#not-in-preview">Edit</a>
+              
+            </li>
+          
+            <li
+              class="tm-hr-card"
+              draggable="true"
+              data-kanban-card
+              data-member="0e08ff71-fe1a-4095-a16c-12a3a5862435"
+              data-edit-url="/tm/hr/0e08ff71-fe1a-4095-a16c-12a3a5862435/"
+            >
+              <a class="tm-hr-card-name" href="#not-in-preview">Nour Adel</a>
+              <span class="tm-hr-card-fn">oGX</span>
+              
+                <a class="tm-hr-card-edit" href="#not-in-preview">Edit</a>
+              
+            </li>
+          
+            <li
+              class="tm-hr-card"
+              draggable="true"
+              data-kanban-card
+              data-member="802daf3c-76d3-41fc-a843-88cba8db0e54"
+              data-edit-url="/tm/hr/802daf3c-76d3-41fc-a843-88cba8db0e54/"
+            >
+              <a class="tm-hr-card-name" href="#not-in-preview">Omar Wagdy</a>
+              <span class="tm-hr-card-fn">Talent Management</span>
+              
+                <a class="tm-hr-card-edit" href="#not-in-preview">Edit</a>
+              
+            </li>
+          
+            <li
+              class="tm-hr-card"
+              draggable="true"
+              data-kanban-card
+              data-member="9e231132-570e-4436-ad42-f4b87b603b39"
+              data-edit-url="/tm/hr/9e231132-570e-4436-ad42-f4b87b603b39/"
+            >
+              <a class="tm-hr-card-name" href="#not-in-preview">Salma Hamdy</a>
+              <span class="tm-hr-card-fn">iCX</span>
+              
+                <a class="tm-hr-card-edit" href="#not-in-preview">Edit</a>
+              
+            </li>
+          
+            <li
+              class="tm-hr-card"
+              draggable="true"
+              data-kanban-card
+              data-member="c902ce7f-05c4-43a5-b6dc-cb46f4d4cad8"
+              data-edit-url="/tm/hr/c902ce7f-05c4-43a5-b6dc-cb46f4d4cad8/"
+            >
+              <a class="tm-hr-card-name" href="#not-in-preview">Sara CU</a>
+              <span class="tm-hr-card-fn">oGX</span>
+              
+                <a class="tm-hr-card-edit" href="#not-in-preview">Edit</a>
+              
+            </li>
+          
+            <li
+              class="tm-hr-card"
+              draggable="true"
+              data-kanban-card
+              data-member="6e16a3e6-2247-4f57-a0ee-2c577787bda1"
+              data-edit-url="/tm/hr/6e16a3e6-2247-4f57-a0ee-2c577787bda1/"
+            >
+              <a class="tm-hr-card-name" href="#not-in-preview">Youssef Samir</a>
+              <span class="tm-hr-card-fn">B2C</span>
+              
+                <a class="tm-hr-card-edit" href="#not-in-preview">Edit</a>
+              
+            </li>
+          
+            <li
+              class="tm-hr-card"
+              draggable="true"
+              data-kanban-card
+              data-member="91298dc5-c466-444a-97a6-7dfbc73f0ae5"
+              data-edit-url="/tm/hr/91298dc5-c466-444a-97a6-7dfbc73f0ae5/"
+            >
+              <a class="tm-hr-card-name" href="#not-in-preview">Ziad Galal</a>
+              <span class="tm-hr-card-fn">B2C</span>
+              
+                <a class="tm-hr-card-edit" href="#not-in-preview">Edit</a>
+              
+            </li>
+          
+        </ul>
+      </article>
+    
+      <article class="tm-board-col tm-board-col-warning">
+        <header class="tm-board-col-head">
+          <span class="badge badge-warning">Warning 1</span>
+          <span class="tm-board-count">0</span>
+        </header>
+        <ul
+          class="tm-board-list"
+          data-kanban-col
+          data-step="61215ed5-25dd-4a5c-a44c-03b3ea5737ed"
+          data-ends="0"
+        >
+          
+            <li class="tm-board-empty muted">Drop people here</li>
+          
+        </ul>
+      </article>
+    
+      <article class="tm-board-col tm-board-col-warning">
+        <header class="tm-board-col-head">
+          <span class="badge badge-warning">Warning 2</span>
+          <span class="tm-board-count">0</span>
+        </header>
+        <ul
+          class="tm-board-list"
+          data-kanban-col
+          data-step="b5746e6d-4eb5-423e-8387-3c36c9ef9913"
+          data-ends="0"
+        >
+          
+            <li class="tm-board-empty muted">Drop people here</li>
+          
+        </ul>
+      </article>
+    
+      <article class="tm-board-col tm-board-col-warning">
+        <header class="tm-board-col-head">
+          <span class="badge badge-warning">Probation task</span>
+          <span class="tm-board-count">0</span>
+        </header>
+        <ul
+          class="tm-board-list"
+          data-kanban-col
+          data-step="c2e4c870-57d8-46eb-8350-7e57cbd493c6"
+          data-ends="0"
+        >
+          
+            <li class="tm-board-empty muted">Drop people here</li>
+          
+        </ul>
+      </article>
+    
+      <article class="tm-board-col tm-board-col-danger">
+        <header class="tm-board-col-head">
+          <span class="badge badge-danger">Dismissal</span>
+          <span class="tm-board-count">0</span>
+        </header>
+        <ul
+          class="tm-board-list"
+          data-kanban-col
+          data-step="b872cf6c-7f9c-41bc-b141-6c863f3bedba"
+          data-ends="1"
+        >
+          
+            <li class="tm-board-empty muted">Drop people here</li>
+          
+        </ul>
+      </article>
+    
+  </section>
+
+  
+</div>
+
+
+      </main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+</body>
+</html>

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow">
+      {% if desk_spec %}
+        <a href="{% url 'ui:desk' desk_spec.code %}">{{ desk_spec.label }}</a>
+      {% else %}
+        {% trans "Exchange" %}
+      {% endif %}
+    </p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </header>
+
+  {% if desk == 'b2c' %}
+    {% include "b2c/partials/tabs.html" %}
+  {% else %}
+    {% include "exchange/partials/desk_stage_tabs.html" %}
+  {% endif %}
+
+  {% include "exchange/partials/ogx_metrics.html" with oob=False %}
+
+  <form method="get" class="filter-bar is-wide" hx-get="{{ list_url }}" hx-target="#ogx-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
+    <input type="hidden" name="queue" value="{{ assign.queue }}">
+    {% if assign.selected_team %}<input type="hidden" name="team" value="{{ assign.selected_team.pk }}">{% endif %}
+    {% if assign.selected_member %}<input type="hidden" name="who" value="{{ assign.selected_member.pk }}">{% endif %}
+    <label class="field">
+      <span class="sr-only">{% trans "Search" %}</span>
+      <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Name, email or phone' %}">
+    </label>
+    <label class="field">
+      <span class="sr-only">{% trans "Status" %}</span>
+      <select name="status">
+        <option value="">{% trans "All statuses" %}</option>
+        {% for value, label in statuses %}
+          <option value="{{ value }}"{% if status == value %} selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </label>
+  </form>
+
+  <div id="ogx-table" x-data="{ selected: [] }">
+    {% include "exchange/partials/ogx_table.html" %}
+  </div>
+{% endblock %}

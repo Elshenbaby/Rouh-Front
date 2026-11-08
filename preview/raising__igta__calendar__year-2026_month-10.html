@@ -1,0 +1,929 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>iGTa visits · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "JCpijcyrPRYzxEV9pbxYpoCcYZ7gqOTfqvdenM9fLKN3tixk9dYUIDkHi8SLdBNi"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link is-active">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="JCpijcyrPRYzxEV9pbxYpoCcYZ7gqOTfqvdenM9fLKN3tixk9dYUIDkHi8SLdBNi">
+      <input type="hidden" name="next" value="/raising/igta/calendar/?year=2026&amp;month=10">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="JCpijcyrPRYzxEV9pbxYpoCcYZ7gqOTfqvdenM9fLKN3tixk9dYUIDkHi8SLdBNi">
+      <input type="hidden" name="next" value="/raising/igta/calendar/?year=2026&amp;month=10">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="JCpijcyrPRYzxEV9pbxYpoCcYZ7gqOTfqvdenM9fLKN3tixk9dYUIDkHi8SLdBNi">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page">
+        
+        
+  <header class="page-header">
+    <p class="eyebrow">
+      
+        <a href="desks__igta.html">iGTa</a>
+        · Calendar
+      
+    </p>
+    <h1>iGTa visits</h1>
+    <p class="lede">Every visit on this desk&#x27;s accounts. Change the date or status on the account, and it moves here.</p>
+  </header>
+
+  
+    
+
+  <nav class="tabs" aria-label="Desk lists">
+    
+      <a class="tab" href="exchange__igta__slots.html">Slots</a>
+      <a class="tab" href="exchange__igta__queue-all.html">Applications</a>
+    
+    <a class="tab" href="exchange__igta__applicants__queue-all.html">Applicants</a>
+    <a class="tab" href="exchange__igta__apds__queue-all.html">APDs</a>
+    
+    <a class="tab" href="raising__igta__queue-all.html">Raising</a>
+    <a class="tab is-active" href="raising__igta__calendar.html">Calendar</a>
+    
+  </nav>
+  
+
+
+  
+
+  <div
+    class="visit-cal"
+    x-data="visitCalendar()"
+    data-selected="2026-11-08"
+    data-today="2026-11-08"
+  >
+    <div class="metric-row">
+      <div class="metric-tile">
+        <p class="metric-label">Scheduled</p>
+        <p class="metric-value">0</p>
+      </div>
+      <div class="metric-tile">
+        <p class="metric-label">Done</p>
+        <p class="metric-value">0</p>
+      </div>
+      <div class="metric-tile">
+        <p class="metric-label">Overdue</p>
+        <p class="metric-value">0</p>
+      </div>
+      <div class="metric-tile">
+        <p class="metric-label">Needs a date</p>
+        <p class="metric-value">0</p>
+      </div>
+      <div class="metric-tile">
+        <p class="metric-label">Next 7 days</p>
+        <p class="metric-value">0</p>
+      </div>
+    </div>
+
+    <div class="visit-cal-toolbar">
+      <div class="visit-cal-nav">
+        <a class="btn btn-ghost" href="#not-in-preview">Prev</a>
+        <h2 class="visit-cal-month">October 2026</h2>
+        <a class="btn btn-ghost" href="#not-in-preview">Next</a>
+      </div>
+      <a class="btn" href="#not-in-preview">Today</a>
+    </div>
+
+    <ul class="visit-cal-legend" aria-label="Visit status">
+      <li><span class="visit-cal-swatch is-scheduled"></span>Scheduled</li>
+      <li><span class="visit-cal-swatch is-overdue"></span>Overdue</li>
+      <li><span class="visit-cal-swatch is-done"></span>Done</li>
+      <li><span class="visit-cal-swatch is-cancelled"></span>Cancelled</li>
+    </ul>
+
+    <div class="visit-cal-layout">
+      <section class="visit-cal-board" aria-label="October 2026">
+        <div class="visit-cal-weekdays">
+          
+            <span>Mon</span>
+          
+            <span>Tue</span>
+          
+            <span>Wed</span>
+          
+            <span>Thu</span>
+          
+            <span>Fri</span>
+          
+            <span>Sat</span>
+          
+            <span>Sun</span>
+          
+        </div>
+        <div class="visit-cal-grid">
+          
+            
+              <div
+                class="visit-cal-day is-outside"
+                :class="selected === '2026-09-28' && 'is-selected'"
+                data-day="2026-09-28"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-09-28')"
+                @keydown.enter.prevent="openDay('2026-09-28')"
+                :aria-pressed="selected === '2026-09-28'"
+              >
+                <span class="visit-cal-num">28</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day is-outside"
+                :class="selected === '2026-09-29' && 'is-selected'"
+                data-day="2026-09-29"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-09-29')"
+                @keydown.enter.prevent="openDay('2026-09-29')"
+                :aria-pressed="selected === '2026-09-29'"
+              >
+                <span class="visit-cal-num">29</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day is-outside"
+                :class="selected === '2026-09-30' && 'is-selected'"
+                data-day="2026-09-30"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-09-30')"
+                @keydown.enter.prevent="openDay('2026-09-30')"
+                :aria-pressed="selected === '2026-09-30'"
+              >
+                <span class="visit-cal-num">30</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-01' && 'is-selected'"
+                data-day="2026-10-01"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-01')"
+                @keydown.enter.prevent="openDay('2026-10-01')"
+                :aria-pressed="selected === '2026-10-01'"
+              >
+                <span class="visit-cal-num">1</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-02' && 'is-selected'"
+                data-day="2026-10-02"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-02')"
+                @keydown.enter.prevent="openDay('2026-10-02')"
+                :aria-pressed="selected === '2026-10-02'"
+              >
+                <span class="visit-cal-num">2</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-03' && 'is-selected'"
+                data-day="2026-10-03"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-03')"
+                @keydown.enter.prevent="openDay('2026-10-03')"
+                :aria-pressed="selected === '2026-10-03'"
+              >
+                <span class="visit-cal-num">3</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-04' && 'is-selected'"
+                data-day="2026-10-04"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-04')"
+                @keydown.enter.prevent="openDay('2026-10-04')"
+                :aria-pressed="selected === '2026-10-04'"
+              >
+                <span class="visit-cal-num">4</span>
+                
+              </div>
+            
+          
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-05' && 'is-selected'"
+                data-day="2026-10-05"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-05')"
+                @keydown.enter.prevent="openDay('2026-10-05')"
+                :aria-pressed="selected === '2026-10-05'"
+              >
+                <span class="visit-cal-num">5</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-06' && 'is-selected'"
+                data-day="2026-10-06"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-06')"
+                @keydown.enter.prevent="openDay('2026-10-06')"
+                :aria-pressed="selected === '2026-10-06'"
+              >
+                <span class="visit-cal-num">6</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-07' && 'is-selected'"
+                data-day="2026-10-07"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-07')"
+                @keydown.enter.prevent="openDay('2026-10-07')"
+                :aria-pressed="selected === '2026-10-07'"
+              >
+                <span class="visit-cal-num">7</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-08' && 'is-selected'"
+                data-day="2026-10-08"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-08')"
+                @keydown.enter.prevent="openDay('2026-10-08')"
+                :aria-pressed="selected === '2026-10-08'"
+              >
+                <span class="visit-cal-num">8</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-09' && 'is-selected'"
+                data-day="2026-10-09"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-09')"
+                @keydown.enter.prevent="openDay('2026-10-09')"
+                :aria-pressed="selected === '2026-10-09'"
+              >
+                <span class="visit-cal-num">9</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-10' && 'is-selected'"
+                data-day="2026-10-10"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-10')"
+                @keydown.enter.prevent="openDay('2026-10-10')"
+                :aria-pressed="selected === '2026-10-10'"
+              >
+                <span class="visit-cal-num">10</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-11' && 'is-selected'"
+                data-day="2026-10-11"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-11')"
+                @keydown.enter.prevent="openDay('2026-10-11')"
+                :aria-pressed="selected === '2026-10-11'"
+              >
+                <span class="visit-cal-num">11</span>
+                
+              </div>
+            
+          
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-12' && 'is-selected'"
+                data-day="2026-10-12"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-12')"
+                @keydown.enter.prevent="openDay('2026-10-12')"
+                :aria-pressed="selected === '2026-10-12'"
+              >
+                <span class="visit-cal-num">12</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-13' && 'is-selected'"
+                data-day="2026-10-13"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-13')"
+                @keydown.enter.prevent="openDay('2026-10-13')"
+                :aria-pressed="selected === '2026-10-13'"
+              >
+                <span class="visit-cal-num">13</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-14' && 'is-selected'"
+                data-day="2026-10-14"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-14')"
+                @keydown.enter.prevent="openDay('2026-10-14')"
+                :aria-pressed="selected === '2026-10-14'"
+              >
+                <span class="visit-cal-num">14</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-15' && 'is-selected'"
+                data-day="2026-10-15"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-15')"
+                @keydown.enter.prevent="openDay('2026-10-15')"
+                :aria-pressed="selected === '2026-10-15'"
+              >
+                <span class="visit-cal-num">15</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-16' && 'is-selected'"
+                data-day="2026-10-16"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-16')"
+                @keydown.enter.prevent="openDay('2026-10-16')"
+                :aria-pressed="selected === '2026-10-16'"
+              >
+                <span class="visit-cal-num">16</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-17' && 'is-selected'"
+                data-day="2026-10-17"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-17')"
+                @keydown.enter.prevent="openDay('2026-10-17')"
+                :aria-pressed="selected === '2026-10-17'"
+              >
+                <span class="visit-cal-num">17</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-18' && 'is-selected'"
+                data-day="2026-10-18"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-18')"
+                @keydown.enter.prevent="openDay('2026-10-18')"
+                :aria-pressed="selected === '2026-10-18'"
+              >
+                <span class="visit-cal-num">18</span>
+                
+              </div>
+            
+          
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-19' && 'is-selected'"
+                data-day="2026-10-19"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-19')"
+                @keydown.enter.prevent="openDay('2026-10-19')"
+                :aria-pressed="selected === '2026-10-19'"
+              >
+                <span class="visit-cal-num">19</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-20' && 'is-selected'"
+                data-day="2026-10-20"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-20')"
+                @keydown.enter.prevent="openDay('2026-10-20')"
+                :aria-pressed="selected === '2026-10-20'"
+              >
+                <span class="visit-cal-num">20</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-21' && 'is-selected'"
+                data-day="2026-10-21"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-21')"
+                @keydown.enter.prevent="openDay('2026-10-21')"
+                :aria-pressed="selected === '2026-10-21'"
+              >
+                <span class="visit-cal-num">21</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-22' && 'is-selected'"
+                data-day="2026-10-22"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-22')"
+                @keydown.enter.prevent="openDay('2026-10-22')"
+                :aria-pressed="selected === '2026-10-22'"
+              >
+                <span class="visit-cal-num">22</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-23' && 'is-selected'"
+                data-day="2026-10-23"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-23')"
+                @keydown.enter.prevent="openDay('2026-10-23')"
+                :aria-pressed="selected === '2026-10-23'"
+              >
+                <span class="visit-cal-num">23</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-24' && 'is-selected'"
+                data-day="2026-10-24"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-24')"
+                @keydown.enter.prevent="openDay('2026-10-24')"
+                :aria-pressed="selected === '2026-10-24'"
+              >
+                <span class="visit-cal-num">24</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-25' && 'is-selected'"
+                data-day="2026-10-25"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-25')"
+                @keydown.enter.prevent="openDay('2026-10-25')"
+                :aria-pressed="selected === '2026-10-25'"
+              >
+                <span class="visit-cal-num">25</span>
+                
+              </div>
+            
+          
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-26' && 'is-selected'"
+                data-day="2026-10-26"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-26')"
+                @keydown.enter.prevent="openDay('2026-10-26')"
+                :aria-pressed="selected === '2026-10-26'"
+              >
+                <span class="visit-cal-num">26</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-27' && 'is-selected'"
+                data-day="2026-10-27"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-27')"
+                @keydown.enter.prevent="openDay('2026-10-27')"
+                :aria-pressed="selected === '2026-10-27'"
+              >
+                <span class="visit-cal-num">27</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-28' && 'is-selected'"
+                data-day="2026-10-28"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-28')"
+                @keydown.enter.prevent="openDay('2026-10-28')"
+                :aria-pressed="selected === '2026-10-28'"
+              >
+                <span class="visit-cal-num">28</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-29' && 'is-selected'"
+                data-day="2026-10-29"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-29')"
+                @keydown.enter.prevent="openDay('2026-10-29')"
+                :aria-pressed="selected === '2026-10-29'"
+              >
+                <span class="visit-cal-num">29</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-30' && 'is-selected'"
+                data-day="2026-10-30"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-30')"
+                @keydown.enter.prevent="openDay('2026-10-30')"
+                :aria-pressed="selected === '2026-10-30'"
+              >
+                <span class="visit-cal-num">30</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day"
+                :class="selected === '2026-10-31' && 'is-selected'"
+                data-day="2026-10-31"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-10-31')"
+                @keydown.enter.prevent="openDay('2026-10-31')"
+                :aria-pressed="selected === '2026-10-31'"
+              >
+                <span class="visit-cal-num">31</span>
+                
+              </div>
+            
+              <div
+                class="visit-cal-day is-outside"
+                :class="selected === '2026-11-01' && 'is-selected'"
+                data-day="2026-11-01"
+                role="button"
+                tabindex="0"
+                @click="openDay('2026-11-01')"
+                @keydown.enter.prevent="openDay('2026-11-01')"
+                :aria-pressed="selected === '2026-11-01'"
+              >
+                <span class="visit-cal-num">1</span>
+                
+              </div>
+            
+          
+        </div>
+      </section>
+    </div>
+
+    
+
+    
+  </div>
+
+      </main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+  <script src="../static/js/raising-calendar.js"></script>
+
+</body>
+</html>

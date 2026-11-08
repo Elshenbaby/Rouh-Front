@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n mc_format %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow"><a href="{% url 'ui:desk' 'tm' %}">{% trans "Talent" %}</a> · {{ entity.short_name }}</p>
+    <h1>NES</h1>
+    <p class="lede">{% blocktrans with lc=entity.short_name %}One NES a month. Pick a month to see {{ lc }}'s answers and report: who answered and who hasn't, the NES and every question next to Egypt's.{% endblocktrans %}</p>
+  </header>
+  {% include "tm/partials/tabs.html" %}
+
+  {% if months %}
+    <section class="nes-months" aria-label="{% trans 'NES months' %}">
+      {% for m in months %}
+        <a class="nes-month{% if m.round.status == 'live' %} is-live{% endif %}" href="{% url 'nes:lc_round' m.round.pk %}">
+          <span class="nes-month-head"><b>{{ m.round.month|date:"F Y" }}</b>{% if m.round.status == "live" %}<span class="nes-pill is-live">{% trans "Open" %}</span>{% else %}<span class="nes-pill">{% trans "Closed" %}</span>{% endif %}</span>
+          <dl>
+            <div><dt>{% trans "Members who filled" %}</dt><dd>{{ m.count|count }}{% if members %}<small> / {{ members }}</small>{% endif %}{% if m.outside %}<small> +{{ m.outside }} {% trans "others" %}</small>{% endif %}</dd></div>
+            <div><dt>{% trans "Of members" %}</dt><dd>{% if m.participation is not None %}{{ m.participation }}%{% else %}—{% endif %}</dd></div>
+            <div><dt>NES</dt><dd>{% if m.nes.nes is None %}—{% else %}{% if m.nes.nes > 0 %}+{% endif %}{{ m.nes.nes }}{% endif %}</dd></div>
+          </dl>
+          <span class="nes-month-go">{% if m.round.status == "live" %}{% blocktrans with when=m.round.close_at|date:"j M" %}Open until {{ when }}{% endblocktrans %}{% else %}{% blocktrans with when=m.round.close_at|date:"j M Y" %}Closed {{ when }}{% endblocktrans %}{% endif %} · {% trans "Open the report" %} →</span>
+        </a>
+      {% endfor %}
+    </section>
+    {% include "nes/_fill_ranking.html" %}
+  {% else %}
+    <section class="ops-panel">
+      <h2>{% trans "No NES out yet" %}</h2>
+      <p>{% blocktrans with lc=entity.short_name %}The MC opens the NES at the start of each month, and everyone in {{ lc }} is told in Rouh. Each month shows here.{% endblocktrans %}</p>
+    </section>
+  {% endif %}
+{% endblock %}

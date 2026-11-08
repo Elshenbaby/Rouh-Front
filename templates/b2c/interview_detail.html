@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <header class="page-header">
+    <p class="eyebrow">
+      <a href="{% url 'b2c:interviews' %}">{% trans "Customer interviews" %}</a>
+    </p>
+    <h1>{{ person.full_name }}</h1>
+    <p class="lede">
+      {{ person.lc_display_name|default:_("Unmapped LC") }}
+      · {{ person.sheet_status }}
+      {% if person.product %} · {{ person.product.display }}{% else %} · {% trans "No product" %}{% endif %}
+      · {{ interviews|length }} {% trans "interview(s)" %}
+    </p>
+  </header>
+  {% include "b2c/partials/tabs.html" %}
+  <div class="detail-grid">
+    <section class="card">
+      <h2>{% trans "EP" %}</h2>
+      {% include "exchange/partials/person_signup_fields.html" %}
+      <h2>{% trans "Interview history" %}</h2>
+      {% for item in interviews %}
+        <article class="log-item">
+          <p class="muted">
+            {% if item.conducted_at %}{{ item.conducted_at|date:"Y-m-d H:i" }}{% else %}{{ item.created_at|date:"Y-m-d H:i" }}{% endif %}
+            {% if item.assigned_to %} · {{ item.assigned_to.full_name }}{% endif %}
+            {% if item.back_to_process %} · {{ item.get_back_to_process_display }}{% endif %}
+            {% if item.nps is not None %} · NPS {{ item.nps }}{% endif %}
+          </p>
+          <dl class="meta">
+            {% if item.contacted_by_b2c %}<div><dt>{% trans "Contacted by B2C" %}</dt><dd>{{ item.get_contacted_by_b2c_display }}</dd></div>{% endif %}
+            {% if item.contacted_by_ogx %}<div><dt>{% trans "Contacted by OGX" %}</dt><dd>{{ item.get_contacted_by_ogx_display }}</dd></div>{% endif %}
+            {% if item.how_matched %}<div><dt>{% trans "Matched" %}</dt><dd>{{ item.get_how_matched_display }}</dd></div>{% endif %}
+            {% if item.ogx_sold_countries_right %}<div><dt>{% trans "Countries" %}</dt><dd>{{ item.get_ogx_sold_countries_right_display }}</dd></div>{% endif %}
+            {% if item.knows_fees %}<div><dt>{% trans "Fees" %}</dt><dd>{{ item.get_knows_fees_display }}</dd></div>{% endif %}
+            {% if item.knows_process %}<div><dt>{% trans "Process" %}</dt><dd>{{ item.get_knows_process_display }}</dd></div>{% endif %}
+            {% if item.program %}<div><dt>{% trans "Program" %}</dt><dd>{{ item.get_program_display }}</dd></div>{% endif %}
+            {% if item.problem %}<div><dt>{% trans "Problem" %}</dt><dd>{{ item.get_problem_display }}</dd></div>{% endif %}
+            {% if item.comment %}<div><dt>{% trans "Comment" %}</dt><dd>{{ item.comment|linebreaksbr }}</dd></div>{% endif %}
+          </dl>
+          <div class="signup-log">
+            <h3>{% trans "Log" %}</h3>
+            <ul class="comment-list">
+              {% for entry in item.comments.all %}
+                <li class="comment">
+                  <p class="comment-meta">
+                    <span class="badge badge-{{ entry.kind }}">{{ entry.get_kind_display }}</span>
+                    {{ entry.author.full_name|default:_("System") }}
+                    · {{ entry.created_at|date:"Y-m-d H:i" }}
+                  </p>
+                  <p>{{ entry.body|linebreaksbr }}</p>
+                </li>
+              {% empty %}
+                <li class="muted">{% trans "No log yet." %}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </article>
+      {% empty %}
+        <p class="muted">{% trans "No interviews saved yet." %}</p>
+      {% endfor %}
+    </section>
+    <section class="card">
+      <h2>{% trans "New interview" %}</h2>
+      <p class="muted">{% trans "Save stores a new interview on this signup. Every signup can have more than one." %}</p>
+      <form method="post" class="work-form">
+        {% csrf_token %}
+        {% for field in form %}
+          <label class="field">
+            <span>{{ field.label }}</span>
+            {{ field }}
+            {% if field.help_text %}<span class="muted">{{ field.help_text }}</span>{% endif %}
+            {% if field.errors %}<span class="alert alert-danger">{{ field.errors }}</span>{% endif %}
+          </label>
+        {% endfor %}
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">{% trans "Save interview" %}</button>
+        </div>
+      </form>
+    </section>
+  </div>
+{% endblock %}
