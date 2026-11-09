@@ -7,240 +7,255 @@
     <h1>{{ desk.label }}</h1>
     <p class="lede">
       {% if desk.is_b2c %}
-        {% trans "This is the B2C desk. Analysis, customer interviews, campus access, campaign requests and Soluo accounts live here." %}
+        {% trans "Follow up with exchange signups, manage campus relationships and request campaign links." %}
       {% elif desk.code == "b2b" %}
-        {% trans "This is the B2B desk. Soluo raising accounts, visits, slots and analysis live here." %}
+        {% trans "Follow up with partner accounts, schedule visits and track available slots." %}
       {% elif desk.is_b2b %}
-        {% blocktrans with desk=desk.label %}This is the {{ desk }} desk. Soluo raising accounts and visits live here.{% endblocktrans %}
+        {% trans "Manage partner accounts and visits, record payments and track commission." %}
       {% elif desk.code == "tm" %}
-        {% trans "This is the Talent desk. Structure, retention, performance, planning, attendance and HR status live here." %}
+        {% trans "Manage your LC’s members, roles, goals and attendance." %}
       {% elif desk.code == "lcp" %}
-        {% trans "This is the LCP desk. Your planned vs achieved, the OD model, cluster status and national growth path live here." %}
+        {% trans "Compare your LC’s results with its plan and see where to focus support." %}
       {% elif desk.has_signups %}
         {% if desk.is_icx %}
-          {% blocktrans with desk=desk.label %}This is the {{ desk }} desk. Slots, applications, applicants, APDs and raising live here.{% endblocktrans %}
+          {% trans "Manage incoming exchange slots, follow up with applicants and track approved experiences." %}
         {% else %}
-          {% blocktrans with desk=desk.label %}This is the {{ desk }} desk. Signups, applicants and APDs live here.{% endblocktrans %}
+          {% trans "Follow outgoing exchange participants from signup through application and approval." %}
         {% endif %}
       {% else %}
-        {% blocktrans with desk=desk.label %}This is the {{ desk }} desk. The function team and its logs live here.{% endblocktrans %}
+        {% trans "Find this function’s people, activity and available reports." %}
       {% endif %}
     </p>
   </header>
 
-  <section class="desk-grid">
-    {% if desk.is_b2c %}
-      <a class="card desk-card" href="{% url 'b2c:dashboard' %}">
-        <h2>{% trans "Analysis" %}</h2>
-        <p>{% trans "Signups, campaigns, interviews, OGX tracking and membership performance." %}</p>
-      </a>
-      <a class="card desk-card" href="{% url 'b2c:interviews' %}">
-        <h2>{% trans "Customer interviews" %}</h2>
-        <p>{% trans "Every OGX signup. Call them, save interviews, and send people back to process." %}</p>
-      </a>
-      <a class="card desk-card" href="{% url 'b2c:accounts' %}">
-        <h2>{% trans "Accounts" %}</h2>
-        <p>{% trans "Soluo B2C deals for this LC. Contact work stays on the account." %}</p>
-      </a>
-      <a class="card desk-card" href="{% url 'b2c:campus_access' %}">
-        <h2>{% trans "Campus access" %}</h2>
-        <p>{% trans "Update the status of this LC's campuses, checkpoints and next steps." %}</p>
-      </a>
-      <a class="card desk-card" href="{% url 'b2c:campaign_requests' %}">
-        <h2>{% trans "Campaigns" %}</h2>
-        <p>{% trans "Request a campaign link. MCVP approves and gives the URL." %}</p>
-      </a>
-      {% if assign and assign.show_teams_board %}
-      <a class="card desk-card" href="{% url 'b2c:teams' %}">
-        <h2>{% trans "Teams" %}</h2>
-        <p>{% if assign.can_manage %}{% trans "Send interviews and accounts to a team. The team leader then assigns members." %}{% else %}{% trans "Your people. Assign work to yourself or a member, then track them." %}{% endif %}</p>
-      </a>
-      {% elif assign and assign.is_team_lead and assign.team %}
-      <a class="card desk-card" href="{% url 'b2c:interviews' %}?queue=team&team={{ assign.team.pk }}">
-        <h2>{% trans "My team" %}</h2>
-        <p>{% trans "Your team's queue. Assign interviews to yourself or your members." %}</p>
-      </a>
-      {% endif %}
-    {% elif desk.is_b2b %}
-      <a class="card desk-card" href="{% url 'b2b:dashboard' %}?desk={{ desk.code }}">
-        <h2>{% trans "Dashboard" %}</h2>
-        {% if desk.code == "b2b" %}
-          <p>{% trans "Capacity, mix and timing of the matched B2B slots." %}</p>
-        {% else %}
-          <p>{% trans "Accounts and visits raised for this LC." %}</p>
+  <section class="desk-workspace" aria-labelledby="desk-work-heading">
+    <h2 class="section-title" id="desk-work-heading">{% trans "What you can do" %}</h2>
+    <div class="desk-grid">
+      {% if desk.is_b2c %}
+        <a class="card desk-card" href="{% url 'b2c:interviews' %}">
+          <h3>{% trans "Customer interviews" %}</h3>
+          <p>{% trans "Find outgoing exchange signups, record interview outcomes and return people to the process." %}</p>
+        </a>
+        <a class="card desk-card" href="{% url 'b2c:dashboard' %}">
+          <h3>{% trans "Analysis" %}</h3>
+          <p>{% trans "Signups, campaigns, interviews, OGX tracking and membership performance." %}</p>
+        </a>
+        <a class="card desk-card" href="{% url 'b2c:accounts' %}">
+          <h3>{% trans "Accounts" %}</h3>
+          <p>{% trans "Soluo B2C deals for this LC. Contact work stays on the account." %}</p>
+        </a>
+        <a class="card desk-card" href="{% url 'b2c:campus_access' %}">
+          <h3>{% trans "Campus access" %}</h3>
+          <p>{% trans "Update the status of this LC's campuses, checkpoints and next steps." %}</p>
+        </a>
+        <a class="card desk-card" href="{% url 'b2c:campaign_requests' %}">
+          <h3>{% trans "Campaigns" %}</h3>
+          <p>{% trans "Request a campaign link. MCVP approves and gives the URL." %}</p>
+        </a>
+        {% if assign and assign.show_teams_board %}
+        <a class="card desk-card" href="{% url 'b2c:teams' %}">
+          <h3>{% trans "Teams" %}</h3>
+          <p>{% if assign.can_manage %}{% trans "Send interviews and accounts to a team. The team leader then assigns members." %}{% else %}{% trans "Your people. Assign work to yourself or a member, then track them." %}{% endif %}</p>
+        </a>
+        {% elif assign and assign.is_team_lead and assign.team %}
+        <a class="card desk-card" href="{% url 'b2c:interviews' %}?queue=team&team={{ assign.team.pk }}">
+          <h3>{% trans "My team" %}</h3>
+          <p>{% trans "Your team's queue. Assign interviews to yourself or your members." %}</p>
+        </a>
         {% endif %}
-      </a>
-      {% if desk.code == "b2b" %}
-      <a class="card desk-card" href="{% url 'b2b:slots' %}?desk={{ desk.code }}">
-        <h2>{% trans "Slots" %}</h2>
-        <p>{% trans "EXPA slots of the B2B opportunities in the LCs' financial tools." %}</p>
-      </a>
-      {% endif %}
-      <a class="card desk-card" href="{% url 'b2b:accounts' %}?desk={{ desk.code }}">
-        <h2>{% trans "Raising" %}</h2>
-        <p>{% blocktrans with desk=desk.label %}Soluo {{ desk }} deals. Contact, visit, and raise slots. Comments stay on the account.{% endblocktrans %}</p>
-      </a>
-      <a class="card desk-card" href="{% url 'b2b:calendar' %}?desk={{ desk.code }}">
-        <h2>{% trans "Calendar" %}</h2>
-        <p>{% trans "Scheduled visits for this desk. Status follows the account if a visit is done, moved, or cancelled." %}</p>
-      </a>
-      {% if desk.code == "bd" %}
-      <a class="card desk-card" href="{% url 'b2b:cashin' %}?desk=bd">
-        <h2>{% trans "Cash in" %}</h2>
-        <p>{% trans "Log money collected from a partner, with its contract. The MCVP BD approves it." %}</p>
-      </a>
-      {% if can_review_cashin %}
-      <a class="card desk-card" href="{% url 'b2b:cashin_review' %}?desk=bd">
-        <h2>{% trans "Approvals" %}</h2>
-        <p>{% trans "Cash-ins waiting for the MCVP BD. Approve or reject each one." %}</p>
-      </a>
-      {% endif %}
-      <a class="card desk-card" href="{% url 'b2b:cashin_ranking' %}?desk=bd">
-        <h2>{% trans "Commission ranking" %}</h2>
-        <p>{% trans "Approved cash-ins per LC and event: national, local and the podium of each event." %}</p>
-      </a>
-      {% endif %}
-      {% if assign and assign.show_teams_board %}
-      <a class="card desk-card" href="{% url 'b2b:teams' %}?desk={{ desk.code }}">
-        <h2>{% trans "Teams" %}</h2>
-        <p>{% if assign.can_manage %}{% trans "Send accounts to a team. The team leader then assigns members." %}{% else %}{% trans "Your people. Assign work to yourself or a member, then track them." %}{% endif %}</p>
-      </a>
-      {% elif assign and assign.is_team_lead and assign.team %}
-      <a class="card desk-card" href="{% url 'b2b:accounts' %}?desk={{ desk.code }}&queue=team&team={{ assign.team.pk }}">
-        <h2>{% trans "My team" %}</h2>
-        <p>{% trans "Your team's queue. Assign accounts to yourself or your members." %}</p>
-      </a>
-      {% endif %}
-    {% elif desk.code == "lcp" %}
-      <a class="card desk-card" href="{% url 'od:pva' %}">
-        <h2>{% trans "Planned vs achieved" %}</h2>
-        <p>{% trans "Your Planning Tool 26 against EXPA: every function and stage, month by month, and how far on pace you are." %}</p>
-      </a>
-      <a class="card desk-card" href="{% url 'od:dashboard' %}">
-        <h2>{% trans "OD scoreboard" %}</h2>
-        <p>{% trans "Live OPI, OHI and ODI for your LC — or the full national map when you view All LCs." %}</p>
-      </a>
-      <a class="card desk-card" href="{% url 'od:clusters' %}">
-        <h2>{% trans "Clusters & playbooks" %}</h2>
-        <p>{% trans "Pharaoh · Warrior · Builder · Seed · Launchpad — definitions, support model and who sits where." %}</p>
-      </a>
-    {% elif desk.live %}
-      <a class="card desk-card" href="{% if desk.is_icx %}{% url 'exchange:desk_slots' desk.code %}{% else %}{% url 'exchange:desk_signups' desk.code %}{% endif %}">
-        <h2>{% if desk.is_icx %}{% trans "Slots" %}{% else %}{% trans "Signups" %}{% endif %}</h2>
-        {% if desk.is_icx %}
-          <p>{% trans "Live EXPA slots on this LC's opens. People apply on these dates." %}</p>
-        {% else %}
-          <p>{% trans "People who signed up. Alpha owns the profile, comments stay local." %}</p>
-        {% endif %}
-      </a>
-      {% if desk.is_icx %}
-      <a class="card desk-card" href="{% url 'exchange:desk_signups' desk.code %}">
-        <h2>{% trans "Applications" %}</h2>
-        <p>{% trans "People who applied. EXPA owns the profile, comments stay local." %}</p>
-      </a>
-      {% endif %}
-      <a class="card desk-card" href="{% url 'exchange:desk_applicants' desk.code %}">
-        <h2>{% trans "Applicants" %}</h2>
-        <p>{% trans "People who applied. Open a row to see every application." %}</p>
-      </a>
-      <a class="card desk-card" href="{% url 'exchange:desk_apds' desk.code %}">
-        <h2>{% trans "APDs" %}</h2>
-        <p>{% trans "Approved experiences. Open a row to update CXP." %}</p>
-      </a>
-      {% if desk.has_raising %}
-      <a class="card desk-card" href="{% url 'raising:desk' desk.code %}">
-        <h2>{% trans "Raising" %}</h2>
-        <p>{% trans "This LC's Soluo deals. Contact, visit, and raise slots. Comments stay on the account." %}</p>
-      </a>
-      <a class="card desk-card" href="{% url 'raising:calendar' desk.code %}">
-        <h2>{% trans "Calendar" %}</h2>
-        <p>{% trans "Scheduled visits for this desk. Status follows the account if a visit is done, moved, or cancelled." %}</p>
-      </a>
-      {% endif %}
-      <a class="card desk-card" href="{% url 'exchange:desk_analysis' desk.code %}">
-        <h2>{% trans "Analysis" %}</h2>
-        <p>{% trans "Funnel, countries, conversions, team and member performance." %}</p>
-      </a>
-      {% if assign and assign.show_teams_board %}
-      <a class="card desk-card" href="{% url 'exchange:desk_teams' desk.code %}">
-        <h2>{% trans "Teams" %}</h2>
-        <p>
-            {% if assign.can_manage %}
-            {% if desk.is_icx %}{% trans "Send applications and raising accounts to a team. The team leader then assigns members." %}{% else %}{% trans "Send signups to a team. The team leader then assigns members." %}{% endif %}
+      {% elif desk.is_b2b %}
+        <a class="card desk-card" href="{% url 'b2b:accounts' %}?desk={{ desk.code }}">
+          <h3>{% trans "Raising" %}</h3>
+          <p>{% blocktrans with desk=desk.label %}Soluo {{ desk }} deals. Contact, visit, and raise slots. Comments stay on the account.{% endblocktrans %}</p>
+        </a>
+        <a class="card desk-card" href="{% url 'b2b:dashboard' %}?desk={{ desk.code }}">
+          <h3>{% trans "Dashboard" %}</h3>
+          {% if desk.code == "b2b" %}
+            <p>{% trans "Capacity, mix and timing of the matched B2B slots." %}</p>
           {% else %}
-            {% trans "Your people. Assign work to yourself or a member, then track them." %}
+            <p>{% trans "Accounts and visits raised for this LC." %}</p>
           {% endif %}
-        </p>
+        </a>
+        {% if desk.code == "b2b" %}
+        <a class="card desk-card" href="{% url 'b2b:slots' %}?desk={{ desk.code }}">
+          <h3>{% trans "Slots" %}</h3>
+          <p>{% trans "EXPA slots of the B2B opportunities in the LCs' financial tools." %}</p>
+        </a>
+        {% endif %}
+        <a class="card desk-card" href="{% url 'b2b:calendar' %}?desk={{ desk.code }}">
+          <h3>{% trans "Calendar" %}</h3>
+          <p>{% trans "Scheduled visits for this desk. Status follows the account if a visit is done, moved, or cancelled." %}</p>
+        </a>
+        {% if desk.code == "bd" %}
+        <a class="card desk-card" href="{% url 'b2b:cashin' %}?desk=bd">
+          <h3>{% trans "Cash in" %}</h3>
+          <p>{% trans "Log money collected from a partner, with its contract. The MCVP BD approves it." %}</p>
+        </a>
+        {% if can_review_cashin %}
+        <a class="card desk-card" href="{% url 'b2b:cashin_review' %}?desk=bd">
+          <h3>{% trans "Approvals" %}</h3>
+          <p>{% trans "Cash-ins waiting for the MCVP BD. Approve or reject each one." %}</p>
+        </a>
+        {% endif %}
+        <a class="card desk-card" href="{% url 'b2b:cashin_ranking' %}?desk=bd">
+          <h3>{% trans "Commission ranking" %}</h3>
+          <p>{% trans "Approved cash-ins per LC and event: national, local and the podium of each event." %}</p>
+        </a>
+        {% endif %}
+        {% if assign and assign.show_teams_board %}
+        <a class="card desk-card" href="{% url 'b2b:teams' %}?desk={{ desk.code }}">
+          <h3>{% trans "Teams" %}</h3>
+          <p>{% if assign.can_manage %}{% trans "Send accounts to a team. The team leader then assigns members." %}{% else %}{% trans "Your people. Assign work to yourself or a member, then track them." %}{% endif %}</p>
+        </a>
+        {% elif assign and assign.is_team_lead and assign.team %}
+        <a class="card desk-card" href="{% url 'b2b:accounts' %}?desk={{ desk.code }}&queue=team&team={{ assign.team.pk }}">
+          <h3>{% trans "My team" %}</h3>
+          <p>{% trans "Your team's queue. Assign accounts to yourself or your members." %}</p>
+        </a>
+        {% endif %}
+      {% elif desk.code == "lcp" %}
+        <a class="card desk-card" href="{% url 'od:pva' %}">
+          <h3>{% trans "Planned vs achieved" %}</h3>
+          <p>{% trans "Your Planning Tool 26 against EXPA: every function and stage, month by month, and how far on pace you are." %}</p>
+        </a>
+        <a class="card desk-card" href="{% url 'od:dashboard' %}">
+          <h3>{% trans "OD scoreboard" %}</h3>
+          <p>{% trans "Live OPI, OHI and ODI for your LC — or the full national map when you view All LCs." %}</p>
+        </a>
+        <a class="card desk-card" href="{% url 'od:clusters' %}">
+          <h3>{% trans "Clusters & playbooks" %}</h3>
+          <p>{% trans "Pharaoh · Warrior · Builder · Seed · Launchpad — definitions, support model and who sits where." %}</p>
+        </a>
+      {% elif desk.live %}
+        <a class="card desk-card" href="{% if desk.is_icx %}{% url 'exchange:desk_slots' desk.code %}{% else %}{% url 'exchange:desk_signups' desk.code %}{% endif %}">
+          <h3>{% if desk.is_icx %}{% trans "Slots" %}{% else %}{% trans "Signups" %}{% endif %}</h3>
+          {% if desk.is_icx %}
+            <p>{% trans "Live EXPA slots on this LC's opens. People apply on these dates." %}</p>
+          {% else %}
+            <p>{% trans "Find new signups and record your follow-up in Rouh. Profile details come from Alpha." %}</p>
+          {% endif %}
+        </a>
+        {% if desk.is_icx %}
+        <a class="card desk-card" href="{% url 'exchange:desk_signups' desk.code %}">
+          <h3>{% trans "Applications" %}</h3>
+          <p>{% trans "Review the incoming applications queue and record follow-up. Profile details come from EXPA." %}</p>
+        </a>
+        {% endif %}
+        <a class="card desk-card" href="{% url 'exchange:desk_applicants' desk.code %}">
+          <h3>{% trans "Applicants" %}</h3>
+          <p>{% trans "Find a person and open their record to see all of their applications." %}</p>
+        </a>
+        <a class="card desk-card" href="{% url 'exchange:desk_apds' desk.code %}">
+          <h3>{% trans "APDs" %}</h3>
+          <p>{% trans "Track approved experiences and update participant experience checks." %}</p>
+        </a>
+        {% if desk.has_raising %}
+        <a class="card desk-card" href="{% url 'raising:desk' desk.code %}">
+          <h3>{% trans "Raising" %}</h3>
+          <p>{% trans "Follow up with Soluo partner accounts, schedule visits and raise slots." %}</p>
+        </a>
+        <a class="card desk-card" href="{% url 'raising:calendar' desk.code %}">
+          <h3>{% trans "Calendar" %}</h3>
+          <p>{% trans "Scheduled visits for this desk. Status follows the account if a visit is done, moved, or cancelled." %}</p>
+        </a>
+        {% endif %}
+        <a class="card desk-card" href="{% url 'exchange:desk_analysis' desk.code %}">
+          <h3>{% trans "Analysis" %}</h3>
+          <p>{% trans "Funnel, countries, conversions, team and member performance." %}</p>
+        </a>
+        {% if assign and assign.show_teams_board %}
+        <a class="card desk-card" href="{% url 'exchange:desk_teams' desk.code %}">
+          <h3>{% trans "Teams" %}</h3>
+          <p>
+              {% if assign.can_manage %}
+              {% if desk.is_icx %}{% trans "Send applications and raising accounts to a team. The team leader then assigns members." %}{% else %}{% trans "Send signups to a team. The team leader then assigns members." %}{% endif %}
+            {% else %}
+              {% trans "Your people. Assign work to yourself or a member, then track them." %}
+            {% endif %}
+          </p>
+        </a>
+        {% elif assign and assign.is_team_lead and assign.team %}
+        <a class="card desk-card" href="{% url 'exchange:desk_signups' desk.code %}?queue=team&team={{ assign.team.pk }}">
+          <h3>{% trans "My team" %}</h3>
+          <p>{% if desk.is_icx %}{% trans "Your team's queue. Assign applications to yourself or your members." %}{% else %}{% trans "Your team's queue. Assign signups to yourself or your members." %}{% endif %}</p>
+        </a>
+        {% endif %}
+      {% elif desk.code == "tm" %}
+        <a class="card desk-card" href="{% url 'tm:overview' %}">
+          <h3>{% trans "Overview" %}</h3>
+          <p>{% trans "Headcount, retention this month and this cycle, and who needs attention." %}</p>
+        </a>
+        <a class="card desk-card" href="{% url 'tm:structure' %}">
+          <h3>{% trans "Structure" %}</h3>
+          <p>{% trans "The LC roster and tree: add people, change role or team, remove with a reason." %}</p>
+        </a>
+        <a class="card desk-card" href="{% url 'tm:performance' %}">
+          <h3>{% trans "Performance" %}</h3>
+          <p>{% trans "Compare achieved results with goals by function, team or member." %}</p>
+        </a>
+        <a class="card desk-card" href="{% url 'tm:planning' %}">
+          <h3>{% trans "Planning" %}</h3>
+          <p>{% trans "Planned output per member. Function target is the sum. Achieved comes from the desks." %}</p>
+        </a>
+        <a class="card desk-card" href="{% url 'tm:attendance' %}">
+          <h3>{% trans "Attendance" %}</h3>
+          <p>{% trans "Touchpoints and who was present, late, excused or absent." %}</p>
+        </a>
+        <a class="card desk-card" href="{% url 'tm:hr' %}">
+          <h3>{% trans "HR status" %}</h3>
+          <p>{% trans "The LC HR booklet. Move someone through the steps; dismissal opens the exit flow." %}</p>
+        </a>
+        <a class="card desk-card" href="{% url 'tm:settings' %}">
+          <h3>{% trans "Settings" %}</h3>
+          <p>{% trans "HR track, which KPIs each function uses, and when someone needs attention." %}</p>
+        </a>
+        {% if rcr_tab %}
+        <a class="card desk-card" href="{% url 'rcr:index' %}">
+          <h3>{% trans "Recruitment" %}</h3>
+          <p>{% trans "Follow leads through the recruitment process, from signup to interviews and decisions." %}</p>
+        </a>
+        {% endif %}
+        {% if nes_tab %}
+        <a class="card desk-card" href="{% url 'nes:lc' %}">
+          <h3>{% trans "NES" %}</h3>
+          <p>{% trans "The monthly NES: who answered and who hasn't, the NES score, every question next to Egypt's, each member's answers and the report." %}</p>
+        </a>
+        {% endif %}
+      {% elif desk.has_signups %}
+        <a class="card desk-card" href="{% url 'ui:desk_coming_soon' desk.code %}">
+          <h3>{% trans "Signups" %}</h3>
+          <p>{% trans "Signups will appear here when this desk goes live." %}</p>
+        </a>
+        <a class="card desk-card" href="{% url 'ui:desk_coming_soon' desk.code %}">
+          <h3>{% trans "Applicants" %}</h3>
+          <p>{% trans "Opens when this desk is live." %}</p>
+        </a>
+        <a class="card desk-card" href="{% url 'ui:desk_coming_soon' desk.code %}">
+          <h3>{% trans "APDs" %}</h3>
+          <p>{% trans "Opens when this desk is live." %}</p>
+        </a>
+      {% else %}
+        <a class="card desk-card" href="{% url 'ui:desk_analysis' desk.code %}">
+          <h3>{% trans "Analysis" %}</h3>
+          <p>{% trans "Funnel and performance for this function. Not built yet." %}</p>
+        </a>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="desk-workspace" aria-labelledby="desk-reference-heading">
+    <h2 class="section-title" id="desk-reference-heading">{% trans "People and activity" %}</h2>
+    <div class="desk-grid">
+      <a class="card desk-card" href="{% url 'people:directory' %}?desk={{ desk.code }}">
+        <h3>{% trans "People" %}</h3>
+        <p>{% trans "Find members who work in this function." %}</p>
       </a>
-      {% elif assign and assign.is_team_lead and assign.team %}
-      <a class="card desk-card" href="{% url 'exchange:desk_signups' desk.code %}?queue=team&team={{ assign.team.pk }}">
-        <h2>{% trans "My team" %}</h2>
-        <p>{% if desk.is_icx %}{% trans "Your team's queue. Assign applications to yourself or your members." %}{% else %}{% trans "Your team's queue. Assign signups to yourself or your members." %}{% endif %}</p>
+      {% if can_read_logs %}
+      <a class="card desk-card" href="{% url 'audit:activity' %}?desk={{ desk.code }}">
+        <h3>{% trans "Activity log" %}</h3>
+        <p>{% trans "See updates and assignments recorded on this desk." %}</p>
       </a>
       {% endif %}
-    {% elif desk.code == "tm" %}
-      <a class="card desk-card" href="{% url 'tm:overview' %}">
-        <h2>{% trans "Overview" %}</h2>
-        <p>{% trans "Headcount, retention this month and this cycle, and who needs attention." %}</p>
-      </a>
-      <a class="card desk-card" href="{% url 'tm:structure' %}">
-        <h2>{% trans "Structure" %}</h2>
-        <p>{% trans "The LC roster and tree: add people, change role or team, remove with a reason." %}</p>
-      </a>
-      <a class="card desk-card" href="{% url 'tm:performance' %}">
-        <h2>{% trans "Performance" %}</h2>
-        <p>{% trans "Productivity, MAG and contribution per function, team and member." %}</p>
-      </a>
-      <a class="card desk-card" href="{% url 'tm:planning' %}">
-        <h2>{% trans "Planning" %}</h2>
-        <p>{% trans "Planned output per member. Function target is the sum. Achieved comes from the desks." %}</p>
-      </a>
-      <a class="card desk-card" href="{% url 'tm:attendance' %}">
-        <h2>{% trans "Attendance" %}</h2>
-        <p>{% trans "Touchpoints and who was present, late, excused or absent." %}</p>
-      </a>
-      <a class="card desk-card" href="{% url 'tm:hr' %}">
-        <h2>{% trans "HR status" %}</h2>
-        <p>{% trans "The LC HR booklet. Move someone through the steps; dismissal opens the exit flow." %}</p>
-      </a>
-      <a class="card desk-card" href="{% url 'tm:settings' %}">
-        <h2>{% trans "Settings" %}</h2>
-        <p>{% trans "HR track, which KPIs each function uses, and when someone needs attention." %}</p>
-      </a>
-      {% if nes_tab %}
-      <a class="card desk-card" href="{% url 'nes:lc' %}">
-        <h2>{% trans "NES" %}</h2>
-        <p>{% trans "The monthly NES: who answered and who hasn't, the NES score, every question next to Egypt's, each member's answers and the report." %}</p>
-      </a>
-      {% endif %}
-    {% elif desk.has_signups %}
-      <a class="card desk-card" href="{% url 'ui:desk_coming_soon' desk.code %}">
-        <h2>{% trans "Signups" %}</h2>
-        <p>{% trans "This product desk is mapped. Same pattern as oGV and oGT, not filled yet." %}</p>
-      </a>
-      <a class="card desk-card" href="{% url 'ui:desk_coming_soon' desk.code %}">
-        <h2>{% trans "Applicants" %}</h2>
-        <p>{% trans "Opens when this desk is live." %}</p>
-      </a>
-      <a class="card desk-card" href="{% url 'ui:desk_coming_soon' desk.code %}">
-        <h2>{% trans "APDs" %}</h2>
-        <p>{% trans "Opens when this desk is live." %}</p>
-      </a>
-    {% else %}
-      <a class="card desk-card" href="{% url 'ui:desk_analysis' desk.code %}">
-        <h2>{% trans "Analysis" %}</h2>
-        <p>{% trans "Funnel and performance for this function. Not built yet." %}</p>
-      </a>
-    {% endif %}
-    <a class="card desk-card" href="{% url 'people:directory' %}?desk={{ desk.code }}">
-      <h2>{% trans "People" %}</h2>
-      <p>{% trans "Membership of this function in your LC." %}</p>
-    </a>
-    {% if can_read_logs %}
-    <a class="card desk-card" href="{% url 'audit:activity' %}?desk={{ desk.code }}">
-      <h2>{% trans "Logs" %}</h2>
-      <p>{% trans "Activity from people on this desk." %}</p>
-    </a>
-    {% endif %}
+    </div>
   </section>
 {% endblock %}

@@ -30,7 +30,7 @@
       {% empty %}
         <tr>
           <td colspan="7">
-            {% trans "No EXPA opens for this LC yet." %}
+            {% if q or status or product %}{% trans "No slots match these filters. Try a different search, status or product." %}{% else %}{% trans "No EXPA opens for this LC yet." %}{% endif %}
             {% if last_sync %}
               <span class="muted">
                 {% if last_sync.error %}

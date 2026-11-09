@@ -1,38 +1,45 @@
 {% load i18n static %}
-<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
-  <div class="nav-brand">
-    <img class="nav-mark" src="{% static 'img/rouh-mark-64.png' %}" alt="" width="32" height="32">
-    <span class="nav-title">{% trans "Rouh" %}</span>
+<aside class="nav">
+  <div class="nav-header">
+    <a class="nav-brand" href="{% url 'ui:home' %}" aria-label="{% trans 'Rouh home' %}">
+      <img class="nav-mark" src="{% static 'img/rouh-mark-64.png' %}" alt="" width="32" height="32">
+      <span class="nav-title">{% trans "Rouh" %}</span>
+    </a>
+    <button type="button" class="nav-menu-toggle" aria-expanded="false" aria-controls="rouh-nav-panel">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      {% trans "Menu" %}
+    </button>
   </div>
-  {% if workspace.enabled %}
-    <div class="nav-workspace" aria-label="{% trans 'Workspace' %}">
-      <a href="{{ workspace.lc_href }}" class="nav-ws{% if workspace.active == 'lc' %} is-active{% endif %}"{% if workspace.active == 'lc' %} aria-current="page"{% endif %}>
-        <span class="nav-ws-short" aria-hidden="true">LC</span><span class="nav-ws-long">{% trans "LCs data" %}</span>
-      </a>
-      <a href="{{ workspace.mc_href }}" class="nav-ws{% if workspace.active == 'mc' %} is-active{% endif %}"{% if workspace.active == 'mc' %} aria-current="page"{% endif %}>
-        <span class="nav-ws-short" aria-hidden="true">MC</span><span class="nav-ws-long">{% trans "MC data" %}</span>
-      </a>
-    </div>
-  {% endif %}
-  <nav class="nav-list">
-    {% for group in nav_groups %}
-      {% if group.items %}
-        {% if group.label %}
-          <p class="nav-group">{{ group.label }}</p>
-        {% endif %}
-        {% for item in group.items %}
-          {% if item.enabled %}
-            <a href="{{ item.href }}" class="nav-link{% if item.active %} is-active{% endif %}">
-              <span class="nav-icon" aria-hidden="true"></span>
-              <span>{{ item.label }}</span>
-            </a>
+  <div class="nav-panel" id="rouh-nav-panel">
+    {% if workspace.enabled %}
+      <div class="nav-workspace" role="group" aria-label="{% trans 'Workspace' %}">
+        <a href="{{ workspace.lc_href }}" class="nav-ws{% if workspace.active == 'lc' %} is-active{% endif %}" aria-label="{% trans 'LCs data' %}"{% if workspace.active == 'lc' %} aria-current="page"{% endif %}>
+          <svg class="nav-icon has-icon" aria-hidden="true" focusable="false"><use href="{% static 'img/navigation-icons.svg' %}#structure"></use></svg><span class="nav-ws-long">{% trans "LCs data" %}</span>
+        </a>
+        <a href="{{ workspace.mc_href }}" class="nav-ws{% if workspace.active == 'mc' %} is-active{% endif %}" aria-label="{% trans 'MC data' %}"{% if workspace.active == 'mc' %} aria-current="page"{% endif %}>
+          <svg class="nav-icon has-icon" aria-hidden="true" focusable="false"><use href="{% static 'img/navigation-icons.svg' %}#chart"></use></svg><span class="nav-ws-long">{% trans "MC data" %}</span>
+        </a>
+      </div>
+    {% endif %}
+    <nav class="nav-list" aria-label="{% trans 'Main navigation' %}">
+      {% for group in nav_groups %}
+        {% if group.items %}
+          {% if group.label %}
+            <p class="nav-group">{{ group.label }}</p>
           {% endif %}
-        {% endfor %}
-      {% endif %}
-    {% endfor %}
-  </nav>
-  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
-    <span x-show="!navCollapsed">{% trans "Collapse" %}</span>
-    <span x-show="navCollapsed" x-cloak>»</span>
+          {% for item in group.items %}
+            {% if item.enabled %}
+              <a href="{{ item.href }}" class="nav-link{% if item.active %} is-active{% endif %}" aria-label="{{ item.label }}"{% if item.active %} aria-current="page"{% endif %}>
+                <span class="nav-icon" aria-hidden="true">{{ item.label|slice:":2" }}</span>
+                <span>{{ item.label }}</span>
+              </a>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+    </nav>
+  </div>
+  <button type="button" class="nav-collapse" data-expand-label="{% trans 'Expand sidebar' %}" data-collapse-label="{% trans 'Collapse sidebar' %}">
+    {% trans "Collapse" %}
   </button>
 </aside>

@@ -9,7 +9,7 @@
   </header>
   {% include "tm/partials/tabs.html" %}
 
-  <form method="get" class="filter-bar is-wide">
+  <form method="get" aria-label="{% trans 'Filter the roster' %}" class="filter-bar is-wide desk-filters">
     <label class="field">
       <span>{% trans "Search" %}</span>
       <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Name or email' %}">

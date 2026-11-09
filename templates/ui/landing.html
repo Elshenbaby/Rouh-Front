@@ -7,13 +7,12 @@
   {% include "partials/favicon.html" %}
   <title>{% trans "Rouh" %}</title>
   <meta name="description" content="{% trans 'Rouh is AIESEC in Egypt’s CRM. Every LC’s signups, teams and KPIs in one place, live from EXPA.' %}">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  {% include "partials/fonts.html" %}
   <link rel="stylesheet" href="{% static 'css/app.css' %}">
   <link rel="stylesheet" href="{% static 'css/landing.css' %}?v=3">
 </head>
 <body class="lp">
+  {% include "partials/skip_link.html" %}
   <header class="lp-nav">
     <a class="lp-brand" href="{% url 'ui:landing' %}">
       <img class="nav-mark" src="{% static 'img/rouh-mark-64.png' %}" alt="" width="32" height="32">
@@ -29,6 +28,7 @@
     </nav>
   </header>
 
+  <main id="main-content" tabindex="-1">
   <section class="lp-hero">
     <div class="lp-hero-copy">
       <a class="lp-pill lp-in" href="{% url 'icomm:index' %}">
@@ -264,6 +264,8 @@
       </div>
     </div>
   </section>
+
+  </main>
 
   <footer class="lp-foot">
     <p>{% trans "Rouh · AIESEC in Egypt" %}</p>

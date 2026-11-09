@@ -2,16 +2,16 @@
 {% if desk %}
   <nav class="tabs" aria-label="{% trans 'Desk lists' %}">
     {% if desk_spec.is_icx %}
-      <a class="tab{% if list_stage == 'opens' %} is-active{% endif %}" href="{% url 'exchange:desk_slots' desk %}">{% trans "Slots" %}</a>
-      <a class="tab{% if list_stage == 'signups' %} is-active{% endif %}" href="{% url 'exchange:desk_signups' desk %}{% if queue_query %}?{{ queue_query }}{% endif %}">{% trans "Applications" %}</a>
+      <a class="tab{% if list_stage == 'opens' %} is-active{% endif %}"{% if list_stage == 'opens' %} aria-current="location"{% endif %} href="{% url 'exchange:desk_slots' desk %}">{% trans "Slots" %}</a>
+      <a class="tab{% if list_stage == 'signups' %} is-active{% endif %}"{% if list_stage == 'signups' %} aria-current="location"{% endif %} href="{% url 'exchange:desk_signups' desk %}{% if queue_query %}?{{ queue_query }}{% endif %}">{% trans "Applications" %}</a>
     {% else %}
-      <a class="tab{% if list_stage == 'signups' %} is-active{% endif %}" href="{% url 'exchange:desk_signups' desk %}{% if queue_query %}?{{ queue_query }}{% endif %}">{% trans "Signups" %}</a>
+      <a class="tab{% if list_stage == 'signups' %} is-active{% endif %}"{% if list_stage == 'signups' %} aria-current="location"{% endif %} href="{% url 'exchange:desk_signups' desk %}{% if queue_query %}?{{ queue_query }}{% endif %}">{% trans "Signups" %}</a>
     {% endif %}
-    <a class="tab{% if list_stage == 'applicants' %} is-active{% endif %}" href="{% url 'exchange:desk_applicants' desk %}{% if queue_query %}?{{ queue_query }}{% endif %}">{% trans "Applicants" %}</a>
-    <a class="tab{% if list_stage == 'apds' %} is-active{% endif %}" href="{% url 'exchange:desk_apds' desk %}{% if queue_query %}?{{ queue_query }}{% endif %}">{% trans "APDs" %}</a>
+    <a class="tab{% if list_stage == 'applicants' %} is-active{% endif %}"{% if list_stage == 'applicants' %} aria-current="location"{% endif %} href="{% url 'exchange:desk_applicants' desk %}{% if queue_query %}?{{ queue_query }}{% endif %}">{% trans "Applicants" %}</a>
+    <a class="tab{% if list_stage == 'apds' %} is-active{% endif %}"{% if list_stage == 'apds' %} aria-current="location"{% endif %} href="{% url 'exchange:desk_apds' desk %}{% if queue_query %}?{{ queue_query }}{% endif %}">{% trans "APDs" %}</a>
     {% if desk_spec and desk_spec.has_raising %}
-    <a class="tab{% if list_stage == 'raising' or work == 'raising' %} is-active{% endif %}" href="{% url 'raising:desk' desk %}{% if queue_query %}?{{ queue_query }}{% endif %}">{% trans "Raising" %}</a>
-    <a class="tab{% if list_stage == 'calendar' %} is-active{% endif %}" href="{% url 'raising:calendar' desk %}">{% trans "Calendar" %}</a>
+    <a class="tab{% if list_stage == 'raising' or work == 'raising' %} is-active{% endif %}"{% if list_stage == 'raising' or work == 'raising' %} aria-current="location"{% endif %} href="{% url 'raising:desk' desk %}{% if queue_query %}?{{ queue_query }}{% endif %}">{% trans "Raising" %}</a>
+    <a class="tab{% if list_stage == 'calendar' %} is-active{% endif %}"{% if list_stage == 'calendar' %} aria-current="location"{% endif %} href="{% url 'raising:calendar' desk %}">{% trans "Calendar" %}</a>
     {% endif %}
   </nav>
   {% if list_stage != 'opens' and list_stage != 'calendar' %}

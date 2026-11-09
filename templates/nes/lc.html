@@ -4,14 +4,14 @@
 {% block content %}
   <header class="page-header">
     <p class="eyebrow"><a href="{% url 'ui:desk' 'tm' %}">{% trans "Talent" %}</a> · {{ entity.short_name }}</p>
-    <h1>NES</h1>
-    <p class="lede">What {{ entity.short_name }}'s members said in the monthly NES: who answered, the NES itself and every question, next to Egypt's.</p>
+    <h1>Member feedback (NES)</h1>
+    <p class="lede">Check participation and compare {{ entity.short_name }}’s monthly survey results with the national results.</p>
   </header>
   {% include "tm/partials/tabs.html" %}
 
   {% if not round %}
     <section class="ops-panel">
-      <h2>No NES out yet</h2>
+      <h2>No survey results yet</h2>
       <p>The MC opens the NES at the start of each month, and everyone in {{ entity.short_name }} is told in Rouh (the bell). Their answers show here as they come in.</p>
       {% if can_manage %}<p><a class="btn btn-secondary btn-sm" href="{% url 'mc:nes' %}">Open MC data › NES</a></p>{% endif %}
     </section>

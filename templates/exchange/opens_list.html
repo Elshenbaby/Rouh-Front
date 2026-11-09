@@ -56,16 +56,16 @@
     {% endif %}
   </div>
 
-  <form method="get" class="filter-bar is-wide" hx-get="{{ list_url }}" hx-target="#opens-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
+  <form method="get" aria-label="{% trans 'Search and filter slots' %}" class="filter-bar is-wide desk-filters" hx-get="{{ list_url }}" hx-target="#opens-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
     {% if desk_spec.is_b2b %}
       <input type="hidden" name="desk" value="{{ desk }}">
     {% endif %}
     <label class="field">
-      <span class="sr-only">{% trans "Search" %}</span>
+      <span>{% trans "Search" %}</span>
       <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Opportunity, organisation or LC' %}">
     </label>
     <label class="field">
-      <span class="sr-only">{% trans "Status" %}</span>
+      <span>{% trans "Status" %}</span>
       <select name="status">
         {% for value, label in statuses %}
           <option value="{{ value }}"{% if status == value %} selected{% endif %}>{{ label }}</option>
@@ -74,7 +74,7 @@
     </label>
     {% if products %}
     <label class="field">
-      <span class="sr-only">{% trans "Product" %}</span>
+      <span>{% trans "Product" %}</span>
       <select name="product">
         {% for value, label in products %}
           <option value="{{ value }}"{% if product == value %} selected{% endif %}>{{ label }}</option>

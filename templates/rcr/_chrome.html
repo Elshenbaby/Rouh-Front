@@ -1,6 +1,6 @@
 {% load i18n mc_format %}
 <header class="page-header rcr-header">
-  <p class="eyebrow"><a href="{% url 'ui:desk' 'tm' %}">{% trans "Talent" %}</a> · RCR{% if entity %} · {{ entity.short_name }}{% endif %}</p>
+  <p class="eyebrow"><a href="{% url 'ui:desk' 'tm' %}">{% trans "Talent" %}</a> · {% trans "Recruitment" %}{% if entity %} · {{ entity.short_name }}{% endif %}</p>
   <h1>{{ cycle.name }}{% if entity %} <span class="rcr-lc">{{ entity.short_name }}</span>{% endif %}</h1>
 </header>
 {% include "tm/partials/tabs.html" %}
@@ -14,11 +14,11 @@
 {% endif %}
 {% if entity %}
 <nav class="rcr-journey" aria-label="The recruitment journey">
-  <a class="rcr-today-btn{% if section == 'today' %} is-active{% endif %}" href="{% url 'rcr:today' cycle.slug %}"><b>Today</b><small>what waits on you</small></a>
+  <a class="rcr-today-btn{% if section == 'today' %} is-active{% endif %}" href="{% url 'rcr:today' cycle.slug %}"{% if section == 'today' %} aria-current="page"{% endif %}><b>{% trans "Today" %}</b><small>{% trans "Work that needs attention" %}</small></a>
   <ol class="rcr-phases">
     {% for item in journey_bar %}
       <li class="rcr-phase{% if phase_code == item.phase.code %} is-active{% endif %}">
-        <a href="{% url item.phase.url_name cycle.slug %}" title="{{ item.phase.hint }}">
+        <a href="{% url item.phase.url_name cycle.slug %}" title="{{ item.phase.hint }}"{% if phase_code == item.phase.code %} aria-current="location"{% endif %}>
           <span class="rcr-phase-n">{{ item.phase.number }}</span>
           <span class="rcr-phase-text"><b>{{ item.phase.label }}</b><small>{{ item.count|count }} in this phase{% if item.stuck %} · <em>{{ item.stuck }} stuck</em>{% endif %}</small></span>
         </a>

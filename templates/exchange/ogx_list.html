@@ -11,7 +11,15 @@
       {% endif %}
     </p>
     <h1>{{ title }}</h1>
-    <p class="lede">{{ lede }}</p>
+    <p class="lede">
+      {% if list_stage == "applicants" %}
+        {% trans "Open a person’s record to review their applications and follow up." %}
+      {% elif is_icx %}
+        {% trans "Review incoming applications and record your follow-up." %}
+      {% else %}
+        {% trans "Find new signups and follow up with people who haven’t applied yet." %}
+      {% endif %}
+    </p>
   </header>
 
   {% if desk == 'b2c' %}
@@ -22,16 +30,16 @@
 
   {% include "exchange/partials/ogx_metrics.html" with oob=False %}
 
-  <form method="get" class="filter-bar is-wide" hx-get="{{ list_url }}" hx-target="#ogx-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
+  <form method="get" aria-label="{% trans 'Search and filter this queue' %}" class="filter-bar is-wide desk-filters" hx-get="{{ list_url }}" hx-target="#ogx-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
     <input type="hidden" name="queue" value="{{ assign.queue }}">
     {% if assign.selected_team %}<input type="hidden" name="team" value="{{ assign.selected_team.pk }}">{% endif %}
     {% if assign.selected_member %}<input type="hidden" name="who" value="{{ assign.selected_member.pk }}">{% endif %}
     <label class="field">
-      <span class="sr-only">{% trans "Search" %}</span>
+      <span>{% trans "Search" %}</span>
       <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Name, email or phone' %}">
     </label>
     <label class="field">
-      <span class="sr-only">{% trans "Status" %}</span>
+      <span>{% trans "Status" %}</span>
       <select name="status">
         <option value="">{% trans "All statuses" %}</option>
         {% for value, label in statuses %}

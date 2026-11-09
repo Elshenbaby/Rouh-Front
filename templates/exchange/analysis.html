@@ -31,7 +31,7 @@
   {% if desk_spec and desk_spec.code in "ogv ogta ogte igv igta igte" %}
   <nav class="pf-views" aria-label="{% trans 'Analysis views' %}">
     <a href="{{ analysis_url }}">{% trans "Performance" %}<small>{% trans "What happened in these days, as EXPA counts it" %}</small></a>
-    <a class="is-active" href="{{ analysis_url }}?view=pipeline">{% trans "Pipeline & team" %}<small>{% trans "How far the people who signed up got, by member and team" %}</small></a>
+    <a class="is-active" aria-current="page" href="{{ analysis_url }}?view=pipeline">{% trans "Pipeline & team" %}<small>{% trans "Follow people from signup or application through the exchange stages" %}</small></a>
   </nav>
   {% endif %}
 

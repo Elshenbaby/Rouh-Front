@@ -3,7 +3,7 @@
   <header class="page-header">
     <p class="eyebrow">{{ entity }} · LCP and VP TM only</p>
     <h1>Events dashboard</h1>
-    <p class="lede">National events your LC registers for: who from {{ entity }} has signed up, and where you stand against the other LCs.</p>
+    <p class="lede">Open an event to see registrations, check-ins and how {{ entity }} compares with other LCs.</p>
   </header>
   <section class="aw-grid">
     {% for card in cards %}
@@ -16,7 +16,7 @@
           <div><p class="metric-label">From {{ entity }}</p><p class="metric-value">{{ card.total }}</p></div>
           <div><p class="metric-label">Checked in</p><p class="metric-value">{{ card.checked_in }}</p></div>
         </div>
-        <p class="aw-foot">Open the dashboard <span aria-hidden="true">→</span></p>
+        <p class="aw-foot">View registrations and check-ins <span aria-hidden="true">→</span></p>
       </a>
     {% empty %}
       <p class="muted">No national events for {{ entity }} yet.</p>

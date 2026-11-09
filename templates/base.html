@@ -6,9 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {% include "partials/favicon.html" %}
   <title>{% if title %}{{ title }} · {% endif %}{% trans "Rouh" %}</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  {% include "partials/fonts.html" with arabic=True only %}
   <link rel="stylesheet" href="{% static 'css/app.css' %}">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
@@ -16,13 +14,14 @@
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-  <div class="app" x-data="{ navCollapsed: false }">
+  {% include "partials/skip_link.html" %}
+  <div class="app" x-data>
     {% include "partials/nav.html" %}
     <div class="app-main">
       {% include "partials/topbar.html" %}
-      <main class="page">
+      <main class="page" id="main-content" tabindex="-1">
         {% if messages %}
-          <ul class="toasts">
+          <ul class="toasts" aria-live="polite">
             {% for message in messages %}
               <li class="toast toast-{{ message.tags }}">{{ message }}</li>
             {% endfor %}

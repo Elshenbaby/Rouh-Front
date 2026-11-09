@@ -13,14 +13,14 @@
         {% if od.term_label %}<span>{{ od.term_label }}</span>{% endif %}
         <span>{% trans "All LCs" %}</span>
       </p>
-      <p class="lede">{% trans "Where every LC sits on the L-shape model — scored live from CRM." %}</p>
+      <p class="lede">{% trans "Compare LC scores and see how each LC is grouped in the OD model." %}</p>
     {% else %}
       <h1>{% trans "Your OD status" %}</h1>
       <p class="od-meta">
         {% if od.term_label %}<span>{{ od.term_label }}</span>{% endif %}
         {% if od.entity %}<span>{{ od.entity.short_name }}</span>{% endif %}
       </p>
-      <p class="lede">{% trans "Cluster, indexes, and next move — one clear read of where you stand." %}</p>
+      <p class="lede">{% trans "See your LC’s cluster, what drives its score and where to focus next." %}</p>
     {% endif %}
     <details class="how-counted">
       <summary>{% trans "How it's counted" %}</summary>

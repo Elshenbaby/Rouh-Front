@@ -1,11 +1,11 @@
 {% load i18n %}
 {% if desk %}
   <nav class="tabs" aria-label="{% trans 'B2C lists' %}">
-    <a class="tab{% if list_stage == 'dashboard' %} is-active{% endif %}" href="{% url 'b2c:dashboard' %}">{% trans "Analysis" %}</a>
-    <a class="tab{% if list_stage == 'interviews' or list_stage == 'teams' and work != 'accounts' %} is-active{% endif %}" href="{% url 'b2c:interviews' %}">{% trans "Interviews" %}</a>
-    <a class="tab{% if list_stage == 'accounts' or work == 'accounts' %} is-active{% endif %}" href="{% url 'b2c:accounts' %}">{% trans "Accounts" %}</a>
-    <a class="tab{% if list_stage == 'campus_access' %} is-active{% endif %}" href="{% url 'b2c:campus_access' %}">{% trans "Campuses" %}</a>
-    <a class="tab{% if list_stage == 'campaign_requests' %} is-active{% endif %}" href="{% url 'b2c:campaign_requests' %}">{% trans "Campaigns" %}</a>
+    <a class="tab{% if list_stage == 'dashboard' %} is-active{% endif %}"{% if list_stage == 'dashboard' %} aria-current="location"{% endif %} href="{% url 'b2c:dashboard' %}">{% trans "Analysis" %}</a>
+    <a class="tab{% if list_stage == 'interviews' or list_stage == 'teams' and work != 'accounts' %} is-active{% endif %}"{% if list_stage == 'interviews' or list_stage == 'teams' and work != 'accounts' %} aria-current="location"{% endif %} href="{% url 'b2c:interviews' %}">{% trans "Interviews" %}</a>
+    <a class="tab{% if list_stage == 'accounts' or work == 'accounts' %} is-active{% endif %}"{% if list_stage == 'accounts' or work == 'accounts' %} aria-current="location"{% endif %} href="{% url 'b2c:accounts' %}">{% trans "Accounts" %}</a>
+    <a class="tab{% if list_stage == 'campus_access' %} is-active{% endif %}"{% if list_stage == 'campus_access' %} aria-current="location"{% endif %} href="{% url 'b2c:campus_access' %}">{% trans "Campuses" %}</a>
+    <a class="tab{% if list_stage == 'campaign_requests' %} is-active{% endif %}"{% if list_stage == 'campaign_requests' %} aria-current="location"{% endif %} href="{% url 'b2c:campaign_requests' %}">{% trans "Campaigns" %}</a>
   </nav>
   {% if assign %}
   <nav class="queue-tabs" aria-label="{% trans 'Queues' %}">

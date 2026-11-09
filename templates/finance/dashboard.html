@@ -11,7 +11,7 @@
       {% if is_mc %}<span>{% trans "All LCs" %}</span>{% elif entity %}<span>{{ entity.short_name }}</span>{% endif %}
       {% if focus_month %}<span>{{ focus_month|date:"M Y" }}</span>{% elif show_all_months %}<span>{% trans "Aug–Jul" %}</span>{% endif %}
     </p>
-    <p class="lede">{% trans "Official numbers from the Products Sustainability tools only — coverage, product P&L, monthly APDs, and GFB actuals." %}</p>
+    <p class="lede">{% trans "Choose a reporting year and month to review product revenue, costs, coverage and approved experiences." %}</p>
   </header>
 
   {% if tool_options or lc_options %}
@@ -28,7 +28,7 @@
     {% endif %}
     {% if tool_options %}
     <label class="field">
-      <span>{% trans "Sustainability tool" %}</span>
+      <span>{% trans "Reporting year" %}</span>
       <select name="tool" onchange="this.form.submit()">
         {% for opt in tool_options %}
         <option value="{{ opt.code }}"{% if opt.selected %} selected{% endif %}>
@@ -55,13 +55,14 @@
   {% if not finance_term %}
   <section class="empty">
     <h2>{% trans "No finance year for this term" %}</h2>
-    <p>{% trans "Pick a sustainability tool above, or switch the top-bar term." %}</p>
+    <p>{% trans "Choose a reporting year or change the term at the top of the page." %}</p>
   </section>
   {% elif not snapshots and not products and not gfb_rows and not national and not product_month_board.achieved_rows %}
   <section class="empty">
     <h2>{% trans "No sustainability data yet" %}</h2>
     <p>
-      {% blocktrans with code=finance_term.code %}Nothing loaded for {{ code }} in this LC yet. Try another sustainability tool above — older years may already be imported.{% endblocktrans %}
+      {% blocktrans with code=finance_term.code %}No figures are available for this LC in {{ code }}.{% endblocktrans %}
+      {% if tool_options %}{% trans "Choose another reporting year above to check earlier figures." %}{% endif %}
     </p>
   </section>
   {% else %}
@@ -212,7 +213,7 @@
     <div class="fin-month-block">
       <div class="fin-month-block-head">
         <h3>{% trans "Exchange achieved" %}</h3>
-        <p>{% trans "Monthly APDs from Productivity (APDs) in the Products Sustainability tools" %}</p>
+        <p>{% trans "Monthly APDs from Productivity (APDs) in the Products Reporting years" %}</p>
       </div>
       <div class="table-wrap od-board-wrap fin-month-wrap">
         <table class="table od-board-table table-dense fin-month-table">

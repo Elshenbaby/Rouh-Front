@@ -6,13 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {% include "partials/favicon.html" %}
   <title>{% block title %}{% endblock %} · {% trans "Rouh" %}</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  {% include "partials/fonts.html" %}
   <link rel="stylesheet" href="{% static 'css/app.css' %}">
   <link rel="stylesheet" href="{% static 'css/auth.css' %}">
 </head>
 <body class="auth-page">
+  {% include "partials/skip_link.html" %}
   <div class="auth-shell">
     <aside class="auth-panel">
       <a class="auth-brand" href="{% url 'ui:landing' %}">
@@ -35,7 +34,7 @@
       <img class="auth-watermark" src="{% static 'img/rouh-logo-white.png' %}" alt="" aria-hidden="true">
     </aside>
 
-    <main class="auth-main">
+    <main class="auth-main" id="main-content" tabindex="-1">
       <div class="auth-form">
         {% block content %}{% endblock %}
       </div>

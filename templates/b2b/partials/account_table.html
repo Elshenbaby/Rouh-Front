@@ -12,8 +12,7 @@
         <tr>
           {% if assign.can_assign %}
             <th class="col-check">
-              <label class="sr-only">{% trans "Select all on this page" %}</label>
-              <input type="checkbox" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=account_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=account_ids]').forEach(el => el.checked = $event.target.checked)">
+              <input type="checkbox" aria-label="{% trans 'Select all on this page' %}" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=account_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=account_ids]').forEach(el => el.checked = $event.target.checked)">
             </th>
           {% endif %}
           <th>{% trans "Account Responsible" %}</th>
@@ -33,7 +32,7 @@
           <tr>
             {% if assign.can_assign %}
               <td class="col-check">
-                <input type="checkbox" name="account_ids" value="{{ account.pk }}" @change="selected = Array.from($root.querySelectorAll('[name=account_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="account_ids" aria-label="{% trans 'Select this row' %}" value="{{ account.pk }}" @change="selected = Array.from($root.querySelectorAll('[name=account_ids]:checked')).map(el => el.value)">
               </td>
             {% endif %}
             <td>
@@ -69,9 +68,9 @@
           </tr>
         {% empty %}
           <tr>
-            <td colspan="{% if assign.can_assign %}11{% else %}10{% endif %}">
+            <td colspan="{% if assign.can_assign %}11{% else %}10{% endif %}">{% if q or status %}{% trans "No partner accounts match these filters. Try a different search or status." %}{% else %}
               {% blocktrans with desk=desk_spec.label %}No Soluo {{ desk }} deals for this LC yet.{% endblocktrans %}
-            </td>
+            {% endif %}</td>
           </tr>
         {% endfor %}
       </tbody>

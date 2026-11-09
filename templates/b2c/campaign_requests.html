@@ -13,7 +13,7 @@
     {% endif %}
   </header>
   {% include "b2c/partials/tabs.html" %}
-  <form method="get" class="filter-bar">
+  <form method="get" aria-label="{% trans 'Filter campaign requests' %}" class="filter-bar desk-filters">
     <label class="field">
       <span>{% trans "Status" %}</span>
       <select name="status" onchange="this.form.submit()">

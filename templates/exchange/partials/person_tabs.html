@@ -1,13 +1,13 @@
 {% load i18n %}
 <nav class="tabs" aria-label="{% trans 'Signup sections' %}">
-  <a class="tab{% if tab == 'signup' %} is-active{% endif %}" href="{% url 'exchange:person_detail' person.pk %}">{% if person.is_icx %}{% trans "Consideration" %}{% else %}{% trans "Signup" %}{% endif %}</a>
+  <a class="tab{% if tab == 'signup' %} is-active{% endif %}"{% if tab == 'signup' %} aria-current="location"{% endif %} href="{% url 'exchange:person_detail' person.pk %}">{% if person.is_icx %}{% trans "Consideration" %}{% else %}{% trans "Signup" %}{% endif %}</a>
   {% if person.has_applied %}
-    <a class="tab{% if tab == 'applications' %} is-active{% endif %}" href="{% url 'exchange:person_applications' person.pk %}">{% trans "Applications" %}</a>
+    <a class="tab{% if tab == 'applications' %} is-active{% endif %}"{% if tab == 'applications' %} aria-current="location"{% endif %} href="{% url 'exchange:person_applications' person.pk %}">{% trans "Applications" %}</a>
   {% else %}
     <span class="tab is-disabled" title="{% trans 'Opens after this person applies' %}">{% trans "Applications" %}</span>
   {% endif %}
   {% if person.has_apd %}
-    <a class="tab{% if tab == 'approval' %} is-active{% endif %}" href="{% url 'exchange:person_approval' person.pk %}">{% trans "Approval" %}</a>
+    <a class="tab{% if tab == 'approval' %} is-active{% endif %}"{% if tab == 'approval' %} aria-current="location"{% endif %} href="{% url 'exchange:person_approval' person.pk %}">{% trans "Approval" %}</a>
   {% else %}
     <span class="tab is-disabled" title="{% trans 'Opens after an application is approved' %}">{% trans "Approval" %}</span>
   {% endif %}

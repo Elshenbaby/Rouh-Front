@@ -10,32 +10,32 @@
 
   {% include "b2b/partials/tabs.html" %}
 
-  <form method="get" class="filter-bar is-wide" hx-get="{% url 'b2b:slots' %}" hx-target="#b2b-board" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
+  <form method="get" aria-label="{% trans 'Search and filter slots' %}" class="filter-bar is-wide desk-filters" hx-get="{% url 'b2b:slots' %}" hx-target="#b2b-board" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
     <input type="hidden" name="desk" value="{{ desk }}">
     <label class="field">
-      <span class="sr-only">{% trans "Search" %}</span>
+      <span>{% trans "Search" %}</span>
       <input type="search" id="b2b-q" name="q" value="{{ q }}" placeholder="{% trans 'Opp ID, opportunity, organisation or LC' %}">
     </label>
     <label class="field">
-      <span class="sr-only">{% trans "Peak" %}</span>
+      <span>{% trans "Peak" %}</span>
       <select id="b2b-peak" name="peak">
         {% for value, label in peaks %}<option value="{{ value }}"{% if peak == value %} selected{% endif %}>{{ label }}</option>{% endfor %}
       </select>
     </label>
     <label class="field">
-      <span class="sr-only">{% trans "Live or not" %}</span>
+      <span>{% trans "Availability" %}</span>
       <select id="b2b-status" name="status">
         {% for value, label in statuses %}<option value="{{ value }}"{% if status == value %} selected{% endif %}>{{ label }}</option>{% endfor %}
       </select>
     </label>
     <label class="field">
-      <span class="sr-only">{% trans "Product" %}</span>
+      <span>{% trans "Product" %}</span>
       <select id="b2b-product" name="product">
         {% for value, label in products %}<option value="{{ value }}"{% if product == value %} selected{% endif %}>{{ label }}</option>{% endfor %}
       </select>
     </label>
     <label class="field">
-      <span class="sr-only">{% trans "Accommodation" %}</span>
+      <span>{% trans "Accommodation" %}</span>
       <select id="b2b-accommodation" name="accommodation">
         {% for value, label in accommodations %}<option value="{{ value }}"{% if accommodation == value %} selected{% endif %}>{{ label }}</option>{% endfor %}
       </select>

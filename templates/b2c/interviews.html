@@ -8,13 +8,13 @@
     <p class="lede">{{ lede }}</p>
   </header>
   {% include "b2c/partials/tabs.html" %}
-  <form method="get" class="filter-bar is-wide" hx-get="{{ list_url }}" hx-target="#b2c-interviews" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
+  <form method="get" aria-label="{% trans 'Search interviews' %}" class="filter-bar is-wide desk-filters" hx-get="{{ list_url }}" hx-target="#b2c-interviews" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
     <input type="hidden" name="queue" value="{{ assign.queue }}">
     {% if assign.selected_team %}<input type="hidden" name="team" value="{{ assign.selected_team.pk }}">{% endif %}
     {% if view and view != "all" %}<input type="hidden" name="view" value="{{ view }}">{% endif %}
     {% if assign.selected_member %}<input type="hidden" name="who" value="{{ assign.selected_member.pk }}">{% endif %}
     <label class="field">
-      <span class="sr-only">{% trans "Search" %}</span>
+      <span>{% trans "Search" %}</span>
       <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Name, email, phone, campus or campaign' %}">
     </label>
   </form>
@@ -31,8 +31,7 @@
             <tr>
               {% if assign.can_assign %}
                 <th class="col-check">
-                  <label class="sr-only">{% trans "Select all on this page" %}</label>
-                  <input type="checkbox" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=person_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=person_ids]').forEach(el => el.checked = $event.target.checked)">
+                  <input type="checkbox" aria-label="{% trans 'Select all on this page' %}" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=person_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=person_ids]').forEach(el => el.checked = $event.target.checked)">
                 </th>
               {% endif %}
               <th>{% trans "Assigned" %}</th>
@@ -57,7 +56,7 @@
               <tr>
                 {% if assign.can_assign %}
                   <td class="col-check">
-                    <input type="checkbox" name="person_ids" value="{{ person.pk }}" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                    <input type="checkbox" name="person_ids" aria-label="{% trans 'Select this row' %}" value="{{ person.pk }}" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
                   </td>
                 {% endif %}
                 <td>
@@ -83,7 +82,7 @@
                 <td><span class="badge badge-{{ person.process_status|default:person.funnel_status }}">{{ person.sheet_status }}</span></td>
               </tr>
             {% empty %}
-              <tr><td colspan="{% if assign.can_assign %}16{% else %}15{% endif %}">{% trans "No OGX signups in this LC yet." %}</td></tr>
+              <tr><td colspan="{% if assign.can_assign %}16{% else %}15{% endif %}">{% if q %}{% trans "No interviews match your search. Try a different name or contact detail." %}{% else %}{% trans "No OGX signups in this LC yet." %}{% endif %}</td></tr>
             {% endfor %}
           </tbody>
         </table>

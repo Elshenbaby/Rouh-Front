@@ -5,17 +5,17 @@
   <header class="page-header row-between">
     <div>
       <h1>{% trans "People" %}</h1>
-      <p class="lede">{% trans "The membership directory is the spine of the platform. Every other module will point here." %}</p>
+      <p class="lede">{% trans "Find a member by name or email. Open their profile to see their roles and contact details." %}</p>
     </div>
     {% if perms %}
       <a class="btn btn-primary" href="{% url 'people:invite' %}">{% trans "Invite people" %}</a>
     {% endif %}
   </header>
 
-  <form method="get" class="filter-bar" hx-get="{% url 'people:directory' %}" hx-target="#directory-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
+  <form method="get" aria-label="{% trans 'Search the directory' %}" class="filter-bar desk-filters" hx-get="{% url 'people:directory' %}" hx-target="#directory-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
     {% if desk %}<input type="hidden" name="desk" value="{{ desk }}">{% endif %}
     <label class="field">
-      <span class="sr-only">{% trans "Search" %}</span>
+      <span>{% trans "Search" %}</span>
       <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Search name or email' %}">
     </label>
   </form>

@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-  <header class="page-header">
+  <header class="page-header home-header">
     <p class="eyebrow">
       {% if current_entity %}{{ current_entity.short_name }}{% else %}{% trans "AIESEC in Egypt" %}{% endif %}{% if current_term %} · {{ current_term.label }}{% endif %}
     </p>
@@ -21,11 +21,24 @@
     {% elif not current_term %}
       <p class="lede">{% trans "No current term is selected yet." %}</p>
     {% endif %}
+    {% if desks and board and seat.tracks_others %}
+      <a class="home-desks-jump" href="#home-desks-heading">{% trans "Go to your desks" %}</a>
+    {% endif %}
   </header>
 
   {% if show_personal and me or show_personal and roster.people or show_personal and roster.function_teams %}
     <div class="home-grid">
-      <section>
+      <div class="home-work">
+        {% if links %}
+          <nav class="quick-links" aria-label="{% trans 'Quick actions' %}">
+            {% if links.mine %}<a class="btn btn-primary btn-md" href="{{ links.mine }}">{% trans "My queue" %}{% if me %} ({{ me.open }}){% endif %}</a>{% endif %}
+            {% if links.team %}<a class="btn btn-secondary btn-md" href="{{ links.team }}">{% trans "Team queue" %}</a>{% endif %}
+            {% if unassigned is not None and links.unassigned %}<a class="btn btn-secondary btn-md" href="{{ links.unassigned }}">{% trans "Unassigned" %} ({{ unassigned }})</a>{% endif %}
+            {% if seat.is_manager and links.teams %}<a class="btn btn-secondary btn-md" href="{{ links.teams }}">{% trans "Teams board" %}</a>{% endif %}
+            {% if links.desk %}<a class="btn btn-ghost btn-md" href="{{ links.desk }}">{{ my_desk.label }} {% trans "desk" %}</a>{% endif %}
+            <a class="btn btn-ghost btn-md" href="{% url 'audit:activity' %}">{% if seat.tracks_others %}{% trans "Team log" %}{% else %}{% trans "My log" %}{% endif %}</a>
+          </nav>
+        {% endif %}
         {% if me %}
           <h2 class="section-title">{% trans "Your work" %} · {{ period.label }}</h2>
           <div class="metric-row metric-grid">
@@ -59,17 +72,7 @@
             </div>
           {% endif %}
         {% endif %}
-        {% if links %}
-          <div class="quick-links">
-            {% if links.mine %}<a class="btn btn-primary btn-md" href="{{ links.mine }}">{% trans "My queue" %}{% if me %} ({{ me.open }}){% endif %}</a>{% endif %}
-            {% if links.team %}<a class="btn btn-secondary btn-md" href="{{ links.team }}">{% trans "Team queue" %}</a>{% endif %}
-            {% if unassigned is not None and links.unassigned %}<a class="btn btn-secondary btn-md" href="{{ links.unassigned }}">{% trans "Unassigned" %} ({{ unassigned }})</a>{% endif %}
-            {% if seat.is_manager and links.teams %}<a class="btn btn-secondary btn-md" href="{{ links.teams }}">{% trans "Teams board" %}</a>{% endif %}
-            {% if links.desk %}<a class="btn btn-ghost btn-md" href="{{ links.desk }}">{{ my_desk.label }} {% trans "desk" %}</a>{% endif %}
-            <a class="btn btn-ghost btn-md" href="{% url 'audit:activity' %}">{% if seat.tracks_others %}{% trans "Team log" %}{% else %}{% trans "My log" %}{% endif %}</a>
-          </div>
-        {% endif %}
-      </section>
+      </div>
 
       <aside class="team-card">
         {% if roster.team %}
@@ -101,10 +104,10 @@
       </aside>
     </div>
   {% elif links %}
-    <div class="quick-links home-links">
+    <nav class="quick-links home-links" aria-label="{% trans 'Quick actions' %}">
       {% if links.desk %}<a class="btn btn-secondary btn-md" href="{{ links.desk }}">{{ my_desk.label }} {% trans "desk" %}</a>{% endif %}
       <a class="btn btn-secondary btn-md" href="{% url 'audit:activity' %}">{% trans "LC log" %}</a>
-    </div>
+    </nav>
   {% endif %}
 
   {% if board and seat.tracks_others %}
@@ -149,31 +152,33 @@
   {% endif %}
 
   {% if desks %}
-    <h2 class="section-title">{% trans "Your desks" %}</h2>
-    <section class="desk-grid">
-      {% for desk in desks %}
-        <a class="card desk-card" href="{% url 'ui:desk' desk.code %}">
-          <p class="eyebrow">{{ desk.group_label }}</p>
-          <h2>{{ desk.label }}</h2>
-          <p>
-            {% if desk.is_b2c %}
-              {% trans "Analysis, customer interviews, campus access, campaigns and Soluo accounts." %}
-            {% elif desk.is_b2b %}
-              {% trans "Soluo raising accounts, visits and slots." %}
-            {% elif desk.code == "tm" %}
-              {% trans "Structure, performance, planning, attendance and HR status." %}
-            {% elif desk.code == "lcp" %}
-              {% trans "The OD scoreboard and cluster playbooks." %}
-            {% elif desk.code == "fin" %}
-              {% trans "Budget, planned vs actual, and the sustainability boards." %}
-            {% elif desk.is_icx %}
-              {% trans "Slots, applications, applicants, APDs and raising." %}
-            {% else %}
-              {% trans "Signups, applicants and APDs." %}
-            {% endif %}
-          </p>
-        </a>
-      {% endfor %}
+    <section class="home-desks" aria-labelledby="home-desks-heading">
+      <h2 class="section-title" id="home-desks-heading">{% trans "Your desks" %}</h2>
+      <div class="desk-grid">
+        {% for desk in desks %}
+          <a class="card desk-card" href="{% url 'ui:desk' desk.code %}">
+            <p class="eyebrow">{{ desk.group_label }}</p>
+            <h3>{{ desk.label }}</h3>
+            <p>
+              {% if desk.is_b2c %}
+                {% trans "Analysis, customer interviews, campus access, campaigns and Soluo accounts." %}
+              {% elif desk.is_b2b %}
+                {% trans "Soluo raising accounts, visits and slots." %}
+              {% elif desk.code == "tm" %}
+                {% trans "Structure, performance, planning, attendance and HR status." %}
+              {% elif desk.code == "lcp" %}
+                {% trans "The OD scoreboard and cluster playbooks." %}
+              {% elif desk.code == "fin" %}
+                {% trans "Budget, planned vs actual, and the sustainability boards." %}
+              {% elif desk.is_icx %}
+                {% trans "Slots, applications, applicants, APDs and raising." %}
+              {% else %}
+                {% trans "Signups, applicants and APDs." %}
+              {% endif %}
+            </p>
+          </a>
+        {% endfor %}
+      </div>
     </section>
   {% elif not seat.position %}
     <div class="empty">

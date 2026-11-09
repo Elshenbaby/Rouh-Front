@@ -6,7 +6,7 @@
     <div>
       <p class="eyebrow">{% trans "Rouh" %}</p>
       <h1>{{ title }}</h1>
-      <p class="lede">{% trans "News for you from the MC and Rouh. Open one to go straight to it." %}</p>
+      <p class="lede">{% trans "Open a notification to view the update it relates to." %}</p>
     </div>
     {% if items %}
       <form method="post" action="{% url 'notifications:read_all' %}">
@@ -28,6 +28,6 @@
       {% endfor %}
     </ul>
   {% else %}
-    <div class="cr-done"><p class="cr-done-title">{% trans "Nothing yet" %}</p><p>{% trans "When the MC releases something for you, it shows up here." %}</p></div>
+    <div class="cr-done"><p class="cr-done-title">{% trans "No notifications yet" %}</p><p>{% trans "Updates from Rouh and the MC will appear here." %}</p></div>
   {% endif %}
 {% endblock %}

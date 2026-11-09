@@ -34,7 +34,7 @@
 
     <div class="auth-field">
       <label for="id_login">{% trans "Email" %}</label>
-      <input type="email" name="login" id="id_login" value="{{ form.login.value|default:'' }}" autocomplete="email" inputmode="email" placeholder="name@aiesec.net" required autofocus{% if form.errors %} aria-invalid="true"{% endif %}>
+      <input type="email" name="login" id="id_login" value="{{ form.login.value|default:'' }}" autocomplete="email" inputmode="email" placeholder="name@aiesec.net" required{% if form.errors %} aria-invalid="true"{% endif %}>
     </div>
 
     <div class="auth-field">

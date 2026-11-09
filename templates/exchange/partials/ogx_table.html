@@ -12,8 +12,7 @@
         <tr>
           {% if assign.can_assign %}
             <th class="col-check">
-              <label class="sr-only">{% trans "Select all on this page" %}</label>
-              <input type="checkbox" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=person_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=person_ids]').forEach(el => el.checked = $event.target.checked)">
+              <input type="checkbox" aria-label="{% trans 'Select all on this page' %}" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=person_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=person_ids]').forEach(el => el.checked = $event.target.checked)">
             </th>
           {% endif %}
           <th>{% trans "EP Manager" %}</th>
@@ -41,7 +40,7 @@
           <tr>
             {% if assign.can_assign %}
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="{{ person.pk }}" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" aria-label="{% trans 'Select this row' %}" value="{{ person.pk }}" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
               </td>
             {% endif %}
             <td>
@@ -92,7 +91,7 @@
             </td>
           </tr>
         {% empty %}
-          <tr><td colspan="{% if assign.can_assign %}{% if is_icx %}11{% else %}9{% endif %}{% else %}{% if is_icx %}10{% else %}8{% endif %}{% endif %}">{% if list_stage == "applicants" %}{% trans "No applicants in this queue yet." %}{% elif is_icx %}{% trans "No applications in this queue yet." %}{% else %}{% trans "No signups in this queue yet." %}{% endif %}</td></tr>
+          <tr><td colspan="{% if assign.can_assign %}{% if is_icx %}11{% else %}9{% endif %}{% else %}{% if is_icx %}10{% else %}8{% endif %}{% endif %}">{% if q or status %}{% trans "No records match these filters. Try a different search or status." %}{% else %}{% if list_stage == "applicants" %}{% trans "No applicants in this queue yet." %}{% elif is_icx %}{% trans "No applications in this queue yet." %}{% else %}{% trans "No signups in this queue yet." %}{% endif %}{% endif %}</td></tr>
         {% endfor %}
       </tbody>
     </table>
