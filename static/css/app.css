@@ -5265,3 +5265,31 @@ body.rcr-dragging .rcr-month-list { background: var(--primary-weak); }
 :is(#new-interview, #candidate-phone, #candidate-interview, #candidate-gd, #candidate-history) {
   scroll-margin-top: 5rem;
 }
+
+.nav .nav-feedback {
+  border-block-start: 1px solid rgba(255, 255, 255, 0.2);
+  min-height: 44px;
+  flex-shrink: 0;
+}
+.feedback-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+  max-inline-size: 68rem;
+}
+.feedback-guide {
+  padding: var(--space-4);
+  border-inline-start: 3px solid var(--primary);
+  background: var(--surface-2);
+}
+.feedback-guide h2 { margin-block-start: 0; }
+.feedback-guide dl { margin-block-end: 0; }
+.feedback-guide dt { font-weight: 700; }
+.feedback-guide dd { margin: 0 0 var(--space-3); }
+.feedback-guide dd:last-child { margin-block-end: 0; }
+.feedback-layout [aria-invalid="true"] { border-color: var(--danger); }
+.feedback-layout .errorlist { color: var(--danger); margin: 0; padding-inline-start: var(--space-4); }
+@media (max-width: 800px) {
+  .feedback-layout { grid-template-columns: minmax(0, 1fr); }
+}

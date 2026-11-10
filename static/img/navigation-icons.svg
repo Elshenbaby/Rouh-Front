@@ -24,4 +24,5 @@
   <symbol id="chart" viewBox="0 0 24 24"><path d="M3 3v18h18M7 17v-4m5 4V9m5 8V5"/></symbol>
   <symbol id="settings" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18M8 3v6m8 0v6m-7 0v6"/></symbol>
   <symbol id="page" viewBox="0 0 24 24"><path d="M5 3h9l5 5v13H5zm9 0v6h5M8 13h8m-8 4h6"/></symbol>
+  <symbol id="feedback" viewBox="0 0 24 24"><path d="M4 4h16v12H9l-5 4V4zm4 4h8m-8 4h5"/></symbol>
 </svg>

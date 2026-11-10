@@ -73,3 +73,18 @@ Raising, B2B, and BD next actions currently use the visible queue page, existing
 ## B2C handoff tracking
 
 The customer interview queue uses the current B2C assignee and existing B2C contact, OGX contact, and return-to-process values. For formal handoffs, expose the sending and receiving members or teams, the time sent, the acceptance state and time, and the latest handoff note. Apply the existing visibility rules to both sides. A receiving member's full queue should be filtered and paginated server-side once those fields exist.
+
+## Website feedback and bug reports
+
+Add an authenticated GET and POST route named `ui:feedback` and render `templates/ui/feedback.html`. The shared sidebar exposes the link when Django can resolve the route. Use the normal CSRF protection and accept only these fields.
+
+| Field | Server validation |
+| --- | --- |
+| `category` | Required. One of `bug`, `feedback`, or `idea`. |
+| `subject` | Required. Trim whitespace and limit to 120 characters. |
+| `location` | Optional desk or page name. Limit to 200 characters and treat as plain text. |
+| `details` | Required. Trim whitespace and limit to 4,000 characters. |
+
+Bind and return the Django form as `form` on errors so the page can retain the report and show field errors. Derive the reporter and any workspace context from the authenticated session. Store submissions in a staff-only queue with creation time, category, status, and optional assignee. Give authorized staff a way to review, assign, and resolve reports. Apply the app's normal rate limits and retention rules to these reports. Keep free text escaped when shown in staff views.
+
+After a successful write, redirect back to the feedback page and pass `feedback_received=True` through a one-time server-side acknowledgement. Show the confirmation only for a saved report. Verify that refreshing does not resubmit, invalid data preserves the user's draft, and ordinary members cannot view other people's reports. The static preview demonstrates the form and never sends a report.

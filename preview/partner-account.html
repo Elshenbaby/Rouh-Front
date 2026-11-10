@@ -13,11 +13,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
+  <link rel="stylesheet" href="../static/css/app.css?v=feedback">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="preview.js" defer></script>
-  <script src="../static/js/app.js" defer></script>
+  <script src="../static/js/app.js?v=feedback" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "mpCFi12mgY008rreO7xgC3vN9X0T8feO3iqBmBDacRPu453py9YcVidit6LoV28R"}'>
@@ -216,6 +216,11 @@
       
     
   </nav>
+  <a class="nav-link nav-feedback" href="feedback.html" aria-label="Feedback and bugs">
+    <svg class="nav-icon has-icon" aria-hidden="true" focusable="false"><use href="../static/img/navigation-icons.svg?v=feedback#feedback"></use></svg>
+    <span>Feedback and bugs</span>
+  </a>
+
   <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
     <span x-show="!navCollapsed">Collapse</span>
     <span x-show="navCollapsed" x-cloak>»</span>

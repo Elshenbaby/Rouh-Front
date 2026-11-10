@@ -1,0 +1,70 @@
+{% load i18n %}
+<header class="page-header">
+  <h1>{% trans "Feedback and bugs" %}</h1>
+  <p class="lede">{% trans "Tell the Rouh team what broke, what could work better, or what you’d like us to add." %}</p>
+</header>
+
+{% if feedback_received %}
+  <p class="alert alert-success" role="status">{% trans "Your report reached the Rouh team. Thank you for helping improve Rouh." %}</p>
+{% endif %}
+{% if feedback_preview %}
+  <p class="preview-sample-note">{% trans "Local preview. Reports entered here are for testing and won’t be sent." %}</p>
+{% endif %}
+
+<div class="feedback-layout">
+  <section class="card" aria-labelledby="feedback-form-heading">
+    <h2 id="feedback-form-heading">{% trans "Send feedback" %}</h2>
+    {% if form.errors %}
+      <p class="alert alert-danger" role="alert">{% trans "Your report wasn’t sent. Review the messages below and try again." %}</p>
+      {{ form.non_field_errors }}
+    {% endif %}
+    <form method="post" class="work-form">
+      {% if not feedback_preview %}{% csrf_token %}{% endif %}
+      <label class="field">
+        <span>{% trans "What are you sharing?" %}</span>
+        <select name="category" required{% if form.category.errors %} aria-invalid="true" aria-describedby="feedback-category-errors"{% endif %}>
+          <option value="">{% trans "Choose a type" %}</option>
+          <option value="bug"{% if form.category.value == "bug" %} selected{% endif %}>{% trans "Bug report" %}</option>
+          <option value="feedback"{% if form.category.value == "feedback" %} selected{% endif %}>{% trans "General feedback" %}</option>
+          <option value="idea"{% if form.category.value == "idea" %} selected{% endif %}>{% trans "Improvement idea" %}</option>
+        </select>
+      </label>
+      {% if form.category.errors %}<div id="feedback-category-errors">{{ form.category.errors }}</div>{% endif %}
+
+      <label class="field">
+        <span>{% trans "Short title" %}</span>
+        <input name="subject" type="text" required maxlength="120" value="{{ form.subject.value|default_if_none:'' }}"{% if form.subject.errors %} aria-invalid="true" aria-describedby="feedback-subject-errors"{% endif %}>
+      </label>
+      {% if form.subject.errors %}<div id="feedback-subject-errors">{{ form.subject.errors }}</div>{% endif %}
+
+      <label class="field">
+        <span id="feedback-location-label">{% trans "Where in Rouh? (optional)" %}</span>
+        <input name="location" type="text" aria-labelledby="feedback-location-label" maxlength="200" value="{{ form.location.value|default_if_none:'' }}" aria-describedby="feedback-location-hint{% if form.location.errors %} feedback-location-errors{% endif %}"{% if form.location.errors %} aria-invalid="true"{% endif %}>
+        <small class="muted" id="feedback-location-hint">{% trans "For example, B2C → Customer interviews." %}</small>
+      </label>
+      {% if form.location.errors %}<div id="feedback-location-errors">{{ form.location.errors }}</div>{% endif %}
+
+      <label class="field">
+        <span id="feedback-details-label">{% trans "Details" %}</span>
+        <textarea name="details" rows="6" aria-labelledby="feedback-details-label" required maxlength="4000" aria-describedby="feedback-details-hint{% if form.details.errors %} feedback-details-errors{% endif %}"{% if form.details.errors %} aria-invalid="true"{% endif %}>{{ form.details.value|default_if_none:'' }}</textarea>
+        <small class="muted" id="feedback-details-hint">{% trans "Leave out passwords and other people’s personal information." %}</small>
+      </label>
+      {% if form.details.errors %}<div id="feedback-details-errors">{{ form.details.errors }}</div>{% endif %}
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit">{% trans "Send feedback" %}</button>
+      </div>
+    </form>
+  </section>
+
+  <aside class="feedback-guide" aria-labelledby="feedback-guide-heading">
+    <h2 id="feedback-guide-heading">{% trans "What to include" %}</h2>
+    <dl>
+      <dt>{% trans "Bug report" %}</dt>
+      <dd>{% trans "What were you trying to do? Share the steps, what happened, and what you expected." %}</dd>
+      <dt>{% trans "General feedback" %}</dt>
+      <dd>{% trans "Tell us what works well or what gets in your way." %}</dd>
+      <dt>{% trans "Improvement idea" %}</dt>
+      <dd>{% trans "Describe the change you’d like and how it would help you or your team." %}</dd>
+    </dl>
+  </aside>
+</div>

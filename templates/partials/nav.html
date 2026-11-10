@@ -38,6 +38,13 @@
         {% endif %}
       {% endfor %}
     </nav>
+    {% url 'ui:feedback' as feedback_url %}
+    {% if user.is_authenticated and feedback_url %}
+      <a href="{{ feedback_url }}" class="nav-link nav-feedback{% if request.path == feedback_url %} is-active{% endif %}" aria-label="{% trans 'Feedback and bugs' %}"{% if request.path == feedback_url %} aria-current="page"{% endif %}>
+        <svg class="nav-icon has-icon" aria-hidden="true" focusable="false"><use href="{% static 'img/navigation-icons.svg' %}?v=feedback#feedback"></use></svg>
+        <span>{% trans "Feedback and bugs" %}</span>
+      </a>
+    {% endif %}
   </div>
   <button type="button" class="nav-collapse" data-expand-label="{% trans 'Expand sidebar' %}" data-collapse-label="{% trans 'Collapse sidebar' %}">
     {% trans "Collapse" %}

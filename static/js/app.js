@@ -19,7 +19,7 @@
   const svgNamespace = "http://www.w3.org/2000/svg";
 
   document.querySelectorAll(".nav-link[href]").forEach(function (link) {
-    const placeholder = link.querySelector(".nav-icon");
+    const placeholder = link.querySelector("span.nav-icon");
     if (!placeholder) return;
     const segments = new URL(link.href).pathname.replace(/\.html$/, "").split(/\/|__/).filter(Boolean);
     const name = link.getAttribute("aria-label") || link.textContent.trim();
@@ -68,7 +68,7 @@
       menu.setAttribute("aria-expanded", "false");
       menu.setAttribute("aria-controls", panel.id);
       header.append(brand, menu);
-      panel.append(...sidebar.querySelectorAll(".nav-workspace, .nav-list"));
+      panel.append(...sidebar.querySelectorAll(".nav-workspace, .nav-list, .nav-feedback"));
       oldBrand.replaceWith(header, panel);
 
       const main = sidebar.closest(".app").querySelector("main");
