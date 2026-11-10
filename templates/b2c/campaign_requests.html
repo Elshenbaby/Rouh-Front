@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-  <header class="page-header row-between">
+  <header class="page-header partner-queue-header row-between">
     <div>
       <p class="eyebrow"><a href="{% url 'ui:desk' 'b2c' %}">{% trans "B2C" %}</a></p>
       <h1>{{ title }}</h1>
@@ -58,10 +58,15 @@
           </tr>
         {% empty %}
           <tr>
-            <td colspan="{% if current_entity %}7{% else %}8{% endif %}">
-              {% trans "No campaign requests yet." %}
-              {% if can_request %}
-                <a href="{% url 'b2c:campaign_request_new' %}">{% trans "Request a campaign" %}</a>
+            <td class="table-empty" colspan="{% if current_entity %}7{% else %}8{% endif %}">
+              {% if status %}
+                <strong>{% trans "No requests with this status" %}</strong>
+                <p>{% trans "Choose another status or view all campaign requests." %}</p>
+              {% else %}
+                <strong>{% trans "No campaign requests yet" %}</strong>
+                {% if can_request %}
+                  <p><a href="{% url 'b2c:campaign_request_new' %}">{% trans "Request a campaign" %}</a></p>
+                {% endif %}
               {% endif %}
             </td>
           </tr>

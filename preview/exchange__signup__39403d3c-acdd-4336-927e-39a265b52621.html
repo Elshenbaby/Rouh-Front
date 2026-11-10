@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "Uvii2r0HzSR2lbaipz7XSFrsYGdTkjbbBo6e61BvvLGwhPMt9ByTbU9XiPYo765e"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -277,10 +278,10 @@
       <main class="page">
         
         
-  <header class="page-header">
+  <header class="page-header record-header">
     <p class="eyebrow">
       
-        <a href="exchange__ogv.html">oGV signups</a>
+        <a data-queue-back="exchange" data-queue-record="39403d3c-acdd-4336-927e-39a265b52621" href="exchange__ogv.html">oGV signups</a>
       
     </p>
     <h1>Hassan Hamdy</h1>
@@ -294,6 +295,11 @@
   </header>
 
   
+  <div class="queue-step" data-queue-step hidden>
+    <p data-queue-position data-position-template="Record __current__ of __total__ in this review"></p>
+    <a class="btn btn-secondary btn-sm" data-queue-next hidden>Open next record</a>
+    <p data-queue-end hidden>You’re at the last record in this set. Return to the queue for more.</p>
+  </div>
 <nav class="tabs" aria-label="Signup sections">
   <a class="tab is-active" href="exchange__signup__39403d3c-acdd-4336-927e-39a265b52621.html">Signup</a>
   
@@ -312,8 +318,8 @@
       <p class="muted">From Alpha / EXPA. Sync owns these cells.</p>
       <dl class="meta">
         <div><dt>EP ID</dt><dd>—</dd></div>
-        <div><dt>Phone</dt><dd>01000000032</dd></div>
-        <div><dt>Email</dt><dd>sample32@example.org</dd></div>
+        <div><dt>Phone</dt><dd><a href="tel:01000000032">01000000032</a></dd></div>
+        <div><dt>Email</dt><dd><a href="mailto:sample32@example.org">sample32@example.org</a></dd></div>
         <div><dt>Person status</dt><dd>Completed</dd></div>
         
           <div><dt>Gender</dt><dd>—</dd></div>
@@ -339,16 +345,29 @@
 
     </section>
     <aside class="card">
-      <h2>MM1 work</h2>
+      <h2>Follow-up</h2>
       <p class="muted">Status saves as soon as you change it. Comments go in the log.</p>
+      <div id="work-meta" class="followup-context">
+        <dl>
+          <div><dt>Current status</dt><dd>Signed up</dd></div>
+          <div><dt>Contact status</dt><dd>—</dd></div>
+          <div><dt>Contact recorded</dt><dd>No date recorded</dd></div>
+          <div><dt>Assigned</dt><dd>—</dd></div>
+        </dl>
+        <p>Review the contact details and record the outcome when you follow up.</p>
+      </div>
       <form
         method="post"
         class="work-form"
         hx-post="/exchange/signup/39403d3c-acdd-4336-927e-39a265b52621/"
-        hx-trigger="change"
+        hx-trigger="change, submit" data-autosave data-preview-autosave
         hx-target="#signup-log"
         hx-swap="outerHTML"
       >
+        <div class="autosave-feedback" data-save-feedback>
+          <p role="status" aria-live="polite" aria-atomic="true" data-save-message></p>
+          <button class="btn btn-secondary btn-sm" type="submit" data-save-retry hidden>Try again</button>
+        </div>
         <input type="hidden" name="csrfmiddlewaretoken" value="Uvii2r0HzSR2lbaipz7XSFrsYGdTkjbbBo6e61BvvLGwhPMt9ByTbU9XiPYo765e">
         <input type="hidden" name="intent" value="status">
         <label class="field">
@@ -463,13 +482,14 @@
 
 </select>
         </label>
-        <p id="work-meta" class="muted">
-          Assigned: —
-          · Contacted: —
-          
-        </p>
+
         
       </form>
+  <div class="queue-step" data-queue-step hidden>
+    <p data-queue-position data-position-template="Record __current__ of __total__ in this review"></p>
+    <a class="btn btn-secondary btn-sm" data-queue-next hidden>Open next record</a>
+    <p data-queue-end hidden>You’re at the last record in this set. Return to the queue for more.</p>
+  </div>
       <form
         method="post"
         class="comment-compose"

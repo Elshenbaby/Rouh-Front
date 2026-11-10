@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-  <header class="page-header">
+  <header class="page-header record-header">
     <p class="eyebrow">
       {% if desk_spec %}
         <a href="{% url 'ui:desk' desk_spec.code %}">{{ desk_spec.label }}</a>

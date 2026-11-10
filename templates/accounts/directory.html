@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-  <header class="page-header row-between">
+  <header class="page-header report-header row-between">
     <div>
       <h1>{% trans "People" %}</h1>
       <p class="lede">{% trans "Find a member by name or email. Open their profile to see their roles and contact details." %}</p>
@@ -12,7 +12,7 @@
     {% endif %}
   </header>
 
-  <form method="get" aria-label="{% trans 'Search the directory' %}" class="filter-bar desk-filters" hx-get="{% url 'people:directory' %}" hx-target="#directory-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
+  <form method="get" aria-label="{% trans 'Search the directory' %}" class="filter-bar desk-filters directory-search" hx-get="{% url 'people:directory' %}" hx-target="#directory-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
     {% if desk %}<input type="hidden" name="desk" value="{{ desk }}">{% endif %}
     <label class="field">
       <span>{% trans "Search" %}</span>
@@ -20,7 +20,10 @@
     </label>
   </form>
 
-  <div id="directory-table">
-    {% include "accounts/partials/directory_table.html" %}
-  </div>
+  <section class="directory-results" aria-labelledby="directory-results-heading">
+    <h2 class="section-title" id="directory-results-heading">{% trans "Directory results" %}</h2>
+    <div id="directory-table">
+      {% include "accounts/partials/directory_table.html" %}
+    </div>
+  </section>
 {% endblock %}

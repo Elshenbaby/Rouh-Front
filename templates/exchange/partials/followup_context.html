@@ -1,0 +1,28 @@
+{% load i18n %}
+<div id="work-meta" class="followup-context"{% if oob %} hx-swap-oob="true"{% endif %}>
+  <dl>
+    <div>
+      <dt>{% trans "Current status" %}</dt>
+      <dd>{{ person.sheet_status|default:"—" }}</dd>
+    </div>
+    <div>
+      <dt>{% trans "Contact status" %}</dt>
+      <dd>{{ person.get_contact_status_display|default:"—" }}</dd>
+    </div>
+    <div>
+      <dt>{% trans "Contact recorded" %}</dt>
+      <dd>{% if person.contacted_at %}<time datetime="{{ person.contacted_at|date:'c' }}">{{ person.contacted_at|date:"j M Y, H:i" }}</time>{% else %}{% trans "No date recorded" %}{% endif %}</dd>
+    </div>
+    <div>
+      <dt>{% trans "Assigned" %}</dt>
+      <dd>{{ person.assigned_at|date:"j M Y, H:i"|default:"—" }}</dd>
+    </div>
+    {% if person.is_icx %}
+      <div>
+        <dt>{% trans "Interviewed" %}</dt>
+        <dd>{{ person.interviewed_at|date:"j M Y, H:i"|default:"—" }}</dd>
+      </div>
+    {% endif %}
+  </dl>
+  <p>{% if person.contacted_at %}{% trans "Review the activity log, then update the status or add a note." %}{% else %}{% trans "Review the contact details and record the outcome when you follow up." %}{% endif %}</p>
+</div>

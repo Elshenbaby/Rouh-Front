@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "AVufnV9SOUUmKeR1oXDZXxirDQPiWal8hOibrvKGKNJQGStc8Z4VgM0WXZANJXfb"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -277,7 +278,7 @@
       <main class="page">
         
         
-  <header class="page-header">
+  <header class="page-header exchange-queue-header">
     <p class="eyebrow">
       
         <a href="desks__igv.html">iGV</a>
@@ -344,16 +345,16 @@
 </div>
 
 
-  <form method="get" class="filter-bar is-wide" hx-get="/exchange/igv/" hx-target="#ogx-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
+  <form method="get" class="filter-bar is-wide desk-filters" hx-get="/exchange/igv/" hx-target="#ogx-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
     <input type="hidden" name="queue" value="all">
     
     
     <label class="field">
-      <span class="sr-only">Search</span>
+      <span>Search</span>
       <input type="search" name="q" value="" placeholder="Name, email or phone">
     </label>
     <label class="field">
-      <span class="sr-only">Status</span>
+      <span>Status</span>
       <select name="status">
         <option value="">All statuses</option>
         
@@ -387,24 +388,27 @@
     </label>
   </form>
 
-  <div id="ogx-table" x-data="{ selected: [] }">
+  <div id="ogx-table" data-queue-context="exchange">
     
 
-<form method="post" action="#" class="assign-form">
+<form method="post" action="#" class="assign-form" data-bulk-form>
   <input type="hidden" name="csrfmiddlewaretoken" value="AVufnV9SOUUmKeR1oXDZXxirDQPiWal8hOibrvKGKNJQGStc8Z4VgM0WXZANJXfb">
   <input type="hidden" name="next" value="/exchange/igv/?queue=all">
   
   
   
 
-  <div class="assign-bar" x-show="selected.length" x-cloak role="region" aria-label="Assign selected rows">
+  <div class="assign-bar bulk-toolbar" hidden data-bulk-toolbar role="region" aria-label="Bulk assignment">
     <input type="hidden" name="queue" value="all">
-    <div class="assign-row">
-      <p class="assign-count"><strong x-text="selected.length"></strong> selected</p>
-      <button type="button" class="assign-clear" @click="selected = []; $root.querySelectorAll('input[type=checkbox]').forEach(el => el.checked = false)">Clear</button>
-
-      <span class="assign-divider" aria-hidden="true"></span>
-
+    <div class="bulk-toolbar-summary">
+      <div>
+        <p class="bulk-toolbar-title">Bulk assignment</p>
+        <p class="bulk-toolbar-count" role="status"><strong data-bulk-count>0</strong> selected on this page</p>
+      </div>
+      <button type="button" class="btn btn-secondary btn-sm" data-bulk-select>Select this page</button>
+      <button type="button" class="btn btn-ghost btn-sm" data-bulk-clear disabled>Clear selection</button>
+    </div>
+    <fieldset class="assign-row bulk-toolbar-actions" data-bulk-actions disabled aria-label="Assignment actions">
       <button type="submit" name="intent" value="me" class="assign-btn">Assign to me</button>
 
       
@@ -414,7 +418,7 @@
       
 
       <button type="submit" name="intent" value="unassign" class="assign-btn is-quiet">Unassign</button>
-    </div>
+    </fieldset>
 
     
       <p class="assign-hint">Take these yourself, or give back the ones you hold.</p>
@@ -428,8 +432,7 @@
         <tr>
           
             <th class="col-check">
-              <label class="sr-only">Select all on this page</label>
-              <input type="checkbox" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=person_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=person_ids]').forEach(el => el.checked = $event.target.checked)">
+              <input type="checkbox" aria-label="Select all on this page" data-bulk-all>
             </th>
           
           <th>EP Manager</th>
@@ -453,7 +456,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="2c938e7a-801b-49a2-946b-be8751b78b97" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="2c938e7a-801b-49a2-946b-be8751b78b97" aria-label="Select row 1" data-bulk-row>
               </td>
             
             <td>
@@ -492,7 +495,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="99c46c82-a16d-4eae-99aa-3e87819abe1c" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="99c46c82-a16d-4eae-99aa-3e87819abe1c" aria-label="Select row 2" data-bulk-row>
               </td>
             
             <td>
@@ -531,7 +534,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="7f77b8ea-8672-4ec2-a4ee-0b4a1ef1134c" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="7f77b8ea-8672-4ec2-a4ee-0b4a1ef1134c" aria-label="Select row 3" data-bulk-row>
               </td>
             
             <td>
@@ -570,7 +573,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="1d380893-8a97-4677-943a-cebe21945ce5" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="1d380893-8a97-4677-943a-cebe21945ce5" aria-label="Select row 4" data-bulk-row>
               </td>
             
             <td>
@@ -609,7 +612,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="ee239a1b-4288-4edc-9ced-351fce59bb3a" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="ee239a1b-4288-4edc-9ced-351fce59bb3a" aria-label="Select row 5" data-bulk-row>
               </td>
             
             <td>
@@ -648,7 +651,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="50fdce49-9d19-4893-93fe-da31e1309e06" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="50fdce49-9d19-4893-93fe-da31e1309e06" aria-label="Select row 6" data-bulk-row>
               </td>
             
             <td>
@@ -687,7 +690,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="3f130132-baab-4cc8-99b5-e6ddce135c37" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="3f130132-baab-4cc8-99b5-e6ddce135c37" aria-label="Select row 7" data-bulk-row>
               </td>
             
             <td>

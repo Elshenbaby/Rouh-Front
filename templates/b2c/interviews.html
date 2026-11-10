@@ -18,8 +18,9 @@
       <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Name, email, phone, campus or campaign' %}">
     </label>
   </form>
-  <div id="b2c-interviews" x-data="{ selected: [] }">
-    <form method="post" action="{% url 'b2c:interviews_assign' %}" class="assign-form">
+  <div id="b2c-interviews" data-queue-context="b2c-interviews">
+    {% if assign.queue == "mine" %}{% include "b2c/partials/handoff_queue.html" %}{% endif %}
+    <form method="post" action="{% url 'b2c:interviews_assign' %}" class="assign-form" data-bulk-form>
       {% csrf_token %}
       <input type="hidden" name="next" value="{{ request.get_full_path }}">
       {% if assign.selected_team %}<input type="hidden" name="team" value="{{ assign.selected_team.pk }}">{% endif %}
@@ -31,11 +32,12 @@
             <tr>
               {% if assign.can_assign %}
                 <th class="col-check">
-                  <input type="checkbox" aria-label="{% trans 'Select all on this page' %}" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=person_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=person_ids]').forEach(el => el.checked = $event.target.checked)">
+                  <input type="checkbox" aria-label="{% trans 'Select all on this page' %}" data-bulk-all>
                 </th>
               {% endif %}
-              <th>{% trans "Assigned" %}</th>
+              <th>{% trans "Owner" %}</th>
               <th>{% trans "EP" %}</th>
+              <th>{% trans "Next action" %}</th>
               <th>{% trans "Product" %}</th>
               <th>{% trans "LC" %}</th>
               <th>{% trans "Campus" %}</th>
@@ -56,7 +58,7 @@
               <tr>
                 {% if assign.can_assign %}
                   <td class="col-check">
-                    <input type="checkbox" name="person_ids" aria-label="{% trans 'Select this row' %}" value="{{ person.pk }}" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                    <input type="checkbox" name="person_ids" aria-label="{% blocktrans with name=person.full_name %}Select {{ name }}{% endblocktrans %}" value="{{ person.pk }}" data-bulk-row>
                   </td>
                 {% endif %}
                 <td>
@@ -66,7 +68,8 @@
                     <span class="owner-empty">{% trans "Unassigned" %}</span>
                   {% endif %}
                 </td>
-                <td><a href="{% url 'b2c:interview' person.pk %}">{{ person.full_name }}</a><div>{% include "exchange/partials/expa_person_link.html" with expa_id=person.expa_id only %}</div></td>
+                <td><a href="{% url 'b2c:interview' person.pk %}" data-queue-record="{{ person.pk }}" data-queue-step-url="{% url 'b2c:interview' person.pk %}">{{ person.full_name }}</a><div>{% include "exchange/partials/expa_person_link.html" with expa_id=person.expa_id only %}</div></td>
+                <td>{% include "b2c/partials/handoff_action.html" with interview=person.b2c_interview only %}</td>
                 <td>{{ person.product.display|default:_("No product") }}</td>
                 <td>{{ person.lc_display_name|default:"—" }}</td>
                 <td>{{ person.campus_name|default:"—" }}</td>
@@ -82,14 +85,24 @@
                 <td><span class="badge badge-{{ person.process_status|default:person.funnel_status }}">{{ person.sheet_status }}</span></td>
               </tr>
             {% empty %}
-              <tr><td colspan="{% if assign.can_assign %}16{% else %}15{% endif %}">{% if q %}{% trans "No interviews match your search. Try a different name or contact detail." %}{% else %}{% trans "No OGX signups in this LC yet." %}{% endif %}</td></tr>
+              <tr><td colspan="{% if assign.can_assign %}17{% else %}16{% endif %}">{% if q %}{% trans "No interviews match your search. Try a different name or contact detail." %}{% else %}{% trans "No signups in this queue." %}{% endif %}</td></tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
     </form>
     {% if page.has_other_pages %}
-      <p class="muted">{% trans "Page" %} {{ page.number }} / {{ page.paginator.num_pages }}</p>
+      {% with queue=assign.queue team=assign.selected_team.pk who=assign.selected_member.pk %}
+        <nav class="pager" aria-label="{% trans 'Interview pages' %}">
+          {% if page.has_previous %}
+            <a href="?queue={{ queue|urlencode }}{% if team %}&amp;team={{ team|urlencode }}{% endif %}{% if who %}&amp;who={{ who|urlencode }}{% endif %}{% if view %}&amp;view={{ view|urlencode }}{% endif %}{% if q %}&amp;q={{ q|urlencode }}{% endif %}&amp;page={{ page.previous_page_number }}">{% trans "Previous" %}</a>
+          {% endif %}
+          <span>{% trans "Page" %} {{ page.number }} / {{ page.paginator.num_pages }}</span>
+          {% if page.has_next %}
+            <a href="?queue={{ queue|urlencode }}{% if team %}&amp;team={{ team|urlencode }}{% endif %}{% if who %}&amp;who={{ who|urlencode }}{% endif %}{% if view %}&amp;view={{ view|urlencode }}{% endif %}{% if q %}&amp;q={{ q|urlencode }}{% endif %}&amp;page={{ page.next_page_number }}">{% trans "Next" %}</a>
+          {% endif %}
+        </nav>
+      {% endwith %}
     {% endif %}
   </div>
 {% endblock %}

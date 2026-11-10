@@ -10,16 +10,17 @@ analysis, awards, settings) are left out.
 
 ## Look at it first: `preview/`
 
-Open **`preview/index.html`** in a browser. It lists every LC page (about 230), rendered with made-up
-sample people and numbers, so you can see each page as a signed-in LCP would. Links between pages work.
+From the project root, run `python3 -m http.server 8000 --bind 127.0.0.1`, then open
+[the preview index](http://127.0.0.1:8000/preview/index.html). The saved pages use sample records.
+The index links to the public landing page, sample sign-in and sign-up, and the LC workspace.
 
 What the preview can't do, because there's no server behind it:
 
-- forms don't submit, and buttons that change data do nothing;
+- forms show preview feedback, and changes are never sent to Rouh;
 - parts that load on their own after the page opens (htmx) stay as they are in the saved page;
-- links to pages that aren't in the preview go to `#not-in-preview`.
+- links to pages that aren't included show a message that they need the full Rouh app.
 
-The preview is for looking. Change the files in `templates/` and `static/`, not the preview pages.
+The preview uses saved HTML. Refresh after changes to `preview/` or `static/`. Changes to Django templates appear in the full app or in refreshed preview HTML.
 
 ## What's where
 

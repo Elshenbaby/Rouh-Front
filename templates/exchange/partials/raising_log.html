@@ -3,7 +3,7 @@
   <h3>{% trans "Log" %}</h3>
   <p class="muted">{% trans "Status changes and comments stay here with date and author. Soluo sync never writes this." %}</p>
   {% if form_error %}
-    <p class="alert alert-danger">{{ form_error }}</p>
+    <p class="alert alert-danger" data-autosave-error>{{ form_error }}</p>
   {% endif %}
   <ul class="comment-list">
     {% for comment in comments %}
@@ -21,11 +21,7 @@
   </ul>
 </div>
 {% if hx_oob %}
-  <p id="work-meta" class="muted" hx-swap-oob="true">
-    {% trans "Assigned" %}: {{ account.assigned_at|date:"Y-m-d H:i"|default:"—" }}
-    · {% trans "Contacted" %}: {{ account.contacted_at|date:"Y-m-d H:i"|default:"—" }}
-    · {% trans "Visit" %}: {{ account.visit_done_at|date:"Y-m-d H:i"|default:"—" }}
-  </p>
+  {% include "components/partner_context.html" with oob=True %}
   <span id="visit-cal-hint" class="muted" hx-swap-oob="true">
     {% if account.visit_date and calendar_url %}
       <a href="{{ calendar_url }}">{% trans "Open on the calendar" %}</a>

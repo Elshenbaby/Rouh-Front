@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-  <header class="page-header">
+  <header class="page-header partner-queue-header">
     <p class="eyebrow"><a href="{% url 'ui:desk' 'b2c' %}">{% trans "B2C" %}</a></p>
     <h1>{{ title }}</h1>
     <p class="lede">{{ lede }}</p>
@@ -35,8 +35,8 @@
       <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Account or phone' %}">
     </label>
   </form>
-  <div x-data="{ selected: [] }">
-    <form method="post" action="{% url 'b2c:accounts_assign' %}" class="assign-form">
+  <div>
+    <form method="post" action="{% url 'b2c:accounts_assign' %}" class="assign-form" data-bulk-form>
       {% csrf_token %}
       <input type="hidden" name="next" value="{{ request.get_full_path }}">
       {% if assign.selected_team %}<input type="hidden" name="team" value="{{ assign.selected_team.pk }}">{% endif %}
@@ -48,7 +48,7 @@
             <tr>
               {% if assign.can_assign %}
                 <th class="col-check">
-                  <input type="checkbox" aria-label="{% trans 'Select all on this page' %}" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=account_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=account_ids]').forEach(el => el.checked = $event.target.checked)">
+                  <input type="checkbox" aria-label="{% trans 'Select all on this page' %}" data-bulk-all>
                 </th>
               {% endif %}
               <th>{% trans "Account Responsible" %}</th>
@@ -67,7 +67,7 @@
               <tr>
                 {% if assign.can_assign %}
                   <td class="col-check">
-                    <input type="checkbox" name="account_ids" aria-label="{% trans 'Select this row' %}" value="{{ account.pk }}" @change="selected = Array.from($root.querySelectorAll('[name=account_ids]:checked')).map(el => el.value)">
+                    <input type="checkbox" name="account_ids" aria-label="{% blocktrans with name=account.account_name %}Select {{ name }}{% endblocktrans %}" value="{{ account.pk }}" data-bulk-row>
                   </td>
                 {% endif %}
                 <td>
@@ -93,7 +93,17 @@
                 <td><span class="badge badge-{{ account.status_badge }}">{{ account.sheet_status }}</span></td>
               </tr>
             {% empty %}
-              <tr><td colspan="{% if assign.can_assign %}10{% else %}9{% endif %}">{% if q %}{% trans "No accounts match your search. Try a different name or contact detail." %}{% else %}{% trans "No Soluo B2C accounts for this LC yet." %}{% endif %}</td></tr>
+              <tr>
+                <td class="table-empty" colspan="{% if assign.can_assign %}10{% else %}9{% endif %}">
+                  {% if q %}
+                    <strong>{% trans "No accounts match your search" %}</strong>
+                    <p>{% trans "Try a different name or contact detail." %}</p>
+                  {% else %}
+                    <strong>{% trans "No accounts in this queue" %}</strong>
+                    <p>{% trans "Switch to another available queue to check for accounts." %}</p>
+                  {% endif %}
+                </td>
+              </tr>
             {% endfor %}
           </tbody>
         </table>

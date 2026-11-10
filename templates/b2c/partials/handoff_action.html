@@ -1,0 +1,12 @@
+{% load i18n %}
+{% if interview.back_to_process == "yes" %}
+  <span class="partner-action" data-action-group="handoff">{% trans "Review return to process" %}</span>
+{% elif interview.contacted_by_b2c == "yes" and interview.contacted_by_ogx == "no" %}
+  <span class="partner-action" data-action-group="handoff">{% trans "Check OGX follow-up" %}</span>
+{% elif interview.contacted_by_b2c == "yes" and not interview.contacted_by_ogx %}
+  <span class="partner-action" data-action-group="handoff">{% trans "Confirm OGX contact status" %}</span>
+{% elif interview.contacted_by_b2c == "yes" %}
+  <span class="partner-action" data-action-group="review">{% trans "Review interview and contact history" %}</span>
+{% else %}
+  <span class="partner-action" data-action-group="contact">{% trans "Check B2C contact" %}</span>
+{% endif %}

@@ -1,0 +1,447 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>Sample recruitment candidate · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="preview.js" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "MV3i8H3slA4BnNOmNDNCUuM3mnGBdfb6tORechEghtT5jrqxxFeydJuyGwr60259"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link is-active">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="MV3i8H3slA4BnNOmNDNCUuM3mnGBdfb6tORechEghtT5jrqxxFeydJuyGwr60259">
+      <input type="hidden" name="next" value="/tm/rcr/summer-27/?mine=1">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="MV3i8H3slA4BnNOmNDNCUuM3mnGBdfb6tORechEghtT5jrqxxFeydJuyGwr60259">
+      <input type="hidden" name="next" value="/tm/rcr/summer-27/?mine=1">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="MV3i8H3slA4BnNOmNDNCUuM3mnGBdfb6tORechEghtT5jrqxxFeydJuyGwr60259">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page"><div data-preview-recruitment-candidate><header class="page-header rcr-header">
+  <p class="eyebrow"><a href="desks__tm.html">Talent</a> · RCR · CU</p>
+  <h1>RCR Summer 27 <span class="rcr-lc">CU</span></h1>
+</header>
+  
+  <p class="rcr-back"><a href="tm__rcr__summer-27__mine-1.html" data-queue-back="recruitment" data-queue-record="sample" data-queue-return-label="Back to My candidates">← Back to the list</a></p>
+
+  <section class="rcr-lead-head">
+    <div>
+      <h2 data-preview-review-name>Sample candidate</h2>
+      <p class="muted">Sample record for the local preview.</p>
+      <p class="rcr-stagebar" aria-label="Where Sample candidate is">
+        <span class="" title="Waiting for first contact">First contact</span><span class="" title="Phone call accepted">Phone screening</span><span class="" title="Interview scheduled">Interview</span>
+      </p>
+      
+    </div>
+    <div class="rcr-lead-actions">
+      
+      <a class="btn btn-primary btn-sm" href="tm__rcr__summer-27__interviews__new.html">Fill the interview form</a>
+    </div>
+  </section>
+
+  
+<div class="queue-step" data-queue-step hidden>
+  <p data-queue-position
+     data-position-template="Record __current__ of __total__ in this review"></p>
+  <a class="btn btn-secondary btn-sm" data-queue-next hidden>Open next record</a>
+  <p data-queue-end hidden>You’re at the last record in this set. Return to the queue for more.</p>
+</div>
+
+  <section class="card" aria-labelledby="candidate-context">
+    <h2 id="candidate-context">Candidate context</h2>
+    <dl class="meta">
+      <div><dt>Recruiter</dt><dd>Sample recruiter</dd></div>
+      <div><dt>Current stage</dt><dd data-preview-review-action>Sample stage</dd></div>
+      <div><dt>Outcome</dt><dd>In process</dd></div>
+      
+    </dl>
+    <div class="btn-row">
+      <a href="#candidate-phone">Phone screening</a>
+      <a href="#candidate-interview">Interview and booking</a>
+      <a href="#candidate-gd">Group discussion</a>
+      <a href="#candidate-history">History</a>
+    </div>
+  </section>
+
+  <div class="rcr-two">
+    <section class="ops-panel">
+      <header class="ops-panel-head"><h2 id="candidate-phone">Phone call</h2><p>The phone-call interview phase. The status moves on its own as you fill this in.</p></header>
+      <form method="post" class="rcr-form">
+        <input type="hidden" name="csrfmiddlewaretoken" value="preview">
+        <input type="hidden" name="next" value="">
+        <div class="rcr-form-grid">
+          <label class="field"><span>Status</span>
+            <select id="l-stage" name="stage"><option value="lead">Waiting for first contact</option><option value="pc_accepted">Phone call accepted</option><option value="f2f_scheduled">Interview scheduled</option></select>
+          </label>
+          <label class="field"><span>In process?</span>
+            <select id="l-outcome" name="outcome"><option value="active" selected>In process</option><option value="out">Out of process</option></select>
+          </label>
+          <label class="field"><span>Responsible recruiter</span>
+            <select id="l-recruiter" name="recruiter"><option value="">—</option></select>
+          </label>
+          <label class="field"><span>Phone call interview</span>
+            <select id="l-phone" name="phone_status"><option value="">Not called</option><option value="contacted">Contacted</option><option value="no_response_1">No response</option></select>
+          </label>
+          <label class="field"><span>English level</span>
+            <select id="l-english" name="english_level"><option value="">—</option><option>B1</option><option>B2</option><option>C1</option></select>
+          </label>
+          <label class="field"><span>Phone call result</span>
+            <select id="l-result" name="phone_result"><option value="">—</option><option value="passed">Passed</option><option value="rejected">Rejected</option></select>
+          </label>
+          <label class="field is-wide"><span>Reason of rejection</span><input id="l-reason" name="rejection_reason" value=""></label>
+          <label class="field-check is-wide"><input type="checkbox" name="location_sent"> <span>Location of the interview sent</span></label>
+          <label class="field is-wide"><span>Notes (calls, messages, what they said)</span><textarea id="l-notes" name="notes" rows="4"></textarea></label>
+        </div>
+        <button class="btn btn-primary btn-sm" type="submit">Save</button>
+      </form>
+    </section>
+
+    <section class="ops-panel">
+      <header class="ops-panel-head"><h2>About them</h2></header>
+      <dl class="rcr-facts">
+        <div><dt>Phone</dt><dd>—</dd></div>
+        <div><dt>Email</dt><dd>—</dd></div>
+        <div><dt>University</dt><dd>—</dd></div>
+        <div><dt>Faculty</dt><dd>—</dd></div>
+        <div><dt>Graduation</dt><dd>—</dd></div>
+        <div><dt>Born</dt><dd>—</dd></div>
+        <div><dt>Gender</dt><dd>—</dd></div>
+        <div><dt>City</dt><dd>—</dd></div>
+        <div><dt>Heard of us</dt><dd>— <small class="muted">(Other)</small></dd></div>
+        <div><dt>Why AIESEC</dt><dd>—</dd></div>
+        
+        
+        
+      </dl>
+    </section>
+  </div>
+
+  <div class="rcr-two">
+    <section class="ops-panel">
+      <header class="ops-panel-head"><h2 id="candidate-interview">F2F interview</h2></header>
+      
+      
+      
+        <p class="muted">No free interview slots. Add them in <a href="#not-in-preview">Interview scheduling</a>.</p>
+      
+    </section>
+
+    <section class="ops-panel">
+      <header class="ops-panel-head"><h2 id="candidate-gd">Group discussion</h2></header>
+      
+        <p class="muted">Not in a group discussion yet.</p>
+      
+      
+    </section>
+  </div>
+
+  <section class="ops-panel">
+    <header class="ops-panel-head"><h2 id="candidate-history">History</h2></header>
+    <ul class="rcr-history">
+      
+        <li class="muted">Nothing yet.</li>
+      
+    </ul>
+  </section>
+</div></main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+  <script src="../static/js/rcr-board.js?v=5" defer></script>
+
+</body>
+</html>

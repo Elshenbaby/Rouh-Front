@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "P7b3I7CXdPuEvB1z7WXlUDBcuwXjEtCnw0ZZMHdL9Ij8rfDKRYohdSjHOFIOrgwq"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -336,7 +337,7 @@
   </ol>
 </nav>
 <div class="rcr-subnav">
-  <nav class="rcr-phase-tabs" aria-label="This phase">
+  <nav class="rcr-phase-tabs" aria-label="This phase"><a href="tm__rcr__summer-27__mine-1.html">My candidates</a>
     <a class="" href="tm__rcr__summer-27__new-leads.html">New leads</a><a class="" href="tm__rcr__summer-27__old-leads.html">Old leads</a><a class="" href="tm__rcr__summer-27__rxps.html">RXPs</a><a class="is-active" href="tm__rcr__summer-27__all-leads.html">All leads</a><a class="" href="tm__rcr__summer-27__pipeline.html">RCR board</a>
   </nav>
   <nav class="rcr-tools" aria-label="Tools">
@@ -351,12 +352,13 @@
     <div><span>Not contacted</span><strong>0</strong></div>
     <div><span>No recruiter</span><strong>0</strong></div>
     <div><span>Contacted</span><strong>0</strong></div>
-    <div><span>PC accepted</span><strong>0</strong></div>
-    <div><span>F2F done</span><strong>0</strong></div>
+    <div><span>Passed phone screening</span><strong>0</strong></div>
+    <div><span>Interview completed</span><strong>0</strong></div>
     <div><span>Recruited</span><strong>0</strong></div>
   </section>
 
-  <section class="ops-panel rcr-leads-panel">
+  <section class="ops-panel rcr-leads-panel" x-data="recruitmentAssignment"
+           @change="if ($event.target.name === 'lead') syncSelection()">
     <header class="ops-panel-head rcr-head-row">
       <div>
         <h2>All leads</h2>
@@ -371,93 +373,101 @@
     <form method="get" class="rcr-filters" aria-label="Filter leads">
       <label class="field"><span>Search</span><input id="lead-q" type="search" name="q" value="" placeholder="Name, phone, email, EXPA ID"></label>
       <label class="field"><span>Status</span>
-        <select id="lead-stage" name="stage" onchange="this.form.submit()">
+        <select id="lead-stage" name="stage" onchange="this.form.requestSubmit()">
           <option value="">Any status</option>
           <option value="lead">Waiting for first contact</option><option value="contacted">Contacted</option><option value="pc_done">Phone call interview done</option><option value="pc_accepted">Phone call accepted</option><option value="f2f_scheduled">F2F interview scheduled</option><option value="f2f_done">F2F interview done</option><option value="f2f_accepted">F2F accepted</option><option value="gd_attended">Attended the GD</option><option value="gd_accepted">GD accepted</option><option value="paid">Paid for the conference</option><option value="attended">Attended the conference</option>
         </select>
       </label>
       <label class="field"><span>In process?</span>
-        <select id="lead-outcome" name="outcome" onchange="this.form.submit()">
+        <select id="lead-outcome" name="outcome" onchange="this.form.requestSubmit()">
           <option value="">All</option>
           <option value="active">In process</option><option value="rejected">Rejected</option><option value="out">Out of process</option><option value="postponed">Postponed</option>
         </select>
       </label>
       <label class="field"><span>Recruiter</span>
-        <select id="lead-recruiter" name="recruiter" onchange="this.form.submit()">
+        <select id="lead-recruiter" name="recruiter" onchange="this.form.requestSubmit()">
           <option value="">Anyone</option>
           <option value="none">No recruiter</option>
           <optgroup label="Members"><option value="b266592c-e6ab-48b0-a842-89a8cfa2ce47">Adam Nabil</option><option value="7768b1f7-106f-4159-9848-1cc6c5eb6c0e" selected>Hana Fathy</option><option value="97f540de-ae65-4ba3-a68f-508c68423eac">Karim Magdy</option><option value="1524b683-623f-47ad-a205-306dfa4868b0">LCP CU</option><option value="8ffbae43-3935-411b-8cb4-1d3e1216351a">LCVP TM CU</option><option value="279f0095-8759-42bc-9698-e2bb691b4792">LCVP oGV CU</option><option value="2fcf9e78-1d81-465d-9982-0e76445e74c7">Laila Sherif</option><option value="8851aec2-0eb1-489c-b718-236f54054e16">Mariam Ezzat</option><option value="0e08ff71-fe1a-4095-a16c-12a3a5862435">Nour Adel</option><option value="802daf3c-76d3-41fc-a843-88cba8db0e54">Omar Wagdy</option><option value="9e231132-570e-4436-ad42-f4b87b603b39">Salma Hamdy</option><option value="c902ce7f-05c4-43a5-b6dc-cb46f4d4cad8">Sara CU</option><option value="6e16a3e6-2247-4f57-a0ee-2c577787bda1">Youssef Samir</option><option value="91298dc5-c466-444a-97a6-7dfbc73f0ae5">Ziad Galal</option></optgroup>
         </select>
       </label>
-      <label class="field"><span>Phone call</span>
-        <select id="lead-phone" name="phone" onchange="this.form.submit()">
-          <option value="">Any</option>
-          <option value="none">Not called</option>
-          <option value="no_response_1">No response 1</option><option value="no_response_2">No response 2</option><option value="no_response_3">No response 3</option><option value="wrong_number">Wrong number</option><option value="contacted">Contacted, no interview yet</option><option value="interview_done">Interview done</option><option value="postponed">Postponed</option><option value="out">Out of process</option>
-        </select>
-      </label>
-      <label class="field"><span>Channel</span>
-        <select id="lead-channel" name="channel" onchange="this.form.submit()">
-          <option value="">Any</option>
-          <option value="offline">Offline</option><option value="instagram">Instagram</option><option value="facebook">Facebook</option><option value="linkedin">LinkedIn</option><option value="tiktok">TikTok</option><option value="emails">Emails</option><option value="media">Magazine &amp; media</option><option value="friend">Friend</option><option value="other">Other</option>
-        </select>
-      </label>
-      
-      <label class="field"><span>Order</span>
-        <select id="lead-sort" name="sort" onchange="this.form.submit()">
-          <option value="">Newest first</option>
-          <option value="old">Oldest first</option>
-          <option value="name">By name</option>
-          <option value="stage">Furthest first</option>
-        </select>
-      </label>
-      <label class="field"><span>Per page</span>
-        <select id="lead-per" name="per" onchange="this.form.submit()"><option value="50" selected>50</option><option value="100">100</option><option value="200">200</option></select>
-      </label>
-      <label class="field-check rcr-stuck-check"><input type="checkbox" name="stuck" value="1" onchange="this.form.submit()"> <span>Only stuck</span></label>
-      <div class="filter-actions"><button class="btn btn-primary btn-sm" type="submit">Filter</button><a class="btn btn-ghost btn-sm" href="#not-in-preview">Clear</a></div>
+      <details class="rcr-extra-filters">
+        <summary>More filters and display options</summary>
+        <div class="rcr-extra-fields">
+          <label class="field"><span>Phone call</span>
+            <select id="lead-phone" name="phone" onchange="this.form.requestSubmit()">
+              <option value="">Any</option>
+              <option value="none">Not called</option>
+              <option value="no_response_1">No response 1</option><option value="no_response_2">No response 2</option><option value="no_response_3">No response 3</option><option value="wrong_number">Wrong number</option><option value="contacted">Contacted, no interview yet</option><option value="interview_done">Interview done</option><option value="postponed">Postponed</option><option value="out">Out of process</option>
+            </select>
+          </label>
+          <label class="field"><span>Channel</span>
+            <select id="lead-channel" name="channel" onchange="this.form.requestSubmit()">
+              <option value="">Any</option>
+              <option value="offline">Offline</option><option value="instagram">Instagram</option><option value="facebook">Facebook</option><option value="linkedin">LinkedIn</option><option value="tiktok">TikTok</option><option value="emails">Emails</option><option value="media">Magazine &amp; media</option><option value="friend">Friend</option><option value="other">Other</option>
+            </select>
+          </label>
+
+          <label class="field"><span>Order</span>
+            <select id="lead-sort" name="sort" onchange="this.form.requestSubmit()">
+              <option value="">Newest first</option>
+              <option value="old">Oldest first</option>
+              <option value="name">By name</option>
+              <option value="stage">Furthest first</option>
+            </select>
+          </label>
+          <label class="field"><span>Per page</span>
+            <select id="lead-per" name="per" onchange="this.form.requestSubmit()"><option value="50" selected>50</option><option value="100">100</option><option value="200">200</option></select>
+          </label>
+          <label class="field-check rcr-stuck-check"><input type="checkbox" name="stuck" value="1" onchange="this.form.requestSubmit()"> <span>Only stuck</span></label>
+        </div>
+      </details>
+      <div class="filter-actions"><button class="btn btn-primary btn-sm" type="submit">Apply filters</button><a class="btn btn-ghost btn-sm" href="#not-in-preview">Clear</a></div>
     </form>
 
-    <form method="post" id="rcr-bulk" action="#" class="rcr-handout" x-data="{ n: 0, all: false }"
-          @change.window="n = document.querySelectorAll('input[name=lead][form=rcr-bulk]:checked').length"
-          @submit="if (all && !confirm('Hand out all 0 leads matching these filters?')) $event.preventDefault()">
+    <form method="post" id="rcr-bulk" action="#" class="rcr-handout bulk-toolbar"
+          x-ref="form" @submit="guardSubmit($event)" data-confirm-matching="Assign all leads matching these filters?">
       <input type="hidden" name="csrfmiddlewaretoken" value="P7b3I7CXdPuEvB1z7WXlUDBcuwXjEtCnw0ZZMHdL9Ij8rfDKRYohdSjHOFIOrgwq">
       <input type="hidden" name="next" value="/tm/rcr/summer-27/all-leads/?recruiter=7768b1f7-106f-4159-9848-1cc6c5eb6c0e">
       <input type="hidden" name="kind" value="all">
       <input type="hidden" name="filters" value="recruiter=7768b1f7-106f-4159-9848-1cc6c5eb6c0e">
       <input type="hidden" name="scope" :value="all ? 'matching' : 'ticked'" value="ticked">
-      <h3 class="rcr-handout-title">Hand out leads</h3>
-      <div class="rcr-handout-pick">
-        <p x-show="!all"><b x-text="n">0</b> ticked on this page.
-          <button class="btn-link" type="button" @click="document.querySelectorAll('input[name=lead][form=rcr-bulk]').forEach(b => b.checked = true); n = document.querySelectorAll('input[name=lead][form=rcr-bulk]:checked').length">Tick this page</button>
-          · <button class="btn-link" type="button" @click="document.querySelectorAll('input[name=lead][form=rcr-bulk]').forEach(b => b.checked = false); n = 0">Untick</button>
+      <div class="bulk-toolbar-summary">
+        <div>
+          <h3 class="bulk-toolbar-title">Bulk assignment</h3>
+          <p class="bulk-toolbar-count" role="status" aria-atomic="true">
+            <span x-show="!all"><strong x-text="selected">0</strong> selected on this page</span>
+            <span x-show="all" x-cloak><strong>5</strong> selected across all matching pages</span>
           </p>
-        <p x-show="all" x-cloak class="rcr-handout-all"><b>All 0 leads matching these filters are picked</b>, on every page. <button class="btn-link" type="button" @click="all = false">Only the ticked ones</button></p>
+        </div>
+        <button class="btn btn-secondary btn-sm" type="button" @click="selectPage(true)" :disabled="!available || pageSelected || all">Select this page</button>
+        <button class="btn btn-ghost btn-sm" type="button" @click="selectPage(false)" :disabled="!selected && !all">Clear selection</button>
       </div>
-      <div class="rcr-handout-actions">
+
+<fieldset class="rcr-handout-actions" :disabled="!selected && !all" aria-label="Assignment actions">
         <div class="rcr-handout-act">
-          <label class="field"><span>Give them all to</span>
-            <select id="bulk-recruiter" name="recruiter">
-              <option value="">Pick someone…</option>
+          <label class="field"><span>Recruiter</span>
+            <select id="bulk-recruiter" name="recruiter" x-model="recruiter">
+              <option value="">Choose a recruiter…</option>
               <optgroup label="Members"><option value="b266592c-e6ab-48b0-a842-89a8cfa2ce47">Adam Nabil</option><option value="7768b1f7-106f-4159-9848-1cc6c5eb6c0e">Hana Fathy</option><option value="97f540de-ae65-4ba3-a68f-508c68423eac">Karim Magdy</option><option value="1524b683-623f-47ad-a205-306dfa4868b0">LCP CU</option><option value="8ffbae43-3935-411b-8cb4-1d3e1216351a">LCVP TM CU</option><option value="279f0095-8759-42bc-9698-e2bb691b4792">LCVP oGV CU</option><option value="2fcf9e78-1d81-465d-9982-0e76445e74c7">Laila Sherif</option><option value="8851aec2-0eb1-489c-b718-236f54054e16">Mariam Ezzat</option><option value="0e08ff71-fe1a-4095-a16c-12a3a5862435">Nour Adel</option><option value="802daf3c-76d3-41fc-a843-88cba8db0e54">Omar Wagdy</option><option value="9e231132-570e-4436-ad42-f4b87b603b39">Salma Hamdy</option><option value="c902ce7f-05c4-43a5-b6dc-cb46f4d4cad8">Sara CU</option><option value="6e16a3e6-2247-4f57-a0ee-2c577787bda1">Youssef Samir</option><option value="91298dc5-c466-444a-97a6-7dfbc73f0ae5">Ziad Galal</option></optgroup>
             </select>
           </label>
-          <button class="btn btn-primary btn-sm" type="submit" name="action" value="give">Give</button>
+          <button class="btn btn-primary btn-sm" type="submit" name="action" value="give" :disabled="!recruiter">Assign leads</button>
         </div>
         <details class="rcr-handout-share">
-          <summary class="btn btn-secondary btn-sm">Share evenly between…</summary>
+          <summary class="btn btn-secondary btn-sm">Distribute leads</summary>
           <div class="rcr-share-box">
-            <p class="muted">They're shared in turn, oldest signup first. Nobody ticked: the whole RcR team.</p>
+            <p class="muted">Leads are distributed in turn, starting with the oldest signup. Leave every recruiter unchecked to include the entire recruitment team.</p>
             
               <fieldset><legend>Members</legend>
                 <label><input type="checkbox" name="share_to" value="b266592c-e6ab-48b0-a842-89a8cfa2ce47"> Adam Nabil</label><label><input type="checkbox" name="share_to" value="7768b1f7-106f-4159-9848-1cc6c5eb6c0e"> Hana Fathy</label><label><input type="checkbox" name="share_to" value="97f540de-ae65-4ba3-a68f-508c68423eac"> Karim Magdy</label><label><input type="checkbox" name="share_to" value="1524b683-623f-47ad-a205-306dfa4868b0"> LCP CU</label><label><input type="checkbox" name="share_to" value="8ffbae43-3935-411b-8cb4-1d3e1216351a"> LCVP TM CU</label><label><input type="checkbox" name="share_to" value="279f0095-8759-42bc-9698-e2bb691b4792"> LCVP oGV CU</label><label><input type="checkbox" name="share_to" value="2fcf9e78-1d81-465d-9982-0e76445e74c7"> Laila Sherif</label><label><input type="checkbox" name="share_to" value="8851aec2-0eb1-489c-b718-236f54054e16"> Mariam Ezzat</label><label><input type="checkbox" name="share_to" value="0e08ff71-fe1a-4095-a16c-12a3a5862435"> Nour Adel</label><label><input type="checkbox" name="share_to" value="802daf3c-76d3-41fc-a843-88cba8db0e54"> Omar Wagdy</label><label><input type="checkbox" name="share_to" value="9e231132-570e-4436-ad42-f4b87b603b39"> Salma Hamdy</label><label><input type="checkbox" name="share_to" value="c902ce7f-05c4-43a5-b6dc-cb46f4d4cad8"> Sara CU</label><label><input type="checkbox" name="share_to" value="6e16a3e6-2247-4f57-a0ee-2c577787bda1"> Youssef Samir</label><label><input type="checkbox" name="share_to" value="91298dc5-c466-444a-97a6-7dfbc73f0ae5"> Ziad Galal</label>
               </fieldset>
             
-            <button class="btn btn-primary btn-sm" type="submit" name="action" value="share">Share them</button>
+            <button class="btn btn-primary btn-sm" type="submit" name="action" value="share">Distribute selected leads</button>
           </div>
         </details>
-        <button class="btn btn-ghost btn-sm" type="submit" name="action" value="unassign">Take the recruiter off</button>
-      </div>
+        <button class="btn btn-ghost btn-sm" type="submit" name="action" value="unassign">Unassign leads</button>
+      </fieldset>
     </form>
 
     
@@ -471,7 +481,7 @@
     <div class="table-wrap">
       <table class="table rcr-table">
         <thead>
-          <tr><th class="rcr-check"><input type="checkbox" aria-label="Tick this page" onchange="document.querySelectorAll('input[name=lead][form=rcr-bulk]').forEach(b => { b.checked = this.checked; b.dispatchEvent(new Event('change', { bubbles: true })) })"></th><th>Lead</th><th>Contact</th><th>Source</th><th>Status</th><th>Recruiter</th><th>Phone call · English · result · location sent</th></tr>
+          <tr><th class="rcr-check"><input type="checkbox" aria-label="Select all on this page" x-ref="selectAll" :disabled="!available || all" @change="selectPage($event.target.checked)"></th><th>Lead</th><th>Contact</th><th>Source</th><th>Status</th><th>Recruiter</th><th>Phone call · English · result · location sent</th></tr>
         </thead>
         <tbody>
           

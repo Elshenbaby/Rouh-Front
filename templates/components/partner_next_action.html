@@ -1,0 +1,26 @@
+{% load i18n %}
+{% now "Y-m-d" as today %}
+{% with visit_day=account.visit_date|date:"Y-m-d" %}
+  {% if account.process_status == "out_of_process" %}
+    <strong class="partner-action" data-action-group="closed">{% trans "Out of process" %}</strong>
+  {% elif account.visit_scheduled == "yes" and account.visit_done != "yes" %}
+    {% if not visit_day %}
+      <strong class="partner-action" data-action-group="followup">{% trans "Set a visit date" %}</strong>
+    {% elif visit_day < today %}
+      <strong class="partner-action" data-action-group="followup">{% trans "Confirm visit outcome" %}</strong>
+    {% else %}
+      <strong class="partner-action" data-action-group="visits">{% trans "Prepare for visit" %}</strong>
+    {% endif %}
+  {% elif account.slot_raised == "yes" %}
+    <strong class="partner-action" data-action-group="closed">{% trans "Slot raised" %}</strong>
+  {% elif account.visit_done == "yes" %}
+    <strong class="partner-action" data-action-group="followup">{% trans "Review visit outcome" %}</strong>
+  {% elif account.contacted_at or account.contact_status == "contacted" or account.contact_status == "yes" %}
+    <strong class="partner-action" data-action-group="followup">{% trans "Review follow-up" %}</strong>
+  {% else %}
+    <strong class="partner-action" data-action-group="contact">{% trans "Check first contact" %}</strong>
+  {% endif %}
+  {% if visit_day %}
+    <time class="queue-contact-date" datetime="{{ visit_day }}">{% trans "Visit" %} · {{ account.visit_date|date:"j M Y" }}</time>
+  {% endif %}
+{% endwith %}

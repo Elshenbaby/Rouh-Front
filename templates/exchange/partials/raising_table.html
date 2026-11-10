@@ -1,5 +1,6 @@
 {% load i18n %}
-<form method="post" action="{% url 'raising:assign' desk %}" class="assign-form">
+{% include "components/partner_queue_actions.html" %}
+<form method="post" action="{% url 'raising:assign' desk %}" class="assign-form" data-bulk-form>
   {% csrf_token %}
   <input type="hidden" name="next" value="{{ request.get_full_path }}">
   {% if assign.selected_team %}<input type="hidden" name="team" value="{{ assign.selected_team.pk }}">{% endif %}
@@ -11,15 +12,15 @@
         <tr>
           {% if assign.can_assign %}
             <th class="col-check">
-              <input type="checkbox" aria-label="{% trans 'Select all on this page' %}" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=account_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=account_ids]').forEach(el => el.checked = $event.target.checked)">
+              <input type="checkbox" aria-label="{% trans 'Select all on this page' %}" data-bulk-all>
             </th>
           {% endif %}
-          <th>{% trans "Account Responsible" %}</th>
+          <th>{% trans "Owner" %}</th>
           <th>{% trans "Account" %}</th>
+          <th>{% trans "Next action" %}</th>
           <th>{% trans "Product" %}</th>
           <th>{% trans "Phone" %}</th>
           <th>{% trans "Contact" %}</th>
-          <th>{% trans "Visit" %}</th>
           <th>{% trans "Slot raised" %}</th>
           <th>{% trans "Opens" %}</th>
           <th>{% trans "Comment" %}</th>
@@ -31,7 +32,7 @@
           <tr>
             {% if assign.can_assign %}
               <td class="col-check">
-                <input type="checkbox" name="account_ids" aria-label="{% trans 'Select this row' %}" value="{{ account.pk }}" @change="selected = Array.from($root.querySelectorAll('[name=account_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="account_ids" aria-label="{% blocktrans with name=account.account_name %}Select {{ name }}{% endblocktrans %}" value="{{ account.pk }}" data-bulk-row>
               </td>
             {% endif %}
             <td>
@@ -42,33 +43,31 @@
               {% endif %}
             </td>
             <td>
-              <a href="{% url 'raising:detail' desk account.pk %}">{{ account.account_name }}</a>
+              <a data-queue-step-url="{% url 'raising:detail' desk account.pk %}" data-queue-record="{{ account.pk }}" href="{% url 'raising:detail' desk account.pk %}">{{ account.account_name }}</a>
             </td>
+            <td>{% include "components/partner_next_action.html" %}</td>
             <td>{{ account.product_label }}</td>
             <td>{{ account.phone|default:"—" }}</td>
             <td>{{ account.get_contact_status_display|default:"—" }}</td>
-            <td>
-              {% if account.visit_done == "yes" %}
-                {% trans "Done" %}{% if account.visit_date %} · {{ account.visit_date|date:"Y-m-d" }}{% endif %}
-              {% elif account.visit_scheduled == "yes" %}
-                {% trans "Scheduled" %}{% if account.visit_date %} · {{ account.visit_date|date:"Y-m-d" }}{% endif %}
-              {% else %}
-                —
-              {% endif %}
-            </td>
             <td>{{ account.get_slot_raised_display|default:"—" }}</td>
             <td>{{ account.opens_count|default:0 }}</td>
             <td class="note-cell">{{ account.latest_comment_body|default:"—" }}</td>
             <td>
-              <a class="status-link" href="{% url 'raising:detail' desk account.pk %}">
+              <a class="status-link" data-queue-record="{{ account.pk }}" href="{% url 'raising:detail' desk account.pk %}">
                 <span class="badge badge-{{ account.status_badge }}">{{ account.sheet_status }}</span>
               </a>
             </td>
           </tr>
         {% empty %}
           <tr>
-            <td colspan="{% if assign.can_assign %}11{% else %}10{% endif %}">
-              {% if q or status %}{% trans "No partner accounts match these filters. Try a different search or status." %}{% else %}{% trans "No Soluo deals for this LC and product yet." %}{% endif %}
+            <td class="table-empty" colspan="{% if assign.can_assign %}11{% else %}10{% endif %}">
+              {% if q or status %}
+                <strong>{% trans "No partner accounts match these filters" %}</strong>
+                <p>{% trans "Try a different search or choose another status." %}</p>
+              {% else %}
+                <strong>{% trans "No partner accounts in this queue" %}</strong>
+                <p>{% trans "Switch to another available queue to check for accounts." %}</p>
+              {% endif %}
               {% if last_sync %}
                 <span class="muted">
                   {% if last_sync.error %}
@@ -88,11 +87,11 @@
 {% if page.has_other_pages %}
   <nav class="pager">
     {% if page.has_previous %}
-      <a href="?{{ queue_query }}&page={{ page.previous_page_number }}" hx-get="?{{ queue_query }}&page={{ page.previous_page_number }}" hx-target="#raising-table">{% trans "Previous" %}</a>
+      <a href="?{{ queue_query }}&page={{ page.previous_page_number }}" hx-get="?{{ queue_query }}&page={{ page.previous_page_number }}" hx-target="#raising-table" hx-push-url="true">{% trans "Previous" %}</a>
     {% endif %}
     <span>{% blocktrans with n=page.number total=page.paginator.num_pages %}Page {{ n }} of {{ total }}{% endblocktrans %}</span>
     {% if page.has_next %}
-      <a href="?{{ queue_query }}&page={{ page.next_page_number }}" hx-get="?{{ queue_query }}&page={{ page.next_page_number }}" hx-target="#raising-table">{% trans "Next" %}</a>
+      <a href="?{{ queue_query }}&page={{ page.next_page_number }}" hx-get="?{{ queue_query }}&page={{ page.next_page_number }}" hx-target="#raising-table" hx-push-url="true">{% trans "Next" %}</a>
     {% endif %}
   </nav>
 {% endif %}

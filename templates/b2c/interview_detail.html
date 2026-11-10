@@ -2,9 +2,9 @@
 {% load i18n %}
 
 {% block content %}
-  <header class="page-header">
+  <header class="page-header record-header">
     <p class="eyebrow">
-      <a href="{% url 'b2c:interviews' %}">{% trans "Customer interviews" %}</a>
+      <a href="{% url 'b2c:interviews' %}" data-queue-back="b2c-interviews" data-queue-record="{{ person.pk }}" data-queue-return-label="{% trans 'Back to customer interviews' %}">{% trans "Customer interviews" %}</a>
     </p>
     <h1>{{ person.full_name }}</h1>
     <p class="lede">
@@ -15,6 +15,23 @@
     </p>
   </header>
   {% include "b2c/partials/tabs.html" %}
+  {% include "exchange/partials/queue_step.html" %}
+  {% with interview=person.b2c_interview %}
+  <section class="card" aria-labelledby="handoff-context">
+    <h2 id="handoff-context">{% trans "Handoff context" %}</h2>
+    <dl class="meta">
+      <div><dt>{% trans "B2C owner" %}</dt><dd>{{ interview.assigned_to.full_name|default:_("Unassigned") }}</dd></div>
+      <div><dt>{% trans "Next action" %}</dt><dd>{% include "b2c/partials/handoff_action.html" %}</dd></div>
+      <div><dt>{% trans "B2C contact" %}</dt><dd>{{ interview.get_contacted_by_b2c_display|default:_("Not recorded") }}</dd></div>
+      <div><dt>{% trans "OGX contact" %}</dt><dd>{{ interview.get_contacted_by_ogx_display|default:_("Not recorded") }}</dd></div>
+      <div><dt>{% trans "Back to process" %}</dt><dd>{{ interview.get_back_to_process_display|default:_("Not recorded") }}</dd></div>
+      {% if interview.created_at %}
+        <div><dt>{% trans "Interview record created" %}</dt><dd><time datetime="{{ interview.created_at|date:'c' }}">{{ interview.created_at|date:"j M Y, H:i" }}</time></dd></div>
+      {% endif %}
+    </dl>
+    <p><a href="#new-interview">{% trans "Record an interview" %}</a></p>
+  </section>
+  {% endwith %}
   <div class="detail-grid">
     <section class="card">
       <h2>{% trans "EP" %}</h2>
@@ -62,7 +79,7 @@
       {% endfor %}
     </section>
     <section class="card">
-      <h2>{% trans "New interview" %}</h2>
+      <h2 id="new-interview">{% trans "New interview" %}</h2>
       <p class="muted">{% trans "Save stores a new interview on this signup. Every signup can have more than one." %}</p>
       <form method="post" class="work-form">
         {% csrf_token %}

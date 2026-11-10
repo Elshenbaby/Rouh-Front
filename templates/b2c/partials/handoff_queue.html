@@ -1,0 +1,27 @@
+{% load i18n %}
+<section class="partner-queue-actions" data-partner-queue-actions hidden aria-labelledby="handoff-heading">
+  <div class="partner-queue-heading">
+    <h2 id="handoff-heading">{% trans "My handoffs" %}</h2>
+    <p>{% trans "Review signups assigned to you on this page, using the recorded B2C and OGX contact status." %}</p>
+  </div>
+  <div class="partner-action-grid">
+    <div class="partner-action-tile">
+      <h3>{% trans "B2C contact" %}</h3>
+      <p>{% trans "Check signups without confirmed B2C contact." %}</p>
+      <span class="partner-action-count" data-partner-count="contact" data-count-template="{% trans 'On this page: __count__' %}"></span>
+      <a class="btn btn-secondary btn-sm" data-partner-start="contact" hidden>{% trans "Review B2C contact" %}</a>
+    </div>
+    <div class="partner-action-tile">
+      <h3>{% trans "OGX handoff" %}</h3>
+      <p>{% trans "Check outstanding OGX contact or a return to process." %}</p>
+      <span class="partner-action-count" data-partner-count="handoff" data-count-template="{% trans 'On this page: __count__' %}"></span>
+      <a class="btn btn-secondary btn-sm" data-partner-start="handoff" hidden>{% trans "Review OGX handoffs" %}</a>
+    </div>
+    <div class="partner-action-tile">
+      <h3>{% trans "Interview history" %}</h3>
+      <p>{% trans "Review the interview and contact history after B2C contact." %}</p>
+      <span class="partner-action-count" data-partner-count="review" data-count-template="{% trans 'On this page: __count__' %}"></span>
+      <a class="btn btn-secondary btn-sm" data-partner-start="review" hidden>{% trans "Review interviews" %}</a>
+    </div>
+  </div>
+</section>

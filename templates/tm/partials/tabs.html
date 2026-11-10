@@ -1,15 +1,15 @@
 {% load i18n %}
 {% if show_tm_nav != False %}
 <nav class="tabs tm-tabs" aria-label="{% trans 'Talent' %}">
-  <a class="tab{% if tm_tab == 'overview' %} is-active{% endif %}" href="{% url 'tm:overview' %}">{% trans "Overview" %}</a>
-  <a class="tab{% if tm_tab == 'structure' %} is-active{% endif %}" href="{% url 'tm:structure' %}">{% trans "Structure" %}</a>
-  <a class="tab{% if tm_tab == 'performance' %} is-active{% endif %}" href="{% url 'tm:performance' %}">{% trans "Performance" %}</a>
-  <a class="tab{% if tm_tab == 'planning' %} is-active{% endif %}" href="{% url 'tm:planning' %}">{% trans "Planning" %}</a>
-  <a class="tab{% if tm_tab == 'attendance' %} is-active{% endif %}" href="{% url 'tm:attendance' %}">{% trans "Attendance" %}</a>
-  <a class="tab{% if tm_tab == 'hr' %} is-active{% endif %}" href="{% url 'tm:hr' %}">{% trans "HR Status" %}</a>
-  {% if rcr_tab %}<a class="tab{% if tm_tab == 'rcr' %} is-active{% endif %}" href="{% url 'rcr:index' %}">{% trans "RCR" %}</a>{% endif %}
-  {% if nes_tab %}<a class="tab{% if tm_tab == 'nes' %} is-active{% endif %}" href="{% url 'nes:lc' %}">{% trans "NES" %}</a>{% endif %}
-  <a class="tab{% if tm_tab == 'settings' %} is-active{% endif %}" href="{% url 'tm:settings' %}">{% trans "Settings" %}</a>
+  <a class="tab{% if tm_tab == 'overview' %} is-active{% endif %}"{% if tm_tab == 'overview' %} aria-current="page"{% endif %} href="{% url 'tm:overview' %}">{% trans "Overview" %}</a>
+  <a class="tab{% if tm_tab == 'structure' %} is-active{% endif %}"{% if tm_tab == 'structure' %} aria-current="page"{% endif %} href="{% url 'tm:structure' %}">{% trans "Structure" %}</a>
+  <a class="tab{% if tm_tab == 'performance' %} is-active{% endif %}"{% if tm_tab == 'performance' %} aria-current="page"{% endif %} href="{% url 'tm:performance' %}">{% trans "Performance" %}</a>
+  <a class="tab{% if tm_tab == 'planning' %} is-active{% endif %}"{% if tm_tab == 'planning' %} aria-current="page"{% endif %} href="{% url 'tm:planning' %}">{% trans "Planning" %}</a>
+  <a class="tab{% if tm_tab == 'attendance' %} is-active{% endif %}"{% if tm_tab == 'attendance' %} aria-current="page"{% endif %} href="{% url 'tm:attendance' %}">{% trans "Attendance" %}</a>
+  <a class="tab{% if tm_tab == 'hr' %} is-active{% endif %}"{% if tm_tab == 'hr' %} aria-current="page"{% endif %} href="{% url 'tm:hr' %}">{% trans "HR Status" %}</a>
+  {% if rcr_tab %}<a class="tab{% if tm_tab == 'rcr' %} is-active{% endif %}"{% if tm_tab == 'rcr' %} aria-current="page"{% endif %} href="{% url 'rcr:index' %}">{% trans "Recruitment" %}</a>{% endif %}
+  {% if nes_tab %}<a class="tab{% if tm_tab == 'nes' %} is-active{% endif %}"{% if tm_tab == 'nes' %} aria-current="page"{% endif %} href="{% url 'nes:lc' %}">{% trans "NES" %}</a>{% endif %}
+  <a class="tab{% if tm_tab == 'settings' %} is-active{% endif %}"{% if tm_tab == 'settings' %} aria-current="page"{% endif %} href="{% url 'tm:settings' %}">{% trans "Settings" %}</a>
 </nav>
 {% if tm_tab == 'structure' %}
 <nav class="queue-tabs" aria-label="{% trans 'Structure views' %}">

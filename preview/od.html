@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "K0oRw0jK6iaxpKnjBnXfDO35SF9qEHGUrTcNAAUy2bZ1loZulpobW3LAcOUVruAX"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -280,7 +281,7 @@
   <script id="od-charts" type="application/json">{"cluster_mix": {"labels": ["Pharaoh", "Warrior", "Builder", "Seed", "Launchpad"], "values": [0, 0, 0, 1, 0], "colors": ["#0b3d2e", "#1a3a6b", "#6b4a12", "#004f32", "#5a2d0c"]}, "odi_bars": {"labels": ["CU"], "odi": [47.27], "opi": [36.0], "ohi": [68.2], "colors": ["#004f32"]}, "radar": {"labels": ["Absolute numbers", "Operation maturity", "Growth", "Membership", "Market \u0026 brand"], "values": [35.0, 33.3, 51.4, 82.6, 20.0]}, "scatter": [{"x": 36.0, "y": 68.2, "label": "CU", "color": "#004f32"}]}</script>
 
   <div class="od-shell">
-  <header class="page-header">
+  <header class="page-header report-header">
     <p class="eyebrow">LCP · OD Model</p>
     
       <h1>Your OD status</h1>
@@ -304,9 +305,15 @@
   
 
 <nav class="od-nav" aria-label="OD sections">
-  <a href="od.html" class="is-on">Status</a>
-  <a href="od__clusters.html" class="">Clusters</a>
+  <a href="od.html" class="is-on" aria-current="page">Scoreboard</a>
+  <a href="od__clusters.html" class="">Cluster guide</a>
   
+</nav>
+<nav class="report-jumps" aria-label="On this page">
+  <span>On this page</span>
+  <a href="#od-charts-section">Charts</a>
+  <a href="#od-drivers-section">Score drivers</a>
+  <a href="#od-playbook-section">Playbook</a>
 </nav>
 
 
@@ -364,7 +371,8 @@
     <p class="od-note" role="status">Some finance metrics are still pending (MOCR, BVA, fines). Sustainability coverage and profitability are live when imported.</p>
     
 
-    <section class="od-viz od-section" aria-label="Visuals">
+    <section class="od-viz od-section report-target" id="od-charts-section" aria-labelledby="od-charts-heading">
+      <h2 class="report-viz-heading" id="od-charts-heading">Charts</h2>
       <article class="od-viz-card">
         <h3>Cluster mix</h3>
         <p class="muted">National distribution</p>
@@ -377,9 +385,9 @@
       </article>
     </section>
 
-    <section class="od-section">
+    <section class="od-section report-target" id="od-drivers-section">
       <div class="od-section-head">
-        <h2>Drivers</h2>
+        <h2>Score drivers</h2>
         <p>ODI = 65% OPI + 35% OHI</p>
       </div>
       
@@ -936,7 +944,7 @@
     </section>
 
     
-<section class="od-play od-section">
+<section class="od-play od-section report-target" id="od-playbook-section">
   <div class="od-play-head">
     <h2>🌱 Seed playbook</h2>
     <p>

@@ -1,0 +1,9 @@
+{% load i18n %}
+<div class="autosave-feedback" data-save-feedback
+     data-saving="{% trans 'Saving changes…' %}"
+     data-saved="{% trans 'Changes saved.' %}"
+     data-received="{% trans 'Update sent. Check the activity log for the result.' %}"
+     data-failed="{% trans 'Could not save. Check the change and try again.' %}">
+  <p role="status" aria-live="polite" aria-atomic="true" data-save-message></p>
+  <button class="btn btn-secondary btn-sm" type="submit" data-save-retry hidden>{% trans "Try again" %}</button>
+</div>

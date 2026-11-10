@@ -2,11 +2,11 @@
 {% load i18n %}
 
 {% block content %}
-  <header class="page-header">
+  <header class="page-header record-header">
     <p class="eyebrow">
       {% if desk_spec %}
         <a href="{% url 'ui:desk' desk_spec.code %}">{{ desk_spec.label }}</a>
-        · <a href="{% url 'raising:desk' desk_spec.code %}">{% trans "Raising" %}</a>
+        · <a data-queue-back="raising" data-queue-record="{{ account.pk }}" data-queue-return-label="{% trans 'Back to queue' %}" href="{% url 'raising:desk' desk_spec.code %}">{% trans "Raising" %}</a>
       {% else %}
         <a href="{% url 'raising:home' %}">{% trans "Raising" %}</a>
       {% endif %}
@@ -19,6 +19,8 @@
     </p>
   </header>
 
+  {% include "exchange/partials/queue_step.html" %}
+
   <div class="detail-grid">
     <section class="card">
       <h2>{% trans "Account" %}</h2>
@@ -29,15 +31,19 @@
     <aside class="card">
       <h2>{% trans "Raising work" %}</h2>
       <p class="muted">{% trans "Status saves as soon as you change it. Comments go in the log." %}</p>
+      {% include "components/partner_context.html" with oob=False %}
       <form
         method="post"
         class="work-form"
         hx-post="{% url 'raising:detail' desk account.pk %}"
-        hx-trigger="change"
+        hx-trigger="change, submit"
+        hx-sync="this:queue last"
+        data-autosave
         hx-target="#raising-log"
         hx-select="#raising-log"
         hx-swap="outerHTML"
       >
+        {% include "components/autosave_feedback.html" %}
         {% csrf_token %}
         <input type="hidden" name="intent" value="status">
         <label class="field">
@@ -89,15 +95,12 @@
           <span>{% trans "Reason" %}</span>
           {{ form.out_of_process_reason }}
         </label>
-        <p id="work-meta" class="muted">
-          {% trans "Assigned" %}: {{ account.assigned_at|date:"Y-m-d H:i"|default:"—" }}
-          · {% trans "Contacted" %}: {{ account.contacted_at|date:"Y-m-d H:i"|default:"—" }}
-          · {% trans "Visit" %}: {{ account.visit_done_at|date:"Y-m-d H:i"|default:"—" }}
-        </p>
+
         {% if form.errors %}
-          <p class="alert alert-danger">{{ form.errors }}</p>
+          <p class="alert alert-danger" data-autosave-error>{{ form.errors }}</p>
         {% endif %}
       </form>
+      {% include "exchange/partials/queue_step.html" %}
       <form
         method="post"
         class="comment-compose"

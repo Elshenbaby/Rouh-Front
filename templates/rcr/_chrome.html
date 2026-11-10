@@ -14,7 +14,7 @@
 {% endif %}
 {% if entity %}
 <nav class="rcr-journey" aria-label="The recruitment journey">
-  <a class="rcr-today-btn{% if section == 'today' %} is-active{% endif %}" href="{% url 'rcr:today' cycle.slug %}"{% if section == 'today' %} aria-current="page"{% endif %}><b>{% trans "Today" %}</b><small>{% trans "Work that needs attention" %}</small></a>
+  <a class="rcr-today-btn{% if section == 'today' and not mine %} is-active{% endif %}" href="{% url 'rcr:today' cycle.slug %}"{% if section == 'today' and not mine %} aria-current="page"{% endif %}><b>{% trans "Today" %}</b><small>{% trans "Work that needs attention" %}</small></a>
   <ol class="rcr-phases">
     {% for item in journey_bar %}
       <li class="rcr-phase{% if phase_code == item.phase.code %} is-active{% endif %}">
@@ -27,11 +27,12 @@
   </ol>
 </nav>
 <div class="rcr-subnav">
-  <nav class="rcr-phase-tabs" aria-label="This phase">
-    {% for code, label, url_name in phase_tabs %}<a class="{% if section == code %}is-active{% endif %}" href="{% url url_name cycle.slug %}">{{ label }}{% if code == "new" or code == "old" or code == "rxp" %}{% with n=kind_counts|get_item:code %}{% if n %} <small class="rcr-count">{{ n|count }}</small>{% endif %}{% endwith %}{% endif %}</a>{% endfor %}
+  <nav class="rcr-phase-tabs" aria-label="Recruitment phase pages">
+    <a href="{% url 'rcr:today' cycle.slug %}?mine=1"{% if section == 'today' and mine %} class="is-active" aria-current="page"{% endif %}>{% trans "My candidates" %}</a>
+    {% for code, label, url_name in phase_tabs %}<a class="{% if section == code %}is-active{% endif %}" href="{% url url_name cycle.slug %}"{% if section == code %} aria-current="page"{% endif %}>{{ label }}{% if code == "new" or code == "old" or code == "rxp" %}{% with n=kind_counts|get_item:code %}{% if n %} <small class="rcr-count">{{ n|count }}</small>{% endif %}{% endwith %}{% endif %}</a>{% endfor %}
   </nav>
-  <nav class="rcr-tools" aria-label="Tools">
-    {% for code, label, url_name in tools %}<a class="{% if section == code %}is-active{% endif %}" href="{% url url_name cycle.slug %}">{{ label }}</a>{% endfor %}
+  <nav class="rcr-tools" aria-label="Recruitment tools">
+    {% for code, label, url_name in tools %}<a class="{% if section == code %}is-active{% endif %}" href="{% url url_name cycle.slug %}"{% if section == code %} aria-current="page"{% endif %}>{{ label }}</a>{% endfor %}
   </nav>
 </div>
 {% endif %}

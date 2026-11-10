@@ -1,0 +1,12 @@
+{% load i18n %}
+<div id="work-meta" class="followup-context"{% if oob %} hx-swap-oob="true"{% endif %}>
+  <dl>
+    <div><dt>{% trans "Owner" %}</dt><dd>{{ account.assigned_to.full_name|default:_("Unassigned") }}</dd></div>
+    <div><dt>{% trans "Next action" %}</dt><dd>{% include "components/partner_next_action.html" %}</dd></div>
+    <div><dt>{% trans "Contact status" %}</dt><dd>{{ account.get_contact_status_display|default:"—" }}</dd></div>
+    <div><dt>{% trans "Contact recorded" %}</dt><dd>{{ account.contacted_at|date:"j M Y, H:i"|default:_("No date recorded") }}</dd></div>
+    {% if account.visit_done_at %}
+      <div><dt>{% trans "Visit completed" %}</dt><dd>{{ account.visit_done_at|date:"j M Y, H:i" }}</dd></div>
+    {% endif %}
+  </dl>
+</div>

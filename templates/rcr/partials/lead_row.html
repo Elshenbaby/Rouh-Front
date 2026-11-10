@@ -1,6 +1,6 @@
 {% load mc_format rcr_tags %}
 <tr id="lead-{{ lead.pk }}" class="rcr-lead is-{{ lead.outcome }}">
-  <td class="rcr-check"><input type="checkbox" name="lead" value="{{ lead.pk }}" form="rcr-bulk" aria-label="Select {{ lead.full_name }}"></td>
+  <td class="rcr-check"><input type="checkbox" name="lead" value="{{ lead.pk }}" form="rcr-bulk" :disabled="all" aria-label="Select {{ lead.full_name }}"></td>
   <td class="rcr-who">
     <a class="rcr-name" href="{% url 'rcr:lead' cycle.slug lead.pk %}">{{ lead.full_name }}</a>
     <small>{{ lead.display_id }}{% if lead.signed_up_at %} · {{ lead.signed_up_at|date:"j M Y" }}{% endif %}</small>

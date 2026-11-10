@@ -27,11 +27,45 @@
       <div><span>{% trans "Absent" %}</span><strong>{{ stats.absent }}</strong></div>
     </div>
   {% endif %}
-  <form method="post" class="tm-mark">
+  <form method="post" class="tm-mark" data-protect-draft x-data="attendanceSelection">
     {% csrf_token %}
+    {% if rows %}
+      <section class="attendance-bulk bulk-toolbar" x-cloak aria-label="{% trans 'Bulk attendance' %}">
+        <div class="bulk-toolbar-summary">
+          <div>
+            <h2 class="bulk-toolbar-title">{% trans "Bulk attendance" %}</h2>
+            <p class="bulk-toolbar-count" role="status"><strong x-text="selected.length">0</strong> {% trans "selected on this page" %}</p>
+          </div>
+          <label class="attendance-select-all">
+            <input type="checkbox" :checked="selected.length === attendanceRows().length"
+                   x-effect="$el.indeterminate = selected.length > 0 && selected.length < attendanceRows().length"
+                   @change="selectPage($event.target.checked)">
+            {% trans "Select this page" %}
+          </label>
+          <button type="button" class="btn btn-ghost btn-sm" @click="selectPage(false)" :disabled="!selected.length">{% trans "Clear selection" %}</button>
+        </div>
+        <div class="attendance-bulk-actions">
+          <label class="field">
+            <span>{% trans "Attendance status" %}</span>
+            <select x-model="state" @change="applied = false" :disabled="!selected.length">
+              <option value="">{% trans "Choose a status…" %}</option>
+              {% for value, label in states %}
+                <option value="{{ value }}">{{ label }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <button type="button" class="btn btn-secondary btn-sm" @click="applyState()" :disabled="!selected.length || !state">{% trans "Apply to selection" %}</button>
+          <p class="bulk-toolbar-count" x-show="applied" role="status">{% trans "Marks updated in this form. Select Save attendance to record them." %}</p>
+        </div>
+      </section>
+    {% endif %}
     {% for row in rows %}
-      <article class="tm-mark-row card">
-        <h2>{{ row.member.full_name }}</h2>
+      <article class="tm-mark-row card" data-attendance-row="{{ row.pk }}">
+        <div class="attendance-member">
+          <input type="checkbox" x-cloak x-model="selected" @change="applied = false" value="{{ row.pk }}"
+                 aria-label="{% blocktrans with name=row.member.full_name %}Select {{ name }}{% endblocktrans %}">
+          <h2>{{ row.member.full_name }}</h2>
+        </div>
         <fieldset class="tm-mark-states">
           <legend class="sr-only">{% trans "Attendance" %}</legend>
           {% for value, label in states %}

@@ -7,13 +7,14 @@
   {% include "partials/favicon.html" %}
   <title>{% if title %}{{ title }} · {% endif %}{% trans "Rouh" %}</title>
   {% include "partials/fonts.html" with arabic=True only %}
-  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="{% static 'js/app.js' %}" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
 </head>
-<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' data-scroll-table-label="{% trans 'Scrollable table' %}"
+      data-scroll-table-hint="{% trans 'Scroll sideways to see more columns.' %}">
   {% include "partials/skip_link.html" %}
   <div class="app" x-data>
     {% include "partials/nav.html" %}

@@ -5,7 +5,7 @@
   {{ od.charts|json_script:"od-charts" }}
 
   <div class="od-shell">
-  <header class="page-header">
+  <header class="page-header report-header">
     <p class="eyebrow"><a href="{% url 'od:dashboard' %}">{% trans "LCP · OD Model" %}</a></p>
     <h1>{{ od.focus.feed.entity_name }}</h1>
     <p class="od-meta">
@@ -27,6 +27,7 @@
   {% include "od/partials/chrome.html" with od=od active="detail" show_drivers=True %}
 
   {% if od.focus %}
+    {% include "od/partials/report_jumps.html" with national_report=False %}
     {% include "od/partials/status_hero.html" with card=od.focus mine=False %}
     {% include "od/partials/kpi_strip.html" with feed=od.focus.feed %}
 
@@ -34,7 +35,8 @@
     <p class="od-note" role="status">{% trans "Some finance metrics are still pending (MOCR, BVA, fines). Sustainability coverage and profitability are live when imported." %}</p>
     {% endif %}
 
-    <section class="od-viz od-section" aria-label="{% trans 'Visuals' %}">
+    <section class="od-viz od-section report-target" id="od-charts-section" aria-labelledby="od-charts-heading">
+      <h2 class="report-viz-heading" id="od-charts-heading">{% trans "Charts" %}</h2>
       <article class="od-viz-card">
         <h3>{% trans "Cluster context" %}</h3>
         <p class="muted">{% trans "Where this LC sits nationally" %}</p>
@@ -47,15 +49,17 @@
       </article>
     </section>
 
-    <section class="od-section">
+    <section class="od-section report-target" id="od-drivers-section">
       <div class="od-section-head">
-        <h2>{% trans "Drivers" %}</h2>
+        <h2>{% trans "Score drivers" %}</h2>
         <p>{% blocktrans with opi=od.opi_weight ohi=od.ohi_weight %}ODI = {{ opi }}% OPI + {{ ohi }}% OHI{% endblocktrans %}</p>
       </div>
       {% include "od/partials/pillars.html" with card=od.focus %}
     </section>
 
-    {% include "od/partials/playbook.html" with card=od.focus %}
+    <div class="report-target" id="od-playbook-section">
+      {% include "od/partials/playbook.html" with card=od.focus %}
+    </div>
   {% endif %}
   </div>
 {% endblock %}

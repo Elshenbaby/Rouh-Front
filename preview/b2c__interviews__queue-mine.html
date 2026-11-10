@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "miNDt8M87efAh1vfAQsZremrzWPZ4L5P3bBzxInW3744dF7qkSTVKt4WT5AuRyZS"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -297,7 +298,7 @@
       <a class="queue-tab" href="b2c__interviews__queue-all.html">Overall</a>
     
     
-    <a class="queue-tab is-active" href="b2c__interviews__queue-mine.html">My work</a>
+    <a class="queue-tab is-active" href="b2c__interviews__queue-mine.html" aria-current="page">My handoffs</a>
     <a class="queue-tab" href="b2c__interviews.html">Unassigned</a>
     
       <a class="queue-tab" href="b2c__teams.html">Teams</a>
@@ -317,32 +318,64 @@
   
 
 
-  <form method="get" class="filter-bar is-wide" hx-get="/b2c/interviews/" hx-target="#b2c-interviews" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
+  <form method="get" class="filter-bar is-wide desk-filters" hx-get="/b2c/interviews/" hx-target="#b2c-interviews" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
     <input type="hidden" name="queue" value="mine">
     
     
     
     <label class="field">
-      <span class="sr-only">Search</span>
+      <span>Search</span>
       <input type="search" name="q" value="" placeholder="Name, email, phone, campus or campaign">
     </label>
   </form>
-  <div id="b2c-interviews" x-data="{ selected: [] }">
-    <form method="post" action="#" class="assign-form">
+  <div id="b2c-interviews" data-queue-context="b2c-interviews">
+<p class="muted">Sample assignments for the local preview.</p>
+
+<section class="partner-queue-actions" data-partner-queue-actions hidden aria-labelledby="handoff-heading">
+  <div class="partner-queue-heading">
+    <h2 id="handoff-heading">My handoffs</h2>
+    <p>Review signups assigned to you on this page, using the recorded B2C and OGX contact status.</p>
+  </div>
+  <div class="partner-action-grid">
+    <div class="partner-action-tile">
+      <h3>B2C contact</h3>
+      <p>Check signups without confirmed B2C contact.</p>
+      <span class="partner-action-count" data-partner-count="contact" data-count-template="On this page: __count__"></span>
+      <a class="btn btn-secondary btn-sm" data-partner-start="contact" hidden>Review B2C contact</a>
+    </div>
+    <div class="partner-action-tile">
+      <h3>OGX handoff</h3>
+      <p>Check outstanding OGX contact or a return to process.</p>
+      <span class="partner-action-count" data-partner-count="handoff" data-count-template="On this page: __count__"></span>
+      <a class="btn btn-secondary btn-sm" data-partner-start="handoff" hidden>Review OGX handoffs</a>
+    </div>
+    <div class="partner-action-tile">
+      <h3>Interview history</h3>
+      <p>Review the interview and contact history after B2C contact.</p>
+      <span class="partner-action-count" data-partner-count="review" data-count-template="On this page: __count__"></span>
+      <a class="btn btn-secondary btn-sm" data-partner-start="review" hidden>Review interviews</a>
+    </div>
+  </div>
+</section>
+
+    <form method="post" action="#" class="assign-form" data-bulk-form>
       <input type="hidden" name="csrfmiddlewaretoken" value="miNDt8M87efAh1vfAQsZremrzWPZ4L5P3bBzxInW3744dF7qkSTVKt4WT5AuRyZS">
       <input type="hidden" name="next" value="/b2c/interviews/?queue=mine">
       
     
       
 
-  <div class="assign-bar" x-show="selected.length" x-cloak role="region" aria-label="Assign selected rows">
+  <div class="assign-bar bulk-toolbar" hidden data-bulk-toolbar role="region" aria-label="Bulk assignment">
     <input type="hidden" name="queue" value="mine">
-    <div class="assign-row">
-      <p class="assign-count"><strong x-text="selected.length"></strong> selected</p>
-      <button type="button" class="assign-clear" @click="selected = []; $root.querySelectorAll('input[type=checkbox]').forEach(el => el.checked = false)">Clear</button>
-
-      <span class="assign-divider" aria-hidden="true"></span>
-
+    <div class="bulk-toolbar-summary">
+      <div>
+        <p class="bulk-toolbar-title">Bulk assignment</p>
+        <p class="bulk-toolbar-count" role="status"><strong data-bulk-count>0</strong> selected on this page</p>
+      </div>
+      <button type="button" class="btn btn-secondary btn-sm" data-bulk-select>Select this page</button>
+      <button type="button" class="btn btn-ghost btn-sm" data-bulk-clear disabled>Clear selection</button>
+    </div>
+    <fieldset class="assign-row bulk-toolbar-actions" data-bulk-actions disabled aria-label="Assignment actions">
       <button type="submit" name="intent" value="me" class="assign-btn">Assign to me</button>
 
       
@@ -352,7 +385,7 @@
       
 
       <button type="submit" name="intent" value="unassign" class="assign-btn is-quiet">Unassign</button>
-    </div>
+    </fieldset>
 
     
       <p class="assign-hint">Take these yourself, or give back the ones you hold.</p>
@@ -366,12 +399,11 @@
             <tr>
               
                 <th class="col-check">
-                  <label class="sr-only">Select all on this page</label>
-                  <input type="checkbox" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=person_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=person_ids]').forEach(el => el.checked = $event.target.checked)">
+                  <input type="checkbox" aria-label="Select all on this page" data-bulk-all>
                 </th>
               
-              <th>Assigned</th>
-              <th>EP</th>
+              <th>Owner</th>
+              <th>EP</th><th>Next action</th>
               <th>Product</th>
               <th>LC</th>
               <th>Campus</th>
@@ -389,7 +421,46 @@
           </thead>
           <tbody>
             
-              <tr><td colspan="16">No OGX signups in this LC yet.</td></tr>
+              <tr>
+      <td class="col-check"><input type="checkbox" name="person_ids" aria-label="Select Sample signup 1" value="1" data-bulk-row></td>
+      <td>Sample B2C member</td><td><a href="b2c-handoff.html?signup=1" data-queue-record="1" data-queue-step-url="b2c-handoff.html?signup=1">Sample signup 1</a></td><td>
+
+  <span class="partner-action" data-action-group="contact">Check B2C contact</span>
+
+</td>
+      <td>oGV</td><td>CU</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+      <td>Not recorded</td><td>Not recorded</td><td>Not recorded</td><td>Signed up</td>
+    </tr>
+<tr>
+      <td class="col-check"><input type="checkbox" name="person_ids" aria-label="Select Sample signup 2" value="2" data-bulk-row></td>
+      <td>Sample B2C member</td><td><a href="b2c-handoff.html?signup=2" data-queue-record="2" data-queue-step-url="b2c-handoff.html?signup=2">Sample signup 2</a></td><td>
+
+  <span class="partner-action" data-action-group="handoff">Check OGX follow-up</span>
+
+</td>
+      <td>oGV</td><td>CU</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+      <td>Yes</td><td>No</td><td>Not recorded</td><td>Signed up</td>
+    </tr>
+<tr>
+      <td class="col-check"><input type="checkbox" name="person_ids" aria-label="Select Sample signup 3" value="3" data-bulk-row></td>
+      <td>Sample B2C member</td><td><a href="b2c-handoff.html?signup=3" data-queue-record="3" data-queue-step-url="b2c-handoff.html?signup=3">Sample signup 3</a></td><td>
+
+  <span class="partner-action" data-action-group="handoff">Review return to process</span>
+
+</td>
+      <td>oGV</td><td>CU</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+      <td>Yes</td><td>Yes</td><td>Yes</td><td>Signed up</td>
+    </tr>
+<tr>
+      <td class="col-check"><input type="checkbox" name="person_ids" aria-label="Select Sample signup 4" value="4" data-bulk-row></td>
+      <td>Sample B2C member</td><td><a href="b2c-handoff.html?signup=4" data-queue-record="4" data-queue-step-url="b2c-handoff.html?signup=4">Sample signup 4</a></td><td>
+
+  <span class="partner-action" data-action-group="review">Review interview and contact history</span>
+
+</td>
+      <td>oGV</td><td>CU</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+      <td>Yes</td><td>Yes</td><td>No</td><td>Signed up</td>
+    </tr>
             
           </tbody>
         </table>

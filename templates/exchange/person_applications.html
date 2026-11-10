@@ -2,10 +2,10 @@
 {% load i18n %}
 
 {% block content %}
-  <header class="page-header">
+  <header class="page-header record-header">
     <p class="eyebrow">
       {% if desk_spec %}
-        <a href="{% url 'exchange:desk_signups' desk_spec.code %}">{{ desk_spec.label }} {% if desk_spec.is_icx %}{% trans "applications" %}{% else %}{% trans "signups" %}{% endif %}</a>
+        <a data-queue-back="exchange" data-queue-record="{{ person.pk }}" data-queue-return-label="{% trans 'Back to queue' %}" href="{% url 'exchange:desk_signups' desk_spec.code %}">{{ desk_spec.label }} {% if desk_spec.is_icx %}{% trans "applications" %}{% else %}{% trans "signups" %}{% endif %}</a>
       {% else %}
         <a href="{% url 'exchange:ogx_list' %}">{% trans "OGX signups" %}</a>
       {% endif %}
@@ -22,6 +22,7 @@
     </p>
   </header>
 
+  {% include "exchange/partials/queue_step.html" %}
   {% include "exchange/partials/person_tabs.html" %}
 
   <section class="card">

@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "mexZ13ztw0Pwd2nsLwQ09IJwQu7Su8wU37lV5DahsTE09GZDvyhWsXr1aDSnhVqX"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -279,7 +280,7 @@
         
   
 
-<header class="page-header">
+<header class="page-header report-header">
   <p class="eyebrow">
     
       <a href="b2c.html">B2C analysis</a>
@@ -316,11 +317,11 @@
 </nav>
 
 
-<form method="get" class="filter-bar">
+<form method="get" class="filter-bar desk-filters">
   
   <label class="field">
     <span>Month</span>
-    <select name="month" onchange="this.form.submit()">
+    <select name="month" onchange="this.form.requestSubmit()">
       <option value="">Cycle to date</option>
       
         <option value="2026-08">Aug 2026 (6)</option>
@@ -451,7 +452,7 @@
       <form method="get" class="filter-bar">
         <label class="field">
           <span>Campaign</span>
-          <select name="campaign" onchange="this.form.submit()">
+          <select name="campaign" onchange="this.form.requestSubmit()">
             <option value="">All campaigns (top 5 each)</option>
             
               <option value="Campus booth week">Campus booth week</option>

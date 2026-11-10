@@ -3,67 +3,71 @@
 
 {% block content %}
 <div class="od-shell">
-  <header class="page-header">
+  <header class="page-header report-header">
     <p class="eyebrow">{% trans "Finance · Products Sustainability" %}</p>
     <h1>{% if is_mc %}{% trans "National finance" %}{% else %}{% blocktrans with lc=entity.short_name %}{{ lc }} finance{% endblocktrans %}{% endif %}</h1>
-    <p class="od-meta">
+    <p class="lede">{% trans "Choose a reporting year and month to review product revenue, costs, coverage and approved experiences." %}</p>
+    <p class="report-period">
       {% if finance_term %}<span>{{ finance_term.code }} · {{ finance_term.label }}</span>{% endif %}
       {% if is_mc %}<span>{% trans "All LCs" %}</span>{% elif entity %}<span>{{ entity.short_name }}</span>{% endif %}
       {% if focus_month %}<span>{{ focus_month|date:"M Y" }}</span>{% elif show_all_months %}<span>{% trans "Aug–Jul" %}</span>{% endif %}
     </p>
-    <p class="lede">{% trans "Choose a reporting year and month to review product revenue, costs, coverage and approved experiences." %}</p>
   </header>
 
   {% if tool_options or lc_options %}
-  <form method="get" class="filter-bar is-wide" aria-label="{% trans 'Sustainability filters' %}">
-    {% if lc_options %}
-    <label class="field">
-      <span>{% trans "LC" %}</span>
-      <select name="lc" onchange="this.form.submit()">
-        {% for opt in lc_options %}
-        <option value="{{ opt.id }}"{% if opt.selected %} selected{% endif %}>{{ opt.label }}</option>
-        {% endfor %}
-      </select>
-    </label>
-    {% endif %}
-    {% if tool_options %}
-    <label class="field">
-      <span>{% trans "Reporting year" %}</span>
-      <select name="tool" onchange="this.form.submit()">
-        {% for opt in tool_options %}
-        <option value="{{ opt.code }}"{% if opt.selected %} selected{% endif %}>
-          {{ opt.code }} · {{ opt.label }}{% if not opt.has_data %} — {% trans "no data" %}{% endif %}
-        </option>
-        {% endfor %}
-      </select>
-    </label>
-    {% endif %}
-    {% if month_options %}
-    <label class="field">
-      <span>{% trans "Month" %}</span>
-      <select name="month" onchange="this.form.submit()">
-        <option value="all"{% if not focus_month %} selected{% endif %}>{% trans "All months (Aug–Jul)" %}</option>
-        {% for m in month_options %}
-        <option value="{{ m.value }}"{% if m.selected %} selected{% endif %}>{{ m.label }}</option>
-        {% endfor %}
-      </select>
-    </label>
-    {% endif %}
-  </form>
+  <section class="report-controls" aria-labelledby="report-scope-heading">
+    <h2 id="report-scope-heading">{% trans "Report scope" %}</h2>
+    <form method="get" class="filter-bar is-wide" aria-labelledby="report-scope-heading">
+      {% if lc_options %}
+      <label class="field">
+        <span>{% trans "LC" %}</span>
+        <select name="lc">
+          {% for opt in lc_options %}
+          <option value="{{ opt.id }}"{% if opt.selected %} selected{% endif %}>{{ opt.label }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      {% endif %}
+      {% if tool_options %}
+      <label class="field">
+        <span>{% trans "Reporting year" %}</span>
+        <select name="tool" onchange="this.form.requestSubmit()">
+          {% for opt in tool_options %}
+          <option value="{{ opt.code }}"{% if opt.selected %} selected{% endif %}>
+            {{ opt.code }} · {{ opt.label }}{% if not opt.has_data %} — {% trans "no data" %}{% endif %}
+          </option>
+          {% endfor %}
+        </select>
+      </label>
+      {% endif %}
+      {% if month_options %}
+      <label class="field">
+        <span>{% trans "Month" %}</span>
+        <select name="month">
+          <option value="all"{% if not focus_month %} selected{% endif %}>{% trans "All months (Aug–Jul)" %}</option>
+          {% for m in month_options %}
+          <option value="{{ m.value }}"{% if m.selected %} selected{% endif %}>{{ m.label }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      {% endif %}
+      <button class="btn btn-primary btn-sm" type="submit">{% trans "Apply filters" %}</button>
+    </form>
+  </section>
   {% endif %}
 
   {% if not finance_term %}
-  <section class="empty">
+  <section class="report-empty">
     <h2>{% trans "No finance year for this term" %}</h2>
     <p>{% trans "Choose a reporting year or change the term at the top of the page." %}</p>
   </section>
   {% elif not snapshots and not products and not gfb_rows and not national and not product_month_board.achieved_rows %}
-  <section class="empty">
-    <h2>{% trans "No sustainability data yet" %}</h2>
+  <section class="report-empty">
+    <h2>{% trans "No figures for this period" %}</h2>
     <p>
       {% blocktrans with code=finance_term.code %}No figures are available for this LC in {{ code }}.{% endblocktrans %}
-      {% if tool_options %}{% trans "Choose another reporting year above to check earlier figures." %}{% endif %}
     </p>
+    {% if tool_options %}<p>{% trans "Choose another reporting year to check earlier figures." %}</p>{% endif %}
   </section>
   {% else %}
 

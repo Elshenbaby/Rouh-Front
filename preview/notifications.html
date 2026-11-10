@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "W8Kh81OvRqkNRnv7Dhr2gHccnlkgLbKsD1ydcBpjNj9hN17injSYzWUHHu5LyYEv"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -277,16 +278,16 @@
       <main class="page">
         
         
-  <header class="page-header row-between">
+  <header class="page-header report-header row-between">
     <div>
       <p class="eyebrow">Rouh</p>
       <h1>Notifications</h1>
-      <p class="lede">News for you from the MC and Rouh. Open one to go straight to it.</p>
+      <p class="lede">Open a notification to view the update it relates to.</p>
     </div>
     
   </header>
   
-    <div class="cr-done"><p class="cr-done-title">Nothing yet</p><p>When the MC releases something for you, it shows up here.</p></div>
+    <section class="report-empty"><h2>No notifications yet</h2><p>Updates from Rouh and the MC will appear here.</p></section>
   
 
       </main>

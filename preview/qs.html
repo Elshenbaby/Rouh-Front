@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "NbqIbSB0VHBtumJkLKPWQA1GWy6e87QOu4eEfscORAqXq0lvvMgS9PJbgHRJVUKR"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -277,13 +278,13 @@
       <main class="page">
         
         
-  <header class="page-header">
+  <header class="page-header report-header">
     <p class="eyebrow">Finance</p>
-    <h1>Qs</h1>
-    <p class="lede">Your LC's quarterly fees from the MC: the statement, the full report for every LC, and how to pay. Shared with each LC's LCP and LCVP Finance.</p>
+    <h1>Quarterly fees (Qs)</h1>
+    <p class="lede">Open a quarter to check your LC’s statement, payment deadline and payment instructions.</p>
   </header>
   
-    <div class="cr-done"><p class="cr-done-title">No Qs yet</p><p>When the MC releases a quarter, it appears here and you get an email.</p></div>
+    <section class="report-empty"><h2>No quarterly statements yet</h2><p>When the MC releases a statement for your LC, it appears here and you get an email.</p></section>
   
 
       </main>

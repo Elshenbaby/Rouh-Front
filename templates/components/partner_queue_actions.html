@@ -1,0 +1,27 @@
+{% load i18n %}
+<section class="partner-queue-actions" data-partner-queue-actions hidden aria-labelledby="partner-queue-heading">
+  <div class="partner-queue-heading">
+    <h2 id="partner-queue-heading">{% if assign.queue == "mine" %}{% trans "My next actions" %}{% else %}{% trans "Next actions" %}{% endif %}</h2>
+    <p>{% trans "Review accounts on this page. Groups use recorded contact and visit information." %}</p>
+  </div>
+  <div class="partner-action-grid">
+    <div class="partner-action-tile">
+      <h3>{% trans "First contact" %}</h3>
+      <p>{% trans "No recorded contact or scheduled visit." %}</p>
+      <span class="partner-action-count" data-partner-count="contact" data-count-template="{% trans 'On this page: __count__' %}"></span>
+      <a class="btn btn-secondary btn-sm" data-partner-start="contact" hidden>{% trans "Review first contacts" %}</a>
+    </div>
+    <div class="partner-action-tile">
+      <h3>{% trans "Upcoming visits" %}</h3>
+      <p>{% trans "Scheduled visits, earliest first." %}</p>
+      <span class="partner-action-count" data-partner-count="visits" data-count-template="{% trans 'On this page: __count__' %}"></span>
+      <a class="btn btn-secondary btn-sm" data-partner-start="visits" hidden>{% trans "Review upcoming visits" %}</a>
+    </div>
+    <div class="partner-action-tile">
+      <h3>{% trans "Follow-up" %}</h3>
+      <p>{% trans "Review contacted accounts, visit dates and outcomes." %}</p>
+      <span class="partner-action-count" data-partner-count="followup" data-count-template="{% trans 'On this page: __count__' %}"></span>
+      <a class="btn btn-secondary btn-sm" data-partner-start="followup" hidden>{% trans "Review follow-ups" %}</a>
+    </div>
+  </div>
+</section>

@@ -1,6 +1,9 @@
 {% load i18n %}
 {% if is_htmx %}{% include "exchange/partials/ogx_metrics.html" with oob=True %}{% endif %}
-<form method="post" action="{% url 'exchange:desk_assign' desk %}" class="assign-form">
+{% if assign.queue == "mine" %}
+  {% include "exchange/partials/followup_start.html" %}
+{% endif %}
+<form method="post" action="{% url 'exchange:desk_assign' desk %}" class="assign-form" data-bulk-form>
   {% csrf_token %}
   <input type="hidden" name="next" value="{{ request.get_full_path }}">
   {% if assign.selected_team %}<input type="hidden" name="team" value="{{ assign.selected_team.pk }}">{% endif %}
@@ -12,7 +15,7 @@
         <tr>
           {% if assign.can_assign %}
             <th class="col-check">
-              <input type="checkbox" aria-label="{% trans 'Select all on this page' %}" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=person_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=person_ids]').forEach(el => el.checked = $event.target.checked)">
+              <input type="checkbox" aria-label="{% trans 'Select all on this page' %}" data-bulk-all>
             </th>
           {% endif %}
           <th>{% trans "EP Manager" %}</th>
@@ -40,7 +43,7 @@
           <tr>
             {% if assign.can_assign %}
               <td class="col-check">
-                <input type="checkbox" name="person_ids" aria-label="{% trans 'Select this row' %}" value="{{ person.pk }}" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" aria-label="{% blocktrans with name=person.full_name %}Select {{ name }}{% endblocktrans %}" value="{{ person.pk }}" data-bulk-row>
               </td>
             {% endif %}
             <td>
@@ -52,10 +55,10 @@
             </td>
             <td>
               {% if list_stage == "applicants" %}
-                <a href="{% url 'exchange:person_applications' person.pk %}">{{ person.full_name }}</a>
-                <div><a class="status-link-hint" href="{% url 'exchange:person_detail' person.pk %}">{% if is_icx %}{% trans "Open consideration" %}{% else %}{% trans "Open signup" %}{% endif %} →</a></div>
+                <a data-queue-step-url="{% url 'exchange:person_detail' person.pk %}" {% if not person.contacted_at %}data-queue-no-contact {% endif %}data-queue-record="{{ person.pk }}" href="{% url 'exchange:person_applications' person.pk %}">{{ person.full_name }}</a>
+                <div><a class="status-link-hint" data-queue-record="{{ person.pk }}" href="{% url 'exchange:person_detail' person.pk %}">{% if is_icx %}{% trans "Open consideration" %}{% else %}{% trans "Open signup" %}{% endif %} →</a></div>
               {% else %}
-                <a href="{% url 'exchange:person_detail' person.pk %}">{{ person.full_name }}</a>
+                <a data-queue-step-url="{% url 'exchange:person_detail' person.pk %}" {% if not person.contacted_at %}data-queue-no-contact {% endif %}data-queue-record="{{ person.pk }}" href="{% url 'exchange:person_detail' person.pk %}">{{ person.full_name }}</a>
               {% endif %}
               <div>{% include "exchange/partials/expa_person_link.html" with expa_id=person.expa_id only %}</div>
             </td>
@@ -67,7 +70,10 @@
               <td>{{ person.lc_display_name|default:"—" }}</td>
             {% endif %}
             <td>{{ person.phone|default:"—" }}</td>
-            <td>{{ person.get_contact_status_display|default:"—" }}</td>
+            <td>
+              {{ person.get_contact_status_display|default:"—" }}
+              <small class="queue-contact-date">{% if person.contacted_at %}<time datetime="{{ person.contacted_at|date:'c' }}">{{ person.contacted_at|date:"j M Y" }}</time>{% else %}{% trans "No date recorded" %}{% endif %}</small>
+            </td>
             {% if is_icx %}
               <td>{{ person.get_interviewed_display|default:"—" }}</td>
             {% else %}
@@ -76,12 +82,12 @@
             <td class="note-cell">{{ person.latest_comment_body|default:"—" }}</td>
             <td>
               {% if list_stage == "applicants" and person.has_apd %}
-                <a class="status-link" href="{% url 'exchange:person_approval' person.pk %}">
+                <a class="status-link" data-queue-record="{{ person.pk }}" href="{% url 'exchange:person_approval' person.pk %}">
                   <span class="badge badge-{{ person.process_status|default:person.funnel_status }}">{{ person.sheet_status }}</span>
                   <span class="status-link-hint">{% trans "Open approval" %} →</span>
                 </a>
               {% elif person.has_applied %}
-                <a class="status-link" href="{% url 'exchange:person_applications' person.pk %}">
+                <a class="status-link" data-queue-record="{{ person.pk }}" href="{% url 'exchange:person_applications' person.pk %}">
                   <span class="badge badge-{{ person.process_status|default:person.funnel_status }}">{{ person.sheet_status }}</span>
                   <span class="status-link-hint">{% trans "Open applications" %} →</span>
                 </a>
@@ -100,11 +106,11 @@
 {% if page.has_other_pages %}
   <nav class="pager">
     {% if page.has_previous %}
-      <a href="?{{ queue_query }}&page={{ page.previous_page_number }}" hx-get="?{{ queue_query }}&page={{ page.previous_page_number }}" hx-target="#ogx-table">{% trans "Previous" %}</a>
+      <a href="?{{ queue_query }}&page={{ page.previous_page_number }}" hx-get="?{{ queue_query }}&page={{ page.previous_page_number }}" hx-target="#ogx-table" hx-push-url="true">{% trans "Previous" %}</a>
     {% endif %}
     <span>{% blocktrans with n=page.number total=page.paginator.num_pages %}Page {{ n }} of {{ total }}{% endblocktrans %}</span>
     {% if page.has_next %}
-      <a href="?{{ queue_query }}&page={{ page.next_page_number }}" hx-get="?{{ queue_query }}&page={{ page.next_page_number }}" hx-target="#ogx-table">{% trans "Next" %}</a>
+      <a href="?{{ queue_query }}&page={{ page.next_page_number }}" hx-get="?{{ queue_query }}&page={{ page.next_page_number }}" hx-target="#ogx-table" hx-push-url="true">{% trans "Next" %}</a>
     {% endif %}
   </nav>
 {% endif %}

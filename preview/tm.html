@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "HbS40EtpXEFTXVG8BG2D7lMdEHUDMrlqo4G04e4dTxunTzijlItzqAuIYQF8zeft"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -277,7 +278,7 @@
       <main class="page">
         
         
-  <header class="page-header">
+  <header class="page-header talent-overview-header">
     <p class="eyebrow"><a href="desks__tm.html">Talent</a> · CU</p>
     <h1>Talent</h1>
     <p class="lede">Who is in this LC, who left, and who needs attention.</p>
@@ -299,47 +300,28 @@
 
 
 
-  <div class="metric-row">
-    <div class="metric-tile">
-      <p class="metric-label">Headcount</p>
-      <p class="metric-value">14</p>
-    </div>
-    <div class="metric-tile">
-      <p class="metric-label">This month retained</p>
-      <p class="metric-value">100.0 %</p>
-      <p class="metric-hint">14 / 14 · 0 joined</p>
-    </div>
-    <div class="metric-tile">
-      <p class="metric-label">This cycle</p>
-      <p class="metric-value">100.0 %</p>
-    </div>
-    <div class="metric-tile">
-      <p class="metric-label">Leavers this month</p>
-      <p class="metric-value">0.0 %</p>
-    </div>
-  </div>
-
-  
-    <section class="card">
-      <h2>Leavers by reason</h2>
-      <ul class="plain-list">
-        
-          <li>Resigned · —</li>
-        
-          <li>Dismissed · —</li>
-        
-      </ul>
+  <div class="talent-overview-grid">
+    <section class="talent-overview-panel talent-followup" aria-labelledby="talent-followup-heading">
+      <header><h2 id="talent-followup-heading">Needs attention</h2><p>Review member follow-ups for this month.</p></header>
+      <p class="talent-followup-empty">No members need follow-up this month.</p>
     </section>
-  
-
-  <section class="card" style="margin-top: var(--space-4);">
-    <h2>Needs attention</h2>
-    
-      <p class="muted">Nobody is on the default watch list this month.</p>
-    
-  </section>
-
-  
+    <section class="talent-overview-panel" aria-labelledby="talent-retention-heading">
+      <header><h2 id="talent-retention-heading">Membership and retention</h2></header>
+      <dl class="talent-overview-metrics">
+        <div><dt class="metric-label">Headcount</dt><dd class="metric-value">14</dd></div>
+        <div><dt class="metric-label">Retained this month</dt><dd class="metric-value">100.0 %</dd><dd class="metric-hint">14 / 14 · 0 joined</dd></div>
+        <div><dt class="metric-label">Retained this cycle</dt><dd class="metric-value">100.0 %</dd></div>
+        <div><dt class="metric-label">Leavers this month</dt><dd class="metric-value">0.0 %</dd></div>
+      </dl>
+      <div class="talent-overview-reasons">
+        <h3>Leavers by reason</h3>
+        <ul>
+          <li><span>Resigned</span><strong>—</strong></li>
+          <li><span>Dismissed</span><strong>—</strong></li>
+        </ul>
+      </div>
+    </section>
+  </div>
 
       </main>
       <style>

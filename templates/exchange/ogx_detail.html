@@ -2,10 +2,10 @@
 {% load i18n %}
 
 {% block content %}
-  <header class="page-header">
+  <header class="page-header record-header">
     <p class="eyebrow">
       {% if desk_spec %}
-        <a href="{% url 'exchange:desk_signups' desk_spec.code %}">{{ desk_spec.label }} {% if desk_spec.is_icx %}{% trans "applications" %}{% else %}{% trans "signups" %}{% endif %}</a>
+        <a data-queue-back="exchange" data-queue-record="{{ person.pk }}" data-queue-return-label="{% trans 'Back to queue' %}" href="{% url 'exchange:desk_signups' desk_spec.code %}">{{ desk_spec.label }} {% if desk_spec.is_icx %}{% trans "applications" %}{% else %}{% trans "signups" %}{% endif %}</a>
       {% else %}
         <a href="{% url 'exchange:ogx_list' %}">{% trans "OGX signups" %}</a>
       {% endif %}
@@ -22,6 +22,7 @@
     </p>
   </header>
 
+  {% include "exchange/partials/queue_step.html" %}
   {% include "exchange/partials/person_tabs.html" %}
 
   <div class="detail-grid">
@@ -30,8 +31,8 @@
       <p class="muted">{% if person.is_icx %}{% trans "From EXPA. Sync owns these cells." %}{% else %}{% trans "From Alpha / EXPA. Sync owns these cells." %}{% endif %}</p>
       <dl class="meta">
         <div><dt>{% trans "EP ID" %}</dt><dd>{% if person.expa_id %}{% include "exchange/partials/expa_person_link.html" with expa_id=person.expa_id show_id=True only %}{% else %}—{% endif %}</dd></div>
-        <div><dt>{% trans "Phone" %}</dt><dd>{{ person.phone|default:"—" }}</dd></div>
-        <div><dt>{% trans "Email" %}</dt><dd>{{ person.email|default:"—" }}</dd></div>
+        <div><dt>{% trans "Phone" %}</dt><dd>{% if person.phone %}<a href="tel:{{ person.phone }}">{{ person.phone }}</a>{% else %}—{% endif %}</dd></div>
+        <div><dt>{% trans "Email" %}</dt><dd>{% if person.email %}<a href="mailto:{{ person.email }}">{{ person.email }}</a>{% else %}—{% endif %}</dd></div>
         <div><dt>{% trans "Person status" %}</dt><dd>{{ person.person_status_display }}</dd></div>
         {% if person.is_icx %}
           <div><dt>{% trans "Home LC" %}</dt><dd>{{ person.sending_lc|default:"—" }}</dd></div>
@@ -66,16 +67,20 @@
       {% include "exchange/partials/signup_log.html" %}
     </section>
     <aside class="card">
-      <h2>{% trans "MM1 work" %}</h2>
+      <h2>{% trans "Follow-up" %}</h2>
       <p class="muted">{% trans "Status saves as soon as you change it. Comments go in the log." %}</p>
+      {% include "exchange/partials/followup_context.html" with oob=False %}
       <form
         method="post"
         class="work-form"
         hx-post="{% url 'exchange:person_detail' person.pk %}"
-        hx-trigger="change"
+        hx-trigger="change, submit"
+        hx-sync="this:queue last"
+        data-autosave
         hx-target="#signup-log"
         hx-swap="outerHTML"
       >
+        {% include "components/autosave_feedback.html" %}
         {% csrf_token %}
         <input type="hidden" name="intent" value="status">
         <label class="field">
@@ -114,17 +119,11 @@
           <span>{% trans "Out of process" %}</span>
           {{ form.out_of_process_reason }}
         </label>
-        <p id="work-meta" class="muted">
-          {% trans "Assigned" %}: {{ person.assigned_at|date:"Y-m-d H:i"|default:"—" }}
-          · {% trans "Contacted" %}: {{ person.contacted_at|date:"Y-m-d H:i"|default:"—" }}
-          {% if person.is_icx %}
-            · {% trans "Interviewed" %}: {{ person.interviewed_at|date:"Y-m-d H:i"|default:"—" }}
-          {% endif %}
-        </p>
         {% if form.errors %}
-          <p class="alert alert-danger">{{ form.errors }}</p>
+          <p class="alert alert-danger" data-autosave-error>{{ form.errors }}</p>
         {% endif %}
       </form>
+      {% include "exchange/partials/queue_step.html" %}
       <form
         method="post"
         class="comment-compose"

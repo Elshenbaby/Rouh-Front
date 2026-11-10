@@ -265,8 +265,7 @@
 .auth-meter[data-score="4"] .auth-meter-bars i { background: var(--success); }
 .auth-meter-label { font-size: 13px; color: var(--text-subtle); }
 
-.auth-check { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-muted); cursor: pointer; }
-.auth-check input { width: 18px; height: 18px; accent-color: var(--primary); margin: 0; }
+.auth-check { display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 14px; color: var(--text-muted); cursor: pointer; }
 
 .auth-submit,
 .auth-form .stack .btn-primary {

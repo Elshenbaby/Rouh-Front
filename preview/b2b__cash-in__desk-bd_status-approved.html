@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "n0klhl2vsnof7NPaYNcGaZqAqYVq8F0q4T8hlVDjogdJ3rrlIPDCte85K7GVVsUt"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -277,7 +278,7 @@
       <main class="page">
         
         
-  <header class="page-header">
+  <header class="page-header partner-queue-header">
     <p class="eyebrow"><a href="desks__bd.html">BD</a></p>
     <h1>BD cash in</h1>
     <p class="lede">Log money collected from a partner. The MCVP BD approves it; approved cash-ins count for the commission ranking and ICOMM.</p>
@@ -303,14 +304,19 @@
 
 
 
+  <nav class="report-jumps" aria-label="Cash-in sections">
+    <a href="#ci-form-title">Log a payment</a>
+    <a href="#ci-history-heading">Payment history</a>
+  </nav>
+
   <div class="ci-layout">
     <section class="ci-form-card" aria-labelledby="ci-form-title">
-      <h2 id="ci-form-title">Log a cash in</h2>
+      <h2 id="ci-form-title" class="report-target">Log a cash in</h2>
       <p class="ci-form-lede">One entry per payment. Fill it the day the money is collected.</p>
       <form method="post" class="ci-form" action="#">
         <input type="hidden" name="csrfmiddlewaretoken" value="n0klhl2vsnof7NPaYNcGaZqAqYVq8F0q4T8hlVDjogdJ3rrlIPDCte85K7GVVsUt">
         <fieldset>
-          <legend>The deal</legend>
+          <legend>Payment details</legend>
           <label class="field ci-field"><span>LC</span><select name="lc" id="id_lc">
   <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>Cairo University</option>
 
@@ -349,7 +355,7 @@
           <label class="field ci-field"><span>Partner number</span><input type="text" name="partner_phone" maxlength="60" required id="id_partner_phone"></label>
         </fieldset>
         <fieldset>
-          <legend>Proof</legend>
+          <legend>Contract link</legend>
           <label class="field ci-field is-wide"><span>Contract (Google Drive link)</span><input type="url" name="contract_url" maxlength="1000" required aria-describedby="id_contract_url_helptext" id="id_contract_url"><small>Upload the signed contract to Drive and paste its link, shared with the MC.</small></label>
         </fieldset>
         
@@ -379,7 +385,7 @@
   </div>
 
   <div class="ci-list-head">
-    <h2 class="section-title">Cash-ins</h2>
+    <h2 class="section-title report-target" id="ci-history-heading">Payment history</h2>
     <nav class="cr-lcs" aria-label="Status">
       
         <a class="cr-chip" href="#not-in-preview">All <span>0</span></a>

@@ -6,12 +6,15 @@
 
   <section class="rcr-today-top">
     <div class="rcr-today-hello">
-      <h2>{% if todo %}{{ todo|count }} {{ todo|pluralize:"person,people" }} waiting on {% if mine %}you{% else %}{{ entity.short_name }}{% endif %}{% else %}All clear{% endif %}</h2>
+      <h2>{% if mine %}My candidates{% elif todo %}{{ todo|count }} {{ todo|pluralize:"person,people" }} waiting on {{ entity.short_name }}{% else %}All clear{% endif %}</h2>
+      {% if mine %}
+        <p>{% if todo %}{{ todo|count }} {{ todo|pluralize:"candidate,candidates" }} waiting on you. Open a candidate to review their record or use Quick view to stay here.{% else %}No assigned candidates need action right now.{% endif %}</p>
+      {% endif %}
       <p class="muted">{% if stuck_count %}<a class="rcr-stuck-link" href="{% url 'rcr:leads_all' cycle.slug %}?stuck=1{% if mine %}&recruiter=me{% endif %}">{{ stuck_count }} stuck longer than their step should take</a> · {% endif %}Work down each phase: every card hands the person on to the next one.</p>
     </div>
     <nav class="rcr-seg" aria-label="Whose work">
-      <a href="?" class="{% if not mine %}is-active{% endif %}">{{ entity.short_name }}</a>
-      <a href="?mine=1" class="{% if mine %}is-active{% endif %}">Mine</a>
+      <a href="?" class="{% if not mine %}is-active{% endif %}"{% if not mine %} aria-current="page"{% endif %}>{{ entity.short_name }}</a>
+      <a href="?mine=1" class="{% if mine %}is-active{% endif %}"{% if mine %} aria-current="page"{% endif %}>My candidates</a>
     </nav>
     <ol class="rcr-goalstrip" aria-label="Planned vs achieved">
       {% for row in pva %}
@@ -28,7 +31,7 @@
           <div><h3><a href="{% url item.phase.url_name cycle.slug %}">{{ item.phase.label }}</a></h3><p>{{ item.phase.hint }}</p></div>
         </header>
         {% for q in item.queues %}
-          <article class="rcr-queue{% if not q.count %} is-clear{% endif %}{% if q.tone %} is-{{ q.tone }}{% endif %}">
+          <article class="rcr-queue{% if not q.count %} is-clear{% endif %}{% if q.tone %} is-{{ q.tone }}{% endif %}"{% if mine %} data-queue-context="recruitment"{% endif %}>
             <div class="rcr-queue-head">
               <strong>{{ q.count|count }}</strong>
               <div><h4>{{ q.title }}</h4><p>{{ q.hint }}</p></div>
@@ -36,9 +39,16 @@
             {% if q.people %}
               <ul class="rcr-queue-people">
                 {% for lead in q.people %}
-                  <li><button type="button" hx-get="{% url 'rcr:lead_drawer' cycle.slug lead.pk %}" hx-target="#rcr-drawer-body" class="{% if lead.stage_changed_at and lead|stuck %}is-stuck{% endif %}">
+                  <li{% if mine %} class="rcr-candidate-row"{% endif %}>
+                  {% if mine %}
+                    {% url 'rcr:lead' cycle.slug lead.pk as candidate_url %}
+                    <a class="rcr-candidate-link" href="{{ candidate_url }}" data-queue-record="{{ lead.pk }}" data-queue-step-url="{{ candidate_url }}"><span>{{ lead.full_name }}</span><time>{{ lead.stage_changed_at|default:lead.signed_up_at|since }}</time></a>
+                  {% endif %}
+                  <button type="button" hx-get="{% url 'rcr:lead_drawer' cycle.slug lead.pk %}" hx-target="#rcr-drawer-body" class="{% if lead.stage_changed_at and lead|stuck %}is-stuck{% endif %}"{% if mine %} aria-label="Quick view for {{ lead.full_name }}"{% endif %}>
+                    {% if mine %}Quick view{% else %}
                     {% if lead.recruiter %}<i class="rcr-avatar" title="{{ lead.recruiter.full_name }}">{{ lead.recruiter.initials }}</i>{% else %}<i class="rcr-avatar is-empty">+</i>{% endif %}
                     <span>{{ lead.full_name }}</span><time>{{ lead.stage_changed_at|default:lead.signed_up_at|since }}</time>
+                    {% endif %}
                   </button></li>
                 {% endfor %}
               </ul>

@@ -1,0 +1,7 @@
+{% load i18n %}
+<div class="queue-step" data-queue-step hidden>
+  <p data-queue-position
+     data-position-template="{% trans 'Record __current__ of __total__ in this review' %}"></p>
+  <a class="btn btn-secondary btn-sm" data-queue-next hidden>{% trans "Open next record" %}</a>
+  <p data-queue-end hidden>{% trans "You’re at the last record in this set. Return to the queue for more." %}</p>
+</div>

@@ -1,6 +1,6 @@
 {% load i18n %}
 {# Page header, B2C tabs, section sub-nav and the shared month filter. #}
-<header class="page-header">
+<header class="page-header report-header">
   <p class="eyebrow">
     {% if analysis_section == "home" %}
       <a href="{% url 'ui:desk' 'b2c' %}">{% trans "B2C" %}</a>
@@ -22,7 +22,7 @@
 </nav>
 
 {% if analysis_section != "home" %}
-<form method="get" class="filter-bar{% if signup_filters %} is-wide{% endif %}">
+<form method="get" class="filter-bar desk-filters{% if signup_filters %} is-wide{% endif %}" aria-label="{% trans 'Analysis filters' %}">
   {% if not signup_filters %}
   <label class="field">
     <span>{% trans "Month" %}</span>

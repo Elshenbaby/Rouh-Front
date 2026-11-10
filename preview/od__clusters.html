@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "ZXXfbgm2PjEUo14BXxVnsUrc0H02i5hrGQLbfQXQLctokFGMHzmjL99HkQLx5Sbu"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -278,7 +279,7 @@
         
         
   <div class="od-shell">
-  <header class="page-header">
+  <header class="page-header report-header">
     <p class="eyebrow"><a href="od.html">LCP · OD Model</a></p>
     <h1>Clusters</h1>
     <p class="od-meta">
@@ -291,9 +292,17 @@
   
 
 <nav class="od-nav" aria-label="OD sections">
-  <a href="od.html" class="">Status</a>
-  <a href="od__clusters.html" class="is-on">Clusters</a>
+  <a href="od.html" class="">Scoreboard</a>
+  <a href="od__clusters.html" class="is-on" aria-current="page">Cluster guide</a>
   
+</nav>
+<nav class="report-jumps" aria-label="On this page">
+  <span>On this page</span>
+  <a href="#cluster-pharaoh">Pharaoh</a>
+  <a href="#cluster-warrior">Warrior</a>
+  <a href="#cluster-builder">Builder</a>
+  <a href="#cluster-seed">Seed</a>
+  <a href="#cluster-launchpad">Launchpad</a>
 </nav>
 
 
@@ -340,7 +349,7 @@
 
   <section class="od-guide od-section" aria-label="Cluster guide">
     
-    <article class="od-guide-card" style="--od-c: #0b3d2e; --od-cw: #d9fff1">
+    <article class="od-guide-card report-target" id="cluster-pharaoh" style="--od-c: #0b3d2e; --od-cw: #d9fff1">
       <div class="od-guide-id">
         <p class="tier">Tier 1</p>
         <p style="margin:8px 0 0;font-size:1.6rem;line-height:1;" aria-hidden="true">👑</p>
@@ -365,7 +374,7 @@
       </div>
     </article>
     
-    <article class="od-guide-card" style="--od-c: #1a3a6b; --od-cw: #dce6ff">
+    <article class="od-guide-card report-target" id="cluster-warrior" style="--od-c: #1a3a6b; --od-cw: #dce6ff">
       <div class="od-guide-id">
         <p class="tier">Tier 2</p>
         <p style="margin:8px 0 0;font-size:1.6rem;line-height:1;" aria-hidden="true">⚔️</p>
@@ -390,7 +399,7 @@
       </div>
     </article>
     
-    <article class="od-guide-card" style="--od-c: #6b4a12; --od-cw: #ffefcc">
+    <article class="od-guide-card report-target" id="cluster-builder" style="--od-c: #6b4a12; --od-cw: #ffefcc">
       <div class="od-guide-id">
         <p class="tier">Tier 3</p>
         <p style="margin:8px 0 0;font-size:1.6rem;line-height:1;" aria-hidden="true">🏗️</p>
@@ -415,7 +424,7 @@
       </div>
     </article>
     
-    <article class="od-guide-card" style="--od-c: #004f32; --od-cw: #e6f7ef">
+    <article class="od-guide-card report-target" id="cluster-seed" style="--od-c: #004f32; --od-cw: #e6f7ef">
       <div class="od-guide-id">
         <p class="tier">Tier 4</p>
         <p style="margin:8px 0 0;font-size:1.6rem;line-height:1;" aria-hidden="true">🌱</p>
@@ -447,7 +456,7 @@
       </div>
     </article>
     
-    <article class="od-guide-card" style="--od-c: #5a2d0c; --od-cw: #ffdcc5">
+    <article class="od-guide-card report-target" id="cluster-launchpad" style="--od-c: #5a2d0c; --od-cw: #ffdcc5">
       <div class="od-guide-id">
         <p class="tier">Tier 5</p>
         <p style="margin:8px 0 0;font-size:1.6rem;line-height:1;" aria-hidden="true">🚀</p>

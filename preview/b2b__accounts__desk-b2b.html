@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "mpCFi12mgY008rreO7xgC3vN9X0T8feO3iqBmBDacRPu453py9YcVidit6LoV28R"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -277,7 +278,7 @@
       <main class="page">
         
         
-  <header class="page-header row-between bd-head">
+  <header class="page-header partner-queue-header row-between bd-head">
     <div>
       <p class="eyebrow">
         <a href="desks__b2b.html">B2B</a>
@@ -305,10 +306,10 @@
   
   <nav class="queue-tabs" aria-label="Queues">
     
-      <a class="queue-tab is-active" href="b2b__accounts__queue-all_desk-b2b.html">Overall</a>
+      <a class="queue-tab is-active" data-preview-partner-overall href="b2b__accounts__desk-b2b.html">Overall</a>
     
     
-    <a class="queue-tab" href="#not-in-preview">My work</a>
+    <a class="queue-tab" data-preview-partner-mine href="?queue=mine">My work</a>
     <a class="queue-tab" href="#not-in-preview">Unassigned</a>
     
       <a class="queue-tab" href="b2b__teams__desk-b2b.html">Teams</a>
@@ -322,20 +323,20 @@
 
 
   <p class="ra-status">
-    <span><b>0</b> deals</span>
+    <span><b>4</b> sample accounts</span>
     
   </p>
-  <form method="get" class="filter-bar is-wide" hx-get="/b2b/accounts/" hx-target="#b2b-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
+  <form method="get" class="filter-bar is-wide desk-filters" hx-get="/b2b/accounts/" hx-target="#b2b-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
     <input type="hidden" name="desk" value="b2b">
     <input type="hidden" name="queue" value="all">
     
     
     <label class="field">
-      <span class="sr-only">Search</span>
+      <span>Search</span>
       <input type="search" name="q" value="" placeholder="Account, phone or industry">
     </label>
     <label class="field">
-      <span class="sr-only">Status</span>
+      <span>Status</span>
       <select name="status">
         <option value="">All statuses</option>
         
@@ -352,9 +353,36 @@
       </select>
     </label>
   </form>
-  <div id="b2b-table" x-data="{ selected: [] }">
+  <div id="b2b-table" data-queue-context="partners">
     
-<form method="post" action="#" class="assign-form">
+<p class="preview-sample-note">Sample accounts for trying next actions and bulk assignment. Preview changes are never saved.</p>
+<section class="partner-queue-actions" data-partner-queue-actions data-preview-partner-queue hidden aria-labelledby="partner-queue-heading">
+  <div class="partner-queue-heading">
+    <h2 id="partner-queue-heading">Next actions</h2>
+    <p>Review accounts on this page. Groups use recorded contact and visit information.</p>
+  </div>
+  <div class="partner-action-grid">
+    <div class="partner-action-tile">
+      <h3>First contact</h3>
+      <p>No recorded contact or scheduled visit.</p>
+      <span class="partner-action-count" data-partner-count="contact" data-count-template="On this page: __count__"></span>
+      <a class="btn btn-secondary btn-sm" data-partner-start="contact" hidden>Review first contacts</a>
+    </div>
+    <div class="partner-action-tile">
+      <h3>Upcoming visits</h3>
+      <p>Scheduled visits, earliest first.</p>
+      <span class="partner-action-count" data-partner-count="visits" data-count-template="On this page: __count__"></span>
+      <a class="btn btn-secondary btn-sm" data-partner-start="visits" hidden>Review upcoming visits</a>
+    </div>
+    <div class="partner-action-tile">
+      <h3>Follow-up</h3>
+      <p>Review contacted accounts, visit dates and outcomes.</p>
+      <span class="partner-action-count" data-partner-count="followup" data-count-template="On this page: __count__"></span>
+      <a class="btn btn-secondary btn-sm" data-partner-start="followup" hidden>Review follow-ups</a>
+    </div>
+  </div>
+</section>
+<form method="post" action="#" class="assign-form" data-bulk-form>
   <input type="hidden" name="csrfmiddlewaretoken" value="mpCFi12mgY008rreO7xgC3vN9X0T8feO3iqBmBDacRPu453py9YcVidit6LoV28R">
   <input type="hidden" name="desk" value="b2b">
   <input type="hidden" name="next" value="/b2b/accounts/?desk=b2b">
@@ -362,14 +390,17 @@
   
   
 
-  <div class="assign-bar" x-show="selected.length" x-cloak role="region" aria-label="Assign selected rows">
+  <div class="assign-bar bulk-toolbar" hidden data-bulk-toolbar role="region" aria-label="Bulk assignment">
     <input type="hidden" name="queue" value="all">
-    <div class="assign-row">
-      <p class="assign-count"><strong x-text="selected.length"></strong> selected</p>
-      <button type="button" class="assign-clear" @click="selected = []; $root.querySelectorAll('input[type=checkbox]').forEach(el => el.checked = false)">Clear</button>
-
-      <span class="assign-divider" aria-hidden="true"></span>
-
+    <div class="bulk-toolbar-summary">
+      <div>
+        <p class="bulk-toolbar-title">Bulk assignment</p>
+        <p class="bulk-toolbar-count" role="status"><strong data-bulk-count>0</strong> selected on this page</p>
+      </div>
+      <button type="button" class="btn btn-secondary btn-sm" data-bulk-select>Select this page</button>
+      <button type="button" class="btn btn-ghost btn-sm" data-bulk-clear disabled>Clear selection</button>
+    </div>
+    <fieldset class="assign-row bulk-toolbar-actions" data-bulk-actions disabled aria-label="Assignment actions">
       <button type="submit" name="intent" value="me" class="assign-btn">Assign to me</button>
 
       
@@ -379,7 +410,7 @@
       
 
       <button type="submit" name="intent" value="unassign" class="assign-btn is-quiet">Unassign</button>
-    </div>
+    </fieldset>
 
     
       <p class="assign-hint">Take these yourself, or give back the ones you hold.</p>
@@ -393,16 +424,15 @@
         <tr>
           
             <th class="col-check">
-              <label class="sr-only">Select all on this page</label>
-              <input type="checkbox" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=account_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=account_ids]').forEach(el => el.checked = $event.target.checked)">
+              <input type="checkbox" aria-label="Select all on this page" data-bulk-all>
             </th>
           
-          <th>Account Responsible</th>
+          <th>Owner</th>
           <th>Account</th>
+          <th>Next action</th>
           <th>Product</th>
           <th>Phone</th>
           <th>Contact</th>
-          <th>Visit</th>
           <th>Slot raised</th>
           <th>Opens</th>
           <th>Comment</th>
@@ -410,13 +440,58 @@
         </tr>
       </thead>
       <tbody>
-        
           <tr>
-            <td colspan="11">
-              No Soluo B2B deals for this LC yet.
-            </td>
+            <td class="col-check"><input type="checkbox" name="account_ids" value="sample-b2b-1" data-bulk-row aria-label="Select Sample partner 1"></td>
+            <td>You (sample)</td>
+            <td><a data-queue-step-url="partner-account.html?desk=b2b&amp;account=1" data-queue-record="sample-b2b-1" href="partner-account.html?desk=b2b&amp;account=1">Sample partner 1</a></td>
+            <td><strong class="partner-action" data-action-group="contact">Check first contact</strong></td>
+            <td>B2B</td>
+            <td>—</td>
+            <td>Not contacted</td>
+            <td>—</td>
+            <td>0</td>
+            <td>—</td>
+            <td><span class="badge">Sample</span></td>
           </tr>
-        
+          <tr>
+            <td class="col-check"><input type="checkbox" name="account_ids" value="sample-b2b-2" data-bulk-row aria-label="Select Sample partner 2"></td>
+            <td>You (sample)</td>
+            <td><a data-queue-step-url="partner-account.html?desk=b2b&amp;account=2" data-queue-record="sample-b2b-2" href="partner-account.html?desk=b2b&amp;account=2">Sample partner 2</a></td>
+            <td><strong class="partner-action" data-action-group="visits">Prepare for visit</strong><time class="queue-contact-date" datetime="2026-11-18">Visit · 18 Nov 2026</time></td>
+            <td>B2B</td>
+            <td>—</td>
+            <td>Contacted</td>
+            <td>—</td>
+            <td>0</td>
+            <td>—</td>
+            <td><span class="badge">Sample</span></td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" name="account_ids" value="sample-b2b-3" data-bulk-row aria-label="Select Sample partner 3"></td>
+            <td>You (sample)</td>
+            <td><a data-queue-step-url="partner-account.html?desk=b2b&amp;account=3" data-queue-record="sample-b2b-3" href="partner-account.html?desk=b2b&amp;account=3">Sample partner 3</a></td>
+            <td><strong class="partner-action" data-action-group="visits">Prepare for visit</strong><time class="queue-contact-date" datetime="2026-11-14">Visit · 14 Nov 2026</time></td>
+            <td>B2B</td>
+            <td>—</td>
+            <td>Contacted</td>
+            <td>—</td>
+            <td>0</td>
+            <td>—</td>
+            <td><span class="badge">Sample</span></td>
+          </tr>
+          <tr>
+            <td class="col-check"><input type="checkbox" name="account_ids" value="sample-b2b-4" data-bulk-row aria-label="Select Sample partner 4"></td>
+            <td>You (sample)</td>
+            <td><a data-queue-step-url="partner-account.html?desk=b2b&amp;account=4" data-queue-record="sample-b2b-4" href="partner-account.html?desk=b2b&amp;account=4">Sample partner 4</a></td>
+            <td><strong class="partner-action" data-action-group="followup">Review follow-up</strong></td>
+            <td>B2B</td>
+            <td>—</td>
+            <td>Contacted</td>
+            <td>—</td>
+            <td>0</td>
+            <td>—</td>
+            <td><span class="badge">Sample</span></td>
+          </tr>
       </tbody>
     </table>
   </div>

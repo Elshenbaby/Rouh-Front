@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "5SymHsR22oxy6wwjVM11vp2tUvsx6NTyMLmiL2sQYhm22a8uFOsXOEKYeEd2TANB"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -277,13 +278,17 @@
       <main class="page">
         
         
-  <header class="page-header">
+  <header class="page-header report-header">
     <p class="eyebrow"><a href="desks__lcp.html">LCP</a></p>
     <h1>Planned vs achieved</h1>
     
-      <p class="lede">Cairo University has no Planning Tool 26 linked yet, so there's no plan to compare. Ask the MC's OD to link it.</p>
+      <p class="lede">Compare your LC’s exchange results with its targets.</p>
     
   </header>
+  <section class="report-empty">
+    <h2>No plan linked</h2>
+    <p>Cairo University’s Planning Tool 26 needs to be linked before Rouh can compare results with targets. Contact the MC’s OD team to link it.</p>
+  </section>
   
 
       </main>

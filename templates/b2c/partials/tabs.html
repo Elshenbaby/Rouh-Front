@@ -15,7 +15,7 @@
     {% if assign.is_team_lead and assign.team %}
       <a class="queue-tab{% if assign.queue == 'team' and list_stage != 'teams' %} is-active{% endif %}" href="{{ list_url }}?queue=team&amp;team={{ assign.team.pk }}">{% trans "My team" %}</a>
     {% endif %}
-    <a class="queue-tab{% if assign.queue == 'mine' %} is-active{% endif %}" href="{{ list_url }}?queue=mine">{% trans "My work" %}</a>
+    <a class="queue-tab{% if assign.queue == 'mine' %} is-active{% endif %}" href="{{ list_url }}?queue=mine"{% if assign.queue == 'mine' and not view or assign.queue == 'mine' and view == 'all' %} aria-current="page"{% endif %}>{% if list_stage == "interviews" %}{% trans "My handoffs" %}{% else %}{% trans "My work" %}{% endif %}</a>
     <a class="queue-tab{% if assign.queue == 'unassigned' %} is-active{% endif %}" href="{{ list_url }}?queue=unassigned">{% trans "Unassigned" %}</a>
     {% if assign.show_teams_board %}
       <a class="queue-tab{% if list_stage == 'teams' %} is-active{% endif %}" href="{% url 'b2c:teams' %}{% if list_stage == 'accounts' %}?work=accounts{% endif %}">{% trans "Teams" %}</a>

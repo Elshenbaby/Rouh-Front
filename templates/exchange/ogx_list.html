@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-  <header class="page-header">
+  <header class="page-header exchange-queue-header">
     <p class="eyebrow">
       {% if desk_spec %}
         <a href="{% url 'ui:desk' desk_spec.code %}">{{ desk_spec.label }}</a>
@@ -30,26 +30,29 @@
 
   {% include "exchange/partials/ogx_metrics.html" with oob=False %}
 
-  <form method="get" aria-label="{% trans 'Search and filter this queue' %}" class="filter-bar is-wide desk-filters" hx-get="{{ list_url }}" hx-target="#ogx-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
-    <input type="hidden" name="queue" value="{{ assign.queue }}">
-    {% if assign.selected_team %}<input type="hidden" name="team" value="{{ assign.selected_team.pk }}">{% endif %}
-    {% if assign.selected_member %}<input type="hidden" name="who" value="{{ assign.selected_member.pk }}">{% endif %}
-    <label class="field">
-      <span>{% trans "Search" %}</span>
-      <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Name, email or phone' %}">
-    </label>
-    <label class="field">
-      <span>{% trans "Status" %}</span>
-      <select name="status">
-        <option value="">{% trans "All statuses" %}</option>
-        {% for value, label in statuses %}
-          <option value="{{ value }}"{% if status == value %} selected{% endif %}>{{ label }}</option>
-        {% endfor %}
-      </select>
-    </label>
-  </form>
+  <section class="exchange-queue" aria-labelledby="exchange-queue-heading">
+    <h2 class="section-title" id="exchange-queue-heading">{% trans "Find records" %}</h2>
+    <form method="get" aria-label="{% trans 'Search and filter this queue' %}" class="filter-bar is-wide desk-filters" hx-get="{{ list_url }}" hx-target="#ogx-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
+      <input type="hidden" name="queue" value="{{ assign.queue }}">
+      {% if assign.selected_team %}<input type="hidden" name="team" value="{{ assign.selected_team.pk }}">{% endif %}
+      {% if assign.selected_member %}<input type="hidden" name="who" value="{{ assign.selected_member.pk }}">{% endif %}
+      <label class="field">
+        <span>{% trans "Search" %}</span>
+        <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Name, email or phone' %}">
+      </label>
+      <label class="field">
+        <span>{% trans "Status" %}</span>
+        <select name="status">
+          <option value="">{% trans "All statuses" %}</option>
+          {% for value, label in statuses %}
+            <option value="{{ value }}"{% if status == value %} selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </label>
+    </form>
 
-  <div id="ogx-table" x-data="{ selected: [] }">
-    {% include "exchange/partials/ogx_table.html" %}
-  </div>
+    <div id="ogx-table" data-queue-context="exchange">
+      {% include "exchange/partials/ogx_table.html" %}
+    </div>
+  </section>
 {% endblock %}

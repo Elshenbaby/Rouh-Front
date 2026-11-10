@@ -13,9 +13,9 @@
     <div class="auth-alert is-{{ message.tags|default:'info' }}" role="status">{{ message }}</div>
   {% endfor %}
   {% if form.non_field_errors.as_data.0.code == "too_many_login_attempts" %}
-    <div class="auth-alert is-error" role="alert">{% trans "Too many failed attempts. Wait a few minutes, then try again." %}</div>
+    <div class="auth-alert is-error" id="login-error" role="alert">{% trans "Too many failed attempts. Wait a few minutes, then try again." %}</div>
   {% elif form.errors %}
-    <div class="auth-alert is-error" role="alert">{% trans "That email and password don’t match. Check both, or reset your password." %}</div>
+    <div class="auth-alert is-error" id="login-error" role="alert">{% trans "That email and password don’t match. Check both, or reset your password." %}</div>
   {% endif %}
 
   {% if google_sign_in %}
@@ -34,7 +34,7 @@
 
     <div class="auth-field">
       <label for="id_login">{% trans "Email" %}</label>
-      <input type="email" name="login" id="id_login" value="{{ form.login.value|default:'' }}" autocomplete="email" inputmode="email" placeholder="name@aiesec.net" required{% if form.errors %} aria-invalid="true"{% endif %}>
+      <input type="email" name="login" id="id_login" value="{{ form.login.value|default:'' }}" autocomplete="email" inputmode="email" placeholder="name@aiesec.net" required{% if form.errors %} aria-invalid="true" aria-describedby="login-error"{% endif %}>
     </div>
 
     <div class="auth-field">
@@ -43,7 +43,7 @@
         <a href="{% url 'account_reset_password' %}">{% trans "Forgot?" %}</a>
       </div>
       <div class="auth-pw">
-        <input type="password" name="password" id="id_password" autocomplete="current-password" required data-caps="caps-login"{% if form.errors %} aria-invalid="true"{% endif %}>
+        <input type="password" name="password" id="id_password" autocomplete="current-password" required data-caps="caps-login"{% if form.errors %} aria-invalid="true" aria-describedby="login-error"{% endif %}>
         <button type="button" class="auth-pw-toggle" data-pw-toggle aria-controls="id_password" aria-pressed="false" data-show="{% trans 'Show' %}" data-hide="{% trans 'Hide' %}">{% trans "Show" %}</button>
       </div>
       <p class="auth-caps" id="caps-login" hidden>{% trans "Caps Lock is on" %}</p>

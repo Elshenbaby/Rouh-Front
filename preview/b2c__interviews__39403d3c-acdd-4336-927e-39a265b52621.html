@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "5i25khAWVBG4QriaufgyAdeTNCvOh141MbQ1oRbKRuvyM5UlehHuTsWo7Lgj4OY4"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -277,9 +278,9 @@
       <main class="page">
         
         
-  <header class="page-header">
+  <header class="page-header record-header">
     <p class="eyebrow">
-      <a href="b2c__interviews.html">Customer interviews</a>
+      <a href="b2c__interviews.html" data-queue-back="b2c-interviews" data-queue-record="39403d3c-acdd-4336-927e-39a265b52621" data-queue-return-label="Back to customer interviews">Customer interviews</a>
     </p>
     <h1>Hassan Hamdy</h1>
     <p class="lede">
@@ -301,6 +302,21 @@
   
 
 
+  <div class="queue-step" data-queue-step hidden>
+  <p data-queue-position data-position-template="Record __current__ of __total__ in this review"></p>
+  <a class="btn btn-secondary btn-sm" data-queue-next hidden>Open next record</a>
+  <p data-queue-end hidden>You’re at the last record in this set. Return to the queue for more.</p>
+</div><section class="card" aria-labelledby="handoff-context">
+  <h2 id="handoff-context">Handoff context</h2>
+  <dl class="meta">
+    <div><dt>B2C owner</dt><dd>Unassigned</dd></div>
+    <div><dt>Next action</dt><dd>Check B2C contact</dd></div>
+    <div><dt>B2C contact</dt><dd>Not recorded</dd></div>
+    <div><dt>OGX contact</dt><dd>Not recorded</dd></div>
+    <div><dt>Back to process</dt><dd>Not recorded</dd></div>
+  </dl>
+  <p><a href="#new-interview">Record an interview</a></p>
+</section>
   <div class="detail-grid">
     <section class="card">
       <h2>EP</h2>
@@ -342,7 +358,7 @@
       
     </section>
     <section class="card">
-      <h2>New interview</h2>
+      <h2 id="new-interview">New interview</h2>
       <p class="muted">Save stores a new interview on this signup. Every signup can have more than one.</p>
       <form method="post" class="work-form">
         <input type="hidden" name="csrfmiddlewaretoken" value="5i25khAWVBG4QriaufgyAdeTNCvOh141MbQ1oRbKRuvyM5UlehHuTsWo7Lgj4OY4">

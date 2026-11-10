@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "S6D5CyDH802b3JqKQ2Jvos8haO23ZtPmzZr1G8ev4TRFZn2VA4arHHQMuXNyMgJp"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -277,10 +278,10 @@
       <main class="page">
         
         
-  <header class="page-header">
+  <header class="page-header record-header">
     <p class="eyebrow">
       
-        <a href="exchange__ogv.html">oGV signups</a>
+        <a data-queue-back="exchange" data-queue-record="39403d3c-acdd-4336-927e-39a265b52621" href="exchange__ogv.html">oGV signups</a>
       
     </p>
     <h1>Hassan Hamdy</h1>
@@ -294,6 +295,11 @@
   </header>
 
   
+  <div class="queue-step" data-queue-step hidden>
+    <p data-queue-position data-position-template="Record __current__ of __total__ in this review"></p>
+    <a class="btn btn-secondary btn-sm" data-queue-next hidden>Open next record</a>
+    <p data-queue-end hidden>You’re at the last record in this set. Return to the queue for more.</p>
+  </div>
 <nav class="tabs" aria-label="Signup sections">
   <a class="tab" href="exchange__signup__39403d3c-acdd-4336-927e-39a265b52621.html">Signup</a>
   
@@ -333,10 +339,14 @@
           method="post"
           class="work-form cxp-form"
           hx-post="/exchange/signup/39403d3c-acdd-4336-927e-39a265b52621/approval/"
-          hx-trigger="change"
+          hx-trigger="change, submit" data-autosave data-preview-autosave
           hx-target="#cxp-log-125a2977-ccb8-4fcf-86b2-a4f8db6b44ef"
           hx-swap="outerHTML"
         >
+        <div class="autosave-feedback" data-save-feedback>
+          <p role="status" aria-live="polite" aria-atomic="true" data-save-message></p>
+          <button class="btn btn-secondary btn-sm" type="submit" data-save-retry hidden>Try again</button>
+        </div>
           <input type="hidden" name="csrfmiddlewaretoken" value="S6D5CyDH802b3JqKQ2Jvos8haO23ZtPmzZr1G8ev4TRFZn2VA4arHHQMuXNyMgJp">
           <input type="hidden" name="intent" value="cxp">
           <input type="hidden" name="application_id" value="125a2977-ccb8-4fcf-86b2-a4f8db6b44ef">

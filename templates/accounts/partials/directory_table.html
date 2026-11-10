@@ -1,6 +1,6 @@
 {% load i18n %}
 <div class="table-wrap">
-  <table class="table">
+  <table class="table directory-table">
     <thead>
       <tr>
         <th>{% trans "Name" %}</th>
@@ -12,13 +12,26 @@
     <tbody>
       {% for person in page %}
         <tr>
-          <td><a href="{% url 'people:detail' person.pk %}">{{ person.full_name }}</a></td>
+          <td>
+            <a href="{% url 'people:detail' person.pk %}">{{ person.full_name }}</a>
+            <span class="directory-mobile-email">{{ person.email }}</span>
+          </td>
           <td>{{ person.email }}</td>
           <td>{{ person.home_entity.short_name }}</td>
           <td><span class="badge badge-{{ person.status }}">{{ person.get_status_display }}</span></td>
         </tr>
       {% empty %}
-        <tr><td colspan="4">{% trans "No members in your visible LCs yet." %}</td></tr>
+        <tr>
+          <td class="table-empty" colspan="4">
+            {% if q %}
+              <strong>{% trans "No members match your search" %}</strong>
+              <p>{% trans "Check the spelling or try a shorter name or email." %}</p>
+            {% else %}
+              <strong>{% trans "No members in this view" %}</strong>
+              <p>{% trans "Check the selected entity or open the full directory." %}</p>
+            {% endif %}
+          </td>
+        </tr>
       {% endfor %}
     </tbody>
   </table>

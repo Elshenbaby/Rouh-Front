@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "MV3i8H3slA4BnNOmNDNCUuM3mnGBdfb6tORechEghtT5jrqxxFeydJuyGwr60259"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -336,7 +337,7 @@
   </ol>
 </nav>
 <div class="rcr-subnav">
-  <nav class="rcr-phase-tabs" aria-label="This phase">
+  <nav class="rcr-phase-tabs" aria-label="This phase"><a href="tm__rcr__summer-27__mine-1.html" class="is-active" aria-current="page">My candidates</a>
     
   </nav>
   <nav class="rcr-tools" aria-label="Tools">
@@ -348,12 +349,12 @@
 
   <section class="rcr-today-top">
     <div class="rcr-today-hello">
-      <h2>All clear</h2>
+      <h2>My candidates</h2><p>Four sample candidates need action. Open a candidate to review their record or use Quick view to stay here.</p>
       <p class="muted">Work down each phase: every card hands the person on to the next one.</p>
     </div>
     <nav class="rcr-seg" aria-label="Whose work">
-      <a href="#not-in-preview" class="">CU</a>
-      <a href="#not-in-preview" class="is-active">Mine</a>
+      <a href="tm__rcr__summer-27.html">CU</a>
+      <a href="tm__rcr__summer-27__mine-1.html" class="is-active" aria-current="page">My candidates</a>
     </nav>
     <ol class="rcr-goalstrip" aria-label="Planned vs achieved">
       
@@ -376,13 +377,13 @@
           <div><h3><a href="tm__rcr__summer-27__new-leads.html">Leads &amp; calls</a></h3><p>Call every lead, run the phone interview, accept or reject.</p></div>
         </header>
         
-          <article class="rcr-queue is-clear">
+          <article class="rcr-queue" data-queue-context="recruitment">
             <div class="rcr-queue-head">
-              <strong>0</strong>
+              <strong>2</strong>
               <div><h4>New leads to call</h4><p>Signed up and nobody has called them yet.</p></div>
             </div>
             
-              <p class="rcr-queue-clear">All clear ✓</p>
+              <ul class="rcr-queue-people"><li class="rcr-candidate-row"><a class="rcr-candidate-link" href="recruitment-candidate.html?candidate=1" data-queue-record="1" data-queue-step-url="recruitment-candidate.html?candidate=1"><span>Sample candidate 1</span></a><button type="button" aria-label="Quick view for Sample candidate 1" data-preview-candidate-quick="1">Quick view</button></li><li class="rcr-candidate-row"><a class="rcr-candidate-link" href="recruitment-candidate.html?candidate=2" data-queue-record="2" data-queue-step-url="recruitment-candidate.html?candidate=2"><span>Sample candidate 2</span></a><button type="button" aria-label="Quick view for Sample candidate 2" data-preview-candidate-quick="2">Quick view</button></li></ul>
             
           </article>
         
@@ -415,23 +416,23 @@
           <div><h3><a href="tm__rcr__summer-27__scheduling.html">Interviews</a></h3><p>Book a slot (or send them their booking link), confirm the day before, fill the form.</p></div>
         </header>
         
-          <article class="rcr-queue is-clear">
+          <article class="rcr-queue" data-queue-context="recruitment">
             <div class="rcr-queue-head">
-              <strong>0</strong>
+              <strong>1</strong>
               <div><h4>Passed the phone call: book their interview</h4><p>Book a slot, or send them their link to pick one.</p></div>
             </div>
             
-              <p class="rcr-queue-clear">All clear ✓</p>
+              <ul class="rcr-queue-people"><li class="rcr-candidate-row"><a class="rcr-candidate-link" href="recruitment-candidate.html?candidate=3" data-queue-record="3" data-queue-step-url="recruitment-candidate.html?candidate=3"><span>Sample candidate 3</span></a><button type="button" aria-label="Quick view for Sample candidate 3" data-preview-candidate-quick="3">Quick view</button></li></ul>
             
           </article>
         
-          <article class="rcr-queue is-clear">
+          <article class="rcr-queue" data-queue-context="recruitment">
             <div class="rcr-queue-head">
-              <strong>0</strong>
+              <strong>1</strong>
               <div><h4>Interviews today</h4><p>Mark who came, then fill the form.</p></div>
             </div>
             
-              <p class="rcr-queue-clear">All clear ✓</p>
+              <ul class="rcr-queue-people"><li class="rcr-candidate-row"><a class="rcr-candidate-link" href="recruitment-candidate.html?candidate=4" data-queue-record="4" data-queue-step-url="recruitment-candidate.html?candidate=4"><span>Sample candidate 4</span></a><button type="button" aria-label="Quick view for Sample candidate 4" data-preview-candidate-quick="4">Quick view</button></li></ul>
             
           </article>
         
@@ -519,12 +520,16 @@
   </div>
 
   <aside class="rcr-drawer" id="rcr-drawer" aria-label="Lead" aria-live="polite">
-  <button class="rcr-drawer-close" type="button" onclick="document.getElementById('rcr-drawer').classList.remove('is-open')" aria-label="Close">×</button>
+  <button class="rcr-drawer-close" type="button" onclick="rcrCloseDrawer()" aria-label="Close candidate preview">×</button>
   <div id="rcr-drawer-body" class="rcr-drawer-body"><p class="muted">Click a card to open it here.</p></div>
 </aside>
 
 
-      </main>
+      <dialog class="rcr-dialog" data-preview-candidate-dialog>
+  <div class="rcr-form"><h2 data-preview-review-name></h2><p data-preview-review-action></p>
+  <div class="btn-row"><a class="btn btn-secondary btn-sm" data-preview-candidate-open>Open candidate</a>
+  <form method="dialog"><button type="submit" class="btn btn-ghost btn-sm">Close</button></form></div></div>
+</dialog></main>
       <style>
   .page { flex: 1 1 auto; }
   .auth-body {

@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "JfvUYURfgzwosDwUbTb1joFMb1ZcjxNLq8jQ2us3cslSoh85VVCXCDnhvaKH6kHO"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -280,72 +281,65 @@
   <header class="page-header">
     <p class="eyebrow">Operations</p>
     <h1>iGV</h1>
-    <p class="lede">
-      
-        
-          This is the iGV desk. Slots, applications, applicants, APDs and raising live here.
-        
-      
-    </p>
+    <p class="lede">Manage incoming exchange slots, follow up with applicants and track approved experiences.</p>
   </header>
 
-  <section class="desk-grid">
-    
+  <section class="desk-workspace" aria-labelledby="desk-work-heading">
+    <h2 class="section-title" id="desk-work-heading">What you can do</h2>
+    <div class="desk-grid">
       <a class="card desk-card" href="exchange__igv__slots.html">
-        <h2>Slots</h2>
+        <h3>Slots</h3>
         
           <p>Live EXPA slots on this LC's opens. People apply on these dates.</p>
         
       </a>
-      
       <a class="card desk-card" href="exchange__igv.html">
-        <h2>Applications</h2>
+        <h3>Applications</h3>
         <p>People who applied. EXPA owns the profile, comments stay local.</p>
       </a>
-      
       <a class="card desk-card" href="exchange__igv__applicants.html">
-        <h2>Applicants</h2>
+        <h3>Applicants</h3>
         <p>People who applied. Open a row to see every application.</p>
       </a>
       <a class="card desk-card" href="exchange__igv__apds.html">
-        <h2>APDs</h2>
+        <h3>APDs</h3>
         <p>Approved experiences. Open a row to update CXP.</p>
       </a>
-      
       <a class="card desk-card" href="raising__igv.html">
-        <h2>Raising</h2>
+        <h3>Raising</h3>
         <p>This LC's Soluo deals. Contact, visit, and raise slots. Comments stay on the account.</p>
       </a>
       <a class="card desk-card" href="raising__igv__calendar.html">
-        <h2>Calendar</h2>
+        <h3>Calendar</h3>
         <p>Scheduled visits for this desk. Status follows the account if a visit is done, moved, or cancelled.</p>
       </a>
-      
       <a class="card desk-card" href="exchange__igv__analysis.html">
-        <h2>Analysis</h2>
+        <h3>Analysis</h3>
         <p>Funnel, countries, conversions, team and member performance.</p>
       </a>
-      
       <a class="card desk-card" href="exchange__igv__teams.html">
-        <h2>Teams</h2>
+        <h3>Teams</h3>
         <p>
             
             Send applications and raising accounts to a team. The team leader then assigns members.
           
         </p>
       </a>
-      
-    
-    <a class="card desk-card" href="people.html">
-      <h2>People</h2>
-      <p>Membership of this function in your LC.</p>
+    </div>
+  </section>
+
+  <section class="desk-workspace" aria-labelledby="desk-reference-heading">
+    <h2 class="section-title" id="desk-reference-heading">People and activity</h2>
+    <div class="desk-grid">
+      <a class="card desk-card" href="people.html">
+      <h3>People</h3>
+      <p>Find members who work in this function.</p>
     </a>
-    
-    <a class="card desk-card" href="#not-in-preview">
-      <h2>Logs</h2>
-      <p>Activity from people on this desk.</p>
+      <a class="card desk-card" href="#not-in-preview">
+      <h3>Activity log</h3>
+      <p>See updates and assignments recorded on this desk.</p>
     </a>
-    
+    </div>
   </section>
 
       </main>

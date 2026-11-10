@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-  <header class="page-header">
+  <header class="page-header record-header">
     <p class="eyebrow"><a href="{% url 'people:directory' %}">{% trans "People" %}</a></p>
     <h1>{{ target.full_name }}</h1>
     <p class="lede">{{ target.home_entity.name }} · {{ target.get_status_display }}</p>

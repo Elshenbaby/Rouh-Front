@@ -56,11 +56,20 @@
     setTimeout(() => card.classList.remove("is-moved"), 1200);
   }
 
-  function openDrawer() {
-    document.getElementById("rcr-drawer")?.classList.add("is-open");
+  let drawerTrigger;
+  function openDrawer(trigger) {
+    const drawer = document.getElementById("rcr-drawer");
+    if (!drawer || drawer.classList.contains("is-open")) return;
+    drawerTrigger = trigger instanceof HTMLElement && !drawer.contains(trigger) ? trigger : document.activeElement;
+    drawer.classList.add("is-open");
+    drawer.querySelector(".rcr-drawer-close")?.focus();
   }
   function closeDrawer() {
-    document.getElementById("rcr-drawer")?.classList.remove("is-open");
+    const drawer = document.getElementById("rcr-drawer");
+    if (!drawer?.classList.contains("is-open")) return;
+    drawer.classList.remove("is-open");
+    if (drawerTrigger?.isConnected) drawerTrigger.focus({ preventScroll: true });
+    drawerTrigger = null;
   }
   window.rcrCloseDrawer = closeDrawer;
 
@@ -120,7 +129,9 @@
   });
 
   document.body.addEventListener("htmx:afterSwap", (event) => {
-    if (event.detail.target && event.detail.target.id === "rcr-drawer-body") openDrawer();
+    if (event.detail.target && event.detail.target.id === "rcr-drawer-body") {
+      openDrawer(event.detail.requestConfig?.elt);
+    }
   });
   // A step clicked in the panel: move the card to that column, then show the panel fresh.
   document.body.addEventListener("htmx:afterRequest", (event) => {

@@ -1,13 +1,16 @@
 {% load i18n %}
 {% if assign.can_assign %}
-  <div class="assign-bar" x-show="selected.length" x-cloak role="region" aria-label="{% trans 'Assign selected rows' %}">
+  <div class="assign-bar bulk-toolbar" hidden data-bulk-toolbar role="region" aria-label="{% trans 'Bulk assignment' %}">
     <input type="hidden" name="queue" value="{{ assign.queue }}">
-    <div class="assign-row">
-      <p class="assign-count"><strong x-text="selected.length"></strong> {% trans "selected" %}</p>
-      <button type="button" class="assign-clear" @click="selected = []; $root.querySelectorAll('input[type=checkbox]').forEach(el => el.checked = false)">{% trans "Clear" %}</button>
-
-      <span class="assign-divider" aria-hidden="true"></span>
-
+    <div class="bulk-toolbar-summary">
+      <div>
+        <p class="bulk-toolbar-title">{% trans "Bulk assignment" %}</p>
+        <p class="bulk-toolbar-count" role="status"><strong data-bulk-count>0</strong> {% trans "selected on this page" %}</p>
+      </div>
+      <button type="button" class="btn btn-secondary btn-sm" data-bulk-select>{% trans "Select this page" %}</button>
+      <button type="button" class="btn btn-ghost btn-sm" data-bulk-clear disabled>{% trans "Clear selection" %}</button>
+    </div>
+    <fieldset class="assign-row bulk-toolbar-actions" data-bulk-actions disabled aria-label="{% trans 'Assignment actions' %}">
       <button type="submit" name="intent" value="me" class="assign-btn">{% trans "Assign to me" %}</button>
 
       {% if assign.show_team_picker %}
@@ -19,7 +22,7 @@
               <option value="{{ team.pk }}">{{ team.name }}{% if not assign.entity and team.entity %} · {{ team.entity.short_name }}{% endif %}</option>
             {% endfor %}
           </select>
-          <button type="submit" name="intent" value="team" class="assign-btn is-primary" :disabled="!pick">{% trans "Send" %}</button>
+          <button type="submit" name="intent" value="team" class="assign-btn is-primary" :disabled="!pick">{% trans "Assign to team" %}</button>
         </div>
       {% endif %}
 
@@ -34,7 +37,7 @@
               {% endfor %}
             {% endfor %}
           </select>
-          <button type="submit" name="intent" value="member" class="assign-btn is-primary" :disabled="!pick">{% trans "Give" %}</button>
+          <button type="submit" name="intent" value="member" class="assign-btn is-primary" :disabled="!pick">{% trans "Assign to member" %}</button>
         </div>
       {% endif %}
 
@@ -43,7 +46,7 @@
       {% endif %}
 
       <button type="submit" name="intent" value="unassign" class="assign-btn is-quiet">{% trans "Unassign" %}</button>
-    </div>
+    </fieldset>
 
     {% if assign.own_team_page_query %}
       <p class="assign-hint">{% trans "To give work to your members, open your team:" %} <a href="{{ request.path }}?{{ assign.own_team_page_query }}{% if desk_spec and desk_spec.is_b2b %}&amp;desk={{ desk }}{% endif %}">{{ assign.team.name }}</a></p>

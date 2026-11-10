@@ -2,61 +2,71 @@
 {% load i18n %}
 
 {% block content %}
-  <header class="page-header">
+  <header class="page-header talent-overview-header">
     <p class="eyebrow"><a href="{% url 'ui:desk' 'tm' %}">{% trans "Talent" %}</a>{% if entity %} · {{ entity.short_name }}{% endif %}</p>
     <h1>{{ title }}</h1>
     <p class="lede">{{ lede }}</p>
+    {% if can_view_national %}
+      <a class="btn btn-secondary btn-sm" href="{% url 'tm:national' %}">{% trans "National retention" %}</a>
+    {% endif %}
   </header>
   {% include "tm/partials/tabs.html" %}
 
-  <div class="metric-row">
-    <div class="metric-tile">
-      <p class="metric-label">{% trans "Headcount" %}</p>
-      <p class="metric-value">{{ overview.headcount }}</p>
-    </div>
-    <div class="metric-tile">
-      <p class="metric-label">{% trans "This month retained" %}</p>
-      <p class="metric-value">{{ overview.month_retention_display }}</p>
-      <p class="metric-hint">{{ overview.month_retention.retained }} / {{ overview.month_retention.start_headcount }} · {{ overview.month_retention.joiners }} {% trans "joined" %}</p>
-    </div>
-    <div class="metric-tile">
-      <p class="metric-label">{% trans "This cycle" %}</p>
-      <p class="metric-value">{{ overview.cycle_retention_display }}</p>
-    </div>
-    <div class="metric-tile">
-      <p class="metric-label">{% trans "Leavers this month" %}</p>
-      <p class="metric-value">{{ overview.leaver_display }}</p>
-    </div>
-  </div>
-
-  {% if overview.reason_rows %}
-    <section class="card">
-      <h2>{% trans "Leavers by reason" %}</h2>
-      <ul class="plain-list">
-        {% for row in overview.reason_rows %}
-          <li>{{ row.option.label }} · {{ row.pct_display }}</li>
-        {% endfor %}
-      </ul>
+  <div class="talent-overview-grid">
+    <section class="talent-overview-panel talent-followup" aria-labelledby="talent-followup-heading">
+      <header>
+        <h2 id="talent-followup-heading">{% trans "Needs attention" %}</h2>
+        <p>{% trans "Review member follow-ups for this month." %}</p>
+      </header>
+      {% if overview.attention %}
+        <ul class="talent-followup-list">
+          {% for item in overview.attention %}
+            <li>
+              {% if item.member %}
+                <a href="{% url 'tm:member' item.member.pk %}">{{ item.member.full_name }}</a>
+              {% endif %}
+              <span>{{ item.label }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="talent-followup-empty">{% trans "No members need follow-up this month." %}</p>
+      {% endif %}
     </section>
-  {% endif %}
 
-  <section class="card" style="margin-top: var(--space-4);">
-    <h2>{% trans "Needs attention" %}</h2>
-    {% if overview.attention %}
-      <ul class="plain-list">
-        {% for item in overview.attention %}
-          <li>
-            {% if item.member %}<a href="{% url 'tm:member' item.member.pk %}">{{ item.member.full_name }}</a> · {% endif %}
-            {{ item.label }}
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p class="muted">{% trans "Nobody is on the default watch list this month." %}</p>
-    {% endif %}
-  </section>
-
-  {% if can_view_national %}
-    <p style="margin-top: var(--space-4);"><a class="btn" href="{% url 'tm:national' %}">{% trans "National retention" %}</a></p>
-  {% endif %}
+    <section class="talent-overview-panel" aria-labelledby="talent-retention-heading">
+      <header>
+        <h2 id="talent-retention-heading">{% trans "Membership and retention" %}</h2>
+      </header>
+      <dl class="talent-overview-metrics">
+        <div>
+          <dt class="metric-label">{% trans "Headcount" %}</dt>
+          <dd class="metric-value">{{ overview.headcount }}</dd>
+        </div>
+        <div>
+          <dt class="metric-label">{% trans "Retained this month" %}</dt>
+          <dd class="metric-value">{{ overview.month_retention_display }}</dd>
+          <dd class="metric-hint">{% blocktrans with retained=overview.month_retention.retained total=overview.month_retention.start_headcount joiners=overview.month_retention.joiners %}{{ retained }} of {{ total }} retained, {{ joiners }} joined{% endblocktrans %}</dd>
+        </div>
+        <div>
+          <dt class="metric-label">{% trans "Retained this cycle" %}</dt>
+          <dd class="metric-value">{{ overview.cycle_retention_display }}</dd>
+        </div>
+        <div>
+          <dt class="metric-label">{% trans "Leavers this month" %}</dt>
+          <dd class="metric-value">{{ overview.leaver_display }}</dd>
+        </div>
+      </dl>
+      {% if overview.reason_rows %}
+        <div class="talent-overview-reasons">
+          <h3>{% trans "Leavers by reason" %}</h3>
+          <ul>
+            {% for row in overview.reason_rows %}
+              <li><span>{{ row.option.label }}</span><strong>{{ row.pct_display }}</strong></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </section>
+  </div>
 {% endblock %}

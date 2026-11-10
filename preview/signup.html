@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<!-- Static preview rendered from templates/account/signup.html. -->
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>Create account · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&amp;family=Poppins:wght@400;500;600&amp;family=Yanone+Kaffeesatz:wght@500;600;700&amp;display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/auth.css">
+  <script src="preview.js" defer></script>
+</head>
+<body class="auth-page">
+  
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="auth-shell">
+    <aside class="auth-panel">
+      <a class="auth-brand" href="landing.html">
+        <img src="../static/img/rouh-mark-64.png" alt="" width="36" height="36">
+        <span>Rouh</span>
+      </a>
+      <div class="auth-panel-copy">
+        <p class="auth-kicker">AIESEC in Egypt</p>
+        <h2 class="auth-panel-title">Your LC is already here</h2>
+        <p class="auth-panel-text">One account for your desk, your team and your KPIs. Getting in takes three steps.</p>
+        
+  <ol class="auth-steps">
+    <li><span>01</span>Sign up with your AIESEC email, or your personal one if you don't have it yet</li>
+    <li><span>02</span>Your LC's VP TM approves you</li>
+    <li><span>03</span>Your desk and team are waiting</li>
+  </ol>
+
+      </div>
+      <a class="auth-live" href="#not-in-preview"><span class="auth-pulse" aria-hidden="true"></span>October ICOMM is live <span aria-hidden="true">→</span></a>
+      <img class="auth-watermark" src="../static/img/rouh-logo-white.png" alt="" aria-hidden="true">
+    </aside>
+
+    <main class="auth-main" id="main-content" tabindex="-1">
+      <div class="auth-form">
+        <p class="preview-sample-note">Sample page. Use made-up details to try the form. <a href="home.html">Open the sample workspace</a>.</p>
+        
+  <h1>Create account</h1>
+  <p class="auth-sub">Already have one? <a href="login.html">Sign in</a></p>
+
+  
+
+  
+
+  <form method="post" action="#" class="auth-fields" novalidate>
+    <input type="hidden" name="csrfmiddlewaretoken" value="fixture-token">
+    
+
+    <div class="auth-field">
+      <label for="id_full_name">Full name</label>
+      <input type="text" name="full_name" id="id_full_name" value="" maxlength="160" autocomplete="name" placeholder="As your LC knows you" required>
+      
+    </div>
+
+    <div class="auth-field">
+      <label for="id_email">Email</label>
+      <input type="email" name="email" id="id_email" value="" autocomplete="email" inputmode="email" placeholder="name@aiesec.net" required aria-describedby="hint-email">
+      
+      <p class="auth-hint" id="hint-email">Your AIESEC email. No AIESEC email yet? Use your personal one: you'll sign in with it.</p>
+    </div>
+
+    <div class="auth-field">
+      <label for="id_requested_entity">Your LC</label>
+      <select id="id_requested_entity" name="requested_entity" aria-describedby="hint-preview-lc" required>
+        <option value="">Choose an LC…</option>
+        <option value="sample-lc">Sample LC</option>
+      </select>
+      <p class="auth-hint" id="hint-preview-lc">Choose the sample LC to try the form.</p>
+    </div>
+
+    <div class="auth-field">
+      <label for="id_password1">Password</label>
+      <div class="auth-pw">
+        <input type="password" name="password1" id="id_password1" autocomplete="new-password" required data-strength data-caps="caps-signup" aria-describedby="pw-meter">
+        <button type="button" class="auth-pw-toggle" data-pw-toggle aria-controls="id_password1" aria-pressed="false" data-show="Show" data-hide="Hide">Show</button>
+      </div>
+      <p class="auth-caps" id="caps-signup" hidden>Caps Lock is on</p>
+      
+      <div class="auth-meter" id="pw-meter" data-meter data-score="0" data-empty="At least 10 characters, not just numbers." data-words='["Too short", "Okay", "Good", "Strong"]' aria-live="polite">
+        <span class="auth-meter-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="auth-meter-label" data-meter-label>At least 10 characters, not just numbers.</span>
+      </div>
+    </div>
+
+    <div class="auth-field">
+      <label for="id_password2">Confirm password</label>
+      <input type="password" name="password2" id="id_password2" autocomplete="new-password" required data-match="id_password1" data-match-out="pw-match">
+      
+      <p class="auth-match" id="pw-match" data-ok="Passwords match" data-no="Passwords don’t match yet" aria-live="polite" hidden></p>
+    </div>
+
+    <button class="auth-submit" type="submit" data-busy="Creating your account…">Sign up now</button>
+  </form>
+
+  <p class="auth-foot">IM reviews every new account before it can see LC data.</p>
+
+      </div>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </main>
+  </div>
+  <script>
+    (() => {
+      // Show / hide password.
+      document.querySelectorAll("[data-pw-toggle]").forEach((btn) => {
+        const input = document.getElementById(btn.getAttribute("aria-controls"));
+        if (!input) return;
+        btn.addEventListener("click", () => {
+          const show = input.type === "password";
+          input.type = show ? "text" : "password";
+          btn.setAttribute("aria-pressed", String(show));
+          btn.textContent = show ? btn.dataset.hide : btn.dataset.show;
+          input.focus();
+        });
+      });
+      // Caps Lock warning on password fields.
+      document.querySelectorAll("input[data-caps]").forEach((input) => {
+        const hint = document.getElementById(input.dataset.caps);
+        if (!hint) return;
+        const check = (e) => { if (e.getModifierState) hint.hidden = !e.getModifierState("CapsLock"); };
+        input.addEventListener("keydown", check);
+        input.addEventListener("keyup", check);
+        input.addEventListener("blur", () => { hint.hidden = true; });
+      });
+      // Password strength and match, on sign-up and reset.
+      const pw = document.querySelector("input[data-strength]");
+      const meter = document.querySelector("[data-meter]");
+      if (pw && meter) {
+        const label = meter.querySelector("[data-meter-label]");
+        const words = JSON.parse(meter.dataset.words);
+        // 1 too short, 2 long enough, 3 letters and numbers, 4 plus mixed case or a symbol.
+        const score = (v) => {
+          if (v.length < 10) return 1;
+          if (!(/[a-z]/i.test(v) && /\d/.test(v))) return 2;
+          return /[A-Z]/.test(v) && /[a-z]/.test(v) || /[^a-z0-9]/i.test(v) ? 4 : 3;
+        };
+        const update = () => {
+          const s = pw.value ? score(pw.value) : 0;
+          meter.dataset.score = s;
+          label.textContent = pw.value ? words[s - 1] : meter.dataset.empty;
+        };
+        pw.addEventListener("input", update);
+        update();
+      }
+      const confirm = document.querySelector("input[data-match]");
+      if (confirm) {
+        const first = document.getElementById(confirm.dataset.match);
+        const out = document.getElementById(confirm.dataset.matchOut);
+        const update = () => {
+          if (!confirm.value) { out.hidden = true; return; }
+          const ok = confirm.value === first.value;
+          out.hidden = false;
+          out.textContent = ok ? out.dataset.ok : out.dataset.no;
+          out.classList.toggle("is-ok", ok);
+        };
+        confirm.addEventListener("input", update);
+        first.addEventListener("input", update);
+      }
+      // Busy state on submit, so a slow network doesn't invite double clicks.
+      document.querySelectorAll("form[data-busy]").forEach((form) => {
+        form.addEventListener("submit", () => {
+          const btn = form.querySelector("button[type=submit]");
+          if (!btn) return;
+          btn.setAttribute("aria-busy", "true");
+          btn.classList.add("is-busy");
+          if (btn.dataset.busy) btn.textContent = btn.dataset.busy;
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

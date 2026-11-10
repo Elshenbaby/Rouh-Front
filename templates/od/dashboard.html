@@ -5,7 +5,7 @@
   {{ od.charts|json_script:"od-charts" }}
 
   <div class="od-shell">
-  <header class="page-header">
+  <header class="page-header report-header">
     <p class="eyebrow">{% trans "LCP · OD Model" %}</p>
     {% if od.is_mc_view %}
       <h1>{% trans "National OD status" %}</h1>
@@ -36,6 +36,7 @@
   {% include "od/partials/chrome.html" with od=od active="scoreboard" %}
 
   {% if od.focus %}
+    {% include "od/partials/report_jumps.html" with national_report=False %}
     {% include "od/partials/status_hero.html" with card=od.focus mine=True %}
     {% include "od/partials/kpi_strip.html" with feed=od.focus.feed %}
 
@@ -43,7 +44,8 @@
     <p class="od-note" role="status">{% trans "Some finance metrics are still pending (MOCR, BVA, fines). Sustainability coverage and profitability are live when imported." %}</p>
     {% endif %}
 
-    <section class="od-viz od-section" aria-label="{% trans 'Visuals' %}">
+    <section class="od-viz od-section report-target" id="od-charts-section" aria-labelledby="od-charts-heading">
+      <h2 class="report-viz-heading" id="od-charts-heading">{% trans "Charts" %}</h2>
       <article class="od-viz-card">
         <h3>{% trans "Cluster mix" %}</h3>
         <p class="muted">{% trans "National distribution" %}</p>
@@ -56,17 +58,20 @@
       </article>
     </section>
 
-    <section class="od-section">
+    <section class="od-section report-target" id="od-drivers-section">
       <div class="od-section-head">
-        <h2>{% trans "Drivers" %}</h2>
+        <h2>{% trans "Score drivers" %}</h2>
         <p>{% blocktrans with opi=od.opi_weight ohi=od.ohi_weight %}ODI = {{ opi }}% OPI + {{ ohi }}% OHI{% endblocktrans %}</p>
       </div>
       {% include "od/partials/pillars.html" with card=od.focus %}
     </section>
 
-    {% include "od/partials/playbook.html" with card=od.focus %}
+    <div class="report-target" id="od-playbook-section">
+      {% include "od/partials/playbook.html" with card=od.focus %}
+    </div>
 
   {% elif od.national %}
+    {% include "od/partials/report_jumps.html" with national_report=True %}
     <section class="od-pulse" aria-label="{% trans 'National pulse' %}">
       <div class="od-pulse-main">
         <p class="od-score-label">{% trans "National ODI" %}</p>
@@ -93,7 +98,8 @@
     <p class="od-note" role="status">{% trans "Some finance metrics are still pending (MOCR, BVA, fines)." %}</p>
     {% endif %}
 
-    <section class="od-viz od-section" aria-label="{% trans 'Visuals' %}">
+    <section class="od-viz od-section report-target" id="od-charts-section" aria-labelledby="od-charts-heading">
+      <h2 class="report-viz-heading" id="od-charts-heading">{% trans "Charts" %}</h2>
       <article class="od-viz-card">
         <h3>{% trans "Cluster mix" %}</h3>
         <p class="muted">{% trans "How many LCs in each tier" %}</p>
@@ -111,9 +117,9 @@
       </article>
     </section>
 
-    <section class="od-section">
+    <section class="od-section report-target" id="od-tiers-section">
       <div class="od-section-head">
-        <h2>{% trans "Tiers" %}</h2>
+        <h2>{% trans "Cluster tiers" %}</h2>
         <p>{% trans "L-shape clusters" %}</p>
       </div>
       <div class="od-tiers">
@@ -128,7 +134,7 @@
       </div>
     </section>
 
-    <section class="od-board od-section">
+    <section class="od-board od-section report-target" id="od-board-section">
       <div class="od-section-head">
         <h2>{% trans "LC board" %}</h2>
         <p>{% trans "Sorted by ODI · click a row for drivers" %}</p>

@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "uqBNJCuhOjaasZO1JlGCT5z1VgHlZWCHbjpJNc55KcZEoDqctn7yckhwfpsQMJwK"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -277,11 +278,11 @@
       <main class="page">
         
         
-  <header class="page-header row-between">
+  <header class="page-header partner-queue-header row-between">
     <div>
       <p class="eyebrow"><a href="desks__b2c.html">B2C</a></p>
       <h1>Campaign requests</h1>
-      <p class="lede">LCs request a campaign link. MCVP approves and pastes the URL.</p>
+      <p class="lede">Request a campaign link and check whether it has been approved.</p>
     </div>
     
       <a class="btn btn-primary" href="b2c__campaign-requests__new.html">Request a campaign</a>
@@ -299,10 +300,10 @@
   
 
 
-  <form method="get" class="filter-bar">
+  <form method="get" class="filter-bar desk-filters" aria-label="Filter campaign requests">
     <label class="field">
       <span>Status</span>
-      <select name="status" onchange="this.form.submit()">
+      <select name="status" onchange="this.form.requestSubmit()">
         <option value="">All</option>
         <option value="requested">Requested</option>
         <option value="approved">Approved</option>
@@ -327,12 +328,7 @@
       <tbody>
         
           <tr>
-            <td colspan="7">
-              No campaign requests yet.
-              
-                <a href="b2c__campaign-requests__new.html">Request a campaign</a>
-              
-            </td>
+            <td class="table-empty" colspan="7"><strong>No campaign requests yet</strong><p>Use Request a campaign to start one.</p></td>
           </tr>
         
       </tbody>

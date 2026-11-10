@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-  <header class="page-header row-between bd-head">
+  <header class="page-header partner-queue-header row-between bd-head">
     <div>
       <p class="eyebrow">
         <a href="{% url 'ui:desk' desk %}">{{ desk_spec.label }}</a>
@@ -48,7 +48,7 @@
       </select>
     </label>
   </form>
-  <div id="b2b-table" x-data="{ selected: [] }">
+  <div id="b2b-table" data-queue-context="partners">
     {% include "b2b/partials/account_table.html" %}
   </div>
 {% endblock %}

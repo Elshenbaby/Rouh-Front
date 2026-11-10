@@ -2,7 +2,7 @@
 {% load mc_format %}
 
 {% block content %}
-  <header class="page-header">
+  <header class="page-header report-header">
     <p class="eyebrow">Finance</p>
     <h1>Quarterly fees (Qs)</h1>
     <p class="lede">Open a quarter to check your LC’s statement, payment deadline and payment instructions.</p>
@@ -32,6 +32,6 @@
       {% endfor %}
     </ul>
   {% else %}
-    <div class="cr-done"><p class="cr-done-title">No quarterly statements yet</p><p>When the MC releases a quarter, it appears here and you get an email.</p></div>
+    <section class="report-empty"><h2>No quarterly statements yet</h2><p>When the MC releases a statement for your LC, it appears here and you get an email.</p></section>
   {% endif %}
 {% endblock %}

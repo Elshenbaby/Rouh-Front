@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  <header class="page-header">
+  <header class="page-header record-header">
     <p class="eyebrow"><a href="{% url 'events:home' %}">Events dashboard</a> · {{ entity }} · LCP and VP TM only</p>
     <h1>{{ project.name }}</h1>
     <p class="lede">{% if project.registrations_open %}Registration is open on the event website.{% else %}Registration is closed.{% endif %} Only {{ entity }}'s registrations are listed here.</p>

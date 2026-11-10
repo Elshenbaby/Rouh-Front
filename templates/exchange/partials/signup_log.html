@@ -2,6 +2,7 @@
 <div id="{{ log_id|default:'signup-log' }}" class="signup-log">
   <h3>{% trans "Log" %}</h3>
   <p class="muted">{% trans "Status changes and comments stay here with date and author. Sync never writes this." %}</p>
+  {% if form_error %}<p class="alert alert-danger" data-autosave-error>{{ form_error }}</p>{% endif %}
   <ul class="comment-list">
     {% for comment in comments %}
       <li class="comment">
@@ -18,8 +19,5 @@
   </ul>
 </div>
 {% if hx_oob %}
-  <p id="work-meta" class="muted" hx-swap-oob="true">
-    {% trans "Assigned" %}: {{ person.assigned_at|date:"Y-m-d H:i"|default:"—" }}
-    · {% trans "Contacted" %}: {{ person.contacted_at|date:"Y-m-d H:i"|default:"—" }}
-  </p>
+  {% include "exchange/partials/followup_context.html" with oob=True %}
 {% endif %}

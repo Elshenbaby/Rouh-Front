@@ -3,7 +3,7 @@
 
 {% block content %}
   {% include "rcr/_chrome.html" %}
-  <p class="rcr-back"><a href="{{ back }}">← Back to the list</a></p>
+  <p class="rcr-back"><a href="{{ back }}" data-queue-back="recruitment" data-queue-record="{{ lead.pk }}" data-queue-return-label="Back to My candidates">← Back to the list</a></p>
 
   <section class="rcr-lead-head">
     <div>
@@ -20,9 +20,26 @@
     </div>
   </section>
 
+  {% include "exchange/partials/queue_step.html" %}
+  <section class="card" aria-labelledby="candidate-context">
+    <h2 id="candidate-context">Candidate context</h2>
+    <dl class="meta">
+      <div><dt>Recruiter</dt><dd>{{ lead.recruiter.full_name|default:"Unassigned" }}</dd></div>
+      <div><dt>Current stage</dt><dd>{{ lead.get_stage_display }}</dd></div>
+      <div><dt>Outcome</dt><dd>{{ lead.get_outcome_display }}</dd></div>
+      {% if lead.stage_changed_at %}<div><dt>Stage updated</dt><dd>{{ lead.stage_changed_at|date:"j M Y, H:i" }}</dd></div>{% endif %}
+    </dl>
+    <div class="btn-row">
+      <a href="#candidate-phone">Phone screening</a>
+      <a href="#candidate-interview">Interview and booking</a>
+      <a href="#candidate-gd">Group discussion</a>
+      <a href="#candidate-history">History</a>
+    </div>
+  </section>
+
   <div class="rcr-two">
     <section class="ops-panel">
-      <header class="ops-panel-head"><h2>Phone call</h2><p>The phone-call interview phase. The status moves on its own as you fill this in.</p></header>
+      <header class="ops-panel-head"><h2 id="candidate-phone">Phone call</h2><p>The phone-call interview phase. The status moves on its own as you fill this in.</p></header>
       <form method="post" class="rcr-form">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ request.get_full_path }}">
@@ -75,7 +92,7 @@
 
   <div class="rcr-two">
     <section class="ops-panel">
-      <header class="ops-panel-head"><h2>F2F interview</h2></header>
+      <header class="ops-panel-head"><h2 id="candidate-interview">F2F interview</h2></header>
       {% for slot in slots %}
         <p class="rcr-line"><b>{{ slot.day|date:"D j M" }} {{ slot.starts_at|time:"H:i" }}</b> · {{ slot.room }}{% if slot.place %} · {{ slot.place }}{% endif %} · {{ slot.get_confirmation_display|default:"not confirmed yet" }}{% if slot.did_interview %} · interviewed{% endif %}</p>
       {% endfor %}
@@ -96,7 +113,7 @@
     </section>
 
     <section class="ops-panel">
-      <header class="ops-panel-head"><h2>Group discussion</h2></header>
+      <header class="ops-panel-head"><h2 id="candidate-gd">Group discussion</h2></header>
       {% for one in seats %}
         <p class="rcr-line"><a href="{% url 'rcr:gd' cycle.slug one.gd.pk %}">{{ one.gd.name }}</a>{% if one.gd.day %} · {{ one.gd.day|date:"j M" }}{% endif %} · {{ one.get_attendance_display|default:"attendance not marked" }} · <span class="badge badge-{{ one.decision }}">{{ one.get_decision_display }}</span>{% if one.registration %} · {{ one.get_registration_display }}{% endif %}</p>
       {% empty %}
@@ -115,7 +132,7 @@
   </div>
 
   <section class="ops-panel">
-    <header class="ops-panel-head"><h2>History</h2></header>
+    <header class="ops-panel-head"><h2 id="candidate-history">History</h2></header>
     <ul class="rcr-history">
       {% for event in events %}
         <li><time>{{ event.created_at|date:"j M, H:i" }}</time> {% if event.stage %}<b>{{ event.get_stage_display }}</b>{% endif %}{% if event.outcome %}<b>{{ event.get_outcome_display }}</b>{% endif %}{% if event.note %} · {{ event.note }}{% endif %}{% if event.actor %} <small class="muted">by {{ event.actor.full_name }}</small>{% endif %}</li>

@@ -1,3 +1,22 @@
-{% load i18n %}
-<h1>{% trans "Permission denied" %}</h1>
-<p>{% trans "You do not have access to this record. The attempt has been logged." %}</p>
+{% load i18n static %}
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE|default:'en' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% include "partials/favicon.html" %}
+  {% include "partials/fonts.html" %}
+  <title>{% trans "Access denied" %} · Rouh</title>
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+<body class="auth-body">
+  <main class="auth-card">
+    <p class="eyebrow">{% trans "Rouh" %}</p>
+    <h1>{% trans "Access denied" %}</h1>
+    <p class="lede">{% trans "Your account doesn’t have permission to open this page. Check which account you’re using or ask your LC admin for access." %}</p>
+    <div class="quick-links">
+      <a class="btn btn-primary btn-md" href="{% url 'ui:landing' %}">{% trans "Return to Rouh" %}</a>
+    </div>
+  </main>
+</body>
+</html>

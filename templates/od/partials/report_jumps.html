@@ -1,0 +1,12 @@
+{% load i18n %}
+<nav class="report-jumps" aria-label="{% trans 'On this page' %}">
+  <span>{% trans "On this page" %}</span>
+  <a href="#od-charts-section">{% trans "Charts" %}</a>
+  {% if national_report %}
+    <a href="#od-tiers-section">{% trans "Cluster tiers" %}</a>
+    <a href="#od-board-section">{% trans "LC rankings" %}</a>
+  {% else %}
+    <a href="#od-drivers-section">{% trans "Score drivers" %}</a>
+    <a href="#od-playbook-section">{% trans "Playbook" %}</a>
+  {% endif %}
+</nav>

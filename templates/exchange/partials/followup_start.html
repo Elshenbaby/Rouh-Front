@@ -1,0 +1,10 @@
+{% load i18n %}
+<section class="followup-start" data-followup-summary hidden aria-label="{% trans 'My follow-up' %}">
+  <div>
+    <h3>{% trans "My follow-up" %}</h3>
+    <p data-followup-count
+       data-count-template="{% trans 'Without a contact date on this page: __count__' %}"
+       data-empty="{% trans 'No records without a contact date on this page.' %}"></p>
+  </div>
+  <a class="btn btn-primary btn-sm" data-followup-start hidden>{% trans "Start follow-up" %}</a>
+</section>

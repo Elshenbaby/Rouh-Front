@@ -1,6 +1,6 @@
 {% load i18n %}
 <div id="tm-hr-board" class="tm-hr">
-  <p class="tm-hr-hint muted">{% if can_change_hr %}{% trans "Drag a person into another column. Dismissal still asks for a reason." %}{% else %}{% trans "Who sits on each HR step right now." %}{% endif %}</p>
+  <p class="tm-hr-hint muted">{% if can_change_hr %}{% trans "Select Change status on a member’s card or drag the card to another column. Dismissal requires a reason." %}{% else %}{% trans "Members are grouped by their current HR status." %}{% endif %}</p>
   <section
     class="tm-board"
     {% if can_change_hr %}
@@ -33,11 +33,11 @@
               <a class="tm-hr-card-name" href="{% url 'tm:member' card.member.pk %}">{{ card.member.full_name }}</a>
               <span class="tm-hr-card-fn">{{ card.position.get_function_display }}</span>
               {% if can_change_hr %}
-                <a class="tm-hr-card-edit" href="{% url 'tm:hr_change' card.member.pk %}">{% trans "Edit" %}</a>
+                <a class="tm-hr-card-edit" href="{% url 'tm:hr_change' card.member.pk %}">{% trans "Change status" %}</a>
               {% endif %}
             </li>
           {% empty %}
-            <li class="tm-board-empty muted">{% trans "Drop people here" %}</li>
+            <li class="tm-board-empty muted">{% if can_change_hr %}{% trans "Drop a member here" %}{% else %}{% trans "No members at this step" %}{% endif %}</li>
           {% endfor %}
         </ul>
       </article>

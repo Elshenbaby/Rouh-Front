@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "tbB0L0CPRggKexSZrH0jGvVDs4YKhiula4pWPAdDN95eabuabJrfZKD8MdJf45oo"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -277,10 +278,10 @@
       <main class="page">
         
         
-  <header class="page-header">
+  <header class="page-header record-header">
     <p class="eyebrow">
       
-        <a href="exchange__ogv.html">oGV signups</a>
+        <a data-queue-back="exchange" data-queue-record="fcd4eb53-dc48-4e3d-9268-0f2d49d1d940" href="exchange__ogv.html">oGV signups</a>
       
     </p>
     <h1>Hassan Hamdy</h1>
@@ -294,6 +295,11 @@
   </header>
 
   
+  <div class="queue-step" data-queue-step hidden>
+    <p data-queue-position data-position-template="Record __current__ of __total__ in this review"></p>
+    <a class="btn btn-secondary btn-sm" data-queue-next hidden>Open next record</a>
+    <p data-queue-end hidden>You’re at the last record in this set. Return to the queue for more.</p>
+  </div>
 <nav class="tabs" aria-label="Signup sections">
   <a class="tab" href="exchange__signup__fcd4eb53-dc48-4e3d-9268-0f2d49d1d940.html">Signup</a>
   

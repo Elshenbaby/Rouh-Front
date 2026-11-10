@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "PsyNchK4U82ECkxOods8aRbm0aIS5KcfwlmJgRlSQ1R8yY9Z8fT4t6TRkjtnSx6i"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -277,10 +278,10 @@
       <main class="page">
         
         
-  <header class="page-header">
+  <header class="page-header report-header">
     <p class="eyebrow">CU · LCP and VP TM only</p>
     <h1>Events dashboard</h1>
-    <p class="lede">National events your LC registers for: who from CU has signed up, and where you stand against the other LCs.</p>
+    <p class="lede">Open an event to see registrations, check-ins and how CU compares with other LCs.</p>
   </header>
   <section class="aw-grid">
     

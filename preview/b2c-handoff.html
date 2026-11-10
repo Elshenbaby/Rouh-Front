@@ -1,0 +1,633 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../static/img/rouh-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../static/img/rouh-mark-512.png" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../static/img/rouh-apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <title>Sample B2C handoff · Rouh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
+  <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  <script src="preview.js" defer></script>
+  <script src="../static/js/app.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "xerx5piHkVVE9sncJ5u7QF6CjoqdBADOe7ft9ZTvgOK856Znt7V39UO7DxbIonxR"}'>
+  <div class="app" x-data="{ navCollapsed: false }">
+    
+<aside class="nav" :class="{ 'is-collapsed': navCollapsed }">
+  <div class="nav-brand">
+    <img class="nav-mark" src="../static/img/rouh-mark-64.png" alt="" width="32" height="32">
+    <span class="nav-title">Rouh</span>
+  </div>
+  
+  <nav class="nav-list">
+    
+      
+        
+        
+          
+            <a href="home.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Home</span>
+            </a>
+          
+        
+          
+            <a href="people.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>People</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>ICOMM</span>
+            </a>
+          
+        
+          
+            <a href="events.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Events</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Supply &amp; Demand</span>
+            </a>
+          
+        
+          
+            <a href="qs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Qs</span>
+            </a>
+          
+        
+          
+            <a href="nes__Kq88YyR6FA_HwFcs.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Fill the NES</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Operations</p>
+        
+        
+          
+            <a href="desks__ogv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__ogte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>oGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__igv.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGV</span>
+            </a>
+          
+        
+          
+            <a href="desks__igta.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTa</span>
+            </a>
+          
+        
+          
+            <a href="desks__igte.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>iGTe</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2b.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2B</span>
+            </a>
+          
+        
+          
+            <a href="desks__bd.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>BD</span>
+            </a>
+          
+        
+          
+            <a href="desks__b2c.html" class="nav-link is-active">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>B2C</span>
+            </a>
+          
+        
+      
+    
+      
+        
+          <p class="nav-group">Backoffice</p>
+        
+        
+          
+            <a href="desks__lcp.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>LCP</span>
+            </a>
+          
+        
+          
+            <a href="desks__tm.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Talent</span>
+            </a>
+          
+        
+          
+            <a href="desks__fin.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Finance</span>
+            </a>
+          
+        
+      
+    
+      
+        
+        
+          
+            <a href="people__org.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Structure</span>
+            </a>
+          
+        
+          
+        
+          
+            <a href="people__join.html" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Join requests</span>
+            </a>
+          
+        
+          
+            <a href="#not-in-preview" class="nav-link">
+              <span class="nav-icon" aria-hidden="true"></span>
+              <span>Logs</span>
+            </a>
+          
+        
+          
+        
+          
+        
+      
+    
+  </nav>
+  <button type="button" class="nav-collapse" @click="navCollapsed = !navCollapsed">
+    <span x-show="!navCollapsed">Collapse</span>
+    <span x-show="navCollapsed" x-cloak>»</span>
+  </button>
+</aside>
+
+    <div class="app-main">
+      
+<header class="topbar">
+  <div class="switchers">
+    
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="xerx5piHkVVE9sncJ5u7QF6CjoqdBADOe7ft9ZTvgOK856Znt7V39UO7DxbIonxR">
+      <input type="hidden" name="next" value="/b2c/interviews/fcd4eb53-dc48-4e3d-9268-0f2d49d1d940/">
+      <label class="switcher">
+        <span class="switcher-label">Entity</span>
+        <select name="entity_id" onchange="this.form.requestSubmit()">
+          
+          
+            <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
+          
+        </select>
+      </label>
+    </form>
+    
+    <form method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="xerx5piHkVVE9sncJ5u7QF6CjoqdBADOe7ft9ZTvgOK856Znt7V39UO7DxbIonxR">
+      <input type="hidden" name="next" value="/b2c/interviews/fcd4eb53-dc48-4e3d-9268-0f2d49d1d940/">
+      <label class="switcher">
+        <span class="switcher-label">Term</span>
+        <select name="term_id" onchange="this.form.requestSubmit()">
+          
+            <option value="e744a12c-0bfb-4474-b3b9-ff8727510dae" >26.1</option>
+          
+            <option value="f6f5378a-9fc6-4248-9d37-1f1affc13e36" >LC Term 26</option>
+          
+            <option value="595d1590-2ccb-4e00-ae3f-bed97343a54a" >Overyears</option>
+          
+        </select>
+      </label>
+    </form>
+    
+  </div>
+  <div class="topbar-end">
+    
+      <a class="topbar-bell" href="notifications.html" aria-label="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        
+      </a>
+      <span class="avatar-name">LCP CU</span>
+      <form method="post" action="#">
+        <input type="hidden" name="csrfmiddlewaretoken" value="xerx5piHkVVE9sncJ5u7QF6CjoqdBADOe7ft9ZTvgOK856Znt7V39UO7DxbIonxR">
+        <button class="btn btn-ghost btn-sm" type="submit">Log out</button>
+      </form>
+    
+  </div>
+</header>
+
+      <main class="page"><div data-preview-b2c-handoff>
+        
+        
+  <header class="page-header record-header">
+    <p class="eyebrow">
+      <a href="b2c__interviews__queue-mine.html" data-queue-back="b2c-interviews" data-queue-return-label="Back to customer interviews">Customer interviews</a>
+    </p>
+    <h1 data-preview-review-name>Sample signup</h1>
+    <p class="lede">
+      Cairo University
+      · Signed up
+       · oGV
+      · 0 interview(s)
+    </p>
+  </header>
+  
+
+  <nav class="tabs" aria-label="B2C lists">
+    <a class="tab" href="b2c.html">Analysis</a>
+    <a class="tab is-active" href="b2c__interviews.html">Interviews</a>
+    <a class="tab" href="b2c__accounts.html">Accounts</a>
+    <a class="tab" href="b2c__campus-access.html">Campuses</a>
+    <a class="tab" href="b2c__campaign-requests.html">Campaigns</a>
+  </nav>
+  
+
+
+  
+<div class="queue-step" data-queue-step hidden>
+  <p data-queue-position
+     data-position-template="Record __current__ of __total__ in this review"></p>
+  <a class="btn btn-secondary btn-sm" data-queue-next hidden>Open next record</a>
+  <p data-queue-end hidden>You’re at the last record in this set. Return to the queue for more.</p>
+</div>
+
+  <section class="card" aria-labelledby="handoff-context">
+    <h2 id="handoff-context">Handoff context</h2>
+    <p class="muted">Sample record for the local preview.</p>
+    <dl class="meta">
+      <div><dt>B2C owner</dt><dd>Sample B2C member</dd></div>
+      <div><dt>Next action</dt><dd data-preview-review-action></dd></div>
+      <div><dt>B2C contact</dt><dd data-preview-review-b2c></dd></div>
+      <div><dt>OGX contact</dt><dd data-preview-review-ogx></dd></div>
+      <div><dt>Back to process</dt><dd data-preview-review-return></dd></div>
+    </dl>
+    <p><a href="#new-interview">Record an interview</a></p>
+  </section>
+  <div class="detail-grid">
+    <section class="card">
+      <h2>EP</h2>
+      
+<dl class="meta">
+  <div><dt>EP ID</dt><dd>—</dd></div>
+  <div><dt>Alpha ID</dt><dd>—</dd></div>
+  <div><dt>Name</dt><dd data-preview-review-person>Sample signup</dd></div>
+  <div><dt>Phone</dt><dd>—</dd></div>
+  <div><dt>Email</dt><dd>—</dd></div>
+  <div><dt>Person status</dt><dd>Approved</dd></div>
+  <div><dt>Product</dt><dd>oGV</dd></div>
+  <div><dt>Gender</dt><dd>—</dd></div>
+  <div><dt>Date of birth</dt><dd>—</dd></div>
+  <div><dt>Campus</dt><dd>Faculty of Engineering</dd></div>
+  <div><dt>LC</dt><dd>Cairo University</dd></div>
+  <div><dt>MC</dt><dd>—</dd></div>
+  <div><dt>Referral</dt><dd>Friend</dd></div>
+  <div><dt>Campaign</dt><dd>Summer campaign</dd></div>
+  <div><dt>AIESEC representative</dt><dd>—</dd></div>
+  <div><dt>Backgrounds</dt><dd>—</dd></div>
+  <div><dt>AIESECer</dt><dd>No</dd></div>
+  <div><dt>Graduation</dt><dd>—</dd></div>
+  <div><dt>Preferred country</dt><dd>—</dd></div>
+  <div><dt>Applications</dt><dd>0</dd></div>
+  <div><dt>Signed up</dt><dd>2026-11-03 12:55</dd></div>
+  <div><dt>EP manager</dt><dd>—</dd></div>
+  <div><dt>Contact</dt><dd>—</dd></div>
+  <div><dt>Interested</dt><dd>—</dd></div>
+  <div>
+    <dt>Open signup</dt>
+    <dd><a href="#not-in-preview">OGX record</a></dd>
+  </div>
+</dl>
+
+      <h2>Interview history</h2>
+      
+        <p class="muted">No interviews saved yet.</p>
+      
+    </section>
+    <section class="card">
+      <h2 id="new-interview">New interview</h2>
+      <p class="muted">Save stores a new interview on this signup. Every signup can have more than one.</p>
+      <form method="post" class="work-form">
+        <input type="hidden" name="csrfmiddlewaretoken" value="xerx5piHkVVE9sncJ5u7QF6CjoqdBADOe7ft9ZTvgOK856Znt7V39UO7DxbIonxR">
+        
+          <label class="field">
+            <span>Assigned to</span>
+            <select name="assigned_to" id="id_assigned_to">
+  <option value="" selected>---------</option>
+
+  <option value="1524b683-623f-47ad-a205-306dfa4868b0">LCP CU</option>
+
+</select>
+            
+            
+          </label>
+        
+          <label class="field">
+            <span>B2C Resp</span>
+            <select name="b2c_responsible" id="id_b2c_responsible">
+  <option value="" selected>---------</option>
+
+  <option value="1524b683-623f-47ad-a205-306dfa4868b0">LCP CU</option>
+
+</select>
+            
+            
+          </label>
+        
+          <label class="field">
+            <span>Contacted By B2C</span>
+            <select name="contacted_by_b2c" id="id_contacted_by_b2c">
+  <option value="" selected>---------</option>
+
+  <option value="yes">Yes</option>
+
+  <option value="no">No</option>
+
+  <option value="no_answer">No Answer</option>
+
+  <option value="busy">Busy</option>
+
+  <option value="out_of_service">Out of service</option>
+
+</select>
+            
+            
+          </label>
+        
+          <label class="field">
+            <span>Contacted By OGX</span>
+            <select name="contacted_by_ogx" id="id_contacted_by_ogx">
+  <option value="" selected>---------</option>
+
+  <option value="yes">Yes</option>
+
+  <option value="no">No</option>
+
+</select>
+            
+            
+          </label>
+        
+          <label class="field">
+            <span>How did you get matched</span>
+            <select name="how_matched" id="id_how_matched">
+  <option value="" selected>---------</option>
+
+  <option value="normal_way">Normal Way</option>
+
+  <option value="too_pushy">Too Pushy</option>
+
+  <option value="self_driven">Self Driven</option>
+
+</select>
+            
+            
+          </label>
+        
+          <label class="field">
+            <span>Did OGX sell the countries right?</span>
+            <select name="ogx_sold_countries_right" id="id_ogx_sold_countries_right">
+  <option value="" selected>---------</option>
+
+  <option value="passed">Passed</option>
+
+  <option value="wrong_message">Wrong Message</option>
+
+</select>
+            
+            
+          </label>
+        
+          <label class="field">
+            <span>Do you know about our fees?</span>
+            <select name="knows_fees" id="id_knows_fees">
+  <option value="" selected>---------</option>
+
+  <option value="contract_only">They know only contract</option>
+
+  <option value="contract_and_tn">They know Contract and TN fees</option>
+
+  <option value="everything">They know everything</option>
+
+  <option value="nothing">They don&#x27;t know anything</option>
+
+</select>
+            
+            
+          </label>
+        
+          <label class="field">
+            <span>Do you know our process?</span>
+            <select name="knows_process" id="id_knows_process">
+  <option value="" selected>---------</option>
+
+  <option value="everything">They know everything</option>
+
+  <option value="to_apd">They know only to APD</option>
+
+  <option value="to_app">They know only to APP</option>
+
+  <option value="nothing">They don&#x27;t know anything</option>
+
+</select>
+            
+            
+          </label>
+        
+          <label class="field">
+            <span>Is this person going back to the process</span>
+            <select name="back_to_process" id="id_back_to_process">
+  <option value="" selected>---------</option>
+
+  <option value="yes">Yes</option>
+
+  <option value="no">No</option>
+
+</select>
+            
+            
+          </label>
+        
+          <label class="field">
+            <span>If No, what is your problem?</span>
+            <select name="problem" id="id_problem">
+  <option value="" selected>---------</option>
+
+  <option value="parents">Parents Issues</option>
+
+  <option value="financial">Financial Issues</option>
+
+  <option value="backed_out">Backed Out</option>
+
+  <option value="no_matching_opp">No Matching OPP</option>
+
+  <option value="no_time">No time availability</option>
+
+</select>
+            
+            
+          </label>
+        
+          <label class="field">
+            <span>Program (if back to process)</span>
+            <select name="program" aria-describedby="id_program_helptext" id="id_program">
+  <option value="" selected>---------</option>
+
+  <option value="gv">GV</option>
+
+  <option value="gta">GTa</option>
+
+  <option value="gte">GTe</option>
+
+</select>
+            <span class="muted">GV, GTa or GTe — only if they are going back to process.</span>
+            
+          </label>
+        
+          <label class="field">
+            <span>Rate the Process (NPS)</span>
+            <select name="nps" id="id_nps">
+  <option value="" selected>---------</option>
+
+  <option value="0">0</option>
+
+  <option value="1">1</option>
+
+  <option value="2">2</option>
+
+  <option value="3">3</option>
+
+  <option value="4">4</option>
+
+  <option value="5">5</option>
+
+  <option value="6">6</option>
+
+  <option value="7">7</option>
+
+  <option value="8">8</option>
+
+  <option value="9">9</option>
+
+  <option value="10">10</option>
+
+</select>
+            
+            
+          </label>
+        
+          <label class="field">
+            <span>Comment</span>
+            <textarea name="comment" cols="40" rows="10" id="id_comment">
+</textarea>
+            
+            
+          </label>
+        
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">Save interview</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+      </div></main>
+      <style>
+  .page { flex: 1 1 auto; }
+  .auth-body {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+  .site-credit {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    color: #4a4a4a;
+    font-family: Poppins, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .site-credit p { margin: 0; }
+  .site-credit p + p { margin-top: 4px; }
+  .site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .site-credit a:hover { color: #037ef3; }
+</style>
+<footer class="site-credit">
+  <p>
+    Developed with love by
+    <a href="https://www.linkedin.com/in/mohamed-el-shenbaby-433a06244/" rel="noopener noreferrer" target="_blank">Mohamed El-shenbaby</a>
+    · MCVP IM 26'27
+  </p>
+  <p>MC Rouh 26'27</p>
+</footer>
+
+    </div>
+  </div>
+  
+        
+</body>
+</html>

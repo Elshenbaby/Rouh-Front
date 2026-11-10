@@ -2,21 +2,26 @@
 {% load i18n %}
 
 {% block content %}
-  <header class="page-header">
+  <header class="page-header partner-queue-header">
     <p class="eyebrow"><a href="{% url 'ui:desk' 'bd' %}">{{ desk_spec.label }}</a></p>
     <h1>{{ title }}</h1>
     <p class="lede">{{ lede }}</p>
   </header>
   {% include "b2b/partials/tabs.html" %}
 
+  <nav class="report-jumps" aria-label="{% trans 'Cash-in sections' %}">
+    <a href="#ci-form-title">{% trans "Log a payment" %}</a>
+    <a href="#ci-history-heading">{% trans "Payment history" %}</a>
+  </nav>
+
   <div class="ci-layout">
     <section class="ci-form-card" aria-labelledby="ci-form-title">
-      <h2 id="ci-form-title">{% trans "Log a cash in" %}</h2>
+      <h2 id="ci-form-title" class="report-target">{% trans "Log a cash in" %}</h2>
       <p class="ci-form-lede">{% trans "One entry per payment. Fill it the day the money is collected." %}</p>
       <form method="post" class="ci-form" action="{% url 'b2b:cashin' %}?desk=bd">
         {% csrf_token %}
         <fieldset>
-          <legend>{% trans "The deal" %}</legend>
+          <legend>{% trans "Payment details" %}</legend>
           <label class="field ci-field"><span>{{ form.lc.label }}</span>{{ form.lc }}{{ form.lc.errors }}</label>
           <label class="field ci-field"><span>{{ form.event.label }}</span>{{ form.event }}{{ form.event.errors }}</label>
           <label class="field ci-field"><span>{{ form.amount.label }}</span>{{ form.amount }}{{ form.amount.errors }}</label>
@@ -29,7 +34,7 @@
           <label class="field ci-field"><span>{{ form.partner_phone.label }}</span>{{ form.partner_phone }}{{ form.partner_phone.errors }}</label>
         </fieldset>
         <fieldset>
-          <legend>{% trans "Proof" %}</legend>
+          <legend>{% trans "Contract link" %}</legend>
           <label class="field ci-field is-wide"><span>{{ form.contract_url.label }}</span>{{ form.contract_url }}<small>{{ form.contract_url.help_text }}</small>{{ form.contract_url.errors }}</label>
         </fieldset>
         {{ form.non_field_errors }}
@@ -59,7 +64,7 @@
   </div>
 
   <div class="ci-list-head">
-    <h2 class="section-title">{% trans "Cash-ins" %}</h2>
+    <h2 class="section-title report-target" id="ci-history-heading">{% trans "Payment history" %}</h2>
     <nav class="cr-lcs" aria-label="{% trans 'Status' %}">
       {% for code, label, n in chips %}
         <a class="cr-chip{% if status == code %} is-active{% endif %}" href="?desk=bd{% if code %}&amp;status={{ code }}{% endif %}">{{ label }} <span>{{ n }}</span></a>

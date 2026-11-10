@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "ey1Rt2fRTIgIr2bI1jjU5Og0Si13BDv7VrPNxCQFPB5cnGNTLlKQo3YvcrMyoqpa"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -246,23 +247,25 @@
         
         
 <div class="od-shell">
-  <header class="page-header">
+  <header class="page-header report-header">
     <p class="eyebrow">Finance · Products Sustainability</p>
     <h1>CU finance</h1>
-    <p class="od-meta">
-      <span>26.27 · 2026/2027</span>
+    <p class="lede">Choose a reporting year and month to review product revenue, costs, coverage and approved experiences.</p>
+    <p class="report-period" data-preview-report-period>
       <span>CU</span>
-      <span>Aug–Jul</span>
+      <span>26.27 · 2026/2027</span>
+      <span>All months (Aug–Jul)</span>
     </p>
-    <p class="lede">Official numbers from the Products Sustainability tools only — coverage, product P&L, monthly APDs, and GFB actuals.</p>
   </header>
 
   
-  <form method="get" class="filter-bar is-wide" aria-label="Sustainability filters">
+  <section class="report-controls" aria-labelledby="report-scope-heading">
+    <h2 id="report-scope-heading">Report scope</h2>
+    <form method="get" class="filter-bar is-wide" aria-labelledby="report-scope-heading" data-preview-report>
     
     <label class="field">
       <span>LC</span>
-      <select name="lc" onchange="this.form.submit()">
+      <select name="lc">
         
         <option value="740593cb-01f9-4e0b-be3e-6671240d6581" selected>CU</option>
         
@@ -271,26 +274,26 @@
     
     
     <label class="field">
-      <span>Sustainability tool</span>
-      <select name="tool" onchange="this.form.submit()">
+      <span>Reporting year</span>
+      <select name="tool">
         
-        <option value="26.27" selected>
+        <option value="26.27" data-year-start="2026" selected>
           26.27 · 2026/2027 — no data
         </option>
         
-        <option value="25.26">
+        <option value="25.26" data-year-start="2025">
           25.26 · 2025/2026 — no data
         </option>
         
-        <option value="24.25">
+        <option value="24.25" data-year-start="2024">
           24.25 · 2024/2025 — no data
         </option>
         
-        <option value="23.24">
+        <option value="23.24" data-year-start="2023">
           23.24 · 2023/2024 — no data
         </option>
         
-        <option value="22.23">
+        <option value="22.23" data-year-start="2022">
           22.23 · 2022/2023 — no data
         </option>
         
@@ -300,7 +303,7 @@
     
     <label class="field">
       <span>Month</span>
-      <select name="month" onchange="this.form.submit()">
+      <select name="month">
         <option value="all" selected>All months (Aug–Jul)</option>
         
         <option value="2026-08-01">Aug 2026</option>
@@ -330,15 +333,15 @@
       </select>
     </label>
     
+    <button class="btn btn-primary btn-sm" type="submit">Apply filters</button>
   </form>
+  </section>
   
 
   
-  <section class="empty">
-    <h2>No sustainability data yet</h2>
-    <p>
-      Nothing loaded for 26.27 in this LC yet. Try another sustainability tool above — older years may already be imported.
-    </p>
+  <section class="report-empty">
+    <h2>No figures in this preview</h2>
+    <p>Choose a year and month to try the report controls. Financial figures come from the full Rouh app.</p>
   </section>
   
 </div>

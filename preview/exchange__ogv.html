@@ -13,11 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Oswald:wght@400;500;600&family=Poppins:wght@400;500;600&family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/app.css?v=sidebar-scrollbar">
   <meta name="htmx-config" content='{"defaultFocusScroll":false,"scrollIntoViewOnBoost":false}'>
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
   <script src="../static/js/app.js" defer></script>
   <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="preview.js" defer></script>
 </head>
 <body hx-headers='{"X-CSRFToken": "MsvcG68acwzbCuUDmQGg9r57mXp5g9jJtlj8KGJY8poFy8wO6S7csGNCG6aA3WdM"}'>
   <div class="app" x-data="{ navCollapsed: false }">
@@ -277,7 +278,7 @@
       <main class="page">
         
         
-  <header class="page-header">
+  <header class="page-header exchange-queue-header">
     <p class="eyebrow">
       
         <a href="desks__ogv.html">oGV</a>
@@ -340,16 +341,16 @@
 </div>
 
 
-  <form method="get" class="filter-bar is-wide" hx-get="/exchange/ogv/" hx-target="#ogx-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
+  <form method="get" class="filter-bar is-wide desk-filters" hx-get="/exchange/ogv/" hx-target="#ogx-table" hx-push-url="true" hx-trigger="change, keyup changed delay:300ms from:find input[type=search], submit">
     <input type="hidden" name="queue" value="all">
     
     
     <label class="field">
-      <span class="sr-only">Search</span>
+      <span>Search</span>
       <input type="search" name="q" value="" placeholder="Name, email or phone">
     </label>
     <label class="field">
-      <span class="sr-only">Status</span>
+      <span>Status</span>
       <select name="status">
         <option value="">All statuses</option>
         
@@ -383,24 +384,27 @@
     </label>
   </form>
 
-  <div id="ogx-table" x-data="{ selected: [] }">
+  <div id="ogx-table" data-queue-context="exchange">
     
 
-<form method="post" action="#" class="assign-form">
+<form method="post" action="#" class="assign-form" data-bulk-form>
   <input type="hidden" name="csrfmiddlewaretoken" value="MsvcG68acwzbCuUDmQGg9r57mXp5g9jJtlj8KGJY8poFy8wO6S7csGNCG6aA3WdM">
   <input type="hidden" name="next" value="/exchange/ogv/">
   
   
   
 
-  <div class="assign-bar" x-show="selected.length" x-cloak role="region" aria-label="Assign selected rows">
+  <div class="assign-bar bulk-toolbar" hidden data-bulk-toolbar role="region" aria-label="Bulk assignment">
     <input type="hidden" name="queue" value="all">
-    <div class="assign-row">
-      <p class="assign-count"><strong x-text="selected.length"></strong> selected</p>
-      <button type="button" class="assign-clear" @click="selected = []; $root.querySelectorAll('input[type=checkbox]').forEach(el => el.checked = false)">Clear</button>
-
-      <span class="assign-divider" aria-hidden="true"></span>
-
+    <div class="bulk-toolbar-summary">
+      <div>
+        <p class="bulk-toolbar-title">Bulk assignment</p>
+        <p class="bulk-toolbar-count" role="status"><strong data-bulk-count>0</strong> selected on this page</p>
+      </div>
+      <button type="button" class="btn btn-secondary btn-sm" data-bulk-select>Select this page</button>
+      <button type="button" class="btn btn-ghost btn-sm" data-bulk-clear disabled>Clear selection</button>
+    </div>
+    <fieldset class="assign-row bulk-toolbar-actions" data-bulk-actions disabled aria-label="Assignment actions">
       <button type="submit" name="intent" value="me" class="assign-btn">Assign to me</button>
 
       
@@ -410,7 +414,7 @@
       
 
       <button type="submit" name="intent" value="unassign" class="assign-btn is-quiet">Unassign</button>
-    </div>
+    </fieldset>
 
     
       <p class="assign-hint">Take these yourself, or give back the ones you hold.</p>
@@ -424,8 +428,7 @@
         <tr>
           
             <th class="col-check">
-              <label class="sr-only">Select all on this page</label>
-              <input type="checkbox" @change="selected = $event.target.checked ? Array.from($root.querySelectorAll('[name=person_ids]')).map(el => el.value) : []; $root.querySelectorAll('[name=person_ids]').forEach(el => el.checked = $event.target.checked)">
+              <input type="checkbox" aria-label="Select all on this page" data-bulk-all>
             </th>
           
           <th>EP Manager</th>
@@ -447,7 +450,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="fcd4eb53-dc48-4e3d-9268-0f2d49d1d940" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="fcd4eb53-dc48-4e3d-9268-0f2d49d1d940" aria-label="Select row 1" data-bulk-row>
               </td>
             
             <td>
@@ -457,7 +460,7 @@
             </td>
             <td>
               
-                <a href="exchange__signup__fcd4eb53-dc48-4e3d-9268-0f2d49d1d940.html">Hassan Hamdy</a>
+                <a data-queue-step-url="exchange__signup__fcd4eb53-dc48-4e3d-9268-0f2d49d1d940.html" data-queue-no-contact data-queue-record="fcd4eb53-dc48-4e3d-9268-0f2d49d1d940" href="exchange__signup__fcd4eb53-dc48-4e3d-9268-0f2d49d1d940.html">Hassan Hamdy</a>
               
               <div>
 </div>
@@ -466,14 +469,14 @@
               <td>Cairo University</td>
             
             <td>01000000012</td>
-            <td>—</td>
+            <td>—<small class="queue-contact-date">No date recorded</small></td>
             
               <td>—</td>
             
             <td class="note-cell">—</td>
             <td>
               
-                <a class="status-link" href="exchange__signup__fcd4eb53-dc48-4e3d-9268-0f2d49d1d940__applications.html">
+                <a class="status-link" data-queue-record="fcd4eb53-dc48-4e3d-9268-0f2d49d1d940" href="exchange__signup__fcd4eb53-dc48-4e3d-9268-0f2d49d1d940__applications.html">
                   <span class="badge badge-signed_up">Signed up</span>
                   <span class="status-link-hint">Open applications →</span>
                 </a>
@@ -484,7 +487,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="39403d3c-acdd-4336-927e-39a265b52621" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="39403d3c-acdd-4336-927e-39a265b52621" aria-label="Select row 2" data-bulk-row>
               </td>
             
             <td>
@@ -494,7 +497,7 @@
             </td>
             <td>
               
-                <a href="exchange__signup__39403d3c-acdd-4336-927e-39a265b52621.html">Hassan Hamdy</a>
+                <a data-queue-step-url="exchange__signup__39403d3c-acdd-4336-927e-39a265b52621.html" data-queue-no-contact data-queue-record="39403d3c-acdd-4336-927e-39a265b52621" href="exchange__signup__39403d3c-acdd-4336-927e-39a265b52621.html">Hassan Hamdy</a>
               
               <div>
 </div>
@@ -503,14 +506,14 @@
               <td>Cairo University</td>
             
             <td>01000000032</td>
-            <td>—</td>
+            <td>—<small class="queue-contact-date">No date recorded</small></td>
             
               <td>—</td>
             
             <td class="note-cell">—</td>
             <td>
               
-                <a class="status-link" href="exchange__signup__39403d3c-acdd-4336-927e-39a265b52621__applications.html">
+                <a class="status-link" data-queue-record="39403d3c-acdd-4336-927e-39a265b52621" href="exchange__signup__39403d3c-acdd-4336-927e-39a265b52621__applications.html">
                   <span class="badge badge-signed_up">Signed up</span>
                   <span class="status-link-hint">Open applications →</span>
                 </a>
@@ -521,7 +524,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="4198d3c0-0a63-479d-8af8-d58c342e7669" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="4198d3c0-0a63-479d-8af8-d58c342e7669" aria-label="Select row 3" data-bulk-row>
               </td>
             
             <td>
@@ -558,7 +561,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="7984f9f0-f24d-423f-9b44-e0f31306d616" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="7984f9f0-f24d-423f-9b44-e0f31306d616" aria-label="Select row 4" data-bulk-row>
               </td>
             
             <td>
@@ -595,7 +598,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="704eb3c6-2212-4f6b-8b3f-34fb3f9b4fde" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="704eb3c6-2212-4f6b-8b3f-34fb3f9b4fde" aria-label="Select row 5" data-bulk-row>
               </td>
             
             <td>
@@ -632,7 +635,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="c71e12e3-e572-4991-b71c-3eac6389c42b" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="c71e12e3-e572-4991-b71c-3eac6389c42b" aria-label="Select row 6" data-bulk-row>
               </td>
             
             <td>
@@ -666,7 +669,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="3b94262c-3ebb-4b5c-b278-e5aefcd1b22c" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="3b94262c-3ebb-4b5c-b278-e5aefcd1b22c" aria-label="Select row 7" data-bulk-row>
               </td>
             
             <td>
@@ -703,7 +706,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="f6b8192f-7128-4318-b25e-7eb2346475fd" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="f6b8192f-7128-4318-b25e-7eb2346475fd" aria-label="Select row 8" data-bulk-row>
               </td>
             
             <td>
@@ -740,7 +743,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="2563160d-4997-4db1-87bd-0d57d0428fba" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="2563160d-4997-4db1-87bd-0d57d0428fba" aria-label="Select row 9" data-bulk-row>
               </td>
             
             <td>
@@ -774,7 +777,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="6826db51-6202-48b3-b22b-7e06fcdf4610" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="6826db51-6202-48b3-b22b-7e06fcdf4610" aria-label="Select row 10" data-bulk-row>
               </td>
             
             <td>
@@ -811,7 +814,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="4a25c3d7-257e-4b47-958e-6b82260c79e2" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="4a25c3d7-257e-4b47-958e-6b82260c79e2" aria-label="Select row 11" data-bulk-row>
               </td>
             
             <td>
@@ -848,7 +851,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="ee83ce5f-2d74-4de3-9968-287cfd71e0de" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="ee83ce5f-2d74-4de3-9968-287cfd71e0de" aria-label="Select row 12" data-bulk-row>
               </td>
             
             <td>
@@ -885,7 +888,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="38a716cc-f97a-4acc-9938-24e8623f47ab" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="38a716cc-f97a-4acc-9938-24e8623f47ab" aria-label="Select row 13" data-bulk-row>
               </td>
             
             <td>
@@ -922,7 +925,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="cdb04440-27df-4afa-86d2-7cc6f6cacf7a" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="cdb04440-27df-4afa-86d2-7cc6f6cacf7a" aria-label="Select row 14" data-bulk-row>
               </td>
             
             <td>
@@ -959,7 +962,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="fdfc19df-d28f-4d0e-ad7b-50ea68bafafd" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="fdfc19df-d28f-4d0e-ad7b-50ea68bafafd" aria-label="Select row 15" data-bulk-row>
               </td>
             
             <td>
@@ -996,7 +999,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="bfc1ed59-4e36-44e4-845e-4c0f50045fc2" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="bfc1ed59-4e36-44e4-845e-4c0f50045fc2" aria-label="Select row 16" data-bulk-row>
               </td>
             
             <td>
@@ -1033,7 +1036,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="2f321f2d-1e78-4fda-9257-65d4390406d3" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="2f321f2d-1e78-4fda-9257-65d4390406d3" aria-label="Select row 17" data-bulk-row>
               </td>
             
             <td>
@@ -1070,7 +1073,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="178f1c73-a219-40ab-909e-f71f00f5f79d" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="178f1c73-a219-40ab-909e-f71f00f5f79d" aria-label="Select row 18" data-bulk-row>
               </td>
             
             <td>
@@ -1107,7 +1110,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="fbeddd41-f09f-4831-82dd-8860e2052fac" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="fbeddd41-f09f-4831-82dd-8860e2052fac" aria-label="Select row 19" data-bulk-row>
               </td>
             
             <td>
@@ -1144,7 +1147,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="92d42eb5-c3ee-4bcb-a786-214ac165f43c" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="92d42eb5-c3ee-4bcb-a786-214ac165f43c" aria-label="Select row 20" data-bulk-row>
               </td>
             
             <td>
@@ -1181,7 +1184,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="8c15099f-d68d-4457-9ba2-7c300157e9ae" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="8c15099f-d68d-4457-9ba2-7c300157e9ae" aria-label="Select row 21" data-bulk-row>
               </td>
             
             <td>
@@ -1218,7 +1221,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="4c58e0c1-309f-4212-a1f6-f8989f92d2b8" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="4c58e0c1-309f-4212-a1f6-f8989f92d2b8" aria-label="Select row 22" data-bulk-row>
               </td>
             
             <td>
@@ -1255,7 +1258,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="a54c7f2c-61e3-4e72-873f-fec69075620a" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="a54c7f2c-61e3-4e72-873f-fec69075620a" aria-label="Select row 23" data-bulk-row>
               </td>
             
             <td>
@@ -1292,7 +1295,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="c1d1c200-20ba-43a7-b966-b037b3ead8f8" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="c1d1c200-20ba-43a7-b966-b037b3ead8f8" aria-label="Select row 24" data-bulk-row>
               </td>
             
             <td>
@@ -1329,7 +1332,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="ad13fd51-138a-4adf-ba84-b8e01e079980" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="ad13fd51-138a-4adf-ba84-b8e01e079980" aria-label="Select row 25" data-bulk-row>
               </td>
             
             <td>
@@ -1366,7 +1369,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="1be89cc7-3c6b-4e8b-a6a9-64aa346db9ce" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="1be89cc7-3c6b-4e8b-a6a9-64aa346db9ce" aria-label="Select row 26" data-bulk-row>
               </td>
             
             <td>
@@ -1400,7 +1403,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="b565bc47-ae7c-4010-8499-67cf05a93ae0" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="b565bc47-ae7c-4010-8499-67cf05a93ae0" aria-label="Select row 27" data-bulk-row>
               </td>
             
             <td>
@@ -1437,7 +1440,7 @@
           <tr>
             
               <td class="col-check">
-                <input type="checkbox" name="person_ids" value="9a0e85d8-4ddd-48df-8f86-ae05a68fa003" @change="selected = Array.from($root.querySelectorAll('[name=person_ids]:checked')).map(el => el.value)">
+                <input type="checkbox" name="person_ids" value="9a0e85d8-4ddd-48df-8f86-ae05a68fa003" aria-label="Select row 28" data-bulk-row>
               </td>
             
             <td>
